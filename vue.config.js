@@ -5,7 +5,7 @@ module.exports = {
 		config
 			.plugin('html')
 			.tap(args => {
-				args[0].title = 'MK Dashboard'
+				args[0].title = 'Markets'
 				return args
 			})
 	}

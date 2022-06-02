@@ -1,15 +1,3 @@
-/*
-=========================================================
-Muse - Vue Ant Design Dashboard - v1.0.0
-=========================================================
-
-Product Page: https://www.creative-tim.com/product/vue-ant-design-dashboard
-Copyright 2021 Creative Tim (https://www.creative-tim.com)
-Coded by Creative Tim
-
-=========================================================
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
-*/
 
 import Vue from 'vue'
 import Antd from 'ant-design-vue';
@@ -19,7 +7,7 @@ import DefaultLayout from './layouts/Default.vue'
 import DashboardLayout from './layouts/Dashboard.vue'
 import DashboardRTLLayout from './layouts/DashboardRTL.vue'
 import router from './router'
-// import './plugins/click-away'
+import store from "@/store";
 
 import './scss/app.scss';
 
@@ -33,6 +21,7 @@ Vue.component("layout-dashboard", DashboardLayout);
 Vue.component("layout-dashboard-rtl", DashboardRTLLayout);
 
 new Vue({
+  store,
   router,
   render: h => h(App)
 }).$mount('#app')
