@@ -7,7 +7,7 @@
 						:src="url"
 						:title="title" 
 						width="100%" 
-						height="1300" 
+						height="1380" 
 						style="border:none;">
 					</iframe>
 				</div>

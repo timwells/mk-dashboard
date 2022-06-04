@@ -15,37 +15,81 @@
 			:row-selection="rowSelection"
 			:rowKey="record => record.key"
 			class='table table-small' style="margin: 6">
-			<a-button
-				icon="plus"
-				type="primary"
-				slot="action"
-				slot-scope="record"
-				@click="onExpand(record.key)">
-			</a-button>
+                <div slot="filterDropdown"
+                	slot-scope="{setSelectedKeys,selectedKeys,confirm,clearFilters,column}"
+                  	style="padding: 8px">
+                  	<a-input
+                    	v-ant-ref="c => (searchInput = c)"
+                    	:placeholder="`Search ${column.dataIndex}`"
+                    	:value="selectedKeys[0]"
+                    	style="width: 188px; margin-bottom: 8px; display: block"
+                    	@change="e =>setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                    	@pressEnter="() =>handleSearch(selectedKeys, confirm, column.dataIndex)"/>
+                  	<a-button
+                    	type="primary"
+                    	icon="search"
+                    	size="small"
+                    	style="width: 90px; margin-right: 8px"
+                    	@click="() =>handleSearch(selectedKeys, confirm, column.dataIndex)">
+						Search</a-button>
+                  	<a-button
+                    	size="small"
+                    	style="width: 90px"
+                    	@click="() => handleReset(clearFilters)">
+						Reset
+					</a-button>
+                </div>
+                <a-icon
+                  slot="filterIcon"
+                  slot-scope="filtered"
+                  type="search"
+                  :style="{ color: filtered ? '#108ee9' : undefined }"
+                />
+
+			<a-button icon="plus" type="primary" slot="action" slot-scope="record"@click="onExpand(record.key)"></a-button>
+
 			<div slot="expandedRowRender" slot-scope="record" style="margin: 0">
 				<CardChartInfoIframe :title="record.name" :sedol="record.sedol"></CardChartInfoIframe>
 			</div>
-
-			<template slot="name" slot-scope="name">
-				<p class="m-0 font-regular text-muted">{{ name }}</p>
+			<!-- Fund Name -->
+			<template slot="name" slot-scope="text, record, index, column">
+				<span v-if="searchText && searchedColumn === column.dataIndex">
+                    <template v-for="(fragment, i) in text
+                        .toString()
+                        .split(new RegExp(`(?<=${searchText})|(?=${searchText})`,'i'))">
+                      	<mark v-if="fragment.toLowerCase() === searchText.toLowerCase()"
+                        	:key="i"
+                        	class="highlight">{{ fragment }}</mark>
+                      	<template v-else>{{ fragment }}</template>
+                    </template>
+				</span>
+                <template v-else>
+                	{{ text }}
+                </template>
 			</template>
+			<!-- Fund Type -->
 			<template slot="type" slot-scope="type">
 				<p class="m-0 font-regular text-muted">{{ type }}</p>
 			</template>
+			<!-- Fund SEDOL -->
 			<template slot="sedol" slot-scope="sedol">
 				<p class="m-0 font-regular text-muted">{{ sedol }}</p>
 			</template>
+			<!-- Fund Bid Price -->
 			<template slot="bidPrice" slot-scope="bidPrice">
 				<p class="m-0 font-regular text-muted">{{ bidPrice }}</p>
 			</template>
+			<!-- Fund Ask Price -->
 			<template slot="askPrice" slot-scope="askPrice">
 				<p class="m-0 font-regular text-muted">{{ askPrice }}</p>
 			</template>
+			<!-- Fund Initial Charge -->
 			<template slot="netIC" slot-scope="netIC">
 				<p class="m-0 font-regular text-muted">{{ netIC }}</p>
 			</template>
-			<template slot="netIA" slot-scope="netIA">
-				<p class="m-0 font-regular text-muted">{{ netIA }}</p>
+			<!-- Fund Annual Charge -->
+			<template slot="netAC" slot-scope="netAC">
+				<p class="m-0 font-regular text-muted">{{ netAC }}</p>
 			</template>
 		</a-table>
 	</a-card>
@@ -54,18 +98,6 @@
 <script>
 import CardChartInfo from '@/components/Cards/CardChartInfo';
 import CardChartInfoIframe from '@/components/Cards/CardChartInfoIframe';
-
-// sedol: B8HTXL7
-// chart: FGWTB
-// https://webfund6.financialexpress.net/clients/Hargreaves/chartbuilder.aspx?codes=FGWTB&color=f65d1a&hide=&span=M60&plotSingleAsPrice=true&totalReturn=false&yAxisLabel=_
-
-// https://webfund6.financialexpress.net/clients/Hargreaves/chartingTool.aspx?code=B8HTXL7&CodeType=SEDOL&InstrType=F
-
-// https://webfund6.financialexpress.net/clients/Hargreaves/chartbuilder.aspx?codes=FGWTB&color=f65d1a&hide=&span=M60&plotSingleAsPrice=true&totalReturn=false&yAxisLabel=_
-
-// https://webfund6.financialexpress.net/clients/Hargreaves/chartingTool.aspx?code=B8HTXL7&CodeType=SEDOL&color=f65d1a&hide=&span=M60&plotSingleAsPrice=true&totalReturn=false&yAxisLabel=_
-
-// https://webfund6.financialexpress.net/clients/Hargreaves/chartbuilder.aspx?code=B8HTXL7&CodeType=SEDOL&color=f65d1a&hide=&span=M60&plotSingleAsPrice=true&totalReturn=false&yAxisLabel=_
 
 export default ({
 	props: {
@@ -89,7 +121,10 @@ export default ({
 	data() {
 		return {
 			curExpandedRowKeys: [],
-			selectedRowKeys: []
+			selectedRowKeys: [],
+			searchText: "",
+	    	searchInput: null,
+    		searchedColumn: "",
 		}
 	},
 	methods: {
@@ -105,7 +140,16 @@ export default ({
 			} else {
 				this.curExpandedRowKeys.push(rowkey);
 			}
-	    }
+	    },
+		handleSearch(selectedKeys, confirm, dataIndex) {
+      		confirm();
+      		this.searchText = selectedKeys[0];
+      		this.searchedColumn = dataIndex;
+    	},
+    	handleReset(clearFilters) {
+      		clearFilters();
+      		this.searchText = "";
+    	},
   	}
 })
 
