@@ -12,48 +12,6 @@
 <script>
 // Card Chart Info.
 import CardChartInfo from '../components/Cards/CardChartInfo' ;
-
-/*
-const _markets = [
-	{
-		title: "BLACKROCK MYMAP 6 CLASS D - ACCUMULATION (GBP)",
-		ticker: "FQCQM"
-	},
-	{
-		title: "BLACKROCK MYMAP 5 CLASS D - ACCUMULATION (GBP)",
-		ticker: "FQCQK"
-	},
-	{
-		title: "BLACKROCK MYMAP 4 CLASS D - ACCUMULATION (GBP)",
-		ticker: "FQCQI"
-	},
-	{
-		title: "BLACKROCK MYMAP 3 CLASS D - ACCUMULATION (GBP)",
-		ticker: "FQCQG"
-	},
-	{
-		title: "BLACKROCK MYMAP 5 SELECT ESG CLASS D - ACCUMULATION (GBP)",
-		ticker: "FR2QB"
-	},
-	{
-		title: "LF LINDSELL TRAIN UK EQUITY CLASS D - ACCUMULATION (GBP)",
-		ticker: "FK4VD"		
-	},
-	{
-		title: "LINDSELL TRAIN GLOBAL EQUITY - DISTRIBUTING CLASS D - INCOME (GBP)",
-		ticker: "FK6WV"
-	},
-	{
-		title:"LEGAL & GENERAL ACTIVE GLOBAL HIGH YIELD CLASS I - ACCUMULATION (GBP)",
-		ticker: "FLGITA"
-	},
-	{
-		title: "BAILLIE GIFFORD AMERICAN CLASS B - ACCUMULATION (GBP)",
-		ticker: "FBGAMAB"
-	}
-]
-*/
-
 import { mapState } from "vuex";
 
 export default ({
@@ -69,6 +27,7 @@ export default ({
 	},
 	mounted() {
     	this.$store.dispatch("markets/getMarkets");
+    	this.$store.dispatch("quote/getQuote");
 	}
 })
 
