@@ -4,7 +4,7 @@
 		<a-row :gutter="24" type="flex">
 			<a-col :span="24" class="mb-24">
 				<!--pre style="color:blue">{{funds}}</pre-->
-				<CardFundsTable :data="funds" :columns="fundsColumns">
+				<CardFundsTable :data="funds" :columns="fundsColumns" :pagination="pagination">
 				</CardFundsTable>
 			</a-col>
 		</a-row>
@@ -37,12 +37,14 @@ const fundsColumns = [{
 	},{
 		title: 'Initial Charge',
 		dataIndex: 'netIC',
-		sorter: true,
+		sorter: (a, b) => a.netIC - b.netIC,
+    	sortDirections: ["descend", "ascend"],
 		scopedSlots: { customRender: 'netIC' },
 	},{
 		title: 'Annual Charge',
 		dataIndex: 'netAC',
-		sorter: true,
+		sorter: (a, b) => a.netAC - b.netAC,
+    	sortDirections: ["descend", "ascend"],
 		scopedSlots: { customRender: 'netAC' },
 	},
 ];
@@ -148,7 +150,8 @@ export default ({
 	},
 	data() {
 		return {
-			fundsColumns
+			fundsColumns,
+			pagination: { pageSize: 20 },
 		}
 	},
 	mounted() {

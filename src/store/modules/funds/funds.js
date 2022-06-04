@@ -1,4 +1,5 @@
 import axios from "axios";
+const FILTER_ACCUMULATION = "Accumulation"
 
 const state = {
   funds: null
@@ -14,8 +15,11 @@ const mutations = {
 const actions = {
   getFunds({ commit }) {
     commit("SET_FUNDS", null);
-    axios.get(`./data/funds.json`).then(response => {      
-      commit("SET_FUNDS", response.data.map((f,i) => { f.key = i; return f}));
+    axios.get(`./data/funds.json`).then(response => {
+      commit("SET_FUNDS", 
+        response.data
+          .filter(f => ((f.type === FILTER_ACCUMULATION) && (f.netAC.length > 0)))
+            .map((f,i) => { f.key = i; return f}));
     })
   }
 }

@@ -8,7 +8,7 @@
 			</a-row>
 		</template>
 
-		<a-table :columns="columns" :data-source="data" :pagination="false">
+		<a-table :columns="columns" :data-source="data" :pagination="pagination">
 			<template slot="name" slot-scope="name">
 				<p class="m-0 font-regular text-muted">{{ name }}</p>
 			</template>
@@ -45,6 +45,10 @@ export default ({
 			type: Array,
 			default: () => [],
 		},
+		pagination: {
+			type: Object,
+			default: () => {return { pageSize: 20 }},
+		}
 	},
 	data() {
 		return {}
