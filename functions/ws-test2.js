@@ -111,6 +111,7 @@ async function GetFundDetail(i,name,path) {
                 details.netAC = (rD != null) ? parseFloat(rD.replace("%","")) : null;
             }
         }
+        
         console.log(i,name,(details))
 
         fundSummary.push(details)
@@ -138,8 +139,8 @@ async function convertFundDetailsToJson() {
     // await BuildFundList();
     // await GetFundDetails();
     // await SaveFundDetails();
-    await convertFundDetailsToJson();
-    // await GetFundDetail(0,"aberdeen-standard-global","https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/a/aberdeen-standard-global-innovation-equity-accumulation")
+    // await convertFundDetailsToJson();
+    await GetFundDetail(0,"aberdeen-standard-global","https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/a/aberdeen-standard-global-innovation-equity-accumulation")
         
     console.log("done");
 })();

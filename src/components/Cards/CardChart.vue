@@ -34,9 +34,11 @@
 		data() {
 			return {
 				url: `https://webfund6.financialexpress.net/clients/Hargreaves/chartbuilder.aspx?codes=${this.ticker}&color=f65d1a&hide=&span=M60&plotSingleAsPrice=true&totalReturn=false&yAxisLabel=_`,
+				//url: `https://webfund6.financialexpress.net/clients/Hargreaves/chartbuilder.aspx?codes=${this.ticker}&amp;color=f65d1a&amp;hide=&amp;span=M60&amp;plotSingleAsPrice=true&amp;totalReturn=false&amp;yAxisLabel=_`
 			}
 		},
 		methods: {
 		}		
 	})
+
 </script>
