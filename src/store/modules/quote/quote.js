@@ -16,7 +16,6 @@ const actions = {
   getQuote({ commit }) {
     commit("SET_QUOTE", null);
     axios.get(_api).then(response => {
-        console.log(response.data)
         commit("SET_QUOTE", response.data);
     })
   }
