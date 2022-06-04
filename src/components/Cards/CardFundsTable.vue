@@ -1,5 +1,5 @@
 <template>
-	<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 0,}">
+	<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
 		<template #title>
 			<a-row type="flex" align="middle">
 				<a-col :span="24" :md="12">
@@ -14,7 +14,7 @@
 			:pagination="pagination" 
 			:row-selection="rowSelection"
 			:rowKey="record => record.key"
-			class='table table-small'>
+			class='table table-small' style="margin: 6">
 			<a-button
 				icon="plus"
 				type="primary"
