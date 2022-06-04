@@ -76,7 +76,7 @@ export default ({
 	data() {
 		return {
 			fundsColumns,
-			pagination: { pageSize: 20 },
+			pagination: { pageSize: 60 },
 		}
 	},
 	mounted() {
