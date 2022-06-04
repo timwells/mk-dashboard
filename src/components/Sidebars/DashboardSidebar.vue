@@ -30,7 +30,7 @@
 						<span class="label">Markets</span>
 					</router-link>
 				</a-menu-item>
-				<!--a-menu-item>
+				<a-menu-item>
 					<router-link to="/tables">
 						<span class="icon">
 							<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +40,7 @@
 						</span>
 						<span class="label">Tables</span>
 					</router-link>
-				</a-menu-item-->
+				</a-menu-item>
 				<!--a-menu-item>
 					<router-link to="/billing">
 						<span class="icon">

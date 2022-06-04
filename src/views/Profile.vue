@@ -1,8 +1,3 @@
-<!-- 
-	This is the user profile page, it uses the dashboard layout in: 
-	"./layouts/Dashboard.vue" .
- -->
-
 <template>
 	<div>
 

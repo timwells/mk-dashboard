@@ -1,7 +1,3 @@
-<!-- 
-	This is an empty page for layout demonstrations, it uses the dashboard layout in: 
-	"./layouts/Dashboard.vue" .
- -->
 
 <template>
 	<div class="mb-24">

@@ -124,11 +124,21 @@ async function SaveFundDetails() {
     await writeFileAsync(`./fundSummary.csv`,convertToCSV(fundSummary,","));
 }
 
-(async () => {
-    await BuildFundList();
-    await GetFundDetails();
-    await SaveFundDetails();
+async function convertFundDetailsToJson() {
+    //await writeFileAsync(`./fundSummary.csv`,convertToCSV(fundSummary,","));
+    const csvFilePath='./fundSummary.csv'
+    const csv=require('csvtojson') 
+    // Async / await usage
+    const fundJson = await csv().fromFile(csvFilePath);
+    
+    await writeFileAsync(`./fundSummary.json`,JSON.stringify(fundJson));
+}
 
+(async () => {
+    // await BuildFundList();
+    // await GetFundDetails();
+    // await SaveFundDetails();
+    await convertFundDetailsToJson();
     // await GetFundDetail(0,"aberdeen-standard-global","https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/a/aberdeen-standard-global-innovation-equity-accumulation")
         
     console.log("done");
