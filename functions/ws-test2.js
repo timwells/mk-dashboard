@@ -1,3 +1,4 @@
+const {config} = require("./config")
 const axios = require('axios')
 const cheerio = require('cheerio');
 const fs = require('fs');
@@ -5,6 +6,13 @@ const fsPromises = fs.promises;
 const { promisify } = require('util');
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
+
+/*
+console.log(config);
+console.log(config.apiKeys)
+console.log(config.apiKeys.includes("cdb0f522-ed34-4374-9aa3-3c2c6eabba3d"))
+console.log(config.apiKeys.includes("cdb0f522-ed34-4374-9aa3-3c2c6eabba3e"))
+*/
 
 function convertToCSV(arr,delim) {
     const array = [Object.keys(arr[0])].concat(arr)
@@ -111,7 +119,7 @@ async function GetFundDetail(i,name,path) {
                 details.netAC = (rD != null) ? parseFloat(rD.replace("%","")) : null;
             }
         }
-        
+
         console.log(i,name,(details))
 
         fundSummary.push(details)
