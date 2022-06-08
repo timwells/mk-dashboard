@@ -21,7 +21,7 @@ Vue.component("layout-default", DefaultLayout);
 Vue.component("layout-dashboard", DashboardLayout);
 Vue.component("layout-dashboard-rtl", DashboardRTLLayout);
 
-Vue.component('google-trend',GoogleTrend);
+Vue.component('GoogleTrend',GoogleTrend);
 
 
 new Vue({

@@ -31,9 +31,15 @@ let routes = [
 	},
 	{
 		path: '/funds',
-		name: 'Fund',
+		name: 'Funds',
 		layout: "dashboard",
 		component: () => import('../views/Funds.vue'),
+	},
+	{
+		path: '/trends',
+		name: 'Trends',
+		layout: "dashboard",
+		component: () => import('../views/Trends.vue'),
 	},
 	{
 		path: '/billing',
