@@ -27,20 +27,21 @@ let routes = [
 		path: '/layout',
 		name: 'Layout',
 		layout: "dashboard",
-		component: () => import('../views/Layout.vue'),
+		component: () => import(/* webpackChunkName: "layout" */ '../views/Layout.vue'),
 	},
 	{
 		path: '/funds',
 		name: 'Funds',
 		layout: "dashboard",
-		component: () => import('../views/Funds.vue'),
+		component: () => import(/* webpackChunkName: "funds" */'../views/Funds.vue'),
 	},
 	{
 		path: '/trends',
 		name: 'Trends',
 		layout: "dashboard",
-		component: () => import('../views/Trends.vue'),
+		component: () => import(/* webpackChunkName: "trends" */ '../views/Trends.vue'),
 	},
+	/*
 	{
 		path: '/billing',
 		name: 'Billing',
@@ -55,7 +56,7 @@ let routes = [
 			layoutClass: 'dashboard-rtl',
 		},
 		component: () => import('../views/RTL.vue'),
-	},
+	},*/
 	{
 		path: '/Profile',
 		name: 'Profile',
@@ -95,7 +96,6 @@ function addLayoutToRoute( route, parentLayout = "default" )
 }
 
 routes = routes.map( ( route ) => addLayoutToRoute( route ) ) ;
-
 const router = new VueRouter({
 	mode: 'hash',
 	base: process.env.BASE_URL,
