@@ -22,12 +22,10 @@ export default ({
         arr.push({ "keyword": kw[i],"geo": geo,"time": search });
       }
 
-      /* add to index.html - "https://ssl.gstatic.com/trends_nrtr/760_RC08/embed_loader.js"
       const script = document.createElement("script");
       script.src = "https://ssl.gstatic.com/trends_nrtr/760_RC08/embed_loader.js";
       script.async = true;
       document.head.appendChild(script);
-      */
       kw = kw.join(',');
       kw = kw.match(/\[(.+)\]/)[1];
 
