@@ -55,10 +55,10 @@
 		<!-- / Footer Social Menu -->
 		
 		<!-- Copyright Notice -->
-		<p class="copyright">
+		<!--p class="copyright">
 			Copyright © 2021 Muse
 			by <a href="https://creative-tim.com">Creative Tim</a>.
-		</p>
+		</p-->
 		<!-- / Copyright Notice -->
 
 	</a-layout-footer>

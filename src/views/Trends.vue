@@ -1,35 +1,48 @@
 <template>
 	<div>
-	  	<GoogleTrend id="google-trend1" keywords="[btc]" geo="US" search="2020-01-01 2022-06-01"/>
-  		<GoogleTrend id="google-trend2" keywords="[recession]" geo="GB" search="2015-01-01 2022-06-01"/>
-  		<GoogleTrend id="google-trend2" keywords="[bear market, bull market]" geo="US" search="2020-01-01 2022-06-01"/>
-  		<GoogleTrend id="google-trend3" keywords="[BJSS]" geo="GB" search="2008-01-01 2022-06-01"/>
-  		<GoogleTrend id="google-trend4" keywords="[IoT]" geo="GB" search="2008-01-01 2022-06-01"/>
-  		<GoogleTrend id="google-trend5" keywords="[ML,AI]" geo="GB" search="2008-01-01 2022-06-01"/>
-  		<GoogleTrend id="google-trend6" keywords="[blockchain]" geo="GB" search="2008-01-01 2022-06-01"/>
-  		<GoogleTrend id="google-trend7" keywords="[supply chain]" geo="GB" search="2008-01-01 2022-06-01"/>
-  		<GoogleTrend id="google-trend8" keywords="[uipath]" geo="GB" search="2008-01-01 2022-06-01"/>
-  		<GoogleTrend id="google-trend9" keywords="[Sheffield Digital]" geo="GB" search="2008-01-01 2022-06-01"/>
-  		<GoogleTrend id="google-trend10" keywords="[Sheffield Digital Festival]" geo="GB" search="2008-01-01 2022-06-01"/>
+		<!-- Trends -->
+		<a-row v-if="trends" :gutter="24" type="flex" align="stretch">
+			<a-col :span="24" :lg="12" :xl="12" class="mb-24" v-for="(trend, index) in trends" :key="index">
+				<GoogleTrend 
+					:id="trendId(index)" 
+					:keywords="trend.keywords" 
+					:geo="trend.geo" 
+					:search="trendDateRange()"/>
+			</a-col>
+		</a-row>
 	</div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-
+import GoogleTrend from '../components/GoogleTrend/GoogleTrend';
 export default ({
 	components: {
+		GoogleTrend
 	},
 	computed: {
+    	...mapState("trends", ["trends"])
 	},
 	data() {
-		return {
-		}
+		return {}
+	},
+	methods: {
+		trendId(index) {return `google-trend${index}`},
+		trendDateRange() { return "2012-01-01 " + new Date().toISOString().split("T")[0];}
 	},
 	mounted() {
+    	this.$store.dispatch("trends/getTrends");
 	}
 })
 
+/*
+var currentdate = new Date();
+var datetime = "Last Sync: " + currentdate.getDay() + "/" + currentdate.getMonth() 
++ "/" + currentdate.getFullYear() + " @ " 
++ currentdate.getHours() + ":" 
++ currentdate.getMinutes() + ":" + currentdate.getSeconds();
+It should print 18/04/2012 15:07:33 and prints 3/3/2012 15:07:33
+*/
 </script>
 
 <style lang="scss">

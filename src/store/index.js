@@ -6,6 +6,7 @@ import app from "./modules/app/app";
 import markets from "./modules/markets/markets";
 import funds from "./modules/funds/funds";
 import quote from "./modules/quote/quote";
+import trends from "./modules/trends/trends";
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     app,
     funds,
     markets,
-    quote
+    quote,
+    trends
   }
 });

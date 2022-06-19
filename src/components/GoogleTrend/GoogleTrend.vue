@@ -1,5 +1,7 @@
 <template>
+	<a-card :bordered="false" class="card-info">
     <div :id="id"></div>
+  </a-card>
 </template>
 
 <script>
@@ -17,14 +19,16 @@ export default ({
       let kw = (this.keywords).split(',');
       const geo = this.geo ? this.geo : 'us';
       const search = this.search;
+      console.log(search)
       let arr = [];
       for (let i = 0; i < kw.length; i++) {
-        arr.push({ "keyword": kw[i],"geo": geo,"time": search });
+        arr.push({"keyword": kw[i], "geo": geo, "time": search });
       }
 
       const script = document.createElement("script");
       script.src = "https://ssl.gstatic.com/trends_nrtr/760_RC08/embed_loader.js";
       script.async = true;
+
       document.head.appendChild(script);
       kw = kw.join(',');
       kw = kw.match(/\[(.+)\]/)[1];
@@ -41,9 +45,9 @@ export default ({
           });
         }
     },
-    data() { return {} },
+  data() { return {} },
 	methods: {},
-	})
+})
 
 /*
 Vue.component('google-trend', {
