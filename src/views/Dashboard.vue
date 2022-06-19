@@ -14,6 +14,11 @@
 import CardChartInfo from '../components/Cards/CardChartInfo' ;
 import { mapState } from "vuex";
 
+
+// This is a change....
+
+
+
 export default ({
 	components: {
 		CardChartInfo,
