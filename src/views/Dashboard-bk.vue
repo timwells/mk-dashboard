@@ -1,21 +1,5 @@
 <template>
 	<div>
-		<!-- Graphs -->
-		<a-row :gutter="24" type="flex" align="stretch">
-			<a-col :span="24" :lg="10" class="mb-24">
-				<CardChartInfo 
-					title="BLACKROCK MYMAP 6 CLASS D - ACCUMULATION (GBP)" 
-					ticker="FQCQM">
-				</CardChartInfo>
-				
-			</a-col>
-			<a-col :span="24" :lg="14" class="mb-24">
-				<CardChartInfo 
-					title="BLACKROCK MYMAP 5 CLASS D - ACCUMULATION (GBP)" 
-					ticker="FQCQK">
-				</CardChartInfo>
-			</a-col>
-		</a-row>
 		<!-- Counter Widgets -->
 		<a-row :gutter="24">
 			<a-col :span="24" :lg="12" :xl="6" class="mb-24" v-for="(stat, index) in stats" :key="index">
@@ -123,11 +107,6 @@
 
 	// Information card 2.
 	import CardInfo2 from '../components/Cards/CardInfo2' ;
-
-
-
-	// Card Chart Info.
-	import CardChartInfo from '../components/Cards/CardChartInfo' ;
 
 // Counter Widgets stats
 	const stats = [
@@ -287,8 +266,7 @@
 			CardProjectTable,
 			CardOrderHistory,
 			CardInfo,
-			CardInfo2,
-			CardChartInfo,
+			CardInfo2
 		},
 		data() {
 			return {

@@ -5,35 +5,6 @@ const state = {
 };
 
 const getters = {
-/*
-  polygonIntersectionBins(state) {
-    let stats = { categories: [], data: [] };
-    if (state.statsData) {
-      state.statsData.PolygonIntersectionBins.map(m => {
-        stats.categories.push(m.range), stats.data.push(m.count);
-      });
-    }
-    return stats;
-  },
-  polygonPointBins(state) {
-    let stats = { categories: [], data: [] };
-    if (state.statsData) {
-      state.statsData.PolygonPointBins.map(m => {
-        stats.categories.push(m.range), stats.data.push(m.count);
-      });
-    }
-    return stats;
-  },
-  polygonAreaBins(state) {
-    let stats = { categories: [], data: [] };
-    if (state.statsData) {
-      state.statsData.PolygonAreaBins.map(m => {
-        stats.categories.push(m.range), stats.data.push(m.count);
-      });
-    }
-    return stats;
-  }
-  */
 }
 
 const mutations = {

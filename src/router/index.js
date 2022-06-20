@@ -36,6 +36,12 @@ let routes = [
 		component: () => import(/* webpackChunkName: "funds" */'../views/Funds.vue'),
 	},
 	{
+		path: '/market-indicators',
+		name: 'Market Indicators',
+		layout: "dashboard",
+		component: () => import(/* webpackChunkName: "market-indicators" */ '../views/MarketIndicators.vue'),
+	},
+	{
 		path: '/trends',
 		name: 'Trends',
 		layout: "dashboard",

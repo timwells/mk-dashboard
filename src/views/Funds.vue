@@ -4,8 +4,7 @@
 		<a-row :gutter="24" type="flex">
 			<a-col :span="24" class="mb-24">
 				<!--pre style="color:blue">{{funds}}</pre-->
-				<CardFundsTable :data="funds" :columns="fundsColumns" :pagination="pagination">
-				</CardFundsTable>
+				<CardFundsTable :data="funds" :columns="fundsColumns" :pagination="pagination"></CardFundsTable>
 			</a-col>
 		</a-row>
 	</div>
@@ -85,5 +84,4 @@ export default ({
 })
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

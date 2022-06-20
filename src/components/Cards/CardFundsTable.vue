@@ -96,7 +96,6 @@
 </template>
 
 <script>
-import CardChartInfo from '@/components/Cards/CardChartInfo';
 import CardChartInfoIframe from '@/components/Cards/CardChartInfoIframe';
 
 export default ({

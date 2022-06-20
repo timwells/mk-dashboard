@@ -1,38 +1,57 @@
 [
     {
         "title": "BLACKROCK MYMAP 6 CLASS D - ACCUMULATION (GBP)", 
-        "ticker": "FQCQM"
+        "ticker": "FQCQM",
+        "type": "fund"
     },
     {
         "title": "BLACKROCK MYMAP 5 CLASS D - ACCUMULATION (GBP)", 
-        "ticker": "FQCQK"
+        "ticker": "FQCQK",
+        "type": "fund"
     },
     {
         "title": "BLACKROCK MYMAP 4 CLASS D - ACCUMULATION (GBP)",
-        "ticker": "FQCQI"
+        "ticker": "FQCQI",
+        "type": "fund"
     },
     {
         "title": "BLACKROCK MYMAP 3 CLASS D - ACCUMULATION (GBP)",
-        "ticker": "FQCQG"
+        "ticker": "FQCQG",
+        "type": "fund"
     },
     {
         "title": "BLACKROCK MYMAP 5 SELECT ESG CLASS D - ACCUMULATION (GBP)",
-        "ticker": "FR2QB"
+        "ticker": "FR2QB",
+        "type": "fund"
     },
     {
         "title": "LF LINDSELL TRAIN UK EQUITY CLASS D - ACCUMULATION (GBP)",
-        "ticker": "FK4VD"		
+        "ticker": "FK4VD",
+        "type": "fund"
     },
     {
         "title": "LINDSELL TRAIN GLOBAL EQUITY - DISTRIBUTING CLASS D - INCOME (GBP)",
-        "ticker": "FK6WV"
+        "ticker": "FK6WV",
+        "type": "fund"
     },
     {
         "title":"LEGAL & GENERAL ACTIVE GLOBAL HIGH YIELD CLASS I - ACCUMULATION (GBP)",
-        "ticker": "FLGITA"
+        "ticker": "FLGITA",
+        "type": "fund"
     },
     {
         "title": "BAILLIE GIFFORD AMERICAN CLASS B - ACCUMULATION (GBP)",
-        "ticker": "FBGAMAB"
+        "ticker": "FBGAMAB",
+        "type": "fund"
+    },
+    {
+        "title": "DIVERSE INCOME TRUST PLC",
+        "ticker": "B65TLW2",
+        "type": "equity"
+    },
+    {
+        "title": "NATIONAL GRID",
+        "ticker": "BDR05C0",
+        "type": "equity"
     }
 ]
