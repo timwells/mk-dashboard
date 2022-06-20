@@ -34,15 +34,6 @@ export default ({
     	this.$store.dispatch("trends/getTrends");
 	}
 })
-
-/*
-var currentdate = new Date();
-var datetime = "Last Sync: " + currentdate.getDay() + "/" + currentdate.getMonth() 
-+ "/" + currentdate.getFullYear() + " @ " 
-+ currentdate.getHours() + ":" 
-+ currentdate.getMinutes() + ":" + currentdate.getSeconds();
-It should print 18/04/2012 15:07:33 and prints 3/3/2012 15:07:33
-*/
 </script>
 
 <style lang="scss">
