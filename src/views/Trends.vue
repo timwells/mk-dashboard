@@ -1,11 +1,7 @@
 <template>
 	<div>
 		<!-- Trends -->
-		<a-row>
-			<a-col :span="12">col-12</a-col>
-			<a-col :span="12">col-12</a-col>
-		</a-row>
-		<!--a-row v-if="trends" :gutter="24" type="flex" align="stretch">
+		<a-row v-if="trends" :gutter="24" type="flex" align="stretch">
 			<a-col :span="24" :lg="12" :xl="12" class="mb-24" v-for="(trend, index) in trends" :key="index">
 				<GoogleTrend 
 					:id="trendId(index)" 
@@ -13,7 +9,7 @@
 					:geo="trend.geo" 
 					:search="trendDateRange()"/>
 			</a-col>
-		</a-row-->
+		</a-row>
 	</div>
 </template>
 
