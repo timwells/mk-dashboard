@@ -1,5 +1,4 @@
 <template>
-	<div>
 		<!-- Trends -->
 		<a-row v-if="trends" :gutter="24" type="flex" align="stretch">
 			<a-col :span="24" :lg="12" :xl="12" class="mb-24" v-for="(trend, index) in trends" :key="index">
@@ -10,7 +9,6 @@
 					:search="trendDateRange()"/>
 			</a-col>
 		</a-row>
-	</div>
 </template>
 
 <script>
