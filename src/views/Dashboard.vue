@@ -17,7 +17,7 @@
 </template>
 
 <script>
-// Card Chart Info.
+
 import CardChartFundInfo from '../components/Cards/CardChartFundInfo' ;
 import CardChartEquityInfo from '../components/Cards/CardChartEquityInfo';
 import { mapState } from "vuex";
