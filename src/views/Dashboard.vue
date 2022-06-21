@@ -36,7 +36,7 @@ export default ({
 	},
 	mounted() {
     	this.$store.dispatch("markets/getMarkets");
-    	this.$store.dispatch("quote/getQuote");
+			console.log(process.env.VUE_APP_POLYGON_API_KEY);
 	}
 })
 

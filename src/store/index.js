@@ -8,6 +8,7 @@ import funds from "./modules/funds/funds";
 import quote from "./modules/quote/quote";
 import trends from "./modules/trends/trends";
 import indicators from "./modules/indicators/indicators";
+import newsfeed from "./modules/newsfeed/newsfeed";
 
 Vue.use(Vuex);
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     markets,
     quote,
     trends,
-    indicators
+    indicators,
+    newsfeed
   }
 });
