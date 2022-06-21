@@ -15,7 +15,7 @@ const mutations = {
 const actions = {
   getNews({ commit }) {
     commit("SET_NEWS", null);
-    axios.get(`https://api.polygon.io/v2/reference/news?limit=10&order=descending&sort=published_utc&apiKey=${apiKey}`).then(response => {
+    axios.get(`https://api.polygon.io/v2/reference/news?limit=150&order=descending&sort=published_utc&apiKey=${apiKey}`).then(response => {
         commit("SET_NEWS", response.data);
     })
   }
