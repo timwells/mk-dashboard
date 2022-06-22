@@ -44,6 +44,17 @@
         "ticker": "FBGAMAB",
         "type": "fund"
     },
+
+    {
+        "title": "Fundsmith Equity (Class I) (Accumulation)",
+        "ticker": "FLSX6",
+        "type": "fund"
+    },
+    {
+        "title": "Fundsmith Sustainable Equity (Class I) (Accumulation)",
+        "ticker": "FOA4T",
+        "type": "fund"
+    },
     {
         "title": "DIVERSE INCOME TRUST PLC",
         "ticker": "B65TLW2",

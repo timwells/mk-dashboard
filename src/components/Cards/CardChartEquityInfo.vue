@@ -5,7 +5,7 @@
 				<div class="card-content">
 					<h6>{{title}}</h6>
 					<p>{{ticker}}</p>					
-					<img v-if="ticker.length>1" :src="url3" alt="Performance Chart" height="230" width="100%"/>
+					<img v-if="ticker.length>1" :src="url3" alt="Performance Chart" height="340" width="100%"/>
 				</div>
 			</a-col>
 		</a-row>
