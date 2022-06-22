@@ -48,11 +48,24 @@ let routes = [
 		component: () => import(/* webpackChunkName: "trends" */ '../views/News.vue'),
 	},
 	{
+		path: '/trading',
+		name: 'Trading',
+		layout: "dashboard",
+		component: () => import(/* webpackChunkName: "trade-view" */ '../views/TradingView.vue'),
+	},
+	{
 		path: '/trends',
 		name: 'Trends',
 		layout: "dashboard",
 		component: () => import(/* webpackChunkName: "trends" */ '../views/Trends.vue'),
 	},
+	{
+		path: '/finviz',
+		name: 'FinViz',
+		layout: "dashboard",
+		component: () => import(/* webpackChunkName: "trends" */ '../views/FinViz.vue'),
+	},
+
 	/*
 	{
 		path: '/billing',

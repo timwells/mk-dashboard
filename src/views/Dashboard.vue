@@ -36,7 +36,6 @@ export default ({
 	},
 	mounted() {
     	this.$store.dispatch("markets/getMarkets");
-			console.log(process.env.VUE_APP_POLYGON_API_KEY);
 	}
 })
 
