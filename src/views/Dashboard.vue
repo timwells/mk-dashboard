@@ -36,6 +36,7 @@ export default ({
 	},
 	mounted() {
     	this.$store.dispatch("markets/getMarkets");
+		this.$store.dispatch("auth/login")
 	}
 })
 
