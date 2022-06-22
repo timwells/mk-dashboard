@@ -1,5 +1,6 @@
 module.exports = {
 	runtimeCompiler: true,
+	productionSourceMap: false,
 
 	chainWebpack: config => {
 		config
