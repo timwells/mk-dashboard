@@ -23,6 +23,13 @@
   "title": "UK CPI","url": "https://www.statista.com/graphic/1/281724/consumer-price-index-cpi-united-kingdom.jpg",
   "type": "img"
 },
+
+{
+  "title" : "UK House Price 2",
+  "url" : "https://datahub.io/core/house-prices-uk/view/0",
+  "type":"iframe"
+},
+
 {
   "title":"Fear & Greed","url":"https://alternative.me/crypto/fear-and-greed-index.png",
   "type":"img"
