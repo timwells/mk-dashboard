@@ -1,27 +1,29 @@
 <template>
-  <!--p>Trading View</p-->
-
-  <WidgetTradingView 
+  <WidgetTradingViewTechAnalysis 
     stock="LSE:SQZ" 
     :watchList="watchList" 
     height="800" 
     :showToolbar="showToolbar">
-  </WidgetTradingView>
+  </WidgetTradingViewTechAnalysis>
 
 </template>
 
 <script>
-import WidgetTradingView from '@/components/Widgets/WidgetTradingView.vue'
+import WidgetTradingViewTechAnalysis from '@/components/Widgets/WidgetTradingViewTechAnalysis.vue'
 
 export default ({
-  components: { WidgetTradingView },
+  components: { WidgetTradingViewTechAnalysis },
   data() {
     return {
       watchList: [
+        '###Indexes',
+        'VANTAGE:SP500',
         '###Stock',
         'LSE:SQZ',
         'LSE:DIVI',
         'LSE:AV.',
+        'LSE:RR.',
+        'LSE:BP.',
         '###Crypto',
         'COINBASE:BTCGBP',
         'COINBASE:ETHGBP'

@@ -57,9 +57,17 @@ let routes = [
 		path: '/trading',
 		name: 'Trading',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "trade-view" */ '../views/TradingView.vue'),
+		component: () => import(/* webpackChunkName: "trade-view" */ '../views/TradingViewTechAnalysis.vue'),
 		meta: { requiresAuth: true }
 	},
+	{
+		path: '/quotes',
+		name: 'Quotes',
+		layout: "dashboard",
+		component: () => import(/* webpackChunkName: "trade-view" */ '../views/TradingViewQuotes.vue'),
+		meta: { requiresAuth: true }
+	},
+
 	{
 		path: '/trends',
 		name: 'Trends',

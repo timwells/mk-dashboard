@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <div class="tradingview-widget-container">
-      <div :id="id"/>
-    </div>
+  <div class="tradingview-widget-container">
+    <div :id="id"/>
   </div>
 </template>
 
