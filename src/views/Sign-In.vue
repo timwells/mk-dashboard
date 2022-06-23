@@ -78,7 +78,7 @@ export default ({
 			e.preventDefault();
 			this.form.validateFields((err, values) => {
 				if ( !err ) {
-					this.$store.dispatch("auth/login",{values}).then(result => console.log("sign-in",result))
+					this.$store.dispatch("auth/signIn",{values})
 				}
 			});
 		},
