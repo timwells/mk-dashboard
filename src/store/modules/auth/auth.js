@@ -1,36 +1,34 @@
 // https://www.section.io/engineering-education/firebase-vue-authentication/
-
-import firebaseConfig from "@/firebase"
+import { auth } from '../../../firebase'
 import {
+    createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signOut
 } from 'firebase/auth'
 
 const state = {
-  auth: null
+  user: null
 };
 
 const getters = {
 }
 
 const mutations = {
-  SET_AUTH: (state, payload) => (state.auth = payload)
+  SET_USER: (state, payload) => (state.user = payload)
 };
 
-console.log(firebaseConfig)
 const actions = {
-    login({ commit }) {
+    async login({ commit }) {
         console.log("login")
-        console.log(signInWithEmailAndPassword)
-        signInWithEmailAndPassword(firebaseConfig,
-            .then((response) => {
+        const response = await
+            // .then((response) => {
                 if (response) {
                     console.log(response)
                     commit('SET_AUTH', response.user)
                 } else {
                     throw new Error('sigin failed')
                 }
-            })
+            //})
     }
 }
 
