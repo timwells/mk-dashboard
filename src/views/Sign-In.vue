@@ -27,9 +27,9 @@
 						{ rules: [{ required: true, message: 'Please input your password!' }] },
 						]" type="password" placeholder="Password" />
 					</a-form-item>
-					<a-form-item class="mb-10">
+					<!--a-form-item class="mb-10">
     					<a-switch v-model="rememberMe" /> Remember Me
-					</a-form-item>
+					</a-form-item-->
 					<a-form-item>
 						<a-button type="primary" block html-type="submit" class="login-form-button">
 							SIGN IN
@@ -37,7 +37,8 @@
 					</a-form-item>
 				</a-form>
 				<!-- / Sign In Form -->
-				<p class="font-semibold text-muted">Don't have an account? <router-link to="/sign-in" class="font-bold text-dark">Sign Up</router-link></p>
+				<!--p class="font-semibold text-muted">Don't have an account? 
+					<router-link to="/sign-in" class="font-bold text-dark">Sign Up</router-link></p-->
 			</a-col>
 			<!-- / Sign In Form Column -->
 
@@ -51,30 +52,38 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 
-	export default ({
-		data() {
-			return {
-				// Binded model property for "Sign In Form" switch button for "Remember Me" .
-				rememberMe: true,
+export default ({
+	computed: {
+    ...mapState("auth", ["user"])
+	},
+	watch: {
+		user(n,o) {
+			if(n) {
+					this.$router.push('/dashboard')
 			}
+		}
+	},
+	data() {
+		return {}
+	},
+	beforeCreate() {
+		// Creates the form and adds to it component's "form" property.
+		this.form = this.$form.createForm(this, { name: 'normal_login' });
+	},
+	methods: {
+		// Handles input validation after submission.
+		handleSubmit(e) {
+			e.preventDefault();
+			this.form.validateFields((err, values) => {
+				if ( !err ) {
+					this.$store.dispatch("auth/login",{values}).then(result => console.log("sign-in",result))
+				}
+			});
 		},
-		beforeCreate() {
-			// Creates the form and adds to it component's "form" property.
-			this.form = this.$form.createForm(this, { name: 'normal_login' });
-		},
-		methods: {
-			// Handles input validation after submission.
-			handleSubmit(e) {
-				e.preventDefault();
-				this.form.validateFields((err, values) => {
-					if ( !err ) {
-						console.log('Received values of form: ', values) ;
-					}
-				});
-			},
-		},
-	})
+	},
+})
 
 </script>
 

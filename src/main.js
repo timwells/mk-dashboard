@@ -7,13 +7,6 @@ import DashboardLayout from './layouts/Dashboard.vue'
 import DashboardRTLLayout from './layouts/DashboardRTL.vue'
 import router from './router'
 import store from "@/store";
-
-//import { initializeApp } from "firebase/app";
-//import firebaseConfig from "./firebase"
-//console.log(firebaseConfig)
-//const app = initializeApp(firebaseConfig);
-//console.log(app)
-
 import './scss/app.scss';
 
 Vue.use(Antd);

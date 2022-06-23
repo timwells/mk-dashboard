@@ -1,5 +1,5 @@
 // https://www.section.io/engineering-education/firebase-vue-authentication/
-import { auth } from '../../../firebase'
+import { auth } from '@/firebase'
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
@@ -18,17 +18,14 @@ const mutations = {
 };
 
 const actions = {
-    async login({ commit }) {
-        console.log("login")
-        const response = await
-            // .then((response) => {
-                if (response) {
-                    console.log(response)
-                    commit('SET_AUTH', response.user)
-                } else {
-                    throw new Error('sigin failed')
-                }
-            //})
+    async login({ commit }, {values}) {
+      commit('SET_USER', null)
+      const response = await signInWithEmailAndPassword(auth,values.email,values.password)
+        if (response) {
+            commit('SET_USER', response.user)
+        } else {
+            throw new Error('sigin failed')
+        }
     }
 }
 

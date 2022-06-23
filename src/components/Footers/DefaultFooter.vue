@@ -4,14 +4,14 @@
 	<a-layout-footer>
 
 		<!-- Footer Navigation Menu -->
-		<a-menu mode="horizontal">
+		<!--a-menu mode="horizontal">
 			<a-menu-item>Company </a-menu-item>
 			<a-menu-item>About Us</a-menu-item>
 			<a-menu-item>Team </a-menu-item>
 			<a-menu-item>Products</a-menu-item>
 			<a-menu-item>Blog</a-menu-item>
 			<a-menu-item>Pricing</a-menu-item>
-		</a-menu>
+		</a-menu-->
 		<!-- / Footer Navigation Menu -->
 
 		<!-- Footer Social Menu -->
