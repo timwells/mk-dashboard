@@ -13,6 +13,10 @@
 					:title="market.title" 
 					:ticker="market.ticker"/>
 
+				<CardChartIndexInfo v-if="market.type=='index'" 
+					:title="market.title" 
+					:ticker="market.ticker"/>
+
 			</a-col>
 		</a-row>
 	</div>
@@ -22,12 +26,14 @@
 
 import CardChartFundInfo from '../components/Cards/CardChartFundInfo' ;
 import CardChartEquityInfo from '../components/Cards/CardChartEquityInfo';
+import CardChartIndexInfo from '../components/Cards/CardChartIndexInfo';
 import { mapState } from "vuex";
 
 export default ({
 	components: {
 		CardChartFundInfo,
-		CardChartEquityInfo
+		CardChartEquityInfo,
+		CardChartIndexInfo
 	},
 	computed: {
     	...mapState("markets", ["markets"])

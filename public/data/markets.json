@@ -1,5 +1,15 @@
 [
     {
+        "title": "FTSE 100", 
+        "ticker": "UKX",
+        "type": "index"
+    },
+    {
+        "title":"UBS S&P 500 INDEX CLASS C - ACCUMULATION (GBP)",
+        "ticker": "FKSFU",
+        "type": "fund"
+    },
+    {
         "title": "BLACKROCK MYMAP 6 CLASS D - ACCUMULATION (GBP)", 
         "ticker": "FQCQM",
         "type": "fund"
