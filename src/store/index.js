@@ -10,6 +10,7 @@ import quote from "./modules/quote/quote";
 import trends from "./modules/trends/trends";
 import indicators from "./modules/indicators/indicators";
 import newsfeed from "./modules/newsfeed/newsfeed";
+import sa from "./modules/seekalpha/sa";
 
 Vue.use(Vuex);
 
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     quote,
     trends,
     indicators,
-    newsfeed
+    newsfeed,
+    sa
   }
 });

@@ -75,6 +75,14 @@ let routes = [
 		component: () => import(/* webpackChunkName: "trends" */ '../views/Trends.vue'),
 		meta: { requiresAuth: true }
 	},
+	{
+		path: '/seeking-alpha',
+		name: 'Seeking Alpha',
+		layout: "dashboard",
+		component: () => import(/* webpackChunkName: "trends" */ '../views/SeekingAlpha.vue'),
+		meta: { requiresAuth: true }
+	},
+
 	/*
 	{
 		path: '/finviz',
