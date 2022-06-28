@@ -24,6 +24,7 @@ export default ({
         'LSE:AV.',
         'LSE:RR.',
         'LSE:BP.',
+        'USDWTI',
         '###Crypto',
         'COINBASE:BTCGBP',
         'COINBASE:ETHGBP'
