@@ -15,12 +15,13 @@
 						<a-breadcrumb-item><router-link to="/"> Views </router-link></a-breadcrumb-item>
 						<a-breadcrumb-item>{{ this.$route.name }}</a-breadcrumb-item>
 					</a-breadcrumb>
+					
 					<!-- / Header Breadcrumbs -->
 
 					<!-- Header Page Title -->
-					<div class="ant-page-header-heading">
+					<!--div class="ant-page-header-heading">
 						<span class="ant-page-header-heading-title">{{ this.$route.name }}</span>
-					</div>
+					</div-->
 					<!-- / Header Page Title -->
 
 				</a-col>

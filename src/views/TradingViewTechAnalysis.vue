@@ -1,39 +1,28 @@
 <template>
-  <WidgetTradingViewTechAnalysis 
-    stock="LSE:SQZ" 
-    :watchList="watchList" 
-    height="800" 
-    :showToolbar="showToolbar">
-  </WidgetTradingViewTechAnalysis>
-
+  <div>
+    <WidgetTradingViewTechAnalysis v-if="watchlist.tickers"
+      stock="LSE:SQZ" 
+      :watchList="watchlist.tickers" 
+      height="700" 
+      :showToolbar="showToolbar">
+    </WidgetTradingViewTechAnalysis>
+  </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 import WidgetTradingViewTechAnalysis from '@/components/Widgets/WidgetTradingViewTechAnalysis.vue'
 
 export default ({
   components: { WidgetTradingViewTechAnalysis },
+  computed: { ...mapState("tradeview", ["watchlist"]) },
   data() {
     return {
-      watchList: [
-        '###Indexes',
-        'VANTAGE:SP500',
-        //'LSE:UKX',
-        // 'LSE:XUAGBP',
-        '###Stock',
-        'LSE:SQZ',
-        'LSE:DIVI',
-        'LSE:AV.',
-        'LSE:RR.',
-        'LSE:BP.',
-        'LSE:WIX',
-        '###Crypto',
-        'COINBASE:BTCGBP',
-        'COINBASE:ETHGBP',
-        'KRAKEN:XRPGBP'
-      ],
       showToolbar: true
     }
+  },
+  mounted() {
+    this.$store.dispatch("tradeview/getWatchList")
   }
 })
 </script>

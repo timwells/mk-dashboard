@@ -21,6 +21,7 @@ const actions = {
       commit('SET_USER', null)
       const response = await signInWithEmailAndPassword(auth,values.email,values.password)
         if (response) {
+          console.log(response)
             commit('SET_USER', response.user)
         } else {
             throw new Error('sigin failed')

@@ -1,0 +1,21 @@
+{
+  "tickers": [
+    "###Indexes",
+    "VANTAGE:SP500",
+
+    "###Stock",
+    "LSE:SQZ",
+    "LSE:DIVI",
+    "LSE:AV.",
+    "LSE:RR.",
+    "LSE:BP.",
+    "LSE:WIX",
+
+    "###Crypto",
+    "COINBASE:BTCGBP",
+    "COINBASE:ETHGBP",
+    "KRAKEN:XRPGBP",
+    "KRAKEN:ATOMGBP",
+    "KRAKEN:DOTGBP"
+  ]
+}

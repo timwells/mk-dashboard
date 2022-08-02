@@ -9,7 +9,8 @@
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
-    "dev": "npm run serve"
+    "dev": "npm run serve",
+    "deploy": "firebase deploy --only hosting"
   },
   "dependencies": {
     "ant-design-vue": "1.7.6",
