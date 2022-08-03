@@ -61,13 +61,19 @@ let routes = [
 		meta: { requiresAuth: true }
 	},
 	{
+		path: '/trades',
+		name: 'Trades',
+		layout: "dashboard",
+		component: () => import(/* webpackChunkName: "naked-trades" */ '../views/NakedTrader.vue'),
+		meta: { requiresAuth: true }
+	},
+	{
 		path: '/quotes',
 		name: 'Quotes',
 		layout: "dashboard",
 		component: () => import(/* webpackChunkName: "trade-view" */ '../views/TradingViewQuotes.vue'),
 		meta: { requiresAuth: true }
 	},
-
 	{
 		path: '/trends',
 		name: 'Trends',

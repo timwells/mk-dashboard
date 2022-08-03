@@ -12,6 +12,7 @@ import indicators from "./modules/indicators/indicators";
 import newsfeed from "./modules/newsfeed/newsfeed";
 import sa from "./modules/seekalpha/sa";
 import tradeview from "./modules/tradeview/tradeview";
+import wscrape from "./modules/wscrape/wscrape";
 
 Vue.use(Vuex);
 
@@ -26,6 +27,7 @@ export default new Vuex.Store({
     indicators,
     newsfeed,
     sa,
-    tradeview
+    tradeview,
+    wscrape
   }
 });

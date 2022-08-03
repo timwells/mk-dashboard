@@ -8,11 +8,13 @@ const cors = require('cors');
 const app = express();
 const { performance } = require('perf_hooks');
 const yF2 = require("yahoo-finance2").default;
-const { config } = require("./config")
+const { config } = require("./config");
+const { strictEqual } = require("assert");
 
-const VERSION = "0.0.5";
+const VERSION = "0.0.6";
 const API_KEY_NAME = "x-api-key"
 
+const unauthorized = (res) => res.status(401).send('unauthorized');
 const isApiKeyValid = (request,keyName,apiKeys) => {
     const apiKey = request.header(keyName);
     return (apiKey != undefined && apiKey != null && apiKey.length > 0) ? apiKeys.includes(apiKey) : false;
@@ -25,7 +27,7 @@ app.get('/version', (request, response) => {
     response.send(VERSION);
 })
 
-app.get('/quote', async (request, response) => {
+app.get('/v1/quote', async (request, response) => {
     if(isApiKeyValid(request,API_KEY_NAME,config.apiKeys)) {
         response.status(200).send("Hello from Firebase /quote!");
     } else {
@@ -33,20 +35,12 @@ app.get('/quote', async (request, response) => {
     }
 })
 
-/*
-app.get('/quote1', async (request, response) => {  
-    result = await yF2.quote('BMGAX');    
-    response.status(200).send(JSON.stringify(result));
+app.get('/v1/scrape/:site', (request, response) => {
+    if(isApiKeyValid(request,API_KEY_NAME,config.apiKeys)) {
+        const { scrapedata } = require(`./wscrape/${request.params.site}.js`)
+        scrapedata(request,response);
+    } else unauthorized(response)
 })
-
-app.get('/quote2', async (request, response) => {
-    const item = request.query.item;
-    result = await yF2.quote(item);
-
-    response.contentType("application/json"); 
-    response.status(200).send(JSON.stringify(result));
-})
-*/
 
 // Expose Express API as a single Cloud Function:
 exports.fintech = functions.https.onRequest(app);
