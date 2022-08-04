@@ -2,6 +2,7 @@
   "tickers": [
     "###Indexes",
     "VANTAGE:SP500",
+    "NASDAQ:QQQ",
 
     "###Stock",
     "LSE:SQZ",
@@ -16,6 +17,7 @@
     "###Crypto",
     "COINBASE:BTCGBP",
     "COINBASE:ETHGBP",
+    "COINBASE:BCHGBP",
     "COINBASE:UMAGBP",
     "KRAKEN:XRPGBP",
     "KRAKEN:ATOMGBP",
