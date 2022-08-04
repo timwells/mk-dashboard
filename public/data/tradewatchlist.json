@@ -11,12 +11,14 @@
     "LSE:BP.",
     "LSE:WIX",
     "LSE:AFC",
+    "LSE:PXC",
 
     "###Crypto",
     "COINBASE:BTCGBP",
     "COINBASE:ETHGBP",
     "KRAKEN:XRPGBP",
     "KRAKEN:ATOMGBP",
-    "KRAKEN:DOTGBP"
+    "KRAKEN:DOTGBP",
+    "KRAKEN:UMAGBP"
   ]
 }

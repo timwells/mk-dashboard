@@ -95,13 +95,16 @@ const fundsColumns = [{
 import { mapState } from "vuex";
 import CardTraderChart from "@/components/Cards/CardTraderChart";
 
+const epicCorrections = [
+	{in:"T17",out:"TM17"}
+]
+
 export default ({
 	components: {
 		CardTraderChart
 	},
 	computed: {
-    	...mapState("wscrape", ["trades"])
-		
+    	...mapState("wscrape", ["trades"])	
 	},
 	data() {
 		return {
@@ -112,7 +115,10 @@ export default ({
 	},
 	methods: {
 		fullSymbol(epic) {
-			console.log("fullSymbol: ",epic)
+			// fix epics
+			const nEpic = epicCorrections.find(e => (epic == e.in))
+			
+			if(nEpic) return "LSE:" + nEpic.out; 
 			return "LSE:" + epic; 
 		},
    		onExpand(rowkey) {
