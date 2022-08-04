@@ -15,6 +15,7 @@ const actions = {
   getWatchList({ commit }) {
     commit("SET_WATCHLIST", []);
     axios.get(`./data/tradewatchlist.json`).then(response => {
+      console.log(response.data);
       commit("SET_WATCHLIST", response.data);
     })
   }

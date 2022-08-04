@@ -50,9 +50,22 @@ export default {
       'allow_symbol_change': false,
       'hide_side_toolbar': !this.showToolbar,
       'news': [ 'headlines' ],
+      // https://stackoverflow.com/questions/65940103/how-to-override-the-studies-of-the-tradingview-widget
       'studies': [
-        'StochasticRSI@tv-basicstudies',
-        //'IchimokuCloud@tv-basicstudies'
+        // { id: "BB@tv-basicstudies", inputs: { length: 25}},
+        {
+          id: "MASimple@tv-basicstudies",
+          inputs: { length: 200 }
+        },{
+          id: "MASimple@tv-basicstudies",
+          inputs: { length: 100 }
+        },{
+          id: "MASimple@tv-basicstudies",
+          inputs: { length: 50 }
+        },
+        {
+          id: 'StochasticRSI@tv-basicstudies',
+        }
       ],
       'container_id': this.id
     }
@@ -67,6 +80,7 @@ export default {
 /*
 https://github.com/nirvanatikku/bittrex-enhanced/blob/master/settings.html
 
+<option value='MARibbon@tv-basicstudies'>Accumulation/Distribution</option>
 <option value='ACCD@tv-basicstudies'>Accumulation/Distribution</option>
 <option value='studyADR@tv-basicstudies'>ADR</option>
 <option value='AROON@tv-basicstudies'>Aroon</option>
