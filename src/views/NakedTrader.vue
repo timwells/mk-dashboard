@@ -5,7 +5,14 @@
 				:columns="fundsColumns" 
 				:data-source="trades" 
 				:pagination="pagination"
-				class='table table-small' style="margin: 6; background-color: white;">					
+				class='table table-small' style="margin: 6; background-color: white;">
+				
+				<a-button icon="plus" type="primary" slot="action" slot-scope="record" @click="onExpand(record.key)"></a-button>
+
+				<div slot="expandedRowRender" slot-scope="record" style="margin: 0">
+					<CardTraderChart :symbol="fullSymbol(record.epic)"></CardTraderChart>
+				</div>
+
 				<template slot="stock" slot-scope="stock">
 					<p class="m-0 font-regular text-muted">{{ stock }}</p>
 				</template>
@@ -86,18 +93,44 @@ const fundsColumns = [{
 ];
 
 import { mapState } from "vuex";
+import CardTraderChart from "@/components/Cards/CardTraderChart";
 
 export default ({
-	components: {},
+	components: {
+		CardTraderChart
+	},
 	computed: {
     	...mapState("wscrape", ["trades"])
+		
 	},
 	data() {
 		return {
 			fundsColumns,
 			pagination: { pageSize: 60 },
+			symbol: 'LSE:SQZ'
 		}
 	},
+	methods: {
+		fullSymbol(epic) {
+			console.log("fullSymbol: ",epic)
+			return "LSE:" + epic; 
+		},
+   		onExpand(rowkey) {
+			/*
+			if (this.curExpandedRowKeys.length > 0) {
+				let index = this.curExpandedRowKeys.indexOf(rowkey);
+				if (index > -1) {
+					this.curExpandedRowKeys.splice(index, 1);
+				} else {
+					this.curExpandedRowKeys.splice(0, this.curExpandedRowKeys.length);
+					this.curExpandedRowKeys.push(rowkey);
+				}
+			} else {
+				this.curExpandedRowKeys.push(rowkey);
+			}
+			*/
+		}
+	},	
 	mounted() {
 		this.$store.dispatch("wscrape/getNakedTrades");
 	}

@@ -46,7 +46,7 @@
                   :style="{ color: filtered ? '#108ee9' : undefined }"
                 />
 
-			<a-button icon="plus" type="primary" slot="action" slot-scope="record"@click="onExpand(record.key)"></a-button>
+			<a-button icon="plus" type="primary" slot="action" slot-scope="record" @click="onExpand(record.key)"></a-button>
 
 			<div slot="expandedRowRender" slot-scope="record" style="margin: 0">
 				<CardChartInfoIframe :title="record.name" :sedol="record.sedol"></CardChartInfoIframe>

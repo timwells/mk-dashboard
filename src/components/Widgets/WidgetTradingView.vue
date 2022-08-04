@@ -10,56 +10,36 @@ const preFix = 'tradingview_'
 
 export default {
   props: {
-    stock: {
+    symbol: {
       type: String,
       default: ''
     },
     height: {
       type: String,
-      default: "800"
+      default: "500"
     },
     showToolbar: {
       type: Boolean,
       default: false
     },
-    watchList: {
-      type: Array,
-      default: () => []
-    }
-  },
-  computed: {
-    stockComputed () {
-      return this.stock
-    }
   },
   data: () => ({
     id: ''
   }),
-
-  methods: {
-  },
-
-  beforeCreate () {
-    // console.log('TradingView2:beforeCreate- Nothing gets called before me!')
-  },
-  created () {
-    // console.log('TradingView2:created', this.id, this.stock)
-    // this.property = 'Example property update.'
-    // console.log('propertyComputed will update, as this.property is now reactive.')
-  },
+  methods: {},
 
   beforeMount () {
     this.id = `${preFix}_${Math.random().toString(36)}`
   },
 
-// https://stackoverflow.com/questions/67294294/passing-own-data-to-trading-view
+  // https://stackoverflow.com/questions/67294294/passing-own-data-to-trading-view
 
   mounted () {
     // https://uk.tradingview.com/widget/advanced-chart/
     const options = {
       'width': '100%',
       'height': this.height,
-      'symbol': this.stock,
+      'symbol': this.symbol,
       'interval': 'D',
       'timezone': 'Europe/London',
       'theme': 'light',
@@ -69,17 +49,10 @@ export default {
       'enable_publishing': false,
       'allow_symbol_change': false,
       'hide_side_toolbar': !this.showToolbar,
-      'watchlist': this.watchList,
       'news': [ 'headlines' ],
       'studies': [
-        // 'BB@tv-basicstudies',
         'StochasticRSI@tv-basicstudies',
-        // "MASimple@tv-basicstudies",
-        //"chandeMO@tv-basicstudies"
-        //"DM@tv-basicstudies"
-       //"WilliamsFractal@tv-basicstudies",
-        // "WilliamR@tv-basicstudies",
-        //"IchimokuCloud@tv-basicstudies"
+        //'IchimokuCloud@tv-basicstudies'
       ],
       'container_id': this.id
     }
@@ -93,7 +66,6 @@ export default {
 
 /*
 https://github.com/nirvanatikku/bittrex-enhanced/blob/master/settings.html
-
 
 <option value='ACCD@tv-basicstudies'>Accumulation/Distribution</option>
 <option value='studyADR@tv-basicstudies'>ADR</option>
