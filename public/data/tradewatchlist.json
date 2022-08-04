@@ -16,9 +16,9 @@
     "###Crypto",
     "COINBASE:BTCGBP",
     "COINBASE:ETHGBP",
+    "COINBASE:UMAGBP",
     "KRAKEN:XRPGBP",
     "KRAKEN:ATOMGBP",
-    "KRAKEN:DOTGBP",
-    "COINBASE:UMAGBP"
+    "KRAKEN:DOTGBP"
   ]
 }
