@@ -5,12 +5,18 @@
 				:columns="fundsColumns" 
 				:data-source="trades" 
 				:pagination="pagination"
-				class='table table-small' style="margin: 6; background-color: white;">
+				class='table table-small' style="margin: 0; background-color: white;">
 				
 				<a-button icon="plus" type="primary" slot="action" slot-scope="record" @click="onExpand(record.key)"></a-button>
-
 				<div slot="expandedRowRender" slot-scope="record" style="margin: 0">
-					<CardTraderChart :symbol="fullSymbol(record.epic)"></CardTraderChart>
+					<a-row :gutter="24" type="flex">
+						<a-col :span="18">
+							<CardTraderChart :symbol="fullSymbol(record.epic)"></CardTraderChart>
+						</a-col>						
+						<a-col :span="6">
+							<CardTraderBrokerInfo :symbol="fullSymbol(record.epic)"></CardTraderBrokerInfo>
+						</a-col>						
+					</a-row>
 				</div>
 
 				<template slot="stock" slot-scope="stock">
@@ -82,7 +88,7 @@ const fundsColumns = [{
 		dataIndex: 'sell',
 		scopedSlots: { customRender: 'sell' },
 	},{
-		title: 'Sel Date',
+		title: 'Sell Date',
 		dataIndex: 'selldate',
 		scopedSlots: { customRender: 'selldate' },
 	},{
@@ -94,6 +100,7 @@ const fundsColumns = [{
 
 import { mapState } from "vuex";
 import CardTraderChart from "@/components/Cards/CardTraderChart";
+import CardTraderBrokerInfo from "@/components/Cards/CardTraderBrokerInfo";
 
 const epicCorrections = [
 	{in:"T17",out:"TM17"}
@@ -101,7 +108,8 @@ const epicCorrections = [
 
 export default ({
 	components: {
-		CardTraderChart
+		CardTraderChart,
+		CardTraderBrokerInfo
 	},
 	computed: {
     	...mapState("wscrape", ["trades"])	
