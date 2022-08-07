@@ -1,13 +1,14 @@
 <template>
 	<a-row :gutter="24" type="flex">
 		<a-col :span="24" class="mb-24">
-			<a-table v-if="trades"
+			<a-table v-if="nakedtrades"
 				:columns="fundsColumns" 
-				:data-source="trades" 
+				:data-source="nakedtrades" 
 				:pagination="pagination"
 				class='table table-small' style="margin: 0; background-color: white;">
 				
-				<a-button icon="plus" type="primary" slot="action" slot-scope="record" @click="onExpand(record.key)"></a-button>
+				<a-button icon="plus" type="primary" slot="action" slot-scope="record" @click="onExpand(record)"></a-button>
+
 				<div slot="expandedRowRender" slot-scope="record" style="margin: 0">
 					<a-row :gutter="24" type="flex">
 						<a-col :span="18">
@@ -112,7 +113,7 @@ export default ({
 		CardTraderBrokerInfo
 	},
 	computed: {
-    	...mapState("wscrape", ["trades"])	
+    	...mapState("wscrape", ["nakedtrades"])	
 	},
 	data() {
 		return {
@@ -129,21 +130,7 @@ export default ({
 			if(nEpic) return "LSE:" + nEpic.out; 
 			return "LSE:" + epic; 
 		},
-   		onExpand(rowkey) {
-			/*
-			if (this.curExpandedRowKeys.length > 0) {
-				let index = this.curExpandedRowKeys.indexOf(rowkey);
-				if (index > -1) {
-					this.curExpandedRowKeys.splice(index, 1);
-				} else {
-					this.curExpandedRowKeys.splice(0, this.curExpandedRowKeys.length);
-					this.curExpandedRowKeys.push(rowkey);
-				}
-			} else {
-				this.curExpandedRowKeys.push(rowkey);
-			}
-			*/
-		}
+   		onExpand(row) {}
 	},	
 	mounted() {
 		this.$store.dispatch("wscrape/getNakedTrades");

@@ -11,7 +11,7 @@ const yF2 = require("yahoo-finance2").default;
 const { config } = require("./config");
 const { strictEqual } = require("assert");
 
-const VERSION = "0.0.6";
+const VERSION = "0.0.7";
 const API_KEY_NAME = "x-api-key"
 
 const unauthorized = (res) => res.status(401).send('unauthorized');
@@ -37,8 +37,12 @@ app.get('/v1/quote', async (request, response) => {
 
 app.get('/v1/scrape/:site', (request, response) => {
     if(isApiKeyValid(request,API_KEY_NAME,config.apiKeys)) {
-        const { scrapedata } = require(`./wscrape/${request.params.site}.js`)
-        scrapedata(request,response);
+        const { scrapedata, scrapedata1 } = require(`./wscrape/${request.params.site}.js`)
+        if(request.query.q != null) {
+            scrapedata1(request,response);
+        } else {
+            scrapedata(request,response);
+        }
     } else unauthorized(response)
 })
 

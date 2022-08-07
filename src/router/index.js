@@ -68,6 +68,13 @@ let routes = [
 		meta: { requiresAuth: true }
 	},
 	{
+		path: '/dataroma',
+		name: 'Dataroma',
+		layout: "dashboard",
+		component: () => import(/* webpackChunkName: "trade-view" */ '../views/DataromaView.vue'),
+		meta: { requiresAuth: true }
+	},
+	{
 		path: '/quotes',
 		name: 'Quotes',
 		layout: "dashboard",
