@@ -1,9 +1,10 @@
 <template>
   <a-row :gutter="24" type="flex">
 		<a-col :span="24" class="mb-24">
-			<a-table v-if="dataromaHoldings"
+			{{dataromaHoldingsMap.get(detail)}}
+			<a-table v-if="dataromaHoldingsMap.get(detail)"
 				:columns="holdings" 
-				:data-source="dataromaHoldings" 
+				:data-source="dataromaHoldingsMap.get(detail)" 
 				:pagination="pagination"
 				class='table table-small' style="margin: 0; background-color: white;">
 				
@@ -64,7 +65,7 @@ export default ({
 	},
 
 	computed: {
-    	...mapState("wscrape", ["dataromaHoldings"])	
+    	...mapState("wscrape", ["dataromaHoldings","dataromaHoldingsMap"])	
 	},
   	data() {
     	return {
@@ -75,7 +76,6 @@ export default ({
 	methods: {
 	},
 	mounted() {
-		console.log("DataromaHoldingsView:",this.detail)
   		this.$store.dispatch("wscrape/getDataromaHoldings",{ q: this.detail });
 	}
 })

@@ -6,15 +6,25 @@ const HEADERS = { 'x-api-key' : API_KEY }
 const state = {
   nakedtrades: [],
   dataroma: [],
-  dataromaHoldings: []
+  dataromaHoldings: [],
+  dataromaHoldingsMap: new Map()
 };
 
-const getters = {}
+const getters = {
+  hold
+}
 
 const mutations = {
   SET_NAKED_TRADES: (state, payload) => (state.nakedtrades = payload),
   SET_DATAROMA: (state, payload) => (state.dataroma = payload),
   SET_DATAROMA_HOLDINGS: (state, payload) => (state.dataromaHoldings = payload),
+  SET_DATAROMA_HOLDINGS_MAP: (state, payload) => 
+    
+    { 
+      console.log(payload); 
+      state.dataromaHoldingsMap.set(payload.key, payload.data)
+      console.log(state.dataromaHoldingsMap)
+    }
 };
 
 const actions = {
@@ -38,6 +48,7 @@ const actions = {
     axios.get(`https://us-central1-mk-d-b59f2.cloudfunctions.net/fintech/v1/scrape/dataroma?q=${q}`,{ headers: HEADERS })
         .then(response => {
             commit("SET_DATAROMA_HOLDINGS", response.data);
+            commit("SET_DATAROMA_HOLDINGS_MAP", { key: q, data: response.data });
         })
   }
 }
