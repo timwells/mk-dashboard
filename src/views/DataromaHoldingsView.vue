@@ -1,11 +1,12 @@
 <template>
   <a-row :gutter="24" type="flex">
 		<a-col :span="24" class="mb-24">
-			{{dataromaHoldingsMap.get(detail)}}
-			<a-table v-if="dataromaHoldingsMap.get(detail)"
-				:columns="holdings" 
-				:data-source="dataromaHoldingsMap.get(detail)" 
+			<a-table v-if="holdingList(detail)"
+				:columns="holdingsCols" 
+				:data-source="holdingList(detail)" 
 				:pagination="pagination"
+				:rowKey="(record,index) => index"
+
 				class='table table-small' style="margin: 0; background-color: white;">
 				
 				<template slot="stock" slot-scope="stock">
@@ -41,7 +42,7 @@
 </template>
 
 <script>
-const holdings = [
+const holdingsCols = [
 	{ title: 'Stock', dataIndex: 'stock', scopedSlots: { customRender: 'stock' }},
 	{ title: 'Portfolio %', dataIndex: 'portfolio', scopedSlots: { customRender: 'portfolio' }},
 	{ title: 'Recent Activity', dataIndex: 'recentActivity', scopedSlots: { customRender: 'recentActivity' }},
@@ -54,7 +55,7 @@ const holdings = [
 	{ title: 'Week High', dataIndex: 'weekHigh', scopedSlots: { customRender: 'weekHigh' }}
 ];
 
-import { mapState } from "vuex";
+import { mapGetters} from "vuex";
 
 export default ({
 	props: {
@@ -65,15 +66,20 @@ export default ({
 	},
 
 	computed: {
-    	...mapState("wscrape", ["dataromaHoldings","dataromaHoldingsMap"])	
+    	//...mapState("wscrape", ["dataromaHoldings","dataromaHoldingsMap"])
+		...mapGetters("wscrape",["holdings"]),
 	},
   	data() {
     	return {
-			holdings,
+			holdingsCols,
 			pagination: { pageSize: 80 },
    		}
   	},
 	methods: {
+		holdingList(key) {
+			let h;
+			return (h = this.holdings(key)) ? h.data : null
+		}
 	},
 	mounted() {
   		this.$store.dispatch("wscrape/getDataromaHoldings",{ q: this.detail });

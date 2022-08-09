@@ -6,12 +6,13 @@
 				:columns="sivcols" 
 				:data-source="dataroma" 
 				:pagination="pagination"
+				:rowKey="(record,index) => index"
 				class='table table-small' style="margin: 0; background-color: white;">
 				
 				<a-button icon="plus" type="primary" slot="action" slot-scope="record" onClick="onExpand(record)"></a-button>
 
-        <div slot="expandedRowRender" slot-scope="record" style="margin: 0">
-          <DataromaHoldingsView :detail="record.detail"></DataromaHoldingsView>
+        		<div slot="expandedRowRender" slot-scope="record" style="margin: 0">
+          			<DataromaHoldingsView :detail="record.detail"></DataromaHoldingsView>
 				</div>
 
 				<template slot="name" slot-scope="name">
