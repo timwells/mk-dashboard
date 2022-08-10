@@ -95,6 +95,13 @@ let routes = [
 		component: () => import(/* webpackChunkName: "trends" */ '../views/SeekingAlpha.vue'),
 		meta: { requiresAuth: true }
 	},
+	{
+		path: '/fear-n-greed',
+		name: 'Fear & Greed',
+		layout: "dashboard",
+		component: () => import(/* webpackChunkName: "trends" */ '../views/CryptoFearNGreedIndex.vue'),
+		meta: { requiresAuth: true }
+	},
 
 	/*
 	{
