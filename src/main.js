@@ -10,6 +10,11 @@ import store from "@/store";
 import './scss/app.scss';
 
 Vue.use(Antd);
+
+import VueApexCharts from 'vue-apexcharts'
+Vue.use(VueApexCharts)
+Vue.component('apexchart', VueApexCharts)
+
 Vue.config.productionTip = false
 
 // Adding template layouts to the vue components.
