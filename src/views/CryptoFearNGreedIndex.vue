@@ -26,11 +26,9 @@ export default {
 	},
     watch: {
         values(o,n) {
-            // console.log(o)
             if(o) this.updateChart()
         },
         categories(o,n) {
-            // console.log(o)
             if(o) this.updateChart()
         },
     },
@@ -58,11 +56,6 @@ export default {
     },
     methods: {
         updateChart() {
-            this.series = [{ name: "Index", data: this.values }]
-
-            // console.log(this.values)
-            
-            // console.log(this.categories)
             
             this.chartOption = {
                 chart: { height: "600", type: 'line', zoom: { enabled: false } },
@@ -71,6 +64,8 @@ export default {
                 grid: { row: { colors: ['#f3f3f3', 'transparent'],  opacity: 0.5 } },
                 xaxis: { categories: this.categories }
             }
+            this.series = [{ name: "Index", data: this.values }]
+
         }
     },
     mounted() {
