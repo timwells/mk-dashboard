@@ -46,7 +46,7 @@ const sidebarItems= [
 	{title: "Quotes",linkTo: "/quotes"},
 	{title: "Trends",linkTo: "/trends"},
 	{title: "Seeking Alpha",linkTo: "/seeking-alpha"},
-	{title: "Fear & Gread",linkTo: "/fear-n-greed"}
+	{title: "Fear & Greed",linkTo: "/fear-n-greed"}
 ];
 
 export default ({

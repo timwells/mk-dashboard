@@ -16,7 +16,6 @@ const getters = {
 const mutations = {
   SET_NAKED_TRADES: (state, payload) => (state.nakedtrades = payload),
   SET_DATAROMA: (state, payload) => (state.dataroma = payload),
-  SET_DATAROMA_HOLDINGS: (state, payload) => (state.dataromaHoldings = payload),
   SET_DATAROMA_HOLDINGS_MAP: (state, payload) => (state.dataromaHoldingsMap.push(payload))
 };
 

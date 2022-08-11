@@ -13,21 +13,16 @@ import newsfeed from "./modules/newsfeed/newsfeed";
 import sa from "./modules/seekalpha/sa";
 import tradeview from "./modules/tradeview/tradeview";
 import wscrape from "./modules/wscrape/wscrape";
+import crypto from "./modules/crypto/crypto"
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
-    app,
-    auth,
-    funds,
-    markets,
-    quote,
-    trends,
-    indicators,
-    newsfeed,
-    sa,
-    tradeview,
-    wscrape
+    app, auth,
+    funds, markets, quote,
+    trends, indicators, newsfeed,
+    sa, tradeview, wscrape,
+    crypto
   }
 });

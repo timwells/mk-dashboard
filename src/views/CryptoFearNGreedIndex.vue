@@ -1,48 +1,80 @@
 <template>
-    <apexchart height="100%" :options="chartOptions" :series="series"></apexchart>
+    <div>
+        <apexchart height="600" :options="chartOptions" :series="series"></apexchart>
+    </div> 
 </template>
 
 <script>
+import { mapState } from "vuex";
+
+
+/*
+this.$refs.radar.updateSeries([{
+      name: 'Series 1',
+      data: [your_new_data_here] //ie [1,2,3,4]
+}])
+this.$refs.radar.updateOptions({
+      xaxis: {
+        categories: [your_new_categories_here] //ie ["a","b","c","d"]
+      }
+})
+*/
 
 export default {
-    components: {
-        // apexchart: ApexCharts,
+	computed: {
+    	...mapState("crypto", ["values","categories"]),
+	},
+    watch: {
+        values(o,n) {
+            // console.log(o)
+            if(o) this.updateChart()
+        },
+        categories(o,n) {
+            // console.log(o)
+            if(o) this.updateChart()
+        },
     },
     data() {          
         return {
             series: [{
-                name: "Desktops",
-                data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+                name: "Index",
+                data: []
             }],
             chartOptions: {
-                chart: {
-                height: 350,
-                type: 'line',
-                zoom: {
-                    enabled: false
-                }
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    curve: 'straight'
-                },
-                title: {
-                    text: '',
-                    align: 'left'
-                },
+                chart: { height: '600', type: 'line', zoom: { enabled: false } },
+                dataLabels: { enabled: false },
+                stroke: { curve: 'straight' },
                 grid: {
                     row: {
-                        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                        colors: ['#f3f3f3', 'transparent'], 
                         opacity: 0.5
                     },
                 },
                 xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                    categories: []
                 }
             }
         }
+    },
+    methods: {
+        updateChart() {
+            this.series = [{ name: "Index", data: this.values }]
+
+            // console.log(this.values)
+            
+            // console.log(this.categories)
+            
+            this.chartOption = {
+                chart: { height: "600", type: 'line', zoom: { enabled: false } },
+                dataLabels: { enabled: false },
+                stroke: { curve: 'straight' },
+                grid: { row: { colors: ['#f3f3f3', 'transparent'],  opacity: 0.5 } },
+                xaxis: { categories: this.categories }
+            }
+        }
+    },
+    mounted() {
+	    this.$store.dispatch("crypto/getIndex");
     }
 }
 </script>
