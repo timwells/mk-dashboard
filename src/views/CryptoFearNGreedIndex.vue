@@ -40,12 +40,8 @@ export default {
     },
     methods: {
         updateChart() {
-            var vm = this;
-            vm.chartOptions = {
-                ...vm.chartOptions, 
-                ...{ xaxis: { categories: this.categories } }
-            };
-            vm.series = [{ name: "Index", data: this.values }]
+            this.chartOptions = { ...this.chartOptions, ...{ xaxis: { categories: this.categories } }};
+            this.series = [{ name: "Index", data: this.values }]
         }
     },
     mounted() {
