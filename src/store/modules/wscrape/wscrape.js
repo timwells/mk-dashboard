@@ -4,7 +4,7 @@ const API_KEY = process.env.VUE_APP_FINTECH_API_KEY;
 const HEADERS = { 'x-api-key' : API_KEY }
 
 const state = {
-  nakedtrades: [],
+  nakedTrades: [],
   dataroma: [],
   dataromaHoldingsMap: []
 };
@@ -14,7 +14,8 @@ const getters = {
 }
 
 const mutations = {
-  SET_NAKED_TRADES: (state, payload) => (state.nakedtrades = payload),
+  SET_NAKED_TRADES: (state, payload) => (state.nakedTrades = payload),
+
   SET_DATAROMA: (state, payload) => (state.dataroma = payload),
   SET_DATAROMA_HOLDINGS_MAP: (state, payload) => (state.dataromaHoldingsMap.push(payload))
 };
@@ -26,6 +27,8 @@ const actions = {
         .then(response => { commit("SET_NAKED_TRADES", response.data) })
   },
 
+
+  
   getDataroma({ commit }) {
     commit("SET_DATAROMA", []);
     axios.get('https://us-central1-mk-d-b59f2.cloudfunctions.net/fintech/v1/scrape/dataroma',{ headers: HEADERS })

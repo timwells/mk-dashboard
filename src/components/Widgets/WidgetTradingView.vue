@@ -31,15 +31,11 @@ export default {
   }),
   methods: {},
   beforeMount () {
-    let r = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    let r = Math.random().toString(36).substring(2, 15) + "-" + Math.random().toString(36).substring(2, 15);
     this.id = `${preFixId}_${r}`
     this.idc = `${preFixContainerId}_${r}`
-    console.log("WidgetTradingView:beforeMount",this.id,this.idc)
   },
-  beforeUnmount() {
-    console.log("WidgetTradingView:beforeUnmount",this.id)
-    // this.$root.$el.parentNode.removeChild(this.$root.$el)
-  },
+  beforeUnmount() {},
   mounted () {
     // https://uk.tradingview.com/widget/advanced-chart/
     const options = {
@@ -58,18 +54,10 @@ export default {
       'news': [ 'headlines' ],
       // https://stackoverflow.com/questions/65940103/how-to-override-the-studies-of-the-tradingview-widget
       'studies': [
-        {
-          id: "MASimple@tv-basicstudies",
-          inputs: { length: 200 }
-        },{
-          id: "MASimple@tv-basicstudies",
-          inputs: { length: 100 }
-        },{
-          id: "MASimple@tv-basicstudies",
-          inputs: { length: 50 }
-        },{
-          id: 'StochasticRSI@tv-basicstudies',
-        }
+        { id: "MASimple@tv-basicstudies", inputs: { length: 200 }},
+        { id: "MASimple@tv-basicstudies", inputs: { length: 100 }},
+        { id: "MASimple@tv-basicstudies", inputs: { length: 50 }},
+        { id: 'StochasticRSI@tv-basicstudies'}
       ],
       'container_id': this.id
     }
@@ -77,6 +65,8 @@ export default {
     const TradingViewWidget = window.TradingView.widget
     // eslint-disable-next-line no-new
     new TradingViewWidget(options)
+
+    this.$emit('container', this.idc)
   }
 }
 
