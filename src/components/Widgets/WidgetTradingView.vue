@@ -1,12 +1,14 @@
 <template>
-  <div class="tradingview-widget-container">
-    <div :id="id"></div>
+    <div :id="idc" class="tradingview-widget-container">
+      <div :id="id"></div>
   </div>
 </template>
 
 <script>
 // https://www.tradingview.com/widget/advanced-chart/
-const preFix = 'tradingview_'
+
+const preFixContainerId = 'tvc_'
+const preFixId = 'tvi_'
 
 export default {
   props: {
@@ -24,16 +26,20 @@ export default {
     },
   },
   data: () => ({
+    idc: '',
     id: ''
   }),
   methods: {},
-
   beforeMount () {
-    this.id = `${preFix}_${Math.random().toString(36)}`
+    let r = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    this.id = `${preFixId}_${r}`
+    this.idc = `${preFixContainerId}_${r}`
+    console.log("WidgetTradingView:beforeMount",this.id,this.idc)
   },
-
-  // https://stackoverflow.com/questions/67294294/passing-own-data-to-trading-view
-
+  beforeUnmount() {
+    console.log("WidgetTradingView:beforeUnmount",this.id)
+    // this.$root.$el.parentNode.removeChild(this.$root.$el)
+  },
   mounted () {
     // https://uk.tradingview.com/widget/advanced-chart/
     const options = {
@@ -52,7 +58,6 @@ export default {
       'news': [ 'headlines' ],
       // https://stackoverflow.com/questions/65940103/how-to-override-the-studies-of-the-tradingview-widget
       'studies': [
-        // { id: "BB@tv-basicstudies", inputs: { length: 25}},
         {
           id: "MASimple@tv-basicstudies",
           inputs: { length: 200 }
@@ -62,8 +67,7 @@ export default {
         },{
           id: "MASimple@tv-basicstudies",
           inputs: { length: 50 }
-        },
-        {
+        },{
           id: 'StochasticRSI@tv-basicstudies',
         }
       ],

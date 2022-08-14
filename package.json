@@ -13,7 +13,7 @@
     "deploy": "firebase deploy --only hosting"
   },
   "dependencies": {
-    "ant-design-vue": "1.7.6",
+    "ant-design-vue": "1.7.8",
     "apexcharts": "^3.35.4",
     "axios": "^0.27.2",
     "chart.js": "3.4.1",

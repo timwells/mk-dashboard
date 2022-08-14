@@ -24,6 +24,9 @@ export default ({
 	data() {
 		return {}
 	},
-	methods: {}		
+	methods: {},
+	mounted() {
+		console.log("mounted:",this.symbol);
+	}	
 })
 </script>
