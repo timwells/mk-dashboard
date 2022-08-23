@@ -7,6 +7,7 @@
 				:pagination="pagination"
 				:rowKey="(record,index) => index"
 				@expand="onExpand"
+				@expandedRowsChange="expandedRowsChange"
 				class='table table-small' style="margin: 0; background-color: white;">
 				
 				<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
@@ -55,6 +56,8 @@ import WidgetTradingView from "@/components/Widgets/WidgetTradingView";
 
 const epicCorrections = [{in:"T17",out:"TM17"}]
 
+// https://blog.katastros.com/a?ID=01750-67585afe-3add-4a2a-929a-d49a26d82b6c
+
 export default ({
 	components: {
 		WidgetTradingView
@@ -67,15 +70,18 @@ export default ({
 			fundsColumns,
 			pagination: { 
 				pageSize: 10, onChange: (p) => {
+					/*
 					for(let i=0; i < this.expandedIdList.length; i++) {
 						var e = document.getElementById(this.expandedIdList[i]); 
 						console.log(this.expandedIdList[i],e);
 						e.removeChild(e.children[0]);	
 					}
 					this.expandedIdList = []
+					*/
 				},
 			},
-			expandedIdList: []
+			expandedIdList: [],
+			expandedRowKeys: []
 		}
 	},
 	methods: {
@@ -87,7 +93,16 @@ export default ({
 		},
    		onExpand(exp,r) { 
 			console.log("onExpand: ",exp,r);
+			if(!exp) {
+				//console.log("onExpand - DELETE-1",this.$children)
+				// console.log("onExpand - DELETE-2",this)
+				//console.log("onExpand - DELETE-2",this.$destroy())
+				// this.$el.children.removeChild(this.$el)
+			}
 			// console.log(this.$refs.tt)
+		},
+		expandedRowsChange(r) {
+			console.log("expandedRowsChange:",r)
 		},
 		customRow(record) {
       		return { on: { click: event => { console.log("customRow:",event, record);}} };

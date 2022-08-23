@@ -1,37 +1,41 @@
 [
 {
-  "title": "VIX","url":"https://d3fy651gv2fhd3.cloudfront.net/embed/?s=vixcls%3afred&lbl=0&v=202206200913V20220312&d1=20120622&h=300&w=1000",
+  "title": "VIX",
+  "url":"https://d3fy651gv2fhd3.cloudfront.net/embed/?s=vixcls%3afred&lbl=0&v=202208190904V20220312&d1=20210819&type=type=line",
   "type":"iframe"
 },
 {
-  "title":"UK Interest Rates", "url": "https://d3fy651gv2fhd3.cloudfront.net/embed/?s=ukbrbase&v=202206161123V20220312&d1=20120622&h=300&w=1000",
+  "title": "United Kingdom Mortgage Approvals",
+  "url":"https://d3fy651gv2fhd3.cloudfront.net/embed/?s=unitedkinmorapp&v=202207290838V20220312&d1=20120825&type=type=line",
+  "type":"iframe"
+},
+{
+  "title":"UK Interest Rates", 
+  "url": "https://tradingeconomics.com/embed/?s=ukbrbase&v=202208041145v20220312&&ref=/united-kingdom/interest-rate",
   "type": "iframe"
-},
-{
-  "title":"UK Employment","url": "https://d3fy651gv2fhd3.cloudfront.net/embed/?s=unitedkinfultimemp&v=202206140815V20220312&d1=20120622&h=300&w=1000",
+},{
+  "title":"UK Employment",
+  "url": "https://d3fy651gv2fhd3.cloudfront.net/embed/?s=unitedkinempper&v=202208160700V20220312&d1=19970825&type=type=line",
   "type": "iframe"
-},
-{
-  "title": "UK Housing Index","url":"https://d3fy651gv2fhd3.cloudfront.net/embed/?s=unitedkinhouind&v=202206111009V20220312&d1=20120622&h=300&w=1000",
+},{
+  "title":"UK Un-Employment Forecast",
+  "url": "https://d3fy651gv2fhd3.cloudfront.net/embed/?s=ukueilor&v=202208161058V20220312&d1=20120822&type=type=line",
+  "type": "iframe"
+},{
+  "title": "UK Housing Index",
+  "url":"https://d3fy651gv2fhd3.cloudfront.net/embed/?s=unitedkinnathoupri&v=202208020624V20220312&d1=19970825&type=type=line",
   "type":"iframe"
-},
-{
-  "title":"UK Inflation","url": "https://www.statista.com/graphic/1/306720/cpi-rate-forecast-uk.jpg",
+},{
+  "title":"UK Inflation",
+  "url": "https://www.statista.com/graphic/1/306720/cpi-rate-forecast-uk.jpg",
   "type": "img"
-},
-{
-  "title": "UK CPI","url": "https://www.statista.com/graphic/1/281724/consumer-price-index-cpi-united-kingdom.jpg",
+},{
+  "title": "UK CPI",
+  "url": "https://www.statista.com/graphic/1/281724/consumer-price-index-cpi-united-kingdom.jpg",
   "type": "img"
-},
-
-{
-  "title" : "UK House Price 2",
-  "url" : "https://datahub.io/core/house-prices-uk/view/0",
-  "type":"iframe"
-},
-
-{
-  "title":"Fear & Greed","url":"https://alternative.me/crypto/fear-and-greed-index.png",
+},{
+  "title":"Fear & Greed",
+  "url":"https://alternative.me/crypto/fear-and-greed-index.png",
   "type":"img"
 }
 ]
