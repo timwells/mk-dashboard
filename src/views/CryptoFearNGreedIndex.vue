@@ -1,51 +1,27 @@
 <template>
     <div>
-        <apexchart height="auto" :options="chartOptions" :series="series"></apexchart>
-    </div> 
+        <div>
+            <CardIndicatorInfo title="Rainbow" :url='url' type="iframe" height="680"/>
+        </div>
+        <div>
+            <CardFearAGreedIndex title="Fear & Greed Index"></CardFearAGreedIndex>
+        </div>
+    </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import CardIndicatorInfo from '@/components/Cards/CardIndicatorInfo';
+import CardFearAGreedIndex from '@/components/Cards/CardFearAGreedIndex';
 
 export default {
-	computed: {
-    	...mapState("crypto", ["values","categories"]),
-	},
-    watch: {
-        values(o,n) {
-            if(o) this.updateChart()
-        },
-        categories(o,n) {
-            if(o) this.updateChart()
-        },
+    components:{
+        CardIndicatorInfo,
+        CardFearAGreedIndex
     },
     data() {          
         return {
-            series: [{name: "Index", data: [] }],
-            chartOptions: {
-                chart: { height: 'auto', type: 'line', zoom: { enabled: false } },
-                dataLabels: { enabled: false },
-                stroke: { curve: 'straight',  width: 1 },
-                grid: {
-                    row: {
-                        colors: ['#f3f3f3', 'transparent'], 
-                        opacity: 0.5
-                    },
-                },
-                xaxis: {
-                    categories: []
-                }
-            }
+            url: 'https://www.blockchaincenter.net/static/rainbow-chart.html'
         }
-    },
-    methods: {
-        updateChart() {
-            this.chartOptions = { ...this.chartOptions, ...{ xaxis: { categories: this.categories } }};
-            this.series = [{ name: "Index", data: this.values }]
-        }
-    },
-    mounted() {
-	    this.$store.dispatch("crypto/getIndex");
     }
 }
 </script>
