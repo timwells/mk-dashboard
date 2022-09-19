@@ -4,19 +4,25 @@
     "VANTAGE:SP500",
     "NASDAQ:QQQ",
 
+    "###Gold",
+    "LSE:SRB",
+
     "###Energy",
     "LSE:SQZ",
     "LSE:SAVE",
     "LSE:BP.",
+    "LSE:SENX",
 
     "###Stock",
     "LSE:DIVI",
     "LSE:AV.",
+    "LSE:LGEN",
     "LSE:RR.",
     "LSE:WIX",
     "LSE:AFC",
     "LSE:ARB",
     "LSE:PXC",
+    "LSE:SNR",
 
     "###Crypto",
     "COINBASE:BTCGBP",
