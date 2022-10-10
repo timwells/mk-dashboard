@@ -6,10 +6,7 @@ const axios = require('axios');
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const { performance } = require('perf_hooks');
-const yF2 = require("yahoo-finance2").default;
 const { config } = require("./config");
-const { strictEqual } = require("assert");
 
 const VERSION = "0.0.7";
 const API_KEY_NAME = "x-api-key"
@@ -48,3 +45,10 @@ app.get('/v1/scrape/:site', (request, response) => {
 
 // Expose Express API as a single Cloud Function:
 exports.fintech = functions.https.onRequest(app);
+
+// const { scheduledFunction, job } = require("./jobs/job")
+const { job } = require("./jobs/job")
+exports.jobtech = job;
+
+
+// exports.scheduledFunction = scheduledFunction;
