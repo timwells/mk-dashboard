@@ -46,9 +46,9 @@ app.get('/v1/scrape/:site', (request, response) => {
 // Expose Express API as a single Cloud Function:
 exports.fintech = functions.https.onRequest(app);
 
-// const { scheduledFunction, job } = require("./jobs/job")
-const { job } = require("./jobs/job")
-exports.jobtech = job;
+const { scheduledFunction } = require("./jobs/job")
+// const { job } = require("./jobs/job")
+// exports.jobtech = job;
 
 
-// exports.scheduledFunction = scheduledFunction;
+exports.scheduledFunction = scheduledFunction;
