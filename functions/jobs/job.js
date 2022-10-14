@@ -59,18 +59,22 @@ app.get('/rdb5', async (request, response) => {
     return response.status(200).json(stocks)    
 })
 
-// https://crontab.guru/#0_8-16_*_*_1-5
-// 0 8-16 * * 1-5
 exports.job = functions.https.onRequest(app);
 
-exports.scheduledFunction = functions.pubsub.schedule('0 8-16 * * 1-5')
+// https://crontab.guru/#0_8-16_*_*_1-5
+// 0 8-16 * * 1-5
+// TimeZone = Europe/London
+
+exports.scheduledFunction = functions.pubsub
+    .schedule('0 8-16 * * 1-5')
+    .timeZone("Europe/London")
     .onRun(async (context) => {
         const db = getDatabase();
         const watchRef = db.ref('stocks/watch');
         const snapshot = await watchRef.once('value');
         const obj = snapshot.val();
         let stocks = [];
-    
+        
         try {
             for(let i = 0; i < obj.length; i++) {
                 const ts = new Date();
@@ -82,8 +86,6 @@ exports.scheduledFunction = functions.pubsub.schedule('0 8-16 * * 1-5')
                 await db.ref(`stocks/watch/${i}/tp`).set(bTrigger)
                 await db.ref(`stocks/watch/${i}/ts`).set(ts.toISOString())
             }
-        } catch (e) {
-            return // response.status(500).json([])    
-        }
-        return // response.status(200).json(stocks)    
+        } catch (e) { return }
+        return
     });
