@@ -1,12 +1,15 @@
+import { Divider } from "ant-design-vue";
 import axios from "axios";
 
+const CLOUD_FUNCTION_URL = process.env.VUE_APP_FIREBASE_FUNCTION_URL;
 const API_KEY = process.env.VUE_APP_FINTECH_API_KEY;
 const HEADERS = { 'x-api-key' : API_KEY }
 
 const state = {
   nakedTrades: [],
   dataroma: [],
-  dataromaHoldingsMap: []
+  dataromaHoldingsMap: [],
+  dividendData: []
 };
 
 const getters = {
@@ -15,7 +18,7 @@ const getters = {
 
 const mutations = {
   SET_NAKED_TRADES: (state, payload) => (state.nakedTrades = payload),
-
+  SET_DIVIDEND_DATA: (state, payload) => (state.dividendData = payload),
   SET_DATAROMA: (state, payload) => (state.dataroma = payload),
   SET_DATAROMA_HOLDINGS_MAP: (state, payload) => (state.dataromaHoldingsMap.push(payload))
 };
@@ -23,19 +26,21 @@ const mutations = {
 const actions = {
   getNakedTrades({ commit }) {
     commit("SET_NAKED_TRADES", []);
-    axios.get('https://us-central1-mk-d-b59f2.cloudfunctions.net/fintech/v1/scrape/nt',{ headers: HEADERS })
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/nt`,{ headers: HEADERS })
         .then(response => { commit("SET_NAKED_TRADES", response.data) })
   },
-
-
-  
+  getDividendData({ commit }) {
+    commit("SET_DIVIDEND_DATA", []);
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/dividenddata`,{ headers: HEADERS })
+        .then(response => { commit("SET_DIVIDEND_DATA", response.data) })
+  },
   getDataroma({ commit }) {
     commit("SET_DATAROMA", []);
-    axios.get('https://us-central1-mk-d-b59f2.cloudfunctions.net/fintech/v1/scrape/dataroma',{ headers: HEADERS })
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/dataroma`,{ headers: HEADERS })
         .then(response => { commit("SET_DATAROMA", response.data) })
   },
   getDataromaHoldings({ commit }, { q }) {
-    axios.get(`https://us-central1-mk-d-b59f2.cloudfunctions.net/fintech/v1/scrape/dataroma?q=${q}`,{ headers: HEADERS })
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/dataroma?q=${q}`,{ headers: HEADERS })
         .then(response => { commit("SET_DATAROMA_HOLDINGS_MAP", { key: q, data: response.data }) })
   }
 }

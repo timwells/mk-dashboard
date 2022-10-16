@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app'
+import { getDatabase } from "firebase/database";
 import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -8,12 +9,12 @@ const firebaseConfig = {
   storageBucket: process.env.VUE_APP_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGE_SENDER_ID,
   appId: process.env.VUE_APP_FIREBASE_APP_ID,
+  databaseURL: process.env.VUE_APP_FIREBASE_DATABASE_URL
 };
 
-//initialize the firebase app
-initializeApp(firebaseConfig)
-
+const app = initializeApp(firebaseConfig);
 const auth = getAuth()
+const database = getDatabase(app)
 
 const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
@@ -27,5 +28,6 @@ const getCurrentUser = () => {
 
 export {
   auth,
-  getCurrentUser
+  getCurrentUser,
+  database
 };

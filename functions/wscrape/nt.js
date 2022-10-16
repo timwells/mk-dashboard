@@ -3,9 +3,7 @@ const cheerio = require('cheerio');
 const JSON_FORMAT = "application/json"
 
 const NT_SITE = "https://www.nakedtrader.co.uk/trades.htm";
-const scrapedataversion = (req, res) => {
-    res.status(200).send('scrapedataversion')       
-}
+
 // ["Stock","Epic","Qty","Price","Target","Stop","Buy Date","Sell","Sell","Date","P/L"]
 const scrapedata = (req, res) => {
     axios.get(NT_SITE,{ headers: { Cookie: "nt=1;" } })
@@ -30,6 +28,5 @@ const scrapedata = (req, res) => {
 }
 
 module.exports = {
-    scrapedataversion,
     scrapedata
 }

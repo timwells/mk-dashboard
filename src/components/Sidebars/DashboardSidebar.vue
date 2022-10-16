@@ -37,6 +37,8 @@
 <script>
 const sidebarItems= [
 	{title: "Markets", linkTo: "/dashboard"},
+	{title: "StockWatch",linkTo: "/stock-watch"},
+	{title: "Dividends",linkTo: "/dividend-data"},
 	{title: "Funds",linkTo: "/funds"},
 	{title: "Indicators",linkTo: "/market-indicators"},
 	{title: "News",linkTo: "/news"},

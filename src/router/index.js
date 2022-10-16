@@ -33,6 +33,20 @@ let routes = [
 		meta: { requiresAuth: true }
 	},
 	{
+		path: '/stock-watch',
+		name: 'Stock Watch',
+		layout: "dashboard",
+		component: () => import(/* webpackChunkName: "funds" */'../views/StockWatch.vue'),
+		meta: { requiresAuth: true }
+	},
+	{
+		path: '/dividend-data',
+		name: 'Dividends',
+		layout: "dashboard",
+		component: () => import(/* webpackChunkName: "funds" */'../views/DividendData.vue'),
+		meta: { requiresAuth: true }
+	},
+	{
 		path: '/funds',
 		name: 'Funds',
 		layout: "dashboard",

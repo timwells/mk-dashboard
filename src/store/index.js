@@ -14,6 +14,7 @@ import sa from "./modules/seekalpha/sa";
 import tradeview from "./modules/tradeview/tradeview";
 import wscrape from "./modules/wscrape/wscrape";
 import crypto from "./modules/crypto/crypto"
+import stockwatch from "./modules/stockwatch/stockwatch"
 
 Vue.use(Vuex);
 
@@ -23,6 +24,6 @@ export default new Vuex.Store({
     funds, markets, quote,
     trends, indicators, newsfeed,
     sa, tradeview, wscrape,
-    crypto
+    crypto, stockwatch
   }
 });

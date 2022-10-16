@@ -1,9 +1,13 @@
 const {config} = require("./config")
 const axios = require('axios')
+
+const fetch = require('node-fetch')
+
 const cheerio = require('cheerio');
 const fs = require('fs');
 const fsPromises = fs.promises;
 const { promisify } = require('util');
+const { log } = require("console");
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
 
@@ -143,13 +147,66 @@ async function convertFundDetailsToJson() {
     await writeFileAsync(`./fundSummary.json`,JSON.stringify(fundJson));
 }
 
+// https://www.dividenddata.co.uk/exdividenddate.py?m=alldividends
+// Test Dividend Scan
+
+const DIVIDENDDATA_SITE = "https://www.dividenddata.co.uk/exdividenddate.py?m=alldividends";
+
+async function ScanDividendData() {
+    console.log("Scan Dividend Data");
+    response = await axios.get(DIVIDENDDATA_SITE, { headers: { 
+            Cookie: "cookieconsent_dismissed=yes",
+            Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8', 
+            'Accept-Language': 'en-US,en;q=0.5', 
+            'Sec-Fetch-Dest': 'document', 
+            'Sec-Fetch-Mode': 'navigate', 
+            'Sec-Fetch-Site': 'none', 
+            'Sec-Fetch-User': '?1', 
+            'Upgrade-Insecure-Requests': '1', 
+            'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:90.0) Gecko/20100101 Firefox/90.0'
+    }});
+    
+// 0 EPIC 
+// 1 Name 
+// 2 Market	
+// 3 Share Price	
+// 4 Dividend 
+// 5 Div Impact 
+// 6 Declaration Date 
+// 7 Ex-Dividend Date 
+// 8 Payment Date        
+
+    body = await response.data;
+    const $ = cheerio.load(body)
+
+    const tableRows = $("body > section:nth-child(1) > div:nth-child(3) > div > div.table-responsive > table > tbody > tr"); 
+    let dividendData = []
+    
+    tableRows.each((idx, el) => {
+        const rowCols = $(el).children("td")
+        let dividendObj = {
+            epic : rowCols[0].children[0].data,
+            name : rowCols[1].children[0].data,
+            market : rowCols[2].children[0].data,
+            price : rowCols[3].children[0].data,
+            dividend : rowCols[4].children[0].data,
+            exdividenddate : rowCols[7].children[0].data
+        }
+        dividendData.push(dividendObj)
+    })
+
+    console.log(dividendData)
+}
+
 (async () => {
     // await BuildFundList();
     // await GetFundDetails();
     // await SaveFundDetails();
     // await convertFundDetailsToJson();
-    await GetFundDetail(0,"aberdeen-standard-global","https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/a/aberdeen-standard-global-innovation-equity-accumulation")
-        
+    // await GetFundDetail(0,"aberdeen-standard-global","https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/a/aberdeen-standard-global-innovation-equity-accumulation")
+
+    await ScanDividendData();
+
     console.log("done");
 })();
   
