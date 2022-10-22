@@ -14,7 +14,6 @@
 					<a-row :gutter="24" type="flex">
 						<a-col :span="18">
 							<WidgetTradingView :symbol="fullSymbol(record.epic)" @container="container"></WidgetTradingView>
-							<!--CardTraderChart :symbol="fullSymbol(record.epic)"></CardTraderChart-->
 						</a-col>						
 						<a-col :span="6">
 							<!--CardTraderBrokerInfo :symbol="fullSymbol(record.epic)"></CardTraderBrokerInfo-->

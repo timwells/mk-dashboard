@@ -60,7 +60,7 @@ export default {
       'width': '100%',
       'height': this.height,
       'symbol': this.stock,
-      'interval': 'D',
+      'interval': 'W',
       'timezone': 'Europe/London',
       'theme': 'light',
       'style': '8',

@@ -42,7 +42,7 @@ export default {
       'width': '100%',
       'height': this.height,
       'symbol': this.symbol,
-      'interval': 'D',
+      'interval': 'W',
       'timezone': 'Europe/London',
       'theme': 'light',
       'style': '8',

@@ -4,17 +4,34 @@
 			<a-table ref="tt" v-if="stockWatches"
 				:columns="stockWatchColumns" 
 				:data-source="stockWatches" 
-				:pagination="pagination"
 				:rowKey="(record,index) => index"
+				@expand="onExpand"
+				@expandedRowsChange="expandedRowsChange"
 				class='table table-small' style="margin: 0; background-color: white;">
 
-				<template slot="epic" slot-scope="epic"><p class="m-0 font-regular text-muted">{{ epic }}</p></template>
-				<template slot="price" slot-scope="price"><p class="m-0 font-regular text-muted">{{ price }}</p></template>				
+				<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
+					<a-row :gutter="24" type="flex">
+						<a-col :span="18">
+							<WidgetTradingView :symbol="fullSymbol(record.n)" @container="container"></WidgetTradingView>
+						</a-col>						
+						<a-col :span="6">
+							<!--CardTraderBrokerInfo :symbol="fullSymbol(record.epic)"></CardTraderBrokerInfo-->
+						</a-col>						
+					</a-row>
+				</template>
+
+				<template slot="epic" slot-scope="epic">
+					<p class="m-0 font-regular text-muted">{{ epic }}</p></template>
+				<template slot="price" slot-scope="price">
+					<p class="m-0 font-regular text-muted">{{ price }}</p></template>				
 				<template slot="buy" slot-scope="tp">
-					<p class="m-0 font-regular text-muted">
-						{{ tp }}
-					</p></template>
-				<template slot="timestamp" slot-scope="timestamp"><p class="m-0 font-regular text-muted">{{ timestamp }}</p></template>	
+					<p class="m-0 font-regular text-muted">{{ tp }}</p>
+				</template>
+				<template slot="trigger" slot-scope="trigger">
+					<p class="m-0 font-regular text-muted">{{ trigger }}</p>
+				</template>
+				<template slot="timestamp" slot-scope="timestamp">
+					<p class="m-0 font-regular text-muted">{{ timestamp }}</p></template>	
 			</a-table>
 		</a-col>
 	</a-row>
@@ -33,18 +50,21 @@
   }
 */
 
-const stockWatchColumns = 
-[
+const stockWatchColumns = [
 	{ title: 'Epic', dataIndex: 'n', scopedSlots: { customRender: 'epic' }},
 	{ title: 'Price', dataIndex: 'v', scopedSlots: { customRender: 'price' }},
+	{ title: 'Trigger', dataIndex: 'h', scopedSlots: { customRender: 'trigger' }},
 	{ title: 'Buy', dataIndex: 'tp',scopedSlots: { customRender: 'buy' }},
 	{ title: 'TimeStamp', dataIndex: 'ts',scopedSlots: { customRender: 'timestamp' }}
 ];
+const epicCorrections = [{in:"T17",out:"TM17"}]
 
 import { mapState } from "vuex";
+import WidgetTradingView from "@/components/Widgets/WidgetTradingView";
 
 export default ({
 	components: {
+		WidgetTradingView
 	},
 	computed: {
     	...mapState("stockwatch", ["stockWatches"])	
@@ -66,6 +86,12 @@ export default ({
 		}
 	},
 	methods: {
+		fullSymbol(epic) {
+			// fix epics
+			const nEpic = epicCorrections.find(e => (epic == e.in))		
+			if(nEpic) return "LSE:" + nEpic.out; 
+			return "LSE:" + epic.split(".")[0]; 
+		},
 	},	
 	mounted() {
 		this.$store.dispatch("stockwatch/getStockWatches");

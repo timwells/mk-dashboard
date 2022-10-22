@@ -2,24 +2,6 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const { getDatabase } = require('firebase-admin/database');
 
-// admin.initializeApp(functions.config().firebase);
-
-/*
-app.post('/v1/event', (request, response) => {
-    if(isApiKeyValid(request,API_KEY_NAME,config.apiKeys)) {
-       const epoch = epochId2();
-       const db = getDatabase();      
-       const updates = {};
-       updates[`events/${epoch.date}/${epoch.hr}/counts`] = admin.database.ServerValue.increment(1);
-       updates[`events/${epoch.date}/total`] = admin.database.ServerValue.increment(1);
-       db.ref().update(updates);
- 
-       return response.status(200).json('ok');
- 
-    } else return unauthorized(response)
- })
-*/
-
 const yF2 = require("yahoo-finance2").default;
 const express = require('express');
 const cors = require('cors');
@@ -61,12 +43,12 @@ app.get('/rdb5', async (request, response) => {
 
 exports.job = functions.https.onRequest(app);
 
-// https://crontab.guru/#0_8-16_*_*_1-5
+// https://crontab.guru/#0_8-17_*_*_1-5
 // 0 8-16 * * 1-5
 // TimeZone = Europe/London
 
 exports.scheduledFunction = functions.pubsub
-    .schedule('0 8-16 * * 1-5')
+    .schedule('0 8-17 * * 1-5')
     .timeZone("Europe/London")
     .onRun(async (context) => {
         const db = getDatabase();
