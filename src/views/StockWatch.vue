@@ -93,7 +93,8 @@ export default ({
 			// fix epics
 			const nEpic = epicCorrections.find(e => (epic == e.in))		
 			if(nEpic) return "LSE:" + nEpic.out; 
-			return "LSE:" + epic.split(".")[0]; 
+			// remove ".L"
+			return "LSE:" + epic.slice(0,-2);
 		},
 		expandedRowsChange(r) {
 			console.log("expandedRowsChange:",r)
