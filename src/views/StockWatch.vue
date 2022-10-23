@@ -3,7 +3,8 @@
 		<a-col :span="24" class="mb-24">			
 			<a-table ref="tt" v-if="stockWatches"
 				:columns="stockWatchColumns" 
-				:data-source="stockWatches" 
+				:data-source="stockWatches"
+				:pagination="pagination"
 				:rowKey="(record,index) => index"
 				@expand="onExpand"
 				:rowClassName="rowColor"
@@ -74,16 +75,16 @@ export default ({
 	data() {
 		return {
 			stockWatchColumns,
-			/*
+			
 			pagination: { 
-				pageSize: 10, onChange: (p) => {
+				pageSize: 200, onChange: (p) => {
 					for(let i=0; i < this.expandedIdList.length; i++) {
 						var e = document.getElementById(this.expandedIdList[i]); 
 						e.removeChild(e.children[0]);	
 					}
 					this.expandedIdList = []
 				},
-			},*/
+			},
 			expandedIdList: [],
 			expandedRowKeys: []
 		}
