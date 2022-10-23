@@ -1,0 +1,14 @@
+[debug] [2022-10-23T10:38:23.785Z] ----------------------------------------------------------------------
+[debug] [2022-10-23T10:38:23.788Z] Command:       C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting
+[debug] [2022-10-23T10:38:23.789Z] CLI Version:   11.15.0
+[debug] [2022-10-23T10:38:23.789Z] Platform:      win32
+[debug] [2022-10-23T10:38:23.790Z] Node Version:  v16.12.0
+[debug] [2022-10-23T10:38:23.806Z] Time:          Sun Oct 23 2022 11:38:23 GMT+0100 (British Summer Time)
+[debug] [2022-10-23T10:38:23.807Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-10-23T10:38:23.915Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-10-23T10:38:23.916Z] > authorizing via signed-in user (timwells018@googlemail.com)
+[debug] [2022-10-23T10:38:23.916Z] [iam] checking project mk-d-b59f2 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2022-10-23T10:38:23.922Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/mk-d-b59f2:testIamPermissions [none]
+[debug] [2022-10-23T10:38:23.922Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/mk-d-b59f2:testIamPermissions x-goog-quota-user=projects/mk-d-b59f2
+[debug] [2022-10-23T10:38:23.923Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mk-d-b59f2:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
