@@ -1,7 +1,8 @@
 <template>
 	<a-row :gutter="24" type="flex">
-		<a-col :span="24" class="mb-24">			
-			<a-table ref="tt" v-if="dividendData"
+		<a-col :span="24" class="mb-24">
+			<a-table
+				:loading="loading"
 				:columns="dividendColumns" 
 				:data-source="dividendData" 
 				:pagination="pagination"
@@ -58,8 +59,14 @@ export default ({
 	computed: {
     	...mapState("wscrape", ["dividendData"])	
 	},
+	watch: {
+        dividendData(o,n) {
+			this.loading = this.dividendData.length > 0 ? false: true
+		},
+    },
 	data() {
 		return {
+			loading: true,
 			dividendColumns,
 			pagination: { 
 				pageSize: 200, onChange: (p) => {
@@ -82,16 +89,17 @@ export default ({
 			return "LSE:" + epic
 		},
 		expandedRowsChange(r) {
-			console.log("expandedRowsChange:",r)
+			// console.log("expandedRowsChange:",r)
 		},
 		onExpand(exp,r) { 
-			console.log("onExpand: ",exp,r);
+			// console.log("onExpand: ",exp,r);
 		},
 	},	
 	mounted() {
-		this.$store.dispatch("wscrape/getDividendData");
+		this.loading = true
+		this.$store.dispatch("wscrape/getDividendData")
 	}
 })
 </script>
 
-<style lang="scss"></style>
+<style></style>

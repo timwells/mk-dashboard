@@ -1,18 +1,17 @@
 <template>
 	<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
-		<template #title>
+		<!--template #title>
 			<a-row type="flex" align="middle">
 				<a-col :span="24" :md="12">
 					<h5 class="font-semibold m-0">Funds Table</h5>
 				</a-col>
 			</a-row>
-		</template>
+		</template-->
 
 		<a-table 
 			:columns="columns" 
 			:data-source="data" 
 			:pagination="pagination" 
-			:row-selection="rowSelection"
 			:rowKey="record => record.key"
 			class='table table-small' style="margin: 6">
                 <div slot="filterDropdown"
@@ -149,6 +148,7 @@ export default ({
       		clearFilters();
       		this.searchText = "";
     	},
+		// rowSelection() {}
   	}
 })
 

@@ -1,7 +1,8 @@
 <template>
 	<a-row :gutter="24" type="flex">
 		<a-col :span="24" class="mb-24">			
-			<a-table ref="tt" v-if="stockWatches"
+			<a-table
+				:loading="loading"
 				:columns="stockWatchColumns" 
 				:data-source="stockWatches"
 				:pagination="pagination"
@@ -10,6 +11,7 @@
 				:rowClassName="rowColor"
 				@expandedRowsChange="expandedRowsChange"
 				size="small"
+				bordered
 				class='table table-small' style="margin: 0; background-color: white;">
 
 				<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
@@ -72,10 +74,15 @@ export default ({
 	computed: {
     	...mapState("stockwatch", ["stockWatches"])	
 	},
+	watch: {
+        stockWatches(o,n) {
+			this.loading = this.stockWatches.length > 0 ? false: true
+		},
+    },
 	data() {
 		return {
-			stockWatchColumns,
-			
+			loading: true,
+			stockWatchColumns,			
 			pagination: { 
 				pageSize: 200, onChange: (p) => {
 					for(let i=0; i < this.expandedIdList.length; i++) {
@@ -98,10 +105,10 @@ export default ({
 			return "LSE:" + epic.slice(0,-2);
 		},
 		expandedRowsChange(r) {
-			console.log("expandedRowsChange:",r)
+			// console.log("expandedRowsChange:",r)
 		},
 		onExpand(exp,r) { 
-			console.log("onExpand: ",exp,r);
+			// console.log("onExpand: ",exp,r);
 		},
 		rowColor(row) {
 			if(row.tp) return "tiggered"
@@ -112,6 +119,7 @@ export default ({
 		}
 	},	
 	mounted() {
+		this.loading = true
 		this.$store.dispatch("stockwatch/getStockWatches");
 	}
 })

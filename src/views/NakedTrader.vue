@@ -1,8 +1,9 @@
 <template>
 	<a-row :gutter="24" type="flex">
 		<a-col :span="24" class="mb-24">
-			<a-table ref="tt" v-if="nakedTrades"
-				:columns="fundsColumns" 
+			<a-table
+				:loading="loading"
+				:columns="fundsColumns"
 				:data-source="nakedTrades" 
 				:pagination="pagination"
 				:rowKey="(record,index) => index"
@@ -64,8 +65,14 @@ export default ({
 	computed: {
     	...mapState("wscrape", ["nakedTrades"])	
 	},
+	watch: {
+        nakedTrades(o,n) {
+			this.loading = this.nakedTrades.length > 0 ? false: true
+		},
+    },
 	data() {
 		return {
+			loading: true,
 			fundsColumns,
 			pagination: { 
 				pageSize: 200, onChange: (p) => {
@@ -91,7 +98,7 @@ export default ({
 			return "LSE:" + epic; 
 		},
    		onExpand(exp,r) { 
-			console.log("onExpand: ",exp,r);
+			// console.log("onExpand: ",exp,r);
 			if(!exp) {
 				//console.log("onExpand - DELETE-1",this.$children)
 				// console.log("onExpand - DELETE-2",this)
@@ -101,7 +108,7 @@ export default ({
 			// console.log(this.$refs.tt)
 		},
 		expandedRowsChange(r) {
-			console.log("expandedRowsChange:",r)
+			// console.log("expandedRowsChange:",r)
 		},
 		customRow(record) {
       		return { on: { click: event => { console.log("customRow:",event, record);}} };
@@ -112,6 +119,7 @@ export default ({
 		}
 	},	
 	mounted() {
+		this.loading = true;
 		this.$store.dispatch("wscrape/getNakedTrades");
 	}
 })

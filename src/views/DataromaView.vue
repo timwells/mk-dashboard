@@ -2,7 +2,8 @@
 
   <a-row :gutter="24" type="flex">
 		<a-col :span="24" class="mb-24">
-			<a-table v-if="dataroma"
+			<a-table
+				:loading="loading"
 				:columns="sivcols" 
 				:data-source="dataroma" 
 				:pagination="pagination"
@@ -21,7 +22,6 @@
 				<template slot="lastUpdate" slot-scope="lastUpdate">
 					<p class="m-0 font-regular text-muted">{{ lastUpdate }}</p>
 				</template>
-
 			</a-table>
 		</a-col>
 	</a-row>
@@ -45,24 +45,31 @@ import DataromaHoldingsView from '@/views/DataromaHoldingsView.vue';
 
 export default ({
 	components: {
-    DataromaHoldingsView
-  },
+    	DataromaHoldingsView
+  	},
 	computed: {
     	...mapState("wscrape", ["dataroma"])	
 	},
-  data() {
-    return {
+	watch: {
+		dataroma(o,n) {
+			this.loading = this.dataroma.length > 0 ? false: true
+		}
+	},
+  	data() {
+    	return {
+			loading: true,
 			sivcols,
 			pagination: { pageSize: 200 },
-    }
-  },
+    	}
+  	},
 	methods: {
-   	onExpand(record) {
-      // console.log('onExpand:',record)
-  		//this.$store.dispatch("wscrape/getDataromaHoldings",{ q: record.detail });
-    },
-  },
+   		onExpand(record) {
+      		// console.log('onExpand:',record)
+  			//this.$store.dispatch("wscrape/getDataromaHoldings",{ q: record.detail });
+    	},
+  	},
 	mounted() {
+		this.loading = true;
 		this.$store.dispatch("wscrape/getDataroma");
 	}
 })
