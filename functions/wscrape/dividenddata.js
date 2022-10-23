@@ -29,7 +29,10 @@ const scrapedata = (req, res) => {
                     market: rowCols[2].children[0].data,
                     price: rowCols[3].children[0].data,
                     dividend: rowCols[4].children[0].data,
-                    exdividenddate: rowCols[7].children[0].data
+                    impact: rowCols[5].children[0].data,
+                    exdividenddate: rowCols[7].children[0].data,
+                    days: Math.ceil((new Date(Date.parse(rowCols[7].children[0].data+(new Date()).getFullYear()+" 01:00")).getTime()
+                                - (new Date()).getTime())/(1000 * 3600 * 24))    
                 }
                 dividendData.push(dividendObj)
             })

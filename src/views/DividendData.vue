@@ -37,15 +37,37 @@
 </template>
 
 <script>
-//{"epic": "SMIN", "name": "Smiths Group", "market": "FTSE 100", "price": "1506p", "dividend": "27.3p", "exdividenddate": "20-Oct"},
+// {"epic": "SMIN", "name": "Smiths Group", 
+// "market": "FTSE 100", "price": "1506p", 
+// "dividend": "27.3p", "exdividenddate": "20-Oct"},
 
 const dividendColumns = [
 	{ title: 'Epic', dataIndex: 'epic', scopedSlots: { customRender: 'epic' }},
 	{ title: 'Name', dataIndex: 'name', scopedSlots: { customRender: 'name' }},
-	{ title: 'Market', dataIndex: 'market', scopedSlots: { customRender: 'market' }},
+	{ 
+		title: 'Market', 
+		dataIndex: 'market', 
+		sortDirections: ["descend", "ascend"],
+    	sorter: (a, b) => a.market.localeCompare(b.market),
+		scopedSlots: { customRender: 'market' }
+	},
 	{ title: 'Price', dataIndex: 'price', scopedSlots: { customRender: 'price' }},
-	{ title: 'Dividend', dataIndex: 'dividend',scopedSlots: { customRender: 'dividend' }},
-	{ title: 'Ex-Div-Date', dataIndex: 'exdividenddate',scopedSlots: { customRender: 'exdividenddate' }}
+	{ title: 'Impact', dataIndex: 'impact', scopedSlots: { customRender: 'impact' }},
+	{ 
+		title: 'Dividend', 
+		dataIndex: 'dividend', 
+		sortDirections: ["descend", "ascend"],
+    	sorter: (a, b) => a.dividend.localeCompare(b.dividend),		
+		scopedSlots: { customRender: 'dividend' }
+	},
+	{ title: 'Ex-Div-Date', dataIndex: 'exdividenddate', scopedSlots: { customRender: 'exdividenddate' }},
+	{ 
+		title: 'Days', 
+		dataIndex: 'days', 
+		sortDirections: ["descend", "ascend"],
+    	sorter: (a, b) => a.days.localeCompare(b.days),		
+		scopedSlots: { customRender: 'days' }
+	}
 ];
 const epicCorrections = [{in:"T17",out:"TM17"}]
 

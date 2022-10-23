@@ -9,3 +9,6 @@ Firebase Reminder
 * firebase deploy --only hosting
 
 uses https://polygon.io/
+
+Uses Antd vue 2
+https://2x.antdv.com/components/table

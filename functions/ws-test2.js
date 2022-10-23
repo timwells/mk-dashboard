@@ -129,7 +129,7 @@ async function GetFundDetail(i,name,path) {
         fundSummary.push(details)
     }
     catch(e) {
-        console.log("Exeception:",i,name)
+        console.log("Exception:",i,name)
     }
 }
 
@@ -184,18 +184,69 @@ async function ScanDividendData() {
     
     tableRows.each((idx, el) => {
         const rowCols = $(el).children("td")
+        
         let dividendObj = {
             epic : rowCols[0].children[0].data,
             name : rowCols[1].children[0].data,
             market : rowCols[2].children[0].data,
             price : rowCols[3].children[0].data,
             dividend : rowCols[4].children[0].data,
-            exdividenddate : rowCols[7].children[0].data
+            impact : rowCols[5].children[0].data,
+            exdividenddate : rowCols[7].children[0].data,
+            days : Math.ceil((new Date(Date.parse(rowCols[7].children[0].data+(new Date()).getFullYear()+" 01:00")).getTime()
+                    - (new Date()).getTime())/(1000 * 3600 * 24))    
         }
         dividendData.push(dividendObj)
     })
 
     console.log(dividendData)
+}
+
+async function calDateDifference(dateStr) {
+    console.log("calDateDifference:")
+    console.log(dateStr)
+    parsedDate = Date.parse(dateStr);
+    d = new Date(parsedDate)
+    console.log(d.toISOString())
+}
+
+async function calDateDifference2(dateStr) {
+    console.log("calDateDifference2:")
+    timeNow = new Date()
+
+    console.log("iso:",timeNow.toISOString())
+    console.log(timeNow.getFullYear())
+    
+    console.log(dateStr)
+    // var fullDateStr = dateStr +"-" + timeNow.getFullYear() + "T00:00:00.000Z"
+    var fullDateStr = dateStr + timeNow.getFullYear() + " 01:00"
+    console.log(fullDateStr)
+
+    parsedDate = Date.parse(fullDateStr);
+    exDividendDate = new Date(parsedDate)
+    console.log(d.toISOString())
+    var difference = exDividendDate.getTime() - timeNow.getTime()
+    
+    var days = Math.ceil(difference / (1000 * 3600 * 24));
+
+    console.log(days,timeNow.toISOString(),exDividendDate.toISOString())
+}
+
+async function calDateDifference3(dateStr) {
+    console.log("calDateDifference3:")
+    let timeNow = new Date()
+    let exDividendDate = new Date(Date.parse(dateStr + timeNow.getFullYear() + " 01:00"))
+    let daysDiff = Math.ceil((exDividendDate.getTime() - timeNow.getTime())/(1000 * 3600 * 24))    
+    console.log(daysDiff,timeNow.toISOString(),exDividendDate.toISOString())
+}
+
+async function calDateDifference4(dateStr) {
+    console.log("calDateDifference4:")
+    //let timeNow = new Date()
+    //let exDividendDate = new Date(Date.parse(dateStr + (new Date()).getFullYear() + " 01:00"))
+    let daysDiff = Math.ceil((new Date(Date.parse(dateStr+(new Date()).getFullYear()+" 01:00")).getTime() 
+                                - (new Date()).getTime())/(1000 * 3600 * 24))    
+    console.log(daysDiff)
 }
 
 (async () => {
@@ -206,6 +257,9 @@ async function ScanDividendData() {
     // await GetFundDetail(0,"aberdeen-standard-global","https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/a/aberdeen-standard-global-innovation-equity-accumulation")
 
     await ScanDividendData();
+    //calDateDifference("27-Oct")
+    //calDateDifference("27-Oct-2022")
+    //calDateDifference4("27-Oct")
 
     console.log("done");
 })();
