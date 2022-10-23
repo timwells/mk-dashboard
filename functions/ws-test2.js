@@ -183,8 +183,7 @@ async function ScanDividendData() {
     let dividendData = []
     
     tableRows.each((idx, el) => {
-        const rowCols = $(el).children("td")
-        
+        const rowCols = $(el).children("td")        
         let dividendObj = {
             epic : rowCols[0].children[0].data,
             name : rowCols[1].children[0].data,
@@ -192,14 +191,16 @@ async function ScanDividendData() {
             price : rowCols[3].children[0].data,
             dividend : rowCols[4].children[0].data,
             impact : rowCols[5].children[0].data,
-            exdividenddate : rowCols[7].children[0].data,
+            declarationDate: rowCols[6].children[0].data,
+            announcementUrl: rowCols[6].children[0].next.attribs.href,
+            exDividendDate : rowCols[7].children[0].data,
             days : Math.ceil((new Date(Date.parse(rowCols[7].children[0].data+(new Date()).getFullYear()+" 01:00")).getTime()
                     - (new Date()).getTime())/(1000 * 3600 * 24))    
         }
         dividendData.push(dividendObj)
     })
 
-    console.log(dividendData)
+    // console.log(dividendData)
 }
 
 async function calDateDifference(dateStr) {

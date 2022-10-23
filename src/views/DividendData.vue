@@ -13,23 +13,38 @@
 				class='table table-small' style="margin: 0; background-color: white;">
 
 				<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
-					<a-row :gutter="24" type="flex">
-						<a-col :span="24">
+					<a-tabs default-active-key="1">
+    					<a-tab-pane key="1" tab="Trade View">
 							<WidgetTradingView :symbol="fullSymbol(record.epic)" @container="container"></WidgetTradingView>
-						</a-col>						
-						<!--a-col :span="6">
-							<CardTraderBrokerInfo :symbol="fullSymbol(record.epic)"></CardTraderBrokerInfo>
-						</a-col-->						
-					</a-row>
+						</a-tab-pane>
+    					<a-tab-pane key="2" tab="Announcement">
+							<a-card :bordered="false" class="card-info">
+								<div class="card-content">
+									<iframe 
+										:src="record.announcementUrl"
+										title="title" 
+										width="100%" 
+										height="800" 
+										style="border:none;">
+									</iframe>
+								</div>
+							</a-card>
+						</a-tab-pane>
+						<a-tab-pane key="3" tab="Broker View">
+							<WidgetTradingViewBrokerAnalysis 
+								:symbol="fullSymbol(record.epic)">
+							</WidgetTradingViewBrokerAnalysis>
+						</a-tab-pane>
+  					</a-tabs>
 				</template>
-
 
 				<template slot="epic" slot-scope="epic"><p class="m-0 font-regular text-muted">{{ epic }}</p></template>
 				<template slot="name" slot-scope="name"><p class="m-0 font-regular text-muted">{{ name }}</p></template>
 				<template slot="market" slot-scope="market"><p class="m-0 font-regular text-muted">{{ market }}</p></template>
-				<template slot="price" slot-scope="price"><p class="m-0 font-regular text-muted">{{ price }}</p></template>				
+				<template slot="price" slot-scope="price"><p class="m-0 font-regular text-muted">{{ price }}</p></template>
 				<template slot="dividend" slot-scope="dividend"><p class="m-0 font-regular text-muted">{{ dividend }}</p></template>				
-				<template slot="exdividenddate" slot-scope="exdividenddate"><p class="m-0 font-regular text-muted">{{ exdividenddate }}</p></template>				
+				<template slot="declarationDate" slot-scope="declarationDate"><p class="m-0 font-regular text-muted">{{ declarationDate }}</p></template>						
+				<template slot="exDividendDate" slot-scope="exDividendDate"><p class="m-0 font-regular text-muted">{{ exDividendDate }}</p></template>				
 
 			</a-table>
 		</a-col>
@@ -53,6 +68,7 @@ const dividendColumns = [
 	},
 	{ title: 'Price', dataIndex: 'price', scopedSlots: { customRender: 'price' }},
 	{ title: 'Impact', dataIndex: 'impact', scopedSlots: { customRender: 'impact' }},
+	{ title: 'Declaration', dataIndex: 'declarationDate', scopedSlots: { customRender: 'declarationDate' }},
 	{ 
 		title: 'Dividend', 
 		dataIndex: 'dividend', 
@@ -60,7 +76,7 @@ const dividendColumns = [
     	sorter: (a, b) => a.dividend.localeCompare(b.dividend),		
 		scopedSlots: { customRender: 'dividend' }
 	},
-	{ title: 'Ex-Div-Date', dataIndex: 'exdividenddate', scopedSlots: { customRender: 'exdividenddate' }},
+	{ title: 'ExDividend', dataIndex: 'exDividendDate', scopedSlots: { customRender: 'exDividendDate' }},
 	{ 
 		title: 'Days', 
 		dataIndex: 'days', 
@@ -69,14 +85,17 @@ const dividendColumns = [
 		scopedSlots: { customRender: 'days' }
 	}
 ];
+
 const epicCorrections = [{in:"T17",out:"TM17"}]
 
 import { mapState } from "vuex";
 import WidgetTradingView from "@/components/Widgets/WidgetTradingView";
+import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
 
 export default ({
 	components: {
-		WidgetTradingView
+		WidgetTradingView,
+		WidgetTradingViewBrokerAnalysis
 	},
 	computed: {
     	...mapState("wscrape", ["dividendData"])	
@@ -88,6 +107,7 @@ export default ({
     },
 	data() {
 		return {
+			activeKey: 1,
 			loading: true,
 			dividendColumns,
 			pagination: { 
