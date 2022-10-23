@@ -15,14 +15,19 @@
 				class='table table-small' style="margin: 0; background-color: white;">
 
 				<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
-					<a-row :gutter="24" type="flex">
-						<a-col :span="24">
-							<WidgetTradingView :symbol="fullSymbol(record.n)" @container="container"></WidgetTradingView>
-						</a-col>						
-						<!--a-col :span="6">
-							<CardTraderBrokerInfo :symbol="fullSymbol(record.epic)"></CardTraderBrokerInfo>
-						</a-col-->						
-					</a-row>
+					<a-tabs default-active-key="1">
+    					<a-tab-pane key="1" tab="Trade View">
+							<WidgetTradingView 
+								:symbol="fullSymbol(record.n)" 
+								@container="container">
+							</WidgetTradingView>
+						</a-tab-pane>
+						<a-tab-pane key="2" tab="Broker View">
+							<WidgetTradingViewBrokerAnalysis 
+								:symbol="fullSymbol(record.n)">
+							</WidgetTradingViewBrokerAnalysis>
+						</a-tab-pane>
+  					</a-tabs>
 				</template>
 
 				<template slot="epic" slot-scope="epic">
@@ -66,10 +71,12 @@ const epicCorrections = [{in:"T17",out:"TM17"}]
 
 import { mapState } from "vuex";
 import WidgetTradingView from "@/components/Widgets/WidgetTradingView";
+import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
 
 export default ({
 	components: {
-		WidgetTradingView
+		WidgetTradingView,
+		WidgetTradingViewBrokerAnalysis
 	},
 	computed: {
     	...mapState("stockwatch", ["stockWatches"])	
@@ -81,6 +88,7 @@ export default ({
     },
 	data() {
 		return {
+			activeKey: 1,
 			loading: true,
 			stockWatchColumns,			
 			pagination: { 

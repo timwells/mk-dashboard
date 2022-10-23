@@ -15,7 +15,10 @@
 				<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
 					<a-tabs default-active-key="1">
     					<a-tab-pane key="1" tab="Trade View">
-							<WidgetTradingView :symbol="fullSymbol(record.epic)" @container="container"></WidgetTradingView>
+							<WidgetTradingView 
+								:symbol="fullSymbol(record.epic)" 
+								@container="container">
+							</WidgetTradingView>
 						</a-tab-pane>
     					<a-tab-pane key="2" tab="Announcement">
 							<a-card :bordered="false" class="card-info">
@@ -38,13 +41,13 @@
   					</a-tabs>
 				</template>
 
-				<template slot="epic" slot-scope="epic"><p class="m-0 font-regular text-muted">{{ epic }}</p></template>
-				<template slot="name" slot-scope="name"><p class="m-0 font-regular text-muted">{{ name }}</p></template>
-				<template slot="market" slot-scope="market"><p class="m-0 font-regular text-muted">{{ market }}</p></template>
-				<template slot="price" slot-scope="price"><p class="m-0 font-regular text-muted">{{ price }}</p></template>
-				<template slot="dividend" slot-scope="dividend"><p class="m-0 font-regular text-muted">{{ dividend }}</p></template>				
-				<template slot="declarationDate" slot-scope="declarationDate"><p class="m-0 font-regular text-muted">{{ declarationDate }}</p></template>						
-				<template slot="exDividendDate" slot-scope="exDividendDate"><p class="m-0 font-regular text-muted">{{ exDividendDate }}</p></template>				
+				<template slot="epic" slot-scope="epic"><p class="m-0">{{ epic }}</p></template>
+				<template slot="name" slot-scope="name"><p class="m-0">{{ name }}</p></template>
+				<template slot="market" slot-scope="market"><p class="m-0">{{ market }}</p></template>
+				<template slot="price" slot-scope="price"><p class="m-0">{{ price }}</p></template>
+				<template slot="dividend" slot-scope="dividend"><p class="m-0">{{ dividend }}</p></template>				
+				<template slot="declarationDate" slot-scope="declarationDate"><p class="m-0">{{ declarationDate }}</p></template>						
+				<template slot="exDividendDate" slot-scope="exDividendDate"><p class="m-0">{{ exDividendDate }}</p></template>				
 
 			</a-table>
 		</a-col>

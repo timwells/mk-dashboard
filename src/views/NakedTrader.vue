@@ -12,14 +12,19 @@
 				class='table table-small' style="margin: 0; background-color: white;">
 				
 				<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
-					<a-row :gutter="24" type="flex">
-						<a-col :span="18">
-							<WidgetTradingView :symbol="fullSymbol(record.epic)" @container="container"></WidgetTradingView>
-						</a-col>						
-						<a-col :span="6">
-							<!--CardTraderBrokerInfo :symbol="fullSymbol(record.epic)"></CardTraderBrokerInfo-->
-						</a-col>						
-					</a-row>
+					<a-tabs default-active-key="1">
+    					<a-tab-pane key="1" tab="Trade View">
+							<WidgetTradingView 
+								:symbol="fullSymbol(record.epic)" 
+								@container="container">
+							</WidgetTradingView>
+						</a-tab-pane>
+						<a-tab-pane key="2" tab="Broker View">
+							<WidgetTradingViewBrokerAnalysis 
+								:symbol="fullSymbol(record.epic)">
+							</WidgetTradingViewBrokerAnalysis>
+						</a-tab-pane>
+  					</a-tabs>
 				</template>
 
 				<template slot="stock" slot-scope="stock"><p class="m-0 font-regular text-muted">{{ stock }}</p></template>
@@ -53,6 +58,7 @@ const fundsColumns = [
 
 import { mapState } from "vuex";
 import WidgetTradingView from "@/components/Widgets/WidgetTradingView";
+import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
 
 const epicCorrections = [{in:"T17",out:"TM17"}]
 
@@ -60,7 +66,8 @@ const epicCorrections = [{in:"T17",out:"TM17"}]
 
 export default ({
 	components: {
-		WidgetTradingView
+		WidgetTradingView,
+		WidgetTradingViewBrokerAnalysis
 	},
 	computed: {
     	...mapState("wscrape", ["nakedTrades"])	

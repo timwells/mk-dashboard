@@ -11,4 +11,4 @@ Firebase Reminder
 uses https://polygon.io/
 
 Uses Antd vue 2
-https://2x.antdv.com/components/table
+https://1x.antdv.com/components/tabs
