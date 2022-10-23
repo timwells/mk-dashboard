@@ -68,7 +68,7 @@ export default ({
 		return {
 			fundsColumns,
 			pagination: { 
-				pageSize: 10, onChange: (p) => {
+				pageSize: 200, onChange: (p) => {
 					/*
 					for(let i=0; i < this.expandedIdList.length; i++) {
 						var e = document.getElementById(this.expandedIdList[i]); 

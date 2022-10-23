@@ -53,7 +53,7 @@ export default ({
   data() {
     return {
 			sivcols,
-			pagination: { pageSize: 80 },
+			pagination: { pageSize: 200 },
     }
   },
 	methods: {
