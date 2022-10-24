@@ -1,17 +1,22 @@
 [
 {
   "title": "VIX",
-  "url":"https://d3fy651gv2fhd3.cloudfront.net/embed/?s=vixcls%3afred&lbl=0&v=202208190904V20220312&d1=20210819&type=type=line",
+  "url":"https://d3fy651gv2fhd3.cloudfront.net/embed/?s=vixcls%3afred&lbl=0&v=202210190904V20220312&d1=20210819&type=type=line",
+  "type":"iframe"
+},
+{
+  "title": "UK-Inflation",
+  "url":"https://d3fy651gv2fhd3.cloudfront.net/embed/?s=ukrpcjyr&v=202210190644V20220312&d1=19971030&type=type=line",
   "type":"iframe"
 },
 {
   "title": "United Kingdom Mortgage Approvals",
-  "url":"https://d3fy651gv2fhd3.cloudfront.net/embed/?s=unitedkinmorapp&v=202207290838V20220312&d1=20120825&type=type=line",
+  "url":"https://d3fy651gv2fhd3.cloudfront.net/embed/?s=unitedkinmorapp&v=202210240838V20220312&d1=20120825&type=type=line",
   "type":"iframe"
 },
 {
   "title":"UK Interest Rates", 
-  "url": "https://tradingeconomics.com/embed/?s=ukbrbase&v=202208041145v20220312&&ref=/united-kingdom/interest-rate",
+  "url": "https://tradingeconomics.com/embed/?s=ukbrbase&v=202210221145v20220312&&ref=/united-kingdom/interest-rate",
   "type": "iframe"
 },{
   "title":"UK Employment",
