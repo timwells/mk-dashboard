@@ -203,6 +203,51 @@ async function ScanDividendData() {
     // console.log(dividendData)
 }
 
+// https://www.londonstockexchange.com/indices/ftse-100/constituents/heatmap
+const LONDONSTOCK_HEATMAP_SITE = "https://www.londonstockexchange.com/indices/ftse-100/constituents/heatmap"
+
+async function ScanLondonStockHeatmapData() {
+    console.log("Scan LondonStock Heatmap Data");
+    const _CookieControl = {"necessaryCookies":["autologin","JSESSIONID","USER-TYPE","SPRING_SECURITY_REMEMBER_ME_COOKIE","lse_language","visitor_id*-hash","SecuritiesColPrefs","DerColPrefs","FundColPrefs","SummaryColPrefs"],"optionalCookies":{"analytics":"accepted","functional":"accepted"},"statement":{},"consentDate":1667130826052,"consentExpiry":730,"interactedWith":true,"user":"42D2E89C-8255-4F63-9DEC-68C9D93CD09D"}
+
+
+    response = await axios.get(LONDONSTOCK_HEATMAP_SITE, 
+        { 
+            headers: { 
+                at_check:true,
+                CookieControl: _CookieControl  }
+        });
+    
+    body = await response.data;
+    const $ = cheerio.load(body)
+
+    console.log(body)
+    /*
+    const tableRows = $("body > section:nth-child(1) > div:nth-child(3) > div > div.table-responsive > table > tbody > tr"); 
+    let dividendData = []
+    
+    tableRows.each((idx, el) => {
+        const rowCols = $(el).children("td")        
+        let dividendObj = {
+            epic : rowCols[0].children[0].data,
+            name : rowCols[1].children[0].data,
+            market : rowCols[2].children[0].data,
+            price : rowCols[3].children[0].data,
+            dividend : rowCols[4].children[0].data,
+            impact : rowCols[5].children[0].data,
+            declarationDate: rowCols[6].children[0].data,
+            announcementUrl: rowCols[6].children[0].next.attribs.href,
+            exDividendDate : rowCols[7].children[0].data,
+            days : Math.ceil((new Date(Date.parse(rowCols[7].children[0].data+(new Date()).getFullYear()+" 01:00")).getTime()
+                    - (new Date()).getTime())/(1000 * 3600 * 24))    
+        }
+        dividendData.push(dividendObj)
+    })
+    // console.log(dividendData)
+    }
+    */
+}
+
 async function calDateDifference(dateStr) {
     console.log("calDateDifference:")
     console.log(dateStr)
@@ -257,7 +302,10 @@ async function calDateDifference4(dateStr) {
     // await convertFundDetailsToJson();
     // await GetFundDetail(0,"aberdeen-standard-global","https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/a/aberdeen-standard-global-innovation-equity-accumulation")
 
-    await ScanDividendData();
+    //await ScanDividendData();
+
+    await ScanLondonStockHeatmapData();
+
     //calDateDifference("27-Oct")
     //calDateDifference("27-Oct-2022")
     //calDateDifference4("27-Oct")

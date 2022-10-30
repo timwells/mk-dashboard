@@ -16,7 +16,7 @@ export default {
     },
     height: {
       type: String,
-      default: "800"
+      default: "720"
     },
     showToolbar: {
       type: Boolean,
