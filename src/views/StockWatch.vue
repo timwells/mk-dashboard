@@ -17,10 +17,10 @@
 				<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
 					<a-tabs default-active-key="1">
     					<a-tab-pane key="1" tab="Trade View">
-							<WidgetTradingView 
+							<WidgetTradingViewTechAnalysis 
 								:symbol="fullSymbol(record.n)" 
 								@container="container">
-							</WidgetTradingView>
+							</WidgetTradingViewTechAnalysis>
 						</a-tab-pane>
 						<a-tab-pane key="2" tab="Broker View">
 							<WidgetTradingViewBrokerAnalysis 
@@ -31,8 +31,11 @@
 				</template>
 
 				<template slot="epic" slot-scope="epic">
-					<p class="m-0">{{ epic }}</p></template>
-				<template slot="price" slot-scope="price">
+					<div>
+						<p class="m-0">{{ epic }}</p>
+					</div>
+				</template>
+#				<template slot="price" slot-scope="price">
 					<p class="m-0">{{ price }}</p></template>				
 				<template slot="buy" slot-scope="tp">
 					<p class="m-0">{{ tp }}</p>
@@ -41,7 +44,13 @@
 					<p class="m-0">{{ trigger }}</p>
 				</template>
 				<template slot="timestamp" slot-scope="timestamp">
-					<p class="m-0">{{timeStamp(timestamp)}}</p></template>	
+					<p class="m-0">{{timeStamp(timestamp)}}</p>
+				</template>
+				<template slot="minichart" slot-scope="record">
+					<WidgetTradingViewMiniChart 
+						:symbol="fullSymbol(record.n)">
+					</WidgetTradingViewMiniChart>
+				</template>
 			</a-table>
 		</a-col>
 	</a-row>
@@ -64,19 +73,21 @@ const stockWatchColumns = [
 	{ title: 'Epic', dataIndex: 'n', scopedSlots: { customRender: 'epic' }},
 	{ title: 'Price', dataIndex: 'v', scopedSlots: { customRender: 'price' }},
 	{ title: 'Trigger', dataIndex: 'h', scopedSlots: { customRender: 'trigger' }},
-	// { title: 'Buy', dataIndex: 'tp',scopedSlots: { customRender: 'buy' }},
-	{ title: 'TimeStamp', dataIndex: 'ts',scopedSlots: { customRender: 'timestamp' }}
+	{ title: 'TimeStamp', dataIndex: 'ts',scopedSlots: { customRender: 'timestamp' }},
+	{ title: 'Thumb', scopedSlots: { customRender: 'minichart' }}
 ];
-const epicCorrections = [{in:"T17",out:"TM17"}]
+const epicCorrections = [{in:"T17",out:"TM17"},{in:"BP.L",out:"BP."}]
 
 import { mapState } from "vuex";
-import WidgetTradingView from "@/components/Widgets/WidgetTradingView";
+import WidgetTradingViewTechAnalysis from "@/components/Widgets/WidgetTradingViewTechAnalysis";
 import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
+import WidgetTradingViewMiniChart from "@/components/Widgets/WidgetTradingViewMiniChart"
 
 export default ({
 	components: {
-		WidgetTradingView,
-		WidgetTradingViewBrokerAnalysis
+		WidgetTradingViewTechAnalysis,
+		WidgetTradingViewBrokerAnalysis,
+		WidgetTradingViewMiniChart
 	},
 	computed: {
     	...mapState("stockwatch", ["stockWatches"])	
@@ -109,22 +120,12 @@ export default ({
 			// fix epics
 			const nEpic = epicCorrections.find(e => (epic == e.in))		
 			if(nEpic) return "LSE:" + nEpic.out; 
-			// remove ".L"
-			return "LSE:" + epic.slice(0,-2);
+			return "LSE:" + epic.split(".L")[0]
 		},
-		expandedRowsChange(r) {
-			// console.log("expandedRowsChange:",r)
-		},
-		onExpand(exp,r) { 
-			// console.log("onExpand: ",exp,r);
-		},
-		rowColor(row) {
-			if(row.tp) return "tiggered"
-			return ""
-		},
-		timeStamp(ts) {
-			return ts.split("T")[0]
-		}
+		expandedRowsChange(r) {},
+		onExpand(exp,r) { },
+		rowColor(row) { return row.tp ? "tiggered" : "" },
+		timeStamp(ts) { return ts.split("T")[0] }
 	},	
 	mounted() {
 		this.loading = true

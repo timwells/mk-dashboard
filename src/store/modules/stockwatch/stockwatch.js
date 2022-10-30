@@ -16,7 +16,10 @@ const actions = {
     get(child(dbRef, `stocks/watch`))
       .then((snapshot) => {
         commit("SET_STOCK_WATCHES", null);
-        if (snapshot.exists()) {commit("SET_STOCK_WATCHES", snapshot.val()) } 
+        if (snapshot.exists()) {          
+          commit("SET_STOCK_WATCHES", 
+            snapshot.val().map((v,i) => { return {...v, key:i}}) ) 
+        } 
     }).catch((error) => { console.error(error); });
   }
 }

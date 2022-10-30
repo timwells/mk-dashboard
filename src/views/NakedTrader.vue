@@ -14,10 +14,10 @@
 				<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
 					<a-tabs default-active-key="1">
     					<a-tab-pane key="1" tab="Trade View">
-							<WidgetTradingView 
+							<WidgetTradingViewTechAnalysis 
 								:symbol="fullSymbol(record.epic)" 
 								@container="container">
-							</WidgetTradingView>
+							</WidgetTradingViewTechAnalysis>
 						</a-tab-pane>
 						<a-tab-pane key="2" tab="Broker View">
 							<WidgetTradingViewBrokerAnalysis 
@@ -57,7 +57,7 @@ const fundsColumns = [
 ];
 
 import { mapState } from "vuex";
-import WidgetTradingView from "@/components/Widgets/WidgetTradingView";
+import WidgetTradingViewTechAnalysis from "@/components/Widgets/WidgetTradingViewTechAnalysis";
 import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
 
 const epicCorrections = [{in:"T17",out:"TM17"}]
@@ -66,7 +66,7 @@ const epicCorrections = [{in:"T17",out:"TM17"}]
 
 export default ({
 	components: {
-		WidgetTradingView,
+		WidgetTradingViewTechAnalysis,
 		WidgetTradingViewBrokerAnalysis
 	},
 	computed: {

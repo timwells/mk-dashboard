@@ -12,17 +12,23 @@
     "LSE:SAVE",
     "LSE:BP.",
     "LSE:SENX",
-
+    "LSE:AFC",
+ 
+    "###Retail",
+    "LSE:WIX",
+ 
     "###Stock",
     "LSE:DIVI",
-    "LSE:AV.",
-    "LSE:LGEN",
     "LSE:RR.",
     "LSE:WIX",
-    "LSE:AFC",
     "LSE:ARB",
     "LSE:PXC",
     "LSE:SNR",
+    "LSE:SMT",
+
+    "###Insurance",
+    "LSE:AV.",
+    "LSE:LGEN",
 
     "###Crypto",
     "COINBASE:BTCGBP",
