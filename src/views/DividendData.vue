@@ -38,7 +38,13 @@
 								:symbol="fullSymbol(record.epic)">
 							</WidgetTradingViewBrokerAnalysis>
 						</a-tab-pane>
-  					</a-tabs>
+
+						<a-tab-pane key="4" tab="Financials">
+							<WidgetTradingViewFinancials 
+								:symbol="fullSymbol(record.epic)">
+							</WidgetTradingViewFinancials>
+						</a-tab-pane>	
+					</a-tabs>
 				</template>
 
 				<template slot="epic" slot-scope="epic"><p class="m-0">{{ epic }}</p></template>
@@ -94,11 +100,13 @@ const epicCorrections = [{in:"T17",out:"TM17"}]
 import { mapState } from "vuex";
 import WidgetTradingViewTechAnalysis from "@/components/Widgets/WidgetTradingViewTechAnalysis";
 import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
+import WidgetTradingViewFinancials from "@/components/Widgets/WidgetTradingViewFinancials";
 
 export default ({
 	components: {
 		WidgetTradingViewTechAnalysis,
-		WidgetTradingViewBrokerAnalysis
+		WidgetTradingViewBrokerAnalysis,
+		WidgetTradingViewFinancials
 	},
 	computed: {
     	...mapState("wscrape", ["dividendData"])	

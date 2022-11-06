@@ -27,6 +27,13 @@
 								:symbol="fullSymbol(record.n)">
 							</WidgetTradingViewBrokerAnalysis>
 						</a-tab-pane>
+
+						<a-tab-pane key="3" tab="Financials">
+							<WidgetTradingViewFinancials 
+								:symbol="fullSymbol(record.n)">
+							</WidgetTradingViewFinancials>
+						</a-tab-pane>
+
   					</a-tabs>
 				</template>
 
@@ -82,12 +89,14 @@ import { mapState } from "vuex";
 import WidgetTradingViewTechAnalysis from "@/components/Widgets/WidgetTradingViewTechAnalysis";
 import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
 import WidgetTradingViewMiniChart from "@/components/Widgets/WidgetTradingViewMiniChart"
+import WidgetTradingViewFinancials from "@/components/Widgets/WidgetTradingViewFinancials"
 
 export default ({
 	components: {
 		WidgetTradingViewTechAnalysis,
 		WidgetTradingViewBrokerAnalysis,
-		WidgetTradingViewMiniChart
+		WidgetTradingViewMiniChart,
+		WidgetTradingViewFinancials
 	},
 	computed: {
     	...mapState("stockwatch", ["stockWatches"])	

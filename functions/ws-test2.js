@@ -184,22 +184,34 @@ async function ScanDividendData() {
     
     tableRows.each((idx, el) => {
         const rowCols = $(el).children("td")        
+
+        let daysToGo = 
+            Math.ceil(
+                (new Date(Date.parse(rowCols[7].children[0].data+(new Date()).getFullYear()+" 01:00")).getTime() - 
+                    (new Date()).getTime())/(1000 * 3600 * 24))
+
+            if(daysToGo < 0) {    
+                daysToGo = Math.ceil(
+                    (new Date(Date.parse(rowCols[7].children[0].data+((new Date()).getFullYear() + 1) + " 01:00")).getTime() - 
+                    (new Date()).getTime())/(1000 * 3600 * 24))
+        }
+
         let dividendObj = {
-            epic : rowCols[0].children[0].data,
-            name : rowCols[1].children[0].data,
-            market : rowCols[2].children[0].data,
-            price : rowCols[3].children[0].data,
-            dividend : rowCols[4].children[0].data,
-            impact : rowCols[5].children[0].data,
+            epic: rowCols[0].children[0].data,
+            name: rowCols[1].children[0].data,
+            market: rowCols[2].children[0].data,
+            price: rowCols[3].children[0].data,
+            dividend: rowCols[4].children[0].data,
+            impact: rowCols[5].children[0].data,
             declarationDate: rowCols[6].children[0].data,
             announcementUrl: rowCols[6].children[0].next.attribs.href,
-            exDividendDate : rowCols[7].children[0].data,
-            days : Math.ceil((new Date(Date.parse(rowCols[7].children[0].data+(new Date()).getFullYear()+" 01:00")).getTime()
-                    - (new Date()).getTime())/(1000 * 3600 * 24))    
+            exDividendDate: rowCols[7].children[0].data,
+            days: daysToGo
         }
         dividendData.push(dividendObj)
     })
 
+    dividendData.forEach(d => console.log(d))
     // console.log(dividendData)
 }
 
@@ -302,9 +314,9 @@ async function calDateDifference4(dateStr) {
     // await convertFundDetailsToJson();
     // await GetFundDetail(0,"aberdeen-standard-global","https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/a/aberdeen-standard-global-innovation-equity-accumulation")
 
-    //await ScanDividendData();
+    await ScanDividendData();
 
-    await ScanLondonStockHeatmapData();
+    // await ScanLondonStockHeatmapData();
 
     //calDateDifference("27-Oct")
     //calDateDifference("27-Oct-2022")
