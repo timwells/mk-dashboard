@@ -39,6 +39,10 @@ const sidebarItems= [
 	{title: "Markets", linkTo: "/dashboard"},
 	{title: "StockWatch",linkTo: "/stock-watch"},
 	{title: "Dividends",linkTo: "/dividend-data"},
+
+	// {title: "Heatmap",linkTo: "/stock-heatmap"},
+	{title: "Screener",linkTo: "/stock-screener"},
+
 	{title: "Funds",linkTo: "/funds"},
 	{title: "Indicators",linkTo: "/market-indicators"},
 	{title: "News",linkTo: "/news"},
