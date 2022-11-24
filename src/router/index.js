@@ -33,6 +33,13 @@ let routes = [
 		meta: { requiresAuth: true }
 	},
 	{
+		path: '/models',
+		name: 'Models',
+		layout: "dashboard",
+		component: () => import(/* webpackChunkName: "funds" */'../views/Models.vue'),
+		meta: { requiresAuth: true }
+	},
+	{
 		path: '/stock-watch',
 		name: 'Stock Watch',
 		layout: "dashboard",

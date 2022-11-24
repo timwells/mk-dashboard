@@ -17,6 +17,9 @@
 					:title="market.title" 
 					:ticker="market.ticker"/>
 
+				<CardChartBondInfo v-if="market.type=='bond'" 
+					:title="market.title" />
+
 			</a-col>
 		</a-row>
 	</div>
@@ -27,13 +30,15 @@
 import CardChartFundInfo from '../components/Cards/CardChartFundInfo' ;
 import CardChartEquityInfo from '../components/Cards/CardChartEquityInfo';
 import CardChartIndexInfo from '../components/Cards/CardChartIndexInfo';
+import CardChartBondInfo from '../components/Cards/CardChartBondInfo.vue';
 import { mapState } from "vuex";
 
 export default ({
 	components: {
 		CardChartFundInfo,
 		CardChartEquityInfo,
-		CardChartIndexInfo
+		CardChartIndexInfo,
+		CardChartBondInfo
 	},
 	computed: {
     	...mapState("markets", ["markets"])

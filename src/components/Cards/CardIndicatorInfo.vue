@@ -4,8 +4,8 @@
 			<a-col class="col-content" :span="24" :xl="12">
 				<div class="card-content">
 					<h6>{{title}}</h6>
-					<img v-if="type=='img'" :src="url" width="100%">
-					<iframe v-if="type=='iframe'" :src="url" :height='height' width='100%' frameborder='0' scrolling='no'></iframe>
+					<img v-if="type=='img'" :src="url" :height="height" width="100%">
+					<iframe v-if="type=='iframe'" :src="url" :height="height" width='100%' frameborder='0' scrolling='no'></iframe>
 				</div>
 			</a-col>
 		</a-row>

@@ -16,8 +16,7 @@
 					<a-tabs default-active-key="1">
     					<a-tab-pane key="1" tab="Trade View">
 							<WidgetTradingViewTechAnalysis 
-								:symbol="fullSymbol(record.epic)" 
-								@container="container">
+								:symbol="fullSymbol(record.epic)">
 							</WidgetTradingViewTechAnalysis>
 						</a-tab-pane>
     					<a-tab-pane key="2" tab="Announcement">
@@ -43,6 +42,10 @@
 							<WidgetTradingViewFinancials 
 								:symbol="fullSymbol(record.epic)">
 							</WidgetTradingViewFinancials>
+						</a-tab-pane>	
+
+						<a-tab-pane key="5" tab="Intrinsic">
+							<WidgetIntrinsicCalculator/> 
 						</a-tab-pane>	
 					</a-tabs>
 				</template>
@@ -101,12 +104,14 @@ import { mapState } from "vuex";
 import WidgetTradingViewTechAnalysis from "@/components/Widgets/WidgetTradingViewTechAnalysis";
 import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
 import WidgetTradingViewFinancials from "@/components/Widgets/WidgetTradingViewFinancials";
+import WidgetIntrinsicCalculator from "@/components/Widgets/WidgetIntrinsicCalculator";
 
 export default ({
 	components: {
 		WidgetTradingViewTechAnalysis,
 		WidgetTradingViewBrokerAnalysis,
-		WidgetTradingViewFinancials
+		WidgetTradingViewFinancials,
+		WidgetIntrinsicCalculator
 	},
 	computed: {
     	...mapState("wscrape", ["dividendData"])	

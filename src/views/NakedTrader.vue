@@ -66,7 +66,10 @@ import WidgetTradingViewTechAnalysis from "@/components/Widgets/WidgetTradingVie
 import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
 import WidgetTradingViewFinancials from "@/components/Widgets/WidgetTradingViewFinancials";
 
-const epicCorrections = [{in:"T17",out:"TM17"}]
+const epicCorrections = [
+	{in:"T17",out:"TM17"},
+	{in:"BAE",out:"BA."}
+]
 
 // https://blog.katastros.com/a?ID=01750-67585afe-3add-4a2a-929a-d49a26d82b6c
 

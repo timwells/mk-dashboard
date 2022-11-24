@@ -34,19 +34,21 @@ const scrapedata = (req, res) => {
                         (new Date()).getTime())/(1000 * 3600 * 24))
                 }
 
-                let dividendObj = {
-                    epic: rowCols[0].children[0].data,
-                    name: rowCols[1].children[0].data,
-                    market: rowCols[2].children[0].data,
-                    price: rowCols[3].children[0].data,
-                    dividend: rowCols[4].children[0].data,
-                    impact: rowCols[5].children[0].data,
-                    declarationDate: rowCols[6].children[0].data,
-                    announcementUrl: rowCols[6].children[0].next.attribs.href,
-                    exDividendDate: rowCols[7].children[0].data,
-                    days: daysToGo
+                if ( daysToGo > 0) {
+                    let dividendObj = {
+                        epic: rowCols[0].children[0].data,
+                        name: rowCols[1].children[0].data,
+                        market: rowCols[2].children[0].data,
+                        price: rowCols[3].children[0].data,
+                        dividend: rowCols[4].children[0].data,
+                        impact: rowCols[5].children[0].data,
+                        declarationDate: rowCols[6].children[0].data,
+                        announcementUrl: rowCols[6].children[0].next.attribs.href,
+                        exDividendDate: rowCols[7].children[0].data,
+                        days: daysToGo
+                    }
+                    dividendData.push(dividendObj)
                 }
-                dividendData.push(dividendObj)
             })
             res.status(200).json(dividendData);
         })

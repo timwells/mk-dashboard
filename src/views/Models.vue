@@ -1,0 +1,51 @@
+<template>
+    <a-row :gutter="24" type="flex" align="stretch">
+        <a-col :span="24" :lg="24" :xl="24" class="mb-24" v-for="(indicator, index) in indicators" :key="index">
+            <CardIndicatorInfo :title="indicator.title" 
+				:url="indicator.url" :type="indicator.type"
+				:height="indicator.height"/>
+        </a-col>
+    </a-row>
+</template>
+
+<script>
+import { mapState } from "vuex";
+import CardIndicatorInfo from '@/components/Cards/CardIndicatorInfo';
+
+const epicCorrections = [
+]
+
+export default ({
+	components: {
+		CardIndicatorInfo
+	},
+	computed: {
+	},
+	watch: {
+    },
+	data() {
+		return {
+			indicators:[
+				{
+					"title":"Margin Of Safety",
+					"url":"./images/margin-of-safety.webp",
+					"type":"img",
+					"height": "500"
+				},
+				{
+					"title":"Market Sturcture",
+					"url":"./images/understanding-market-structure.jpg",
+					"type":"img",
+					"height": "700"
+				}
+			]
+		}
+	},
+	methods: {
+	},	
+	mounted() {
+	}
+})
+</script>
+
+<style lang="scss"></style>

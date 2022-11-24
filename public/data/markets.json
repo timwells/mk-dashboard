@@ -74,5 +74,10 @@
         "title": "NATIONAL GRID",
         "ticker": "BDR05C0",
         "type": "equity"
+    },
+    {
+        "title": "Bonds",
+        "ticker": "",
+        "type": "bond"
     }
 ]
