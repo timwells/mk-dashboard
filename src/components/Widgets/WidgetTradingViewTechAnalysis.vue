@@ -47,7 +47,7 @@ export default {
 
     const options = {
       'container_id': this.id,
-      'width': '100%',
+      'width': '99%',
       'height': this.height,
       'symbol': this.symbol,
       'interval': 'M',
