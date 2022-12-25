@@ -1,11 +1,19 @@
 <template>
-    <a-row :gutter="24" type="flex" align="stretch">
-        <a-col :span="24" :lg="24" :xl="24" class="mb-24" v-for="(indicator, index) in indicators" :key="index">
+	<a-row :gutter="24" type="flex" align="stretch">
+        <a-col :span="24" :lg="24" :xl="24" class="mb-24" 
+			v-for="(cmvModel, index) in cmvModels" :key="index">
+			<CardIndicatorInfo 
+				:url="cmvModel"
+				type="img"
+				height="500"/>
+        </a-col>
+        <a-col :span="24" :lg="24" :xl="24" class="mb-24" 
+			v-for="(indicator, index) in indicators" :key="index">
             <CardIndicatorInfo :title="indicator.title" 
 				:url="indicator.url" :type="indicator.type"
 				:height="indicator.height"/>
         </a-col>
-    </a-row>
+#    </a-row>
 </template>
 
 <script>
@@ -20,6 +28,7 @@ export default ({
 		CardIndicatorInfo
 	},
 	computed: {
+    	...mapState("wscrape", ["cmvModels"])	
 	},
 	watch: {
     },
@@ -44,6 +53,8 @@ export default ({
 	methods: {
 	},	
 	mounted() {
+		this.loading = true;
+		this.$store.dispatch("wscrape/getCmvModels");
 	}
 })
 </script>

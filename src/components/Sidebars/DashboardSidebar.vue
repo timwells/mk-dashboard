@@ -38,6 +38,9 @@
 const sidebarItems= [
 	{title: "Markets", linkTo: "/dashboard"},
 	{title: "Models",linkTo: "/models"},
+
+	{title: "BoE",linkTo: "/boe-irates"},
+
 	{title: "StockWatch",linkTo: "/stock-watch"},
 	{title: "Dividends",linkTo: "/dividend-data"},
 

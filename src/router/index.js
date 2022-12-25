@@ -53,6 +53,13 @@ let routes = [
 		component: () => import(/* webpackChunkName: "funds" */'../views/DividendData.vue'),
 		meta: { requiresAuth: true }
 	},
+	{
+		path: '/boe-irates',
+		name: 'BoE-IRates',
+		layout: "dashboard",
+		component: () => import(/* webpackChunkName: "funds" */'../views/BoE.vue'),
+		meta: { requiresAuth: true }
+	},
 	/*{
 		path: '/stock-heatmap',
 		name: 'Heatmap',

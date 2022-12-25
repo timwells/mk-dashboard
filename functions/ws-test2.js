@@ -183,7 +183,7 @@ async function ScanDividendData() {
     let dividendData = []
     
     tableRows.each((idx, el) => {
-        const rowCols = $(el).children("td")        
+        const rowCols = $(el).children("td")
 
         let daysToGo = 
             Math.ceil(
@@ -307,6 +307,41 @@ async function calDateDifference4(dateStr) {
     console.log(daysDiff)
 }
 
+const BOE_BANK_RATE = "https://www.bankofengland.co.uk/boeapps/database/Bank-Rate.asp"
+async function boeInterestRate(){
+    response = await axios.get(BOE_BANK_RATE);    
+    const $ = cheerio.load(response.data)
+
+    let ratesData = []
+    $('#stats-table > tbody > tr').each((i, el) => {
+        const rowCols = $(el).children("td")
+        const dateStr = rowCols[0].children[0].data.replaceAll(' ','-');
+        const rateStr = rowCols[1].children[0].data.trimStart();
+        ratesData.push({"date":dateStr, "rate":rateStr});
+        ratesData = ratesData.reverse();
+    })
+
+    console.log(ratesData)
+}
+
+const CMV = "https://www.currentmarketvaluation.com/models/buffett-indicator.php";
+
+async function cmvModels(){
+    response = await axios.get(CMV);    
+    const $ = cheerio.load(response.data)
+
+    let imgModels = [];
+    $('img').each((i, el) => {
+        const img = $(el).attr('src')
+        if(img.includes("https")) {
+            imgModels.push(img.split('?')[0])
+        }
+    });
+
+    console.log(imgModels)
+}
+
+
 (async () => {
     // await BuildFundList();
     // await GetFundDetails();
@@ -314,13 +349,17 @@ async function calDateDifference4(dateStr) {
     // await convertFundDetailsToJson();
     // await GetFundDetail(0,"aberdeen-standard-global","https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/a/aberdeen-standard-global-innovation-equity-accumulation")
 
-    await ScanDividendData();
+    // await ScanDividendData();
 
     // await ScanLondonStockHeatmapData();
 
     //calDateDifference("27-Oct")
     //calDateDifference("27-Oct-2022")
     //calDateDifference4("27-Oct")
+
+    // boeInterestRate();
+
+    cmvModels();
 
     console.log("done");
 })();

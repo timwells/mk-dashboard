@@ -1,4 +1,3 @@
-import { Divider } from "ant-design-vue";
 import axios from "axios";
 
 const CLOUD_FUNCTION_URL = process.env.VUE_APP_FIREBASE_FUNCTION_URL;
@@ -9,7 +8,9 @@ const state = {
   nakedTrades: [],
   dataroma: [],
   dataromaHoldingsMap: [],
-  dividendData: []
+  dividendData: [],
+  boeIRates: [],
+  cmvModels: []
 };
 
 const getters = {
@@ -20,7 +21,10 @@ const mutations = {
   SET_NAKED_TRADES: (state, payload) => (state.nakedTrades = payload),
   SET_DIVIDEND_DATA: (state, payload) => (state.dividendData = payload),
   SET_DATAROMA: (state, payload) => (state.dataroma = payload),
-  SET_DATAROMA_HOLDINGS_MAP: (state, payload) => (state.dataromaHoldingsMap.push(payload))
+  SET_DATAROMA_HOLDINGS_MAP: (state, payload) => (state.dataromaHoldingsMap.push(payload)),
+  SET_BOE_IRATES: (state, payload) => (state.boeIRates = payload),
+  SET_CMV_MODELS: (state, payload) => (state.cmvModels = payload),
+
 };
 
 const actions = {
@@ -42,7 +46,17 @@ const actions = {
   getDataromaHoldings({ commit }, { q }) {
     axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/dataroma?q=${q}`,{ headers: HEADERS })
         .then(response => { commit("SET_DATAROMA_HOLDINGS_MAP", { key: q, data: response.data }) })
-  }
+  },
+  getBoEIRates({ commit }) {
+    commit("SET_BOE_IRATES", []);
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/boe`,{ headers: HEADERS })
+        .then(response => { commit("SET_BOE_IRATES", response.data) })
+  },
+  getCmvModels({ commit }) {
+    commit("SET_CMV_MODELS", []);
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/cmv`,{ headers: HEADERS })
+        .then(response => { commit("SET_CMV_MODELS", response.data) })
+  },
 }
 
 export default {
