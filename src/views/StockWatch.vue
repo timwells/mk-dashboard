@@ -18,19 +18,19 @@
 					<a-tabs default-active-key="1">
     					<a-tab-pane key="1" tab="Trade View">
 							<WidgetTradingViewTechAnalysis 
-								:symbol="fullSymbol(record.n)" 
+								:symbol="fullSymbol(record)" 
 								@container="container">
 							</WidgetTradingViewTechAnalysis>
 						</a-tab-pane>
 						<a-tab-pane key="2" tab="Broker View">
 							<WidgetTradingViewBrokerAnalysis 
-								:symbol="fullSymbol(record.n)">
+								:symbol="fullSymbol(record)">
 							</WidgetTradingViewBrokerAnalysis>
 						</a-tab-pane>
 
 						<a-tab-pane key="3" tab="Financials">
 							<WidgetTradingViewFinancials 
-								:symbol="fullSymbol(record.n)">
+								:symbol="fullSymbol(record)">
 							</WidgetTradingViewFinancials>
 						</a-tab-pane>
 
@@ -38,9 +38,7 @@
 				</template>
 
 				<template slot="epic" slot-scope="epic">
-					<div>
-						<p class="m-0">{{ epic }}</p>
-					</div>
+					<p class="m-0">{{ epic }}</p>
 				</template>
 #				<template slot="price" slot-scope="price">
 					<p class="m-0">{{ price }}</p></template>				
@@ -55,7 +53,7 @@
 				</template>
 				<template slot="minichart" slot-scope="record">
 					<WidgetTradingViewMiniChart 
-						:symbol="fullSymbol(record.n)">
+						:symbol="fullSymbol(record)">
 					</WidgetTradingViewMiniChart>
 				</template>
 			</a-table>
@@ -68,8 +66,8 @@
   {
     "h": 500,
     "l": 498.5,
-    "n": "DRX.L",
-    "td": "",
+	"lse" :"LSE:DRX",
+	"n": "DRX.L",
     "tp": false,
     "ts": "2022-10-14T18:37:28.171Z",
     "v": 524
@@ -83,7 +81,6 @@ const stockWatchColumns = [
 	{ title: 'TimeStamp', dataIndex: 'ts',scopedSlots: { customRender: 'timestamp' }},
 	{ title: 'Thumb', scopedSlots: { customRender: 'minichart' }}
 ];
-const epicCorrections = [{in:"T17",out:"TM17"},{in:"BP.L",out:"BP."}]
 
 import { mapState } from "vuex";
 import WidgetTradingViewTechAnalysis from "@/components/Widgets/WidgetTradingViewTechAnalysis";
@@ -125,11 +122,9 @@ export default ({
 		}
 	},
 	methods: {
-		fullSymbol(epic) {
-			// fix epics
-			const nEpic = epicCorrections.find(e => (epic == e.in))		
-			if(nEpic) return "LSE:" + nEpic.out; 
-			return "LSE:" + epic.split(".L")[0]
+		fullSymbol(r) {
+			return r.hasOwnProperty('lse') ? 
+				r.lse : "LSE:" + r.n.split(".L")[0]
 		},
 		expandedRowsChange(r) {},
 		onExpand(exp,r) { },
