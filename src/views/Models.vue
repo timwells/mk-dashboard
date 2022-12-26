@@ -1,5 +1,5 @@
 <template>
-	<a-row :gutter="24" type="flex" align="stretch">
+	<a-row v-if="cmvModels.length>0" :gutter="24" type="flex" align="stretch">
         <a-col :span="24" :lg="24" :xl="24" class="mb-24" 
 			v-for="(cmvModel, index) in cmvModels" :key="index">
 			<CardIndicatorInfo 
@@ -19,9 +19,6 @@
 <script>
 import { mapState } from "vuex";
 import CardIndicatorInfo from '@/components/Cards/CardIndicatorInfo';
-
-const epicCorrections = [
-]
 
 export default ({
 	components: {
