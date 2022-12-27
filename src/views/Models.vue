@@ -13,7 +13,7 @@
 				:url="indicator.url" :type="indicator.type"
 				:height="indicator.height"/>
         </a-col>
-#    </a-row>
+    </a-row>
 </template>
 
 <script>
@@ -33,8 +33,14 @@ export default ({
 		return {
 			indicators:[
 				{
+					"title":"BoE Interest Rate Forecast",
+					"url":"./images/Interest-Rate-Forecast.png",
+					"type":"img",
+					"height": "500"
+				},
+				{
 					"title":"Margin Of Safety",
-					"url":"./images/margin-of-safety.webp",
+					"url":"./images/margin-of-safety.png",
 					"type":"img",
 					"height": "500"
 				},
