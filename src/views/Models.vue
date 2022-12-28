@@ -33,6 +33,13 @@ export default ({
 		return {
 			indicators:[
 				{
+					"title":"",
+					"url": `https://fred.stlouisfed.org/graph/graph-landing.php?g=YbPp`,
+					"type":"iframe",
+					"height": "700"
+
+				},
+				{
 					"title":"BoE Interest Rate Forecast",
 					"url":"./images/Interest-Rate-Forecast.png",
 					"type":"img",
@@ -49,7 +56,7 @@ export default ({
 					"url":"./images/understanding-market-structure.jpg",
 					"type":"img",
 					"height": "700"
-				}
+				},
 			]
 		}
 	},
