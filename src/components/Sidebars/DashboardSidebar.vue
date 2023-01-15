@@ -64,7 +64,7 @@ export default ({
 		// Sidebar collapsed status.
 		sidebarCollapsed: {
 			type: Boolean,
-			default: false,
+			default: true,
 		},
 		
 		// Main sidebar color.

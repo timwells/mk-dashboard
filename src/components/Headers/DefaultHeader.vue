@@ -20,9 +20,9 @@
 
 		</div>
 		<div class="header-col header-nav">
-
+			<pre>l</pre>
 			<!-- Navigation Menu For Large Screens -->
-			<a-menu mode="horizontal" class="menu-large">
+			<a-menu mode="horizontal" class="menu-small">
 				<a-menu-item>
 					<router-link to="/dashboard" class="nav-link" @click="e => e.preventDefault()">
 						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -65,7 +65,6 @@
 
 			<!-- Collapsible Navigation Menu For Small Screens -->
 			<div class="menu-small">
-				
 				<!-- Collapsible Component For Navigation Menu For Small Screens -->
 				<a-collapse v-model="collapseNav" accordion>
 					<a-collapse-panel key="1">

@@ -1,7 +1,11 @@
 <template>
 	<div>
 		<!-- Dashboard Layout -->
-		<a-layout class="layout-dashboard" id="layout-dashboard" :class="[navbarFixed ? 'navbar-fixed' : '', ! sidebarCollapsed ? 'has-sidebar' : '', layoutClass]">
+		<a-layout 
+			class="layout-dashboard" 
+			id="layout-dashboard" 
+			:class="[navbarFixed ? 'navbar-fixed' : '', 
+			! sidebarCollapsed ? 'has-sidebar' : '', layoutClass]">
 			<!-- Main Sidebar -->
 			<DashboardSidebar
 				:sidebarCollapsed="sidebarCollapsed"
@@ -83,7 +87,7 @@
 		data() {
 			return {
 				// Sidebar collapsed status.
-				sidebarCollapsed: false,
+				sidebarCollapsed: true,
 				
 				// Main sidebar color.
 				sidebarColor: "primary",
@@ -100,6 +104,7 @@
 		},
 		methods: {
 			toggleSidebar( value ) {
+				console.log("toggleSidebar",value)
 				this.sidebarCollapsed = value ;
 			},
 			toggleSettingsDrawer( value ) {
