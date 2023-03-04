@@ -22,9 +22,7 @@ const isApiKeyValid = (request,keyName,apiKeys) => {
 // Automatically allow cross-origin requests
 app.use(cors({ origin: true }));
 
-app.get('/version', (request, response) => {
-    response.send(VERSION);
-})
+app.get('/version', (request, response) => { response.send(VERSION) })
 
 app.get('/v1/quote', async (request, response) => {
     if(isApiKeyValid(request,API_KEY_NAME,config.apiKeys)) {
@@ -43,9 +41,9 @@ app.get('/v1/scrape/:site', (request, response) => {
 // Expose Express API as a single Cloud Function:
 exports.fintech = functions.https.onRequest(app);
 
-const { scheduledFunction } = require("./jobs/job")
-// const { job } = require("./jobs/job")
-// exports.jobtech = job;
+const { scheduledFunction, jobAdmin } = require("./jobs/job")
 
-
+// Expose Express API as a single Cloud Function:
+exports.jobAdmin = jobAdmin;
+// Expose scheduled job
 exports.scheduledFunction = scheduledFunction;

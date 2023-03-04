@@ -1,64 +1,68 @@
 <template>
-	<a-row :gutter="24" type="flex">
-		<a-col :span="24" class="mb-24">			
-			<a-table
-				:loading="loading"
-				:columns="stockWatchColumns" 
-				:data-source="stockWatches"
-				:pagination="pagination"
-				:rowKey="(record,index) => index"
-				@expand="onExpand"
-				:rowClassName="rowColor"
-				@expandedRowsChange="expandedRowsChange"
-				size="small"
-				bordered
-				class='table table-small' style="margin: 0; background-color: white;">
+	<div>
+		<a-button type="primary" @click="runJob" size="small">Run Job</a-button>
 
-				<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
-					<a-tabs default-active-key="1">
-    					<a-tab-pane key="1" tab="Trade View">
-							<WidgetTradingViewTechAnalysis 
-								:symbol="fullSymbol(record)" 
-								@container="container">
-							</WidgetTradingViewTechAnalysis>
-						</a-tab-pane>
-						<a-tab-pane key="2" tab="Broker View">
-							<WidgetTradingViewBrokerAnalysis 
-								:symbol="fullSymbol(record)">
-							</WidgetTradingViewBrokerAnalysis>
-						</a-tab-pane>
+		<a-row :gutter="24" type="flex">
+			<a-col :span="24" class="mb-24">			
+				<a-table
+					:loading="loading"
+					:columns="stockWatchColumns" 
+					:data-source="stockWatches"
+					:pagination="pagination"
+					:rowKey="(record,index) => index"
+					@expand="onExpand"
+					:rowClassName="rowColor"
+					@expandedRowsChange="expandedRowsChange"
+					size="small"
+					bordered
+					class='table table-small' style="margin: 0; background-color: white;">
 
-						<a-tab-pane key="3" tab="Financials">
-							<WidgetTradingViewFinancials 
-								:symbol="fullSymbol(record)">
-							</WidgetTradingViewFinancials>
-						</a-tab-pane>
+					<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
+						<a-tabs default-active-key="1">
+							<a-tab-pane key="1" tab="Trade View">
+								<WidgetTradingViewTechAnalysis 
+									:symbol="fullSymbol(record)" 
+									@container="container">
+								</WidgetTradingViewTechAnalysis>
+							</a-tab-pane>
+							<a-tab-pane key="2" tab="Broker View">
+								<WidgetTradingViewBrokerAnalysis 
+									:symbol="fullSymbol(record)">
+								</WidgetTradingViewBrokerAnalysis>
+							</a-tab-pane>
 
-  					</a-tabs>
-				</template>
+							<a-tab-pane key="3" tab="Financials">
+								<WidgetTradingViewFinancials 
+									:symbol="fullSymbol(record)">
+								</WidgetTradingViewFinancials>
+							</a-tab-pane>
 
-				<template slot="epic" slot-scope="epic">
-					<p class="m-0">{{ epic }}</p>
-				</template>
-#				<template slot="price" slot-scope="price">
-					<p class="m-0">{{ price }}</p></template>				
-				<template slot="buy" slot-scope="tp">
-					<p class="m-0">{{ tp }}</p>
-				</template>
-				<template slot="trigger" slot-scope="trigger">
-					<p class="m-0">{{ trigger }}</p>
-				</template>
-				<template slot="timestamp" slot-scope="timestamp">
-					<p class="m-0">{{timeStamp(timestamp)}}</p>
-				</template>
-				<template slot="minichart" slot-scope="record">
-					<WidgetTradingViewMiniChart 
-						:symbol="fullSymbol(record)">
-					</WidgetTradingViewMiniChart>
-				</template>
-			</a-table>
-		</a-col>
-	</a-row>
+						</a-tabs>
+					</template>
+
+					<template slot="epic" slot-scope="epic">
+						<p class="m-0">{{ epic }}</p>
+					</template>
+	#				<template slot="price" slot-scope="price">
+						<p class="m-0">{{ price }}</p></template>				
+					<template slot="buy" slot-scope="tp">
+						<p class="m-0">{{ tp }}</p>
+					</template>
+					<template slot="trigger" slot-scope="trigger">
+						<p class="m-0">{{ trigger }}</p>
+					</template>
+					<template slot="timestamp" slot-scope="timestamp">
+						<p class="m-0">{{timeStamp(timestamp)}}</p>
+					</template>
+					<template slot="minichart" slot-scope="record">
+						<WidgetTradingViewMiniChart 
+							:symbol="fullSymbol(record)">
+						</WidgetTradingViewMiniChart>
+					</template>
+				</a-table>
+			</a-col>
+		</a-row>
+	</div>
 </template>
 
 <script>
@@ -129,7 +133,11 @@ export default ({
 		expandedRowsChange(r) {},
 		onExpand(exp,r) { },
 		rowColor(row) { return row.tp ? "tiggered" : "" },
-		timeStamp(ts) { return ts.split("T")[0] }
+		timeStamp(ts) { return ts.split("T")[0] },
+		runJob() {
+			console.log("runjob")
+			this.$store.dispatch("stockwatch/runjob");
+		}
 	},	
 	mounted() {
 		this.loading = true

@@ -16,7 +16,7 @@ const scrapedata = (req, res) => {
                 detail: $(e).attr("href")
               })
             });
-            res.status(200).json(sivs);
+            res.status(200).json(sivs.sort((a, b) => a.name.localeCompare(b.name)));
         });
 }
 
@@ -52,7 +52,7 @@ const scrapedata1 = (req, res) => {
                     holdings.push(holding);
                 }
             })
-            res.status(200).json(holdings);
+            res.status(200).json(holdings.sort((a, b) => a.stock.localeCompare(b.stock)));
         })
 }
 

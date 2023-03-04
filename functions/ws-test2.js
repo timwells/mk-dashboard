@@ -151,7 +151,6 @@ async function convertFundDetailsToJson() {
 // Test Dividend Scan
 
 const DIVIDENDDATA_SITE = "https://www.dividenddata.co.uk/exdividenddate.py?m=alldividends";
-
 async function ScanDividendData() {
     console.log("Scan Dividend Data");
     response = await axios.get(DIVIDENDDATA_SITE, { headers: { 
@@ -341,6 +340,29 @@ async function cmvModels(){
     console.log(imgModels)
 }
 
+const DATAROMA = "https://www.dataroma.com"
+const DATAROMA_HOME = "https://www.dataroma.com/m/home.php"
+
+async function dataroma() {
+    axios.get(DATAROMA_HOME)
+        .then(async (resp) => {
+            let sivs = []
+            const $ = await cheerio.load(resp.data);
+            const sel = '#port_body ul li a'
+            $(sel).each((i, e) => {
+              sivs.push({
+                name: $(e)[0].children[0].data,
+                lastUpdate: $(e)[0].children[1].children[0].data.trimStart(),
+                detail: $(e).attr("href")
+              })
+            });
+
+            sivs.sort((a, b) => a.name.localeCompare(b.name));
+            console.log(sivs);
+            // res.status(200).json(sivs);
+        });
+}
+
 
 (async () => {
     // await BuildFundList();
@@ -348,18 +370,17 @@ async function cmvModels(){
     // await SaveFundDetails();
     // await convertFundDetailsToJson();
     // await GetFundDetail(0,"aberdeen-standard-global","https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/a/aberdeen-standard-global-innovation-equity-accumulation")
-
     // await ScanDividendData();
-
     // await ScanLondonStockHeatmapData();
-
     //calDateDifference("27-Oct")
     //calDateDifference("27-Oct-2022")
     //calDateDifference4("27-Oct")
 
     // boeInterestRate();
 
-    cmvModels();
+    //cmvModels();
+    
+    await dataroma();
 
     console.log("done");
 })();

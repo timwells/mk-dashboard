@@ -1,4 +1,9 @@
+import axios from "axios";
 import { getDatabase, ref, child, get} from "firebase/database";
+
+const CLOUD_FUNCTION_URL = process.env.VUE_APP_FIREBASE_FUNCTION_URL;
+const API_KEY = process.env.VUE_APP_FINTECH_API_KEY;
+const HEADERS = { 'x-api-key' : API_KEY }
 
 const state = {
   stockWatches: null
@@ -10,6 +15,11 @@ const mutations = {
 };
 
 const actions = {
+  runjob({ commit }) {
+    // commit("SET_NAKED_TRADES", []);
+    axios.get(`${CLOUD_FUNCTION_URL}/jobAdmin/jobrun`,{ headers: HEADERS })
+    .then(response => {console.log(response.data)})
+  },
   getStockWatches({ commit }) {
     const dbRef = ref(getDatabase());
 
