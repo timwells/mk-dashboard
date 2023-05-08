@@ -363,6 +363,23 @@ async function dataroma() {
         });
 }
 
+// isabelnet
+const ISABELNET = "https://www.isabelnet.com/blog/"
+// class
+async function isabelnetblog() {
+    axios.get(ISABELNET)
+        .then(async (resp) => {
+            let blog = []
+            const $ = await cheerio.load(resp.data);
+            const sel = '.news-item'
+            $(sel).each((i, e) => {
+                // console.log(i,$(e)[0].children[0])
+                console.log(i,$(e)[0].children[0].children)
+            });
+            // res.status(200).json(sivs);
+        });
+}
+
 
 (async () => {
     // await BuildFundList();
@@ -375,12 +392,11 @@ async function dataroma() {
     //calDateDifference("27-Oct")
     //calDateDifference("27-Oct-2022")
     //calDateDifference4("27-Oct")
-
     // boeInterestRate();
-
     //cmvModels();
-    
-    await dataroma();
+    // await dataroma();
+
+    await isabelnetblog()
 
     console.log("done");
 })();

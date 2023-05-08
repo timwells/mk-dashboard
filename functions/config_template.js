@@ -6,9 +6,14 @@ const config = {
         "aaaaaaaa-1111-2222-3333-xxxxxxxxxxxx",
         "bbbbbbbb-1111-2222-3333-yyyyyyyyyyyy",
         "bbbbbbbb-1111-2222-3333-yyyyyyyyyyyy",
-    ]
+    ],
+    emailCredentials: {
+        service:"yahoo",
+        email:"email",
+        pwd:"pwd"
+    }
 }
 
 module.exports = {
-    config
+    config,
 }
