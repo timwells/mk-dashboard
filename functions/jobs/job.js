@@ -10,15 +10,56 @@ const app = express();
 const VERSION = "jobinfo:0.0.2";
 const { config } = require("../config");
 
+const STYLES =  `
+<style>
+.gmail-table {
+  border: solid 2px #DDEEEE;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font: normal 14px Roboto, sans-serif;
+}
+.gmail-table thead th {
+  background-color: #DDEFEF;
+  border: solid 1px #DDEEEE;
+  color: #336B6B;
+  padding: 10px;
+  text-align: left;
+  text-shadow: 1px 1px 1px #fff;
+}
+.gmail-table tbody td {
+  border: solid 1px #DDEEEE;
+  color: #333;
+  padding: 10px;
+  text-shadow: 1px 1px 1px #fff;
+}
+</style>`
 
-function _ToCSV(arr,delim) {
+function _jsontocsv(arr,delim) {
     const array = [Object.keys(arr[0])].concat(arr)
     return array.map(e => Object.values(e).join(delim)).join('\n')
-  }
+}
+
+function jsonToTable(jsonArray) {
+    var table = '<table class="gmail-table">';  
+    table += '<thead><tr>';
+
+    const array = [Object.keys(jsonArray[0])]
+    for (var i = 0; i < array.length; i++) { table += '<th>' + array[i] + '</th>';}
+
+    table += '</tr></thead>';  
+    table += '<tbody>';
+    for (var i = 0; i < jsonArray.length; i++) {
+      table += '<tr>';
+      for (var key in jsonArray[i]) {
+        if (jsonArray[i].hasOwnProperty(key)) { table += '<td>' + jsonArray[i][key] + '</td>'; }
+      }
+      table += '</tr>';
+    }
+    table += '</tbody>';  
+    table += '</table>';
+    return table;
+}
   
-
-app.use(cors({ origin: true }));
-
 const TRANSPORTER = nodemailer.createTransport({
     host: 'smtp.mail.yahoo.com',
     port: 465,
@@ -27,23 +68,14 @@ const TRANSPORTER = nodemailer.createTransport({
     auth: { user: config.emailCredentials.email, pass: config.emailCredentials.pass },
 });
 
+app.use(cors({ origin: true }));
 app.get('/jobinfo', (request, response) => { response.send(VERSION) })
-
 app.get('/jobemail', async (request, response) => {
-    /*
-    let transporter = nodemailer.createTransport({
-        host: 'smtp.mail.yahoo.com',
-        port: 465,
-        secure: true,
-        service: config.emailCredentials.service,
-        auth: { user: config.emailCredentials.email, pass: config.emailCredentials.pass },
-    });
-    */
     const mailOptions = {
         from: config.emailCredentials.email, 
         to: config.emailCredentials.to,
         subject: 'StockWatch Updates',
-        text: 'Email body'
+        html: 'Email body'
     };
       
     return await TRANSPORTER.sendMail(mailOptions, (error, info) => {
@@ -79,7 +111,7 @@ app.get('/jobrun', async (request, response) => {
         };
 
         await TRANSPORTER.sendMail(mailOptions);
-
+  
     } catch (e) { response.status(500) }
     
     return response.status(200)
@@ -100,18 +132,47 @@ exports.scheduledFunction = functions.pubsub
         const snapshot = await watchRef.once('value');
         const obj = snapshot.val();
         let stocks = [];
-        
+
+        const ts = new Date();
+        await db.ref(`stocks/lastrun`).set(ts.toISOString())        
         try {
             for(let i = 0; i < obj.length; i++) {
                 const ts = new Date();
                 const { regularMarketPrice, currency } = await yF2.quote(obj[i].n);
-                stocks.push({ ticker: obj[i].n, price: regularMarketPrice, currency: currency,ts: ts.toISOString() })
                 await db.ref(`stocks/watch/${i}/v`).set(regularMarketPrice)
                 let bTrigger = false
                 if(regularMarketPrice < obj[i].h) bTrigger = true
+
+                stocks.push({ 
+                    ticker: obj[i].n, 
+                    price: regularMarketPrice,
+                    triggered: bTrigger, 
+                    ts: ts.toLocaleString()
+                })
+
                 await db.ref(`stocks/watch/${i}/tp`).set(bTrigger)
                 await db.ref(`stocks/watch/${i}/ts`).set(ts.toISOString())
             }
-        } catch (e) { return }
+
+            //const array = [Object.keys(stocks[0])]
+            //await db.ref(`stocks/log`).set(array.toString())            
+            const tsn = new Date();
+            if(tsn.getHours() == 16) {
+                const mailOptions = {
+                    from: config.emailCredentials.email, 
+                    to: config.emailCredentials.to,
+                    subject: 'StockWatch End Of Day',
+                    html: jsonToTable(stocks)
+                };
+
+                await TRANSPORTER.sendMail(mailOptions, (error, info) => {
+                    if(error) functions.logger.log(error.toString())
+                    else functions.logger.log(info)
+                });
+            }        
+        } catch (e) { 
+            await db.ref(`stocks/log`).set(e.message)            
+            return 
+        }
         return
     });
