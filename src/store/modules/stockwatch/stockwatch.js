@@ -15,10 +15,13 @@ const mutations = {
 };
 
 const actions = {
-  runjob({ commit }) {
-    // commit("SET_NAKED_TRADES", []);
-    axios.get(`${CLOUD_FUNCTION_URL}/jobAdmin/jobrun`,{ headers: HEADERS })
-    .then(response => {console.log(response.data)})
+  jobinfo({commit}) {
+    axios.get(`${CLOUD_FUNCTION_URL}/jobadmin/jobinfo`,{ headers: HEADERS })
+      .then(response => {console.log(response.data)})
+  },
+  jobrun({ commit }) {
+    axios.get(`${CLOUD_FUNCTION_URL}/jobadmin/jobrun`,{ headers: HEADERS })
+      .then(response => {console.log(response.data)})
   },
   getStockWatches({ commit }) {
     const dbRef = ref(getDatabase());
@@ -26,13 +29,15 @@ const actions = {
     get(child(dbRef, `stocks/watch`))
       .then((snapshot) => {
         commit("SET_STOCK_WATCHES", null);
-        if (snapshot.exists()) {          
-          commit("SET_STOCK_WATCHES", 
-            snapshot.val().map((v,i) => { return {...v, key:i}}) ) 
+        if (snapshot.exists()) {
+          commit("SET_STOCK_WATCHES", snapshot.val().map(
+            (v,i) => { return {...v, key:i}})
+              .sort((a, b) => b.tp - a.tp))  
         } 
     }).catch((error) => { console.error(error); });
   }
 }
+
 
 export default {
   namespaced: true,

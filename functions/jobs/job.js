@@ -7,7 +7,7 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 
 const app = express();
-const VERSION = "jobinfo:0.0.2";
+const VERSION = "jobinfo:0.0.3";
 const { config } = require("../config");
 
 const STYLES =  `
@@ -68,8 +68,58 @@ const TRANSPORTER = nodemailer.createTransport({
     auth: { user: config.emailCredentials.email, pass: config.emailCredentials.pass },
 });
 
+async function scanStockWatch() {
+    const db = getDatabase();
+    const watchRef = db.ref('stocks/watch');
+    const snapshot = await watchRef.once('value');
+    const obj = snapshot.val();
+    let stocks = [];
+    const ts = new Date();
+
+    await db.ref(`stocks/lastrun`).set(ts.toISOString())
+    try {
+        for(let i = 0; i < obj.length; i++) {
+            const ts = new Date();
+            const { regularMarketPrice, currency } = await yF2.quote(obj[i].n);
+            await db.ref(`stocks/watch/${i}/v`).set(regularMarketPrice)
+            let bTrigger = false
+            if(regularMarketPrice < obj[i].h) bTrigger = true
+
+            stocks.push({ 
+                ticker: obj[i].n, 
+                price: regularMarketPrice,
+                triggered: bTrigger, 
+                ts: ts.toLocaleString()
+            })
+
+            await db.ref(`stocks/watch/${i}/tp`).set(bTrigger)
+            await db.ref(`stocks/watch/${i}/ts`).set(ts.toISOString())
+        }
+        const tsn = new Date();
+        if(tsn.getHours() == 16) {
+            const mailOptions = {
+                from: config.emailCredentials.email, 
+                to: config.emailCredentials.to,
+                subject: 'StockWatch End Of Day',
+                html: jsonToTable(stocks)
+            };
+
+            await TRANSPORTER.sendMail(mailOptions, (error, info) => {
+                if(error) functions.logger.log(error.toString())
+                else functions.logger.log(info)
+            });
+        }        
+    } catch (e) { 
+        await db.ref(`stocks/log`).set(e.message)            
+        return 
+    }
+}
+
+// Automatically allow cross-origin requests
 app.use(cors({ origin: true }));
 app.get('/jobinfo', (request, response) => { response.send(VERSION) })
+
+/*
 app.get('/jobemail', async (request, response) => {
     const mailOptions = {
         from: config.emailCredentials.email, 
@@ -83,38 +133,11 @@ app.get('/jobemail', async (request, response) => {
         return response.send('Sent');
     });
 })    
+*/
 
 app.get('/jobrun', async (request, response) => {
-    const db = getDatabase();
-    const watchRef = db.ref('stocks/watch');
-    const snapshot = await watchRef.once('value');
-    const obj = snapshot.val();
-    let stocks = [];
-
-    try {
-        for(let i = 0; i < obj.length; i++) {
-            const ts = new Date();
-            const { regularMarketPrice, currency } = await yF2.quote(obj[i].n);
-            stocks.push({ ticker: obj[i].n, price: regularMarketPrice, currency: currency,ts: ts.toISOString() })
-            await db.ref(`stocks/watch/${i}/v`).set(regularMarketPrice)
-            let bTrigger = false
-            if(regularMarketPrice < obj[i].h) bTrigger = true
-            await db.ref(`stocks/watch/${i}/tp`).set(bTrigger)
-            await db.ref(`stocks/watch/${i}/ts`).set(ts.toISOString())
-        }
-
-        const mailOptions = {
-            from: config.emailCredentials.email, 
-            to: config.emailCredentials.to,
-            subject: 'StockWatch End Of Day',
-            text: _ToCSV(stocks,",")
-        };
-
-        await TRANSPORTER.sendMail(mailOptions);
-  
-    } catch (e) { response.status(500) }
-    
-    return response.status(200)
+    await scanStockWatch()
+    return response.send('ok');
 })
 
 exports.jobadmin = functions.https.onRequest(app);
@@ -122,57 +145,9 @@ exports.jobadmin = functions.https.onRequest(app);
 // https://crontab.guru/#0_8-17_*_*_1-5
 // 0 8-16 * * 1-5
 // TimeZone = Europe/London
-
 exports.scheduledFunction = functions.pubsub
     .schedule('0 8-17 * * 1-5')
     .timeZone("Europe/London")
     .onRun(async (context) => {
-        const db = getDatabase();
-        const watchRef = db.ref('stocks/watch');
-        const snapshot = await watchRef.once('value');
-        const obj = snapshot.val();
-        let stocks = [];
-
-        const ts = new Date();
-        await db.ref(`stocks/lastrun`).set(ts.toISOString())        
-        try {
-            for(let i = 0; i < obj.length; i++) {
-                const ts = new Date();
-                const { regularMarketPrice, currency } = await yF2.quote(obj[i].n);
-                await db.ref(`stocks/watch/${i}/v`).set(regularMarketPrice)
-                let bTrigger = false
-                if(regularMarketPrice < obj[i].h) bTrigger = true
-
-                stocks.push({ 
-                    ticker: obj[i].n, 
-                    price: regularMarketPrice,
-                    triggered: bTrigger, 
-                    ts: ts.toLocaleString()
-                })
-
-                await db.ref(`stocks/watch/${i}/tp`).set(bTrigger)
-                await db.ref(`stocks/watch/${i}/ts`).set(ts.toISOString())
-            }
-
-            //const array = [Object.keys(stocks[0])]
-            //await db.ref(`stocks/log`).set(array.toString())            
-            const tsn = new Date();
-            if(tsn.getHours() == 16) {
-                const mailOptions = {
-                    from: config.emailCredentials.email, 
-                    to: config.emailCredentials.to,
-                    subject: 'StockWatch End Of Day',
-                    html: jsonToTable(stocks)
-                };
-
-                await TRANSPORTER.sendMail(mailOptions, (error, info) => {
-                    if(error) functions.logger.log(error.toString())
-                    else functions.logger.log(info)
-                });
-            }        
-        } catch (e) { 
-            await db.ref(`stocks/log`).set(e.message)            
-            return 
-        }
-        return
+        await scanStockWatch()
     });

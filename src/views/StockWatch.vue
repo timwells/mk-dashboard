@@ -1,6 +1,11 @@
 <template>
 	<div>
-		<a-button type="primary" @click="runJob" size="small">Run Job</a-button>
+
+		<a-row :gutter="24" type="flex">
+			<a-col :span="24" class="mb-24">
+				<a-button type="primary" @click="jobRun" size="small">Job Run</a-button>
+			</a-col>
+		</a-row>
 
 		<a-row :gutter="24" type="flex">
 			<a-col :span="24" class="mb-24">			
@@ -134,9 +139,8 @@ export default ({
 		onExpand(exp,r) { },
 		rowColor(row) { return row.tp ? "tiggered" : "" },
 		timeStamp(ts) { return ts.split("T")[0] },
-		runJob() {
-			console.log("runjob")
-			this.$store.dispatch("stockwatch/runjob");
+		jobRun() {
+			this.$store.dispatch("stockwatch/jobrun");
 		}
 	},	
 	mounted() {
