@@ -380,6 +380,48 @@ async function isabelnetblog() {
         });
 }
 
+// https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results?start=0&rpp=4000&lo=0&sort=fd.full_description&sort_dir=asc
+const HLFUNDS = "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results?start=0&rpp=4000&lo=0&sort=fd.full_description&sort_dir=asc"
+async function scanHLFunds() {
+    axios.get(HLFUNDS)
+        .then(async (resp) => {
+            console.log(resp.data)
+			await writeFileAsync(`./HLfunds.html`,resp.data);
+
+			
+			//let blog = []
+            //const $ = await cheerio.load(resp.data);
+            //const sel = '.news-item'
+            //$(sel).each((i, e) => {
+                // console.log(i,$(e)[0].children[0])
+            //    console.log(i,$(e)[0].children[0].children)
+            //});
+            // res.status(200).json(sivs);
+        });
+}
+
+// Shiller data
+const SP500PE = "https://www.multpl.com/s-p-500-pe-ratio/table/by-month"
+async function scanSP500PE() {
+    let sp500pe = []
+    axios.get(SP500PE)
+        .then(async (resp) => {
+            const $ = await cheerio.load(resp.data);
+            $('#datatable > tbody > tr').each((i, el) => {
+                if(i > 2) {
+                    const rowCols = $(el).children("td")
+                    const dateObj = new Date(rowCols[0].children[0].data)
+                    const valStr = rowCols[1].children[0].data.trimStart().trimEnd()                    
+                    // console.log(`${dateObj.toLocaleDateString()} - ${valStr}`)
+                    sp500pe.push({d: dateObj.toLocaleDateString(),v:valStr})
+                }
+            })
+
+            console.log(sp500pe.reverse())
+        });
+}
+
+
 
 (async () => {
     // await BuildFundList();
@@ -396,7 +438,10 @@ async function isabelnetblog() {
     //cmvModels();
     // await dataroma();
 
-    await isabelnetblog()
+    // await isabelnetblog()
+	// await scanHLFunds()
+    
+    await scanSP500PE()
 
     console.log("done");
 })();
