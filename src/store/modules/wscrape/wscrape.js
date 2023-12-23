@@ -6,6 +6,7 @@ const HEADERS = { 'x-api-key' : API_KEY }
 
 const state = {
   nakedTrades: [],
+  nakedArchives: [],
   dataroma: [],
   dataromaHoldingsMap: [],
   dividendData: [],
@@ -19,23 +20,32 @@ const getters = {
 
 const mutations = {
   SET_NAKED_TRADES: (state, payload) => (state.nakedTrades = payload),
+  SET_NAKED_ARCHIVES: (state, payload) => (state.nakedArchives = payload),
   SET_DIVIDEND_DATA: (state, payload) => (state.dividendData = payload),
   SET_DATAROMA: (state, payload) => (state.dataroma = payload),
   SET_DATAROMA_HOLDINGS_MAP: (state, payload) => (state.dataromaHoldingsMap.push(payload)),
   SET_BOE_IRATES: (state, payload) => (state.boeIRates = payload),
   SET_CMV_MODELS: (state, payload) => (state.cmvModels = payload),
-
 };
 
 const actions = {
   getNakedTrades({ commit }) {
     commit("SET_NAKED_TRADES", []);
-    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/nt`,{ headers: HEADERS })
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/nt/trades`,{ headers: HEADERS })
         .then(response => { commit("SET_NAKED_TRADES", response.data) })
+  },
+  getNakedArchives({ commit }) {
+    commit("SET_NAKED_ARCHIVES", []);
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/nt/archives`,{ headers: HEADERS })
+        .then(response => { commit("SET_NAKED_ARCHIVES", response.data) })
   },
   getDividendData({ commit }) {
     commit("SET_DIVIDEND_DATA", []);
-    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/dividenddata`,{ headers: HEADERS })
+    
+    // axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/dividenddata`,{ headers: HEADERS })
+    //    .then(response => { commit("SET_DIVIDEND_DATA", response.data) })
+
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/dividenddata/exdividenddate`,{ headers: HEADERS })
         .then(response => { commit("SET_DIVIDEND_DATA", response.data) })
   },
   getDataroma({ commit }) {

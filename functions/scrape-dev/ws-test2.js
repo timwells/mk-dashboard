@@ -1,4 +1,4 @@
-const {config} = require("./config")
+const {config} = require("../config")
 const axios = require('axios')
 
 const fetch = require('node-fetch')
@@ -408,20 +408,48 @@ async function scanSP500PE() {
         .then(async (resp) => {
             const $ = await cheerio.load(resp.data);
             $('#datatable > tbody > tr').each((i, el) => {
-                if(i > 2) {
+                if(i > 0) { // skip th
                     const rowCols = $(el).children("td")
                     const dateObj = new Date(rowCols[0].children[0].data)
-                    const valStr = rowCols[1].children[0].data.trimStart().trimEnd()                    
-                    // console.log(`${dateObj.toLocaleDateString()} - ${valStr}`)
+                    const valStr = ($(rowCols[1]).text()).replace("†","").trimStart().trimEnd()
                     sp500pe.push({d: dateObj.toLocaleDateString(),v:valStr})
                 }
             })
-
-            console.log(sp500pe.reverse())
+            // console.log(sp500pe.reverse())
+            console.log("sp500pe:",sp500pe)
         });
 }
 
+const SHILLER_SITE = "https://www.multpl.com/shiller-pe/table/by-month"
+const scanShillerPE = (req, res) => {
+    let shillerpe = [] 
+    axios.get(SHILLER_SITE)
+        .then(async (resp) => {
+            const $ = await cheerio.load(resp.data);
+            $('#datatable > tbody > tr').each((i, el) => {
+                if(i > 0) {
+                    const rowCols = $(el).children("td")
+                    const dateObj = new Date(rowCols[0].children[0].data)
+                    const valStr = rowCols[1].children[0].data.trimStart().trimEnd()                    
+                    shillerpe.push({d: dateObj.toLocaleDateString(),v:valStr})
+                }
+            })
+            // console.log(shillerpe.reverse())
+            // console.log(shillerpe)
+            console.log(shillerpe)
+        })
+    }
 
+const BUFFETT_INDICATOR_SITE = "https://www.currentmarketvaluation.com/models/buffett-indicator.php"
+const buffettIndicator = (req, res) => {
+    axios.get(BUFFETT_INDICATOR_SITE)
+        .then(async (resp) => {
+            const $ = await cheerio.load(resp.data);
+            const c = $('#JSON-HC-BI-3').text();            
+            console.log(c)
+            
+        })
+    };
 
 (async () => {
     // await BuildFundList();
@@ -441,8 +469,10 @@ async function scanSP500PE() {
     // await isabelnetblog()
 	// await scanHLFunds()
     
-    await scanSP500PE()
-
+    // await scanSP500PE()
+    // await scanShillerPE()
+  
+    await buffettIndicator();
     console.log("done");
 })();
   

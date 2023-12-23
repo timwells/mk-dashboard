@@ -11,7 +11,7 @@ const { config } = require("./config");
 const VERSION = "0.0.7";
 const API_KEY_NAME = "x-api-key"
 
-const unauthorized = (res) => res.status(401).send('unauthorized');
+const unauthorized = (res) => res.status(401).send('unauthorised');
 const unprocessible = (res) => res.status(412).send('unprocessible');
 
 const isApiKeyValid = (request,keyName,apiKeys) => {
@@ -37,6 +37,21 @@ app.get('/v1/scrape/:site', (request, response) => {
         else { scrapedata(request,response) }
     } else unauthorized(response)
 })
+
+app.get('/v1/scrape/:site/:service', (request, response) => {
+    if(isApiKeyValid(request,API_KEY_NAME,config.apiKeys)) {
+        let site = request.params.site;
+        let service = request.params.service;
+        let siteServices = require(`./wscrape/${site}.js`)
+
+        siteServices[service](request,response)
+        
+        // const { scrapedata, service } = require(`./wscrape/${request.params.site}.js`)
+        // if(request.query.q != null) { scrapedata1(request,response) } 
+        // else { scrapedata(request,response) }
+    } else unauthorized(response)
+})
+
 
 // Expose Express API as a single Cloud Function:
 exports.fintech = functions.https.onRequest(app);

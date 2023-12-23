@@ -5,9 +5,7 @@
 
 <template>
 	<div>
-
 		<a-row type="flex" :gutter="24">
-
 			<!-- Billing Info Column -->
 			<a-col :span="24" :md="16">
 				<a-row type="flex" :gutter="24">

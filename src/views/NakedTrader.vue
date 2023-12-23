@@ -1,48 +1,60 @@
 <template>
 	<a-row :gutter="24" type="flex">
 		<a-col :span="24" class="mb-24">
-			<a-table
-				:loading="loading"
-				:columns="fundsColumns"
-				:data-source="nakedTrades" 
-				:pagination="pagination"
-				:rowKey="(record,index) => index"
-				@expand="onExpand"
-				@expandedRowsChange="expandedRowsChange"
-				class='table table-small' style="margin: 0; background-color: white;">
-				
-				<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
-					<a-tabs default-active-key="1">
-    					<a-tab-pane key="1" tab="Trade View">
-							<WidgetTradingViewTechAnalysis 
-								:symbol="fullSymbol(record.epic)" 
-								@container="container">
-							</WidgetTradingViewTechAnalysis>
-						</a-tab-pane>
-						<a-tab-pane key="2" tab="Broker View">
-							<WidgetTradingViewBrokerAnalysis 
-								:symbol="fullSymbol(record.epic)">
-							</WidgetTradingViewBrokerAnalysis>
-						</a-tab-pane>
-						<a-tab-pane key="3" tab="Financials">
-							<WidgetTradingViewFinancials 
-								:symbol="fullSymbol(record.epic)">
-							</WidgetTradingViewFinancials>
-						</a-tab-pane>						
-  					</a-tabs>
-				</template>
+			<a-tabs default-active-key="1">
+				<a-tab-pane key="1" tab="Trades">
+					<a-table
+						:loading="loading"
+						:columns="fundsColumns"
+						:data-source="nakedTrades" 
+						:pagination="pagination"
+						:rowKey="(record,index) => index"
+						@expand="onExpand"
+						@expandedRowsChange="expandedRowsChange"
+						class='table table-small' style="margin: 0; background-color: white;">				
+						<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
+							<a-tabs default-active-key="1">
+								<a-tab-pane key="1" tab="£ View">
+									<WidgetTradingViewTechAnalysis 
+										:symbol="fullSymbol(record.epic)" 
+										@container="container"> 
+									</WidgetTradingViewTechAnalysis>
+								</a-tab-pane>
+								<a-tab-pane key="2" tab="Broker View">
+									<WidgetTradingViewBrokerAnalysis 
+										:symbol="fullSymbol(record.epic)">
+									</WidgetTradingViewBrokerAnalysis>
+								</a-tab-pane>
+								<a-tab-pane key="3" tab="Financials">
+									<WidgetTradingViewFinancials 
+										:symbol="fullSymbol(record.epic)">
+									</WidgetTradingViewFinancials>
+								</a-tab-pane>						
+							</a-tabs>
+						</template>
 
-				<template slot="stock" slot-scope="stock"><p class="m-0 font-regular text-muted">{{ stock }}</p></template>
-				<template slot="epic" slot-scope="epic"><p class="m-0 font-regular text-muted">{{ epic }}</p></template>
-				<template slot="qty" slot-scope="qty"><p class="m-0 font-regular text-muted">{{ qty }}</p></template>
-				<template slot="price" slot-scope="price"><p class="m-0 font-regular text-muted">{{ price }}</p></template>
-				<template slot="target" slot-scope="target"><p class="m-0 font-regular text-muted">{{ target }}</p></template>
-				<template slot="stop" slot-scope="stop"><p class="m-0 font-regular text-muted">{{ stop }}</p></template>
-				<template slot="buydate" slot-scope="buydate"><p class="m-0 font-regular text-muted">{{ buydate }}</p></template>
-				<template slot="sell" slot-scope="sell"><p class="m-0 font-regular text-muted">{{ sell }}</p></template>
-				<template slot="selldate" slot-scope="selldate"><p class="m-0 font-regular text-muted">{{ selldate }}</p></template>
-				<template slot="pl" slot-scope="pl"><p class="m-0 font-regular text-muted">{{ pl }}</p></template>	
-			</a-table>
+						<template slot="stock" slot-scope="stock"><p class="m-0 font-regular text-muted">{{ stock }}</p></template>
+						<template slot="epic" slot-scope="epic"><p class="m-0 font-regular text-muted">{{ epic }}</p></template>
+						<template slot="qty" slot-scope="qty"><p class="m-0 font-regular text-muted">{{ qty }}</p></template>
+						<template slot="price" slot-scope="price"><p class="m-0 font-regular text-muted">{{ price }}</p></template>
+						<template slot="target" slot-scope="target"><p class="m-0 font-regular text-muted">{{ target }}</p></template>
+						<template slot="stop" slot-scope="stop"><p class="m-0 font-regular text-muted">{{ stop }}</p></template>
+						<template slot="buydate" slot-scope="buydate"><p class="m-0 font-regular text-muted">{{ buydate }}</p></template>
+						<template slot="sell" slot-scope="sell"><p class="m-0 font-regular text-muted">{{ sell }}</p></template>
+						<template slot="selldate" slot-scope="selldate"><p class="m-0 font-regular text-muted">{{ selldate }}</p></template>
+						<template slot="pl" slot-scope="pl"><p class="m-0 font-regular text-muted">{{ pl }}</p></template>	
+					</a-table>
+				</a-tab-pane>
+				<a-tab-pane key="2" tab="Archive">
+					<ul>
+						<li v-for="x in nakedArchives" :key="x.index">{{ x.year }}
+							<ul>
+								<li v-for="y in x.archives" :key="y.index">{{ y }}</li>
+							</ul>				
+						</li>
+					</ul>
+				</a-tab-pane>
+			</a-tabs>
 		</a-col>
 	</a-row>
 </template>
@@ -80,12 +92,15 @@ export default ({
 		WidgetTradingViewFinancials
 	},
 	computed: {
-    	...mapState("wscrape", ["nakedTrades"])	
+    	...mapState("wscrape", ["nakedTrades","nakedArchives"])	
 	},
 	watch: {
         nakedTrades(o,n) {
 			this.loading = this.nakedTrades.length > 0 ? false: true
 		},
+		getNakedArchives(o,n) {
+			this.loading = this.nakedArchives.length > 0 ? false: true
+		}
     },
 	data() {
 		return {
@@ -138,6 +153,7 @@ export default ({
 	mounted() {
 		this.loading = true;
 		this.$store.dispatch("wscrape/getNakedTrades");
+		this.$store.dispatch("wscrape/getNakedArchives");
 	}
 })
 </script>

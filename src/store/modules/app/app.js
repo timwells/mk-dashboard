@@ -1,4 +1,4 @@
-const _version = "1.0.0";
+const _version = "1.0.1";
 const state = {
   version: _version
 };
