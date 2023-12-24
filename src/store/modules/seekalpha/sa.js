@@ -31,7 +31,6 @@ const actions = {
             headers: HEADERS
         }
         axios.request(options).then((response) => {
-            console.log( response.data)
             commit("SET_TRENDING", response.data);
         }).catch(function (error) {
             // console.error(error);

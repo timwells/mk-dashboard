@@ -160,4 +160,8 @@ export default ({
 })
 </script>
 
-<style></style>
+<style>
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+    padding: 8px 8px;
+}
+</style>

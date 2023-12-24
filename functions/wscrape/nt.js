@@ -50,6 +50,37 @@ const trades = (req, res) => {
         });
 }
 
+const trades2 = (req, res) => {
+    axios.get(NT_SITE_TRADES,{ headers: { Cookie: "nt=1;" } })
+        .then((resp) => {
+            const $ = cheerio.load(resp.data);
+            const rows = [];
+            const sel= '.trades tbody tr';
+            const headers = [];            
+            $(sel).each((i, e) => {
+                let rowObj = {};
+                $(e).find("th").each((i, e) => {
+                    let colHeader = $(e).text().trim().toLowerCase().replace("/","").replace(" ","")
+                    headers.push(colHeader)
+                });
+                let textId = [0,1,6,8]
+                $(e).find("td").each((i, e) => { 
+                    let item = $(e).text().trim();
+                    if(textId.includes(i)) { rowObj[headers[i]] = item } 
+                    else { rowObj[headers[i]] = (item.length > 0) ? parseFloat(item) : item; }
+                });
+
+                if(Object.keys(rowObj).length > 0) {
+                    rowObj["tc"] = +((rowObj["qty"] * rowObj["price"]) / 100).toFixed(2)
+                    rowObj["pd"] = +(rowObj["target"] - rowObj["price"]).toFixed(2)
+                    rowObj["cp"] = +(100 * (rowObj["target"] - rowObj["price"]) / rowObj["price"]).toFixed(2)    
+                    rows.push(rowObj)
+                }
+            });
+            res.status(200).json(rows);
+        });
+}
+
 const archivesdata = (req, res) => {
     let records = []
     axios.get(NT_SITE_ARCHIVES,{ headers: { Cookie: "nt=1;" } })
@@ -89,5 +120,6 @@ module.exports = {
     archivesdata,
 
     trades,
-    archives
+    archives,
+    trades2
 }

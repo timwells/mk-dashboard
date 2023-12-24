@@ -34,7 +34,7 @@ const scrapedata = (req, res) => {
                         (new Date()).getTime())/(1000 * 3600 * 24))
                 }
 
-                if ( daysToGo > 0) {
+                if (daysToGo > 0) {
                     let dividendObj = {
                         epic: rowCols[0].children[0].data,
                         name: rowCols[1].children[0].data,

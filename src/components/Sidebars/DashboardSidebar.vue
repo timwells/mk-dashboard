@@ -5,7 +5,7 @@
 		class="sider-primary"
 		breakpoint="lg"
 		collapsed-width="0"
-		width="250px"
+		width="220px"
 		:collapsed="sidebarCollapsed"
 		@collapse="$emit('toggleSidebar', ! sidebarCollapsed)"
 		:trigger="null"
@@ -55,8 +55,8 @@ const sidebarItems= [
 	{title: "Dataroma",linkTo: "/dataroma"},
 	{title: "Quotes",linkTo: "/quotes"},
 	{title: "Trends",linkTo: "/trends"},
-	{title: "Seeking Alpha",linkTo: "/seeking-alpha"},
-	{title: "Fear & Greed",linkTo: "/fear-n-greed"}
+	{title: "SeekingAlpha",linkTo: "/seeking-alpha"},
+	{title: "Fear&Greed",linkTo: "/fear-n-greed"}
 ];
 
 export default ({

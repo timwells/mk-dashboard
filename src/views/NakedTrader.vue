@@ -40,6 +40,11 @@
 						<template slot="target" slot-scope="target"><p class="m-0 font-regular text-muted">{{ target }}</p></template>
 						<template slot="stop" slot-scope="stop"><p class="m-0 font-regular text-muted">{{ stop }}</p></template>
 						<template slot="buydate" slot-scope="buydate"><p class="m-0 font-regular text-muted">{{ buydate }}</p></template>
+
+						<template slot="tc" slot-scope="tc"><p class="m-0 font-regular text-muted">{{ tc }}</p></template>
+						<template slot="pd" slot-scope="pd"><p class="m-0 font-regular text-muted">{{ pd }}</p></template>
+						<template slot="cp" slot-scope="cp"><p class="m-0 font-regular text-muted">{{ cp }}</p></template>
+
 						<template slot="sell" slot-scope="sell"><p class="m-0 font-regular text-muted">{{ sell }}</p></template>
 						<template slot="selldate" slot-scope="selldate"><p class="m-0 font-regular text-muted">{{ selldate }}</p></template>
 						<template slot="pl" slot-scope="pl"><p class="m-0 font-regular text-muted">{{ pl }}</p></template>	
@@ -61,13 +66,16 @@
 
 <script>
 const fundsColumns = [
-	{ title: 'Stock', dataIndex: 'stock', scopedSlots: { customRender: 'stock' }},
-	{ title: 'Epic', dataIndex: 'epic', scopedSlots: { customRender: 'epic' }},
-	{ title: 'Qty',dataIndex: 'qty',scopedSlots: { customRender: 'qty' }},
+	{ title: 'Stock', dataIndex: 'stock', width: 140, scopedSlots: { customRender: 'stock' }},
+	{ title: 'Epic', dataIndex: 'epic', width: 90, scopedSlots: { customRender: 'epic' }},
+	{ title: 'Bought',dataIndex: 'buydate', width: 140, scopedSlots: { customRender: 'buydate' }},
+	{ title: 'Qty',dataIndex: 'qty', width: 100,scopedSlots: { customRender: 'qty' }},
 	{ title: 'Price', dataIndex: 'price', scopedSlots: { customRender: 'price' }},
+	{ title: 'Cost',dataIndex: 'tc',scopedSlots: { customRender: 'tc' }},
 	{ title: 'Target',dataIndex: 'target',scopedSlots: { customRender: 'target' }},
+	{ title: 'Diff',dataIndex: 'pd', width: 80, scopedSlots: { customRender: 'pd' }},
+	{ title: '%',dataIndex: 'cp',scopedSlots: { customRender: 'cp' }},
 	{ title: 'Stop',dataIndex: 'stop',scopedSlots: { customRender: 'stop' }},
-	{ title: 'Buy Date',dataIndex: 'buydate',scopedSlots: { customRender: 'buydate' }},
 	{ title: 'Sell', dataIndex: 'sell', scopedSlots: { customRender: 'sell' }},
 	{ title: 'Sell Date', dataIndex: 'selldate', scopedSlots: { customRender: 'selldate' }},
 	{ title: 'P/L ', dataIndex: 'pl',scopedSlots: { customRender: 'pl' }}
@@ -158,4 +166,9 @@ export default ({
 })
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+    padding: 8px 8px;
+}
+
+</style>

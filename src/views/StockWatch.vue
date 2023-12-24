@@ -59,11 +59,11 @@
 					<template slot="timestamp" slot-scope="timestamp">
 						<p class="m-0">{{timeStamp(timestamp)}}</p>
 					</template>
-					<template slot="minichart" slot-scope="record">
+					<!--template slot="minichart" slot-scope="record">
 						<WidgetTradingViewMiniChart 
 							:symbol="fullSymbol(record)">
 						</WidgetTradingViewMiniChart>
-					</template>
+					</template-->
 				</a-table>
 			</a-col>
 		</a-row>
@@ -151,5 +151,9 @@ export default ({
 </script>
 
 <style>
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+    padding: 8px 8px;
+}
+
 .tiggered { background-color:rgb(174, 243, 174) }
 </style>

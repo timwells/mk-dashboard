@@ -19,11 +19,11 @@ export default {
     },
     width: {
       type: String,
-      default: "600"
+      default: "800"
     },
     height: {
       type: String,
-      default: "50"
+      default: "40"
     },
   },
   data: () => ({

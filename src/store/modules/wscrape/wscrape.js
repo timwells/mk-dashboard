@@ -31,8 +31,8 @@ const mutations = {
 const actions = {
   getNakedTrades({ commit }) {
     commit("SET_NAKED_TRADES", []);
-    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/nt/trades`,{ headers: HEADERS })
-        .then(response => { commit("SET_NAKED_TRADES", response.data) })
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/nt/trades2`,{ headers: HEADERS })
+        .then(res => { /* console.log(res.data); */ commit("SET_NAKED_TRADES", res.data) })
   },
   getNakedArchives({ commit }) {
     commit("SET_NAKED_ARCHIVES", []);
@@ -41,10 +41,6 @@ const actions = {
   },
   getDividendData({ commit }) {
     commit("SET_DIVIDEND_DATA", []);
-    
-    // axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/dividenddata`,{ headers: HEADERS })
-    //    .then(response => { commit("SET_DIVIDEND_DATA", response.data) })
-
     axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/dividenddata/exdividenddate`,{ headers: HEADERS })
         .then(response => { commit("SET_DIVIDEND_DATA", response.data) })
   },

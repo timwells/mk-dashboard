@@ -20,7 +20,6 @@
 
 		</div>
 		<div class="header-col header-nav">
-			<pre>l</pre>
 			<!-- Navigation Menu For Large Screens -->
 			<a-menu mode="horizontal" class="menu-small">
 				<a-menu-item>
@@ -139,9 +138,8 @@
 </script>
 
 <style lang="scss" scoped>
-
 	.nav-link svg {
-		margin-right: 5px;
+		margin-right: 2px;
 		vertical-align: middle;
 	}
 	.nav-link span {
