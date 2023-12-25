@@ -2,17 +2,25 @@
 	<a-row :gutter="24" type="flex">
 		<a-col :span="24" class="mb-24">
 			<a-tabs default-active-key="1">
-				<a-tab-pane key="1" tab="Trades">
+				<a-tab-pane key="1" tab="Open">
+					<a-row>
+						<a-col :span="6">
+							<a-statistic title="Open Orders" :value="nakedTrades.statistics.openTrades" />
+						</a-col>
+						<a-col :span="6">
+							<a-statistic title="Open Order Cost £" :value="nakedTrades.statistics.openOrderCost" />
+						</a-col>
+					</a-row>
 					<a-table
 						:loading="loading"
 						:columns="fundsColumns"
-						:data-source="nakedTrades" 
+						:data-source="nakedTrades.openTrades" 
 						:pagination="pagination"
 						:rowKey="(record,index) => index"
 						@expand="onExpand"
 						@expandedRowsChange="expandedRowsChange"
 						class='table table-small' style="margin: 0; background-color: white;">				
-						<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
+						<template slot="expandedRowRender" slot-scope="record">
 							<a-tabs default-active-key="1">
 								<a-tab-pane key="1" tab="£ View">
 									<WidgetTradingViewTechAnalysis 
@@ -41,7 +49,7 @@
 						<template slot="stop" slot-scope="stop"><p class="m-0 font-regular text-muted">{{ stop }}</p></template>
 						<template slot="buydate" slot-scope="buydate"><p class="m-0 font-regular text-muted">{{ buydate }}</p></template>
 
-						<template slot="tc" slot-scope="tc"><p class="m-0 font-regular text-muted">{{ tc }}</p></template>
+						<template slot="tc" slot-scope="tc"><p class="m-0 font-regular text-muted">£{{ tc }}</p></template>
 						<template slot="pd" slot-scope="pd"><p class="m-0 font-regular text-muted">{{ pd }}</p></template>
 						<template slot="cp" slot-scope="cp"><p class="m-0 font-regular text-muted">{{ cp }}</p></template>
 
@@ -50,7 +58,71 @@
 						<template slot="pl" slot-scope="pl"><p class="m-0 font-regular text-muted">{{ pl }}</p></template>	
 					</a-table>
 				</a-tab-pane>
-				<a-tab-pane key="2" tab="Archive">
+				<a-tab-pane key="2" tab="All Trades">
+					<a-table
+						:loading="loading"
+						:columns="fundsColumns"
+						:data-source="nakedTrades.trades" 
+						:pagination="pagination"
+						:rowKey="(record,index) => index"
+						@expand="onExpand"
+						@expandedRowsChange="expandedRowsChange"
+						class='table table-small' style="margin: 0; background-color: white;">				
+						<template slot="expandedRowRender" slot-scope="record">
+							<a-tabs default-active-key="1">
+								<a-tab-pane key="1" tab="£ View">
+									<WidgetTradingViewTechAnalysis 
+										:symbol="fullSymbol(record.epic)" 
+										@container="container"> 
+									</WidgetTradingViewTechAnalysis>
+								</a-tab-pane>
+								<a-tab-pane key="2" tab="Broker View">
+									<WidgetTradingViewBrokerAnalysis 
+										:symbol="fullSymbol(record.epic)">
+									</WidgetTradingViewBrokerAnalysis>
+								</a-tab-pane>
+								<a-tab-pane key="3" tab="Financials">
+									<WidgetTradingViewFinancials 
+										:symbol="fullSymbol(record.epic)">
+									</WidgetTradingViewFinancials>
+								</a-tab-pane>						
+							</a-tabs>
+						</template>
+
+						<template slot="stock" slot-scope="stock"><p class="m-0 font-regular text-muted">{{ stock }}</p></template>
+						<template slot="epic" slot-scope="epic"><p class="m-0 font-regular text-muted">{{ epic }}</p></template>
+						<template slot="qty" slot-scope="qty"><p class="m-0 font-regular text-muted">{{ qty }}</p></template>
+						<template slot="price" slot-scope="price"><p class="m-0 font-regular text-muted">{{ price }}</p></template>
+						<template slot="target" slot-scope="target"><p class="m-0 font-regular text-muted">{{ target }}</p></template>
+						<template slot="stop" slot-scope="stop"><p class="m-0 font-regular text-muted">{{ stop }}</p></template>
+						<template slot="buydate" slot-scope="buydate"><p class="m-0 font-regular text-muted">{{ buydate }}</p></template>
+
+						<template slot="tc" slot-scope="tc"><p class="m-0 font-regular text-muted">£{{ tc }}</p></template>
+						<template slot="pd" slot-scope="pd"><p class="m-0 font-regular text-muted">{{ pd }}</p></template>
+						<template slot="cp" slot-scope="cp"><p class="m-0 font-regular text-muted">{{ cp }}</p></template>
+
+						<template slot="sell" slot-scope="sell"><p class="m-0 font-regular text-muted">{{ sell }}</p></template>
+						<template slot="selldate" slot-scope="selldate"><p class="m-0 font-regular text-muted">{{ selldate }}</p></template>
+						<template slot="pl" slot-scope="pl"><p class="m-0 font-regular text-muted">{{ pl }}</p></template>	
+					</a-table>
+				</a-tab-pane>
+				<a-tab-pane key="3" tab="Statistics">
+					<a-row>
+						<a-col :span="6">
+							<a-statistic title="Open Orders" :value="nakedTrades.statistics.openTrades" />
+						</a-col>
+						<a-col :span="6">
+							<a-statistic title="Open Order Cost £" :value="nakedTrades.statistics.openOrderCost" />
+						</a-col>
+						<a-col :span="6">
+							<a-statistic title="Gains %" :value="nakedTrades.statistics.gainPercent" />
+						</a-col>
+						<a-col :span="6">
+							<a-statistic title="Losses %" :value="nakedTrades.statistics.lossPercent" />
+						</a-col>
+					</a-row>
+				</a-tab-pane>	
+				<a-tab-pane key="3" tab="Archive">
 					<ul>
 						<li v-for="x in nakedArchives" :key="x.index">{{ x.year }}
 							<ul>
@@ -68,14 +140,20 @@
 const fundsColumns = [
 	{ title: 'Stock', dataIndex: 'stock', width: 140, scopedSlots: { customRender: 'stock' }},
 	{ title: 'Epic', dataIndex: 'epic', width: 90, scopedSlots: { customRender: 'epic' }},
-	{ title: 'Bought',dataIndex: 'buydate', width: 140, scopedSlots: { customRender: 'buydate' }},
-	{ title: 'Qty',dataIndex: 'qty', width: 100,scopedSlots: { customRender: 'qty' }},
+	{ title: 'Bought', dataIndex: 'buydate', width: 140, scopedSlots: { customRender: 'buydate' }},
+	{ title: 'Qty', dataIndex: 'qty', width: 100,scopedSlots: { customRender: 'qty' }},
 	{ title: 'Price', dataIndex: 'price', scopedSlots: { customRender: 'price' }},
-	{ title: 'Cost',dataIndex: 'tc',scopedSlots: { customRender: 'tc' }},
-	{ title: 'Target',dataIndex: 'target',scopedSlots: { customRender: 'target' }},
-	{ title: 'Diff',dataIndex: 'pd', width: 80, scopedSlots: { customRender: 'pd' }},
-	{ title: '%',dataIndex: 'cp',scopedSlots: { customRender: 'cp' }},
-	{ title: 'Stop',dataIndex: 'stop',scopedSlots: { customRender: 'stop' }},
+	{ title: 'Cost', dataIndex: 'tc',scopedSlots: { customRender: 'tc' }},
+	{ title: 'Target', dataIndex: 'target',scopedSlots: { customRender: 'target' }},
+	{ title: 'Diff', dataIndex: 'pd', width: 80, scopedSlots: { customRender: 'pd' }},
+	{ 
+		title: '%', 
+		dataIndex: 'cp', 
+		sortDirections: ["descend", "ascend"],
+		sorter: (a, b) => a.cp - b.cp,
+		scopedSlots: { customRender: 'cp' }
+	},
+	{ title: 'Stop',dataIndex: 'stop', scopedSlots: { customRender: 'stop' }},
 	{ title: 'Sell', dataIndex: 'sell', scopedSlots: { customRender: 'sell' }},
 	{ title: 'Sell Date', dataIndex: 'selldate', scopedSlots: { customRender: 'selldate' }},
 	{ title: 'P/L ', dataIndex: 'pl',scopedSlots: { customRender: 'pl' }}
@@ -99,16 +177,10 @@ export default ({
 		WidgetTradingViewBrokerAnalysis,
 		WidgetTradingViewFinancials
 	},
-	computed: {
-    	...mapState("wscrape", ["nakedTrades","nakedArchives"])	
-	},
+	computed: {...mapState("wscrape", ["nakedTrades","nakedArchives"])},
 	watch: {
-        nakedTrades(o,n) {
-			this.loading = this.nakedTrades.length > 0 ? false: true
-		},
-		getNakedArchives(o,n) {
-			this.loading = this.nakedArchives.length > 0 ? false: true
-		}
+        nakedTrades(o,n) { this.loading = (Object.keys(this.nakedTrades).length === 0) ? true:false },
+		getNakedArchives(o,n) { this.loading = this.nakedArchives.length > 0 ? false:true }
     },
 	data() {
 		return {

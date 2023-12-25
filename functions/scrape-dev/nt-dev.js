@@ -12,7 +12,15 @@ function scanTrades2() {
             const $ = cheerio.load(resp.data);
             const rows = [];
             const sel= '.trades tbody tr';
-            const headers = [];            
+            const headers = [];
+            const openTrades = [];
+            let nAllTrades = 0; 
+            let nGains = 0;
+            let nLosses = 0;
+            let nOpenTrades = 0
+            let nClosedTrades = 0
+            let openOrderCost = 0.0
+                     
             $(sel).each((i, e) => {
                 let rowObj = {};
                 $(e).find("th").each((i, e) => {
@@ -38,15 +46,34 @@ function scanTrades2() {
                     else { rowObj[headers[i]] = (item.length > 0) ? parseFloat(item) : item; }
                 });
 
-                rowObj["tc"] = (rowObj["qty"] * rowObj["price"]) / 100;
-                rowObj["pd"] = (rowObj["target"] - rowObj["price"]);
-                rowObj["cp"] = +(100 * (rowObj["target"] - rowObj["price"]) / rowObj["price"]).toFixed(2)
-
                 if(Object.keys(rowObj).length > 0) {
+                    rowObj["tc"] = +((rowObj["qty"] * rowObj["price"]) / 100).toFixed(2)
+                    rowObj["pd"] = +(rowObj["target"] - rowObj["price"]).toFixed(2)
+                    rowObj["cp"] = +(100 * (rowObj["target"] - rowObj["price"]) / rowObj["price"]).toFixed(2)    
+
+                    // Calculate the trading statistics
+                    nAllTrades++;
+                    let pl = rowObj["pl"]
+                    if(typeof pl === "number") {
+                        nClosedTrades++
+                        (pl > 0) ? nGains++ : nLosses++
+                    } else { 
+                        nOpenTrades++; 
+                        openOrderCost += rowObj["tc"];
+                        openTrades.push(rowObj)
+                        console.log(rowObj);
+                    } 
                     rows.push(rowObj)
                 }
-                console.log(rowObj)
+                // console.log(rowObj)
             });
+
+            console.log(`Gains: ${+((nGains/nClosedTrades)*100).toFixed(2)}% (${nGains})`)
+            console.log(`Losses: ${+((nLosses/nClosedTrades)*100).toFixed(2)}% (${nLosses})`)
+            console.log(`OpenTrades: ${nOpenTrades}, ClosedTrades: ${nClosedTrades} AllTrades: ${nAllTrades}`)
+            console.log(`OpenOrderCost: ${openOrderCost}`)
+            //console.log(`OpenTrades: ${openTrades}`)
+
             // console.log(rows)
             return rows
         });
@@ -69,11 +96,9 @@ function scanTrades() {
                     rowObj[headers[i]] = $(e).text().trim(); 
                 });
 
-                if(Object.keys(rowObj).length > 0) {
-                    rows.push(rowObj)
-                }
+                if(Object.keys(rowObj).length > 0) { rows.push(rowObj) }
             });
-            console.log(rows)
+            //console.log(rows)
             return rows
         });
 }
