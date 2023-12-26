@@ -156,14 +156,9 @@ const colDictionary = [
 	{ title: 'P/L ', dataIndex: 'pl',scopedSlots: { customRender: 'pl' }}
 ];
 const OpenTradeCols = [
-colDictionary[0],
-colDictionary[1],
-colDictionary[2],
-colDictionary[3],
-colDictionary[4],
-colDictionary[5],
-colDictionary[6],
-colDictionary[7]
+colDictionary[0],colDictionary[1],colDictionary[2],
+colDictionary[3],colDictionary[4],colDictionary[5],
+colDictionary[6],colDictionary[7]
 ];
 
 import { mapState } from "vuex";
