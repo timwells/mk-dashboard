@@ -3,7 +3,7 @@
 		<a-col :span="24" class="mb-24">
 			<a-tabs default-active-key="1">
 				<a-tab-pane key="1" tab="Open">
-					<a-row>
+					<a-row v-if="nakedTrades">
 						<a-col :span="6">
 							<a-statistic title="Open Orders" :value="nakedTrades.statistics.openTrades" />
 						</a-col>
@@ -13,8 +13,8 @@
 					</a-row>
 					<a-table
 						:loading="loading"
-						:columns="fundsColumns"
-						:data-source="nakedTrades.openTrades" 
+						:columns="OpenTradeCols"
+						:data-source="openTrades" 
 						:pagination="pagination"
 						:rowKey="(record,index) => index"
 						@expand="onExpand"
@@ -53,16 +53,13 @@
 						<template slot="pd" slot-scope="pd"><p class="m-0 font-regular text-muted">{{ pd }}</p></template>
 						<template slot="cp" slot-scope="cp"><p class="m-0 font-regular text-muted">{{ cp }}</p></template>
 
-						<template slot="sell" slot-scope="sell"><p class="m-0 font-regular text-muted">{{ sell }}</p></template>
-						<template slot="selldate" slot-scope="selldate"><p class="m-0 font-regular text-muted">{{ selldate }}</p></template>
-						<template slot="pl" slot-scope="pl"><p class="m-0 font-regular text-muted">{{ pl }}</p></template>	
 					</a-table>
 				</a-tab-pane>
 				<a-tab-pane key="2" tab="All Trades">
 					<a-table
 						:loading="loading"
-						:columns="fundsColumns"
-						:data-source="nakedTrades.trades" 
+						:columns="colDictionary"
+						:data-source="allTrades" 
 						:pagination="pagination"
 						:rowKey="(record,index) => index"
 						@expand="onExpand"
@@ -107,7 +104,7 @@
 					</a-table>
 				</a-tab-pane>
 				<a-tab-pane key="3" tab="Statistics">
-					<a-row>
+					<a-row v-if="nakedTrades">
 						<a-col :span="6">
 							<a-statistic title="Open Orders" :value="nakedTrades.statistics.openTrades" />
 						</a-col>
@@ -137,7 +134,7 @@
 </template>
 
 <script>
-const fundsColumns = [
+const colDictionary = [
 	{ title: 'Stock', dataIndex: 'stock', width: 140, scopedSlots: { customRender: 'stock' }},
 	{ title: 'Epic', dataIndex: 'epic', width: 90, scopedSlots: { customRender: 'epic' }},
 	{ title: 'Bought', dataIndex: 'buydate', width: 140, scopedSlots: { customRender: 'buydate' }},
@@ -158,6 +155,16 @@ const fundsColumns = [
 	{ title: 'Sell Date', dataIndex: 'selldate', scopedSlots: { customRender: 'selldate' }},
 	{ title: 'P/L ', dataIndex: 'pl',scopedSlots: { customRender: 'pl' }}
 ];
+const OpenTradeCols = [
+colDictionary[0],
+colDictionary[1],
+colDictionary[2],
+colDictionary[3],
+colDictionary[4],
+colDictionary[5],
+colDictionary[6],
+colDictionary[7]
+];
 
 import { mapState } from "vuex";
 import WidgetTradingViewTechAnalysis from "@/components/Widgets/WidgetTradingViewTechAnalysis";
@@ -170,7 +177,6 @@ const epicCorrections = [
 ]
 
 // https://blog.katastros.com/a?ID=01750-67585afe-3add-4a2a-929a-d49a26d82b6c
-
 export default ({
 	components: {
 		WidgetTradingViewTechAnalysis,
@@ -179,13 +185,20 @@ export default ({
 	},
 	computed: {...mapState("wscrape", ["nakedTrades","nakedArchives"])},
 	watch: {
-        nakedTrades(o,n) { this.loading = (Object.keys(this.nakedTrades).length === 0) ? true:false },
-		getNakedArchives(o,n) { this.loading = this.nakedArchives.length > 0 ? false:true }
+        nakedTrades(o,n) {
+			this.openTrades = this.nakedTrades.openTrades
+			this.allTrades = this.nakedTrades.trades
+			this.loading = false;
+		},
+		//getNakedArchives(o,n) { this.loading = this.nakedArchives.length > 0 ? false:true }
     },
 	data() {
 		return {
+			openTrades: [],
+			allTrades: [],
 			loading: true,
-			fundsColumns,
+			OpenTradeCols,
+			colDictionary,
 			pagination: { 
 				pageSize: 200, onChange: (p) => {
 					/*
@@ -203,6 +216,9 @@ export default ({
 		}
 	},
 	methods: {
+		//getOpenTrades() { 
+		//	return (Object.keys(this.nakedTrades).length > 0) ? this.nakedTrades.openTrades : []  
+		//},
 		fullSymbol(epic) {
 			// fix epics
 			const nEpic = epicCorrections.find(e => (epic == e.in))		

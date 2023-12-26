@@ -5,7 +5,7 @@ const API_KEY = process.env.VUE_APP_FINTECH_API_KEY;
 const HEADERS = { 'x-api-key' : API_KEY }
 
 const state = {
-  nakedTrades: {},
+  nakedTrades: null,
   nakedArchives: [],
   dataroma: [],
   dataromaHoldingsMap: [],
@@ -30,9 +30,9 @@ const mutations = {
 
 const actions = {
   getNakedTrades({ commit }) {
-    commit("SET_NAKED_TRADES", {});
+    commit("SET_NAKED_TRADES", null);
     axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/nt/trades4`,{ headers: HEADERS })
-        .then(res => { console.log(res.data); commit("SET_NAKED_TRADES", res.data) })
+        .then(res => { /*console.log(res.data);*/ commit("SET_NAKED_TRADES", res.data) })
   },
   getNakedArchives({ commit }) {
     commit("SET_NAKED_ARCHIVES", []);
