@@ -145,6 +145,90 @@ const trades3 = (req, res) => {
         });
 }
 
+const trades4 = (req, res) => {
+    axios.get(NT_SITE_TRADES,{ headers: { Cookie: "nt=1;" } })
+        .then((resp) => {
+            const $ = cheerio.load(resp.data);
+            const allTrades = [];
+            const headers = [];
+            const openTrades = [];
+            let nAllTrades = 0; 
+            let nGains = 0;
+            let nLosses = 0;
+            let nOpenTrades = 0
+            let nClosedTrades = 0
+            let openOrderCost = 0.0
+
+            // Extract columns once from table
+            $('.trades>tbody>tr>th').each((i, e) => {
+                headers.push($(e).text().trim().toLowerCase().replace("/","").replace(" ",""))
+            });
+
+            $(".trades>tbody>tr").each((i, e) => {
+                let rowObj = {};
+                let textId = [0,1,6,8];
+
+                $(e).find("td").each((i, e) => { 
+                    let item = $(e).text().trim();
+                    if(textId.includes(i)) { rowObj[headers[i]] = item } 
+                    else { rowObj[headers[i]] = (item.length > 0) ? parseFloat(item) : item; }
+                });
+
+                if(Object.keys(rowObj).length > 0) {
+                    if(rowObj["stock"].length > 0 && 
+                        rowObj["epic"].length > 0 &&
+                        rowObj["buydate"].length > 0 &&
+                        rowObj["price"] > 0) {
+
+                        // Validate Buy Date
+                        let splitDate = rowObj["buydate"].split("/");
+                        let newBuyDate = `${splitDate[2]}-${splitDate[1]}-${splitDate[0]}` 
+                        let baseDate = Date.parse("2010-01-01");
+                        let buyDate = Date.parse(newBuyDate);
+
+                        if(buyDate > baseDate) {
+                            rowObj["tc"] = +((rowObj["qty"] * rowObj["price"]) / 100).toFixed(2)
+                            rowObj["pd"] = +(rowObj["target"] - rowObj["price"]).toFixed(2)
+                            rowObj["cp"] = +(100 * (rowObj["target"] - rowObj["price"]) / rowObj["price"]).toFixed(2)    
+
+                            // Calculate the trading statistics
+                            nAllTrades++;
+                            let pl = rowObj["pl"]
+                            if(typeof pl === "number") {
+                                nClosedTrades++
+                                (pl > 0) ? nGains++ : nLosses++
+                            } else {
+                                nOpenTrades++; 
+                                openOrderCost += rowObj["tc"];
+                                openTrades.push(rowObj)
+                                let daysOpen = (((new Date()) - buyDate) / (1000 * 3600 * 24)).toFixed(0)
+                                rowObj["buydate"] = `${rowObj["buydate"]} (${daysOpen})`
+                            }  
+                            allTrades.push(rowObj)
+                        }
+                    }
+                }
+            });
+
+            let resObj = {
+                trades: allTrades,
+                openTrades: openTrades,
+                statistics : {
+                    allTrades: nAllTrades,
+                    closedTrades: nClosedTrades,
+                    openTrades: nOpenTrades,
+                    openOrderCost : +openOrderCost.toFixed(2),
+                    gains : nGains,
+                    losses: nLosses,
+                    gainPercent: +((nGains/nClosedTrades)*100).toFixed(2),
+                    lossPercent: +((nLosses/nClosedTrades)*100).toFixed(2),
+                }
+            }
+            
+            res.status(200).json(resObj)
+        });
+}
+
 const archivesdata = (req, res) => {
     let records = []
     axios.get(NT_SITE_ARCHIVES,{ headers: { Cookie: "nt=1;" } })
@@ -186,5 +270,6 @@ module.exports = {
     trades,
     trades2,
     trades3,
+    trades4,
     archives,
 }

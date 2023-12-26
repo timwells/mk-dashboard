@@ -31,8 +31,8 @@ const mutations = {
 const actions = {
   getNakedTrades({ commit }) {
     commit("SET_NAKED_TRADES", {});
-    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/nt/trades3`,{ headers: HEADERS })
-        .then(res => { /* console.log(res.data); */ commit("SET_NAKED_TRADES", res.data) })
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/nt/trades4`,{ headers: HEADERS })
+        .then(res => { console.log(res.data); commit("SET_NAKED_TRADES", res.data) })
   },
   getNakedArchives({ commit }) {
     commit("SET_NAKED_ARCHIVES", []);

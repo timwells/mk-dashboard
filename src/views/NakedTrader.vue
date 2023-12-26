@@ -122,7 +122,7 @@
 						</a-col>
 					</a-row>
 				</a-tab-pane>	
-				<a-tab-pane key="3" tab="Archive">
+				<a-tab-pane key="4" tab="Archive">
 					<ul>
 						<li v-for="x in nakedArchives" :key="x.index">{{ x.year }}
 							<ul>

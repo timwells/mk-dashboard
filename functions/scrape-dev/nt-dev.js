@@ -10,8 +10,7 @@ function scanTrades2() {
     return axios.get(NT_SITE_TRADES,{ headers: { Cookie: "nt=1;" } })
         .then((resp) => {
             const $ = cheerio.load(resp.data);
-            const rows = [];
-            const sel= '.trades tbody tr';
+            const allTrades = [];
             const headers = [];
             const openTrades = [];
             let nAllTrades = 0; 
@@ -20,62 +19,91 @@ function scanTrades2() {
             let nOpenTrades = 0
             let nClosedTrades = 0
             let openOrderCost = 0.0
-                     
-            $(sel).each((i, e) => {
+
+            // Extract columns once from table
+            $('.trades>tbody>tr>th').each((i, e) => {
+                headers.push($(e).text().trim().toLowerCase().replace("/","").replace(" ",""))
+            });
+            
+            // 0 Servelec,1 SERV,2 3300,3 212.00,4 290,5 195,
+            // 6 03/12/2013,7 228.60,8 15/06/2016,9 547.00
+            $(".trades>tbody>tr").each((i, e) => {
                 let rowObj = {};
-                $(e).find("th").each((i, e) => {
-                    let colHeader = $(e).text().trim().toLowerCase().replace("/","").replace(" ","")
-                    headers.push(colHeader)
-                });
-/*
-    0 Servelec
-    1 SERV
-    2 3300
-    3 212.00
-    4 290
-    5 195
-    6 03/12/2013
-    7 228.60
-    8 15/06/2016
-    9 547.00
-*/
                 let textId = [0,1,6,8]
-                $(e).find("td").each((i, e) => { 
+
+                $(e).find("td").each((i, e) => {                
                     let item = $(e).text().trim();
                     if(textId.includes(i)) { rowObj[headers[i]] = item } 
                     else { rowObj[headers[i]] = (item.length > 0) ? parseFloat(item) : item; }
                 });
 
                 if(Object.keys(rowObj).length > 0) {
-                    rowObj["tc"] = +((rowObj["qty"] * rowObj["price"]) / 100).toFixed(2)
-                    rowObj["pd"] = +(rowObj["target"] - rowObj["price"]).toFixed(2)
-                    rowObj["cp"] = +(100 * (rowObj["target"] - rowObj["price"]) / rowObj["price"]).toFixed(2)    
+                    if(rowObj["stock"].length > 0 && 
+                        rowObj["epic"].length > 0 &&
+                        rowObj["buydate"].length > 0 &&
+                        rowObj["price"] > 0) {
 
-                    // Calculate the trading statistics
-                    nAllTrades++;
-                    let pl = rowObj["pl"]
-                    if(typeof pl === "number") {
-                        nClosedTrades++
-                        (pl > 0) ? nGains++ : nLosses++
-                    } else { 
-                        nOpenTrades++; 
-                        openOrderCost += rowObj["tc"];
-                        openTrades.push(rowObj)
-                        console.log(rowObj);
-                    } 
-                    rows.push(rowObj)
+                        // Validate Buy Date
+                        let splitDate = rowObj["buydate"].split("/");
+                        let newBuyDate = `${splitDate[2]}-${splitDate[1]}-${splitDate[0]}` 
+                        let baseDate = Date.parse("2010-01-01");
+                        let buyDate = Date.parse(newBuyDate);
+
+                        if(buyDate > baseDate) {
+                            rowObj["tc"] = +((rowObj["qty"] * rowObj["price"]) / 100).toFixed(2)
+                            rowObj["pd"] = +(rowObj["target"] - rowObj["price"]).toFixed(2)
+                            rowObj["cp"] = +(100 * (rowObj["target"] - rowObj["price"]) / rowObj["price"]).toFixed(2)    
+
+                            // Calculate the trading statistics
+                            nAllTrades++;
+                            let pl = rowObj["pl"]
+
+                            // console.log("pl:",typeof pl)
+                            if(typeof pl === "number") {
+                                nClosedTrades++
+                                (pl > 0) ? nGains++ : nLosses++
+                            } else {
+                                console.log("Process:",rowObj["epic"])
+                                nOpenTrades++;
+                                openOrderCost += rowObj["tc"];
+                                openTrades.push(rowObj)
+                                let daysOpen = (((new Date()) - buyDate) / (1000 * 3600 * 24)).toFixed(0)
+                                rowObj["buydate"] = `${rowObj["buydate"]} (${daysOpen})`
+                            }  
+                            allTrades.push(rowObj)
+                            console.log(rowObj["buydate"])
+                        }
+                    } else {
+                        console.log(rowObj["epic"],"Buydate < baseDate")
+                    }
                 }
                 // console.log(rowObj)
             });
 
+            /*
             console.log(`Gains: ${+((nGains/nClosedTrades)*100).toFixed(2)}% (${nGains})`)
             console.log(`Losses: ${+((nLosses/nClosedTrades)*100).toFixed(2)}% (${nLosses})`)
             console.log(`OpenTrades: ${nOpenTrades}, ClosedTrades: ${nClosedTrades} AllTrades: ${nAllTrades}`)
             console.log(`OpenOrderCost: ${openOrderCost}`)
-            //console.log(`OpenTrades: ${openTrades}`)
+            console.log(`OpenTrades: ${openTrades}`)
+            */
+            let resObj = {
+                trades: allTrades,
+                openTrades: openTrades,
+                statistics : {
+                    allTrades: nAllTrades,
+                    closedTrades: nClosedTrades,
+                    openTrades: nOpenTrades,
+                    openOrderCost : openOrderCost,
+                    gains : nGains,
+                    losses: nLosses,
+                    gainPercent: +((nGains/nClosedTrades)*100).toFixed(2),
+                    lossPercent: +((nLosses/nClosedTrades)*100).toFixed(2),
+                }
+            }
 
-            // console.log(rows)
-            return rows
+            //console.log(resObj)
+            return resObj
         });
 }
 
