@@ -46,15 +46,14 @@ app.get('/v1/scrape/:site/:service', (request, response) => {
 
         siteServices[service](request,response)
         
-        // const { scrapedata, service } = require(`./wscrape/${request.params.site}.js`)
-        // if(request.query.q != null) { scrapedata1(request,response) } 
-        // else { scrapedata(request,response) }
     } else unauthorized(response)
 })
 
 
 // Expose Express API as a single Cloud Function:
-exports.fintech = functions.https.onRequest(app);
+// exports.fintech = functions.https.onRequest(app);
+const beefyOpts = {memory: '1GB', timeoutSeconds: 60};
+exports.fintech = functions.runWith(beefyOpts).https.onRequest(app);
 
 const { scheduledFunction, jobadmin } = require("./jobs/job")
 

@@ -6,16 +6,16 @@
 			<a-col :span="24" :md="12">
 
 				<!-- Footer Copyright Notice -->
-				<p class="copyright">© 2023-2026 v23</p>
+				<p class="copyright">© 2023-2026 v24</p>
 				<!-- / Footer Copyright Notice -->
 
 			</a-col>
-			<a-col :span="24" :md="12" class="footer-control">
+			<!--a-col :span="24" :md="12" class="footer-control"-->
 
 				<!-- Footer Navigation Menu -->
 				<a-menu mode="horizontal">
 					<!--a-menu-item>Creative Tim</a-menu-item-->
-					<a-menu-item>About</a-menu-item>
+					<a-menu-item></a-menu-item>
 					<!--a-menu-item>Blog</a-menu-item-->
 					<!--a-menu-item>License</a-menu-item-->
 				</a-menu>

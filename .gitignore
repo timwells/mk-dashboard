@@ -19,7 +19,7 @@ pnpm-debug.log*
 # Editor directories and files
 .idea
 .vscode
-*.suo
+*.suocache
 *.ntvs*
 *.njsproj
 *.sln

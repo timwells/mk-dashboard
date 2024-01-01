@@ -10,7 +10,8 @@
     "serve": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve --open",
     "build": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
     "dev": "npm run serve",
-    "deploy": "firebase deploy --only hosting"
+    "deploy-hosting": "firebase deploy --only hosting",
+    "deploy-functions": "firebase deploy --only functions"
   },
   "dependencies": {
     "ant-design-vue": "1.7.8",

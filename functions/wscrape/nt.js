@@ -29,6 +29,7 @@ const scrapedata = (req, res) => {
 }
 
 const trades4 = (req, res) => {
+    console.log("-> trades4")
     axios.get(NT_SITE_TRADES,{ headers: { Cookie: "nt=1;" } })
         .then((resp) => {
             const $ = cheerio.load(resp.data);
