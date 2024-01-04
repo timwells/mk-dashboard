@@ -12,7 +12,7 @@ const CMV_STATE_COINCIDENCE_SITE_URL = "https://www.currentmarketvaluation.com/m
 const CMV_MARGIN_DEBT_SITE_URL = "https://www.currentmarketvaluation.com/models/margin-debt.php"
 const CMV_VIX_FEAR_INDEX_SITE_URL = "https://www.currentmarketvaluation.com/models/vix-fear-index.php"
 
-const LOAD_TIMEOUT = 5000
+const LOAD_TIMEOUT = 15000
 const sleep = ms => new Promise(res => setTimeout(res, ms));
 
 let gPuppetInstance = null
@@ -28,7 +28,7 @@ async function processRequest(url,timeout) {
     const _puppetInstance = await getPuppetInstance();
     const page = await _puppetInstance.newPage()
     await page.goto(url, {timeout: timeout, waitUntil: 'domcontentloaded'});
-    await sleep(15000);
+    await sleep(LOAD_TIMEOUT);
     const htmlContent = await page.content();
     const $ = cheerio.load(htmlContent, { xmlMode: true, decodeEntities: false });
     const chartsSvgs = []

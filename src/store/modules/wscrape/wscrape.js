@@ -2,8 +2,8 @@ import axios from "axios";
 
 const CLOUD_FUNCTION_URL = process.env.VUE_APP_FIREBASE_FUNCTION_URL;
 
-const CLOUD_EMULATION_FUNCTION_URL = process.env.VUE_APP_FIREBASE_FUNCTION_URL;
-// const CLOUD_EMULATION_FUNCTION_URL = process.env.VUE_APP_FIREBASE_EMULATION_FUNCTION_URL;
+// const CLOUD_EMULATION_FUNCTION_URL = process.env.VUE_APP_FIREBASE_FUNCTION_URL;
+const CLOUD_EMULATION_FUNCTION_URL = process.env.VUE_APP_FIREBASE_EMULATION_FUNCTION_URL;
 
 const API_KEY = process.env.VUE_APP_FINTECH_API_KEY;
 const HEADERS = { 'x-api-key' : API_KEY }
@@ -24,6 +24,10 @@ const state = {
   cmvSp500MeanReversionModels: [],
   cmv10YInterestRatesModels: [],
   cmvYieldCurveModels: [],
+
+  cnnSentimentModels:[],
+
+  mmSmartDumbMoneyModels: []
 };
 
 const getters = {
@@ -43,6 +47,11 @@ const mutations = {
   SET_CMV_SP500_MEAN_REVERSION_MODELS: (state, payload) => (state.cmvSp500MeanReversionModels = payload),
   SET_CMV_10Y_INTEREST_RATE_MODELS: (state, payload) => (state.cmv10YInterestRatesModels = payload),
   SET_CMV_YIELD_CURVE_MODELS: (state, payload) => (state.cmvYieldCurveModels = payload),
+
+  SET_CNN_SENTIMENT_MODLES: (state, payload) => (state.cnnSentimentModels = payload),
+
+  SET_MM_SMART_DUMB_MONEY_MODLES: (state, payload) => (state.mmSmartDumbMoneyModels = payload),
+
 };
 
 const actions = {
@@ -77,39 +86,43 @@ const actions = {
   },
   getCmvBuffettIndicatorModels({ commit }) {
     commit("SET_CMV_BUFFETT_INDICATOR_MODELS", []);
-  // http://127.0.0.1:5001/mk-d-b59f2/us-central1/fintech/v1/scrape/cmv/buffettindicators
   axios.get(`${CLOUD_EMULATION_FUNCTION_URL}/fintech/v1/scrape/cmv/buffettindicators`,{ headers: HEADERS })
         .then(response => { commit("SET_CMV_BUFFETT_INDICATOR_MODELS", response.data) })
   },
   getCmvPriceEarningsModels({ commit }) {
     commit("SET_CMV_PRICE_EARNINGS_MODELS", []);
-  // http://127.0.0.1:5001/mk-d-b59f2/us-central1/fintech/v1/scrape/cmv/priceearnings
   axios.get(`${CLOUD_EMULATION_FUNCTION_URL}/fintech/v1/scrape/cmv/priceearnings`,{ headers: HEADERS })
         .then(response => { commit("SET_CMV_PRICE_EARNINGS_MODELS", response.data) })
   },
   getCmvVixModels({ commit }) {
     commit("SET_CMV_VIX_MODELS", []);
-  // http://127.0.0.1:5001/mk-d-b59f2/us-central1/fintech/v1/scrape/cmv/vix
   axios.get(`${CLOUD_EMULATION_FUNCTION_URL}/fintech/v1/scrape/cmv/vix`,{ headers: HEADERS })
         .then(response => { commit("SET_CMV_VIX_MODELS", response.data) })
   },
   getCmvSp500MeanReversionModels({ commit }) {
     commit("SET_CMV_SP500_MEAN_REVERSION_MODELS", []);
-  // http://127.0.0.1:5001/mk-d-b59f2/us-central1/fintech/v1/scrape/cmv/sp500meanreversion
   axios.get(`${CLOUD_EMULATION_FUNCTION_URL}/fintech/v1/scrape/cmv/sp500meanreversion`,{ headers: HEADERS })
         .then(response => { commit("SET_CMV_SP500_MEAN_REVERSION_MODELS", response.data) })
   },
   getCmv10yInterestRateModels({ commit }) {
     commit("SET_CMV_10Y_INTEREST_RATE_MODELS", []);
-  // http://127.0.0.1:5001/mk-d-b59f2/us-central1/fintech/v1/scrape/cmv/y10interestrates
   axios.get(`${CLOUD_EMULATION_FUNCTION_URL}/fintech/v1/scrape/cmv/y10interestrates`,{ headers: HEADERS })
         .then(response => { commit("SET_CMV_10Y_INTEREST_RATES_MODELS", response.data) })
   },
   getCmvYieldCurveModels({ commit }) {
     commit("SET_CMV_YIELD_CURVE_MODELS", []);
-  // http://127.0.0.1:5001/mk-d-b59f2/us-central1/fintech/v1/scrape/cmv/yeildcurve
   axios.get(`${CLOUD_EMULATION_FUNCTION_URL}/fintech/v1/scrape/cmv/yieldcurve`,{ headers: HEADERS })
         .then(response => { commit("SET_CMV_YIELD_CURVE_MODELS", response.data) })
+  },
+  getCnnSenitmentModels({ commit }) {
+    commit("SET_CNN_SENTIMENT_MODLES", []);
+    axios.get(`${CLOUD_EMULATION_FUNCTION_URL}/fintech/v1/scrape/cnn/fearandgreedindicators`,{ headers: HEADERS })
+        .then(response => { commit("SET_CNN_SENTIMENT_MODLES", response.data) })
+  },
+  getMmSmartDumbMoneyModels({ commit }) {
+    commit("SET_MM_SMART_DUMB_MONEY_MODLES", []);
+    axios.get(`${CLOUD_EMULATION_FUNCTION_URL}/fintech/v1/scrape/mm/smartdumbmoney`,{ headers: HEADERS })
+        .then(response => { commit("SET_MM_SMART_DUMB_MONEY_MODLES", response.data) })
   }
 }
 

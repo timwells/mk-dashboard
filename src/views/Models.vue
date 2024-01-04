@@ -44,9 +44,14 @@
         		</a-col>
 			</a-row>
 		</a-tab-pane>
+		<a-tab-pane key="7" tab="Sentiments">
+			<a-row v-if="cnnSentimentModels.length>0" :gutter="24" type="flex" align="stretch">
+        		<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(cnnSentimentModel, index) in cnnSentimentModels" :key="index">
+					<img :src="cnnSentimentModel" width="600">
+        		</a-col>
+			</a-row>
+		</a-tab-pane>
 	</a-tabs>
-
-		
 
 		<!--a-row v-if="cmvPriceEarningsModels.length>0" :gutter="24" type="flex" align="stretch">
         	<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(cmvPriceEarningsModel, index) in cmvPriceEarningsModels" :key="index">
@@ -85,6 +90,7 @@ export default ({
 				"cmvSp500MeanReversionModels",
 				"cmv10YInterestRatesModels",
 				"cmvYieldCurveModels",
+				"cnnSentimentModels"
 			]
 		)	
 	},
@@ -131,6 +137,8 @@ export default ({
 		this.$store.dispatch("wscrape/getCmvSp500MeanReversionModels");
 		//this.$store.dispatch("wscrape/getCmv10YInterestRatesModels");
 		this.$store.dispatch("wscrape/getCmvYieldCurveModels");
+
+		this.$store.dispatch("wscrape/getCnnSenitmentModels");
 	}
 })
 </script>
