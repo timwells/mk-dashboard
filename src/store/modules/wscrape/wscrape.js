@@ -2,7 +2,7 @@ import axios from "axios";
 
 const CLOUD_FUNCTION_URL = process.env.VUE_APP_FIREBASE_FUNCTION_URL;
 
-// const CLOUD_EMULATION_FUNCTION_URL = process.env.VUE_APP_FIREBASE_FUNCTION_URL;
+//const CLOUD_EMULATION_FUNCTION_URL = process.env.VUE_APP_FIREBASE_FUNCTION_URL;
 const CLOUD_EMULATION_FUNCTION_URL = process.env.VUE_APP_FIREBASE_EMULATION_FUNCTION_URL;
 
 const API_KEY = process.env.VUE_APP_FINTECH_API_KEY;
@@ -27,7 +27,9 @@ const state = {
 
   cnnSentimentModels:[],
 
-  mmSmartDumbMoneyModels: []
+  mmSmartDumbMoneyModels: [],
+
+  dgnPriceModels: []
 };
 
 const getters = {
@@ -48,10 +50,11 @@ const mutations = {
   SET_CMV_10Y_INTEREST_RATE_MODELS: (state, payload) => (state.cmv10YInterestRatesModels = payload),
   SET_CMV_YIELD_CURVE_MODELS: (state, payload) => (state.cmvYieldCurveModels = payload),
 
-  SET_CNN_SENTIMENT_MODLES: (state, payload) => (state.cnnSentimentModels = payload),
+  SET_CNN_SENTIMENT_MODELS: (state, payload) => (state.cnnSentimentModels = payload),
 
-  SET_MM_SMART_DUMB_MONEY_MODLES: (state, payload) => (state.mmSmartDumbMoneyModels = payload),
+  SET_MM_SMART_DUMB_MONEY_MODELS: (state, payload) => (state.mmSmartDumbMoneyModels = payload),
 
+  SET_DGN_PRICE_MODELS: (state, payload) => (state.dgnPriceModels = payload),
 };
 
 const actions = {
@@ -115,14 +118,19 @@ const actions = {
         .then(response => { commit("SET_CMV_YIELD_CURVE_MODELS", response.data) })
   },
   getCnnSenitmentModels({ commit }) {
-    commit("SET_CNN_SENTIMENT_MODLES", []);
+    commit("SET_CNN_SENTIMENT_MODELS", []);
     axios.get(`${CLOUD_EMULATION_FUNCTION_URL}/fintech/v1/scrape/cnn/fearandgreedindicators`,{ headers: HEADERS })
         .then(response => { commit("SET_CNN_SENTIMENT_MODLES", response.data) })
   },
   getMmSmartDumbMoneyModels({ commit }) {
-    commit("SET_MM_SMART_DUMB_MONEY_MODLES", []);
+    commit("SET_MM_SMART_DUMB_MONEY_MODELS", []);
     axios.get(`${CLOUD_EMULATION_FUNCTION_URL}/fintech/v1/scrape/mm/smartdumbmoney`,{ headers: HEADERS })
         .then(response => { commit("SET_MM_SMART_DUMB_MONEY_MODLES", response.data) })
+  },
+  getDgnPriceModels({ commit },{epic}) {
+    commit("SET_DGN_PRICE_MODELS", []);
+    axios.get(`${CLOUD_EMULATION_FUNCTION_URL}/fintech/v1/scrape/digrin/price?epic=${epic}`,{ headers: HEADERS })
+        .then(response => { commit("SET_DGN_PRICE_MODELS", response.data) })
   }
 }
 

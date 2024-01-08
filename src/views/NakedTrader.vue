@@ -37,7 +37,10 @@
 									<WidgetTradingViewFinancials 
 										:symbol="fullSymbol(record.epic)">
 									</WidgetTradingViewFinancials>
-								</a-tab-pane>						
+								</a-tab-pane>
+								<a-tab-pane key="4" tab="Price">
+									<card-price-info :epic="lseSymbol(record.epic)"></card-price-info>
+								</a-tab-pane>
 							</a-tabs>
 						</template>
 
@@ -165,6 +168,7 @@ import { mapState } from "vuex";
 import WidgetTradingViewTechAnalysis from "@/components/Widgets/WidgetTradingViewTechAnalysis";
 import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
 import WidgetTradingViewFinancials from "@/components/Widgets/WidgetTradingViewFinancials";
+import CardPriceInfo from "@/components/Cards/CardPriceInfo";
 
 const epicCorrections = [
 	{in:"T17",out:"TM17"},
@@ -176,7 +180,8 @@ export default ({
 	components: {
 		WidgetTradingViewTechAnalysis,
 		WidgetTradingViewBrokerAnalysis,
-		WidgetTradingViewFinancials
+		WidgetTradingViewFinancials,
+		CardPriceInfo
 	},
 	computed: {...mapState("wscrape", ["nakedTrades","nakedArchives"])},
 	watch: {
@@ -211,14 +216,14 @@ export default ({
 		}
 	},
 	methods: {
-		//getOpenTrades() { 
-		//	return (Object.keys(this.nakedTrades).length > 0) ? this.nakedTrades.openTrades : []  
-		//},
 		fullSymbol(epic) {
 			// fix epics
 			const nEpic = epicCorrections.find(e => (epic == e.in))		
 			if(nEpic) return "LSE:" + nEpic.out; 
 			return "LSE:" + epic; 
+		},
+		lseSymbol(epic) {
+			return epic + ".L"
 		},
    		onExpand(exp,r) { 
 			// console.log("onExpand: ",exp,r);
@@ -238,7 +243,6 @@ export default ({
    	 	},
 		container(id) {
 			this.expandedIdList.push(id)
-			// console.log("expandedIdList:",this.expandedIdList)
 		}
 	},	
 	mounted() {
