@@ -43,7 +43,6 @@ app.get('/v1/scrape/:site/:service', (request, response) => {
         let site = request.params.site;
         let service = request.params.service;
         let siteServices = require(`./wscrape/${site}.js`)
-
         siteServices[service](request,response)
         
     } else unauthorized(response)
