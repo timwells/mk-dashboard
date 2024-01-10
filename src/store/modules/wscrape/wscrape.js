@@ -29,7 +29,10 @@ const state = {
 
   mmSmartDumbMoneyModels: [],
 
-  dgnPriceModels: []
+  dgnPriceModels: [],
+
+  premiumBondsData: null
+
 };
 
 const getters = {
@@ -55,6 +58,9 @@ const mutations = {
   SET_MM_SMART_DUMB_MONEY_MODELS: (state, payload) => (state.mmSmartDumbMoneyModels = payload),
 
   SET_DGN_PRICE_MODELS: (state, payload) => (state.dgnPriceModels = payload),
+
+  SET_PREMIUM_BONDS: (state, payload) => (state.premiumBondsData = payload),
+
 };
 
 const actions = {
@@ -131,9 +137,13 @@ const actions = {
     commit("SET_DGN_PRICE_MODELS", []);
     axios.get(`${CLOUD_EMULATION_FUNCTION_URL}/fintech/v1/scrape/digrin/price?epic=${epic}`,{ headers: HEADERS })
         .then(response => { commit("SET_DGN_PRICE_MODELS", response.data) })
+  },
+  getPremiumBondsData({ commit }, { holder }) {
+    commit("SET_PREMIUM_BONDS", []);
+    axios.get(`${CLOUD_EMULATION_FUNCTION_URL}/fintech/v1/scrape/pb/results?holder=${holder}`,{ headers: HEADERS })
+        .then(response => { commit("SET_PREMIUM_BONDS", response.data) })
   }
 }
-
 
 export default {
   namespaced: true,

@@ -23,11 +23,16 @@ async function processRequest(url,req,timeout) {
         // Make a POST request using Axios
         const lastSixMonth = await axios.post(url, fD2);
   
+        console.log(thisMonth.data.history)
+        console.log(lastSixMonth.data.history)
+        let results = []
+
+        thisMonth.data.history.forEach(e => { results.push(e) });
+        lastSixMonth.data.history.forEach(e => { results.push(e)             });
+
         // Handle the response
-        return {
-            thisMonth:thisMonth.data,
-            lastSixMonth: lastSixMonth.data
-        }
+        return results
+
       } catch (error) {
         // Handle errors
         console.error('Error:', error.message);

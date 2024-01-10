@@ -33,6 +33,13 @@ let routes = [
 		meta: { requiresAuth: true }
 	},
 	{
+		path: '/premium-bonds',
+		name: 'P.Bonds',
+		layout: "dashboard",
+		component: () => import(/* webpackChunkName: "funds" */'../views/PremiumBondsView.vue'),
+		meta: { requiresAuth: true }
+	},
+	{
 		path: '/models',
 		name: 'Models',
 		layout: "dashboard",

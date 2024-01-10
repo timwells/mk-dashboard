@@ -38,13 +38,14 @@
 const sidebarItems= [
 	{title: "Markets", linkTo: "/dashboard"},
 	{title: "Models",linkTo: "/models"},
+	{title: "P.Bonds",linkTo: "/premium-bonds"},
 
-	{title: "BoE",linkTo: "/boe-irates"},
+// {title: "BoE",linkTo: "/boe-irates"},
 
 	{title: "StockWatch",linkTo: "/stock-watch"},
 	{title: "Dividends",linkTo: "/dividend-data"},
 
-	// {title: "Heatmap",linkTo: "/stock-heatmap"},
+// {title: "Heatmap",linkTo: "/stock-heatmap"},
 	{title: "Screener",linkTo: "/stock-screener"},
 
 	{title: "Funds",linkTo: "/funds"},
