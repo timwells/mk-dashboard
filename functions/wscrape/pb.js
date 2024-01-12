@@ -64,10 +64,21 @@ async function processRequest1(url,req,timeout) {
   }
 }
 
+async function processRequestDebug(url,req,timeout) {
+  let agregateResults = []
+  console.log("processRequestDebug:",url)
+  return agregateResults
+}
+
 const results = async (req, res) => {
     res.status(200).json(await processRequest1(`${PB_RESULTS}`,req,60000))
 }
 
+const results1 = async (req, res) => {
+  res.status(200).json(await processRequestDebug(`${PB_RESULTS}`,req,60000))
+}
+
 module.exports = {
     results,
+    results1,
 }
