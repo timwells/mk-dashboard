@@ -31,7 +31,7 @@ const state = {
 
   dgnPriceModels: [],
 
-  premiumBondsData: null
+  premiumBondsData: []
 
 };
 
@@ -138,9 +138,9 @@ const actions = {
     axios.get(`${CLOUD_EMULATION_FUNCTION_URL}/fintech/v1/scrape/digrin/price?epic=${epic}`,{ headers: HEADERS })
         .then(response => { commit("SET_DGN_PRICE_MODELS", response.data) })
   },
-  getPremiumBondsData({ commit }, { holder }) {
+  getPremiumBondsData({ commit }, { holders }) {
     commit("SET_PREMIUM_BONDS", []);
-    axios.get(`${CLOUD_EMULATION_FUNCTION_URL}/fintech/v1/scrape/pb/results?holder=${holder}`,{ headers: HEADERS })
+    axios.get(`${CLOUD_EMULATION_FUNCTION_URL}/fintech/v1/scrape/pb/results?holders=${holders}`,{ headers: HEADERS })
         .then(response => { commit("SET_PREMIUM_BONDS", response.data) })
   }
 }

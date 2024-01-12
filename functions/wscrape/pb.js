@@ -4,45 +4,67 @@ const axios = require('axios');
 const PB_SITE_HOST = "https://www.nsandi.com"
 const PB_RESULTS = PB_SITE_HOST + "/premium-bonds-have-i-won-ajax"
 
-async function processRequest(url,req,timeout) {
-    try {
-        let holder = req.query.holder
+async function lookUpResults(url,nh) {
+  try {
+    // Get form data
+    const fD1 = new FormData();
+    fD1.append('field_premium_bond_period', 'this_month');
+    fD1.append('field_premium_bond_number', nh.holder);
 
-        // Get form data
-        const fD1 = new FormData();
-        fD1.append('field_premium_bond_period', 'this_month');
-        fD1.append('field_premium_bond_number', holder);
-  
-        // Make a POST request using Axios
-        const thisMonth = await axios.post(url, fD1);
+    // Make a POST request using Axios
+    const thisMonth = await axios.post(url, fD1);
 
-        const fD2 = new FormData();
-        fD2.append('field_premium_bond_period', 'last_six_month');
-        fD2.append('field_premium_bond_number', holder);
+    const fD2 = new FormData();
+    fD2.append('field_premium_bond_period', 'last_six_month');
+    fD2.append('field_premium_bond_number', nh.holder);
 
-        // Make a POST request using Axios
-        const lastSixMonth = await axios.post(url, fD2);
-  
-        console.log(thisMonth.data.history)
-        console.log(lastSixMonth.data.history)
-        let results = []
+    // Make a POST request using Axios
+    const lastSixMonth = await axios.post(url, fD2);
+    let results = []
+    thisMonth.data.history.forEach(e => { if(e.prize !="0") results.push(e) });
+    lastSixMonth.data.history.forEach(e => { results.push(e) });
 
-        thisMonth.data.history.forEach(e => { results.push(e) });
-        lastSixMonth.data.history.forEach(e => { results.push(e)             });
+    return results
 
-        // Handle the response
-        return results
+  } catch (error) {
+    // Handle errors
+    console.error('Error:', error.message);
+    return {error: error.message}    
+  }
+}
 
-      } catch (error) {
-        // Handle errors
-        console.error('Error:', error.message);
-        return {error: error.message}    
+async function processRequest1(url,req,timeout) {
+  let agregateResults = []
+
+  try {
+      let holders = req.query.holders
+      let nhs = holders.split(",")
+      for(let i = 0; i < nhs.length; i++) {
+        let nhx = nhs[i].split(":")
+        let nh = { name: nhx[0], holder: nhx[1] }
+        let results = await lookUpResults(url,nh)
+
+        let resultsSum = results.reduce((acc, cVal) => { return acc + parseInt(cVal.prize);}, 0);
+        let holder = { 
+          name: nh.name,
+          holder: nh.holder, 
+          sum: resultsSum, 
+          results: results 
+        }
+        console.log(holder)
+        agregateResults.push(holder)
       }
+      return agregateResults
+  }
+  catch(error) {
+    // Handle errors
+    console.error('Error:', error.message);
+    return {error: error.message}    
+  }
 }
 
 const results = async (req, res) => {
-    // let holder = req.query.
-    res.status(200).json(await processRequest(`${PB_RESULTS}`,req,60000))
+    res.status(200).json(await processRequest1(`${PB_RESULTS}`,req,60000))
 }
 
 module.exports = {

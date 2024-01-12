@@ -39,21 +39,21 @@ const sidebarItems= [
 	{title: "Markets", linkTo: "/dashboard"},
 	{title: "Models",linkTo: "/models"},
 	{title: "P.Bonds",linkTo: "/premium-bonds"},
+	{title: "NakedTrades",linkTo: "/trades"},
+	{title: "Dividends",linkTo: "/dividend-data"},
+	{title: "Dataroma",linkTo: "/dataroma"},
 
 // {title: "BoE",linkTo: "/boe-irates"},
 
 	{title: "StockWatch",linkTo: "/stock-watch"},
-	{title: "Dividends",linkTo: "/dividend-data"},
 
 // {title: "Heatmap",linkTo: "/stock-heatmap"},
 	{title: "Screener",linkTo: "/stock-screener"},
 
 	{title: "Funds",linkTo: "/funds"},
 	{title: "Indicators",linkTo: "/market-indicators"},
-	{title: "News",linkTo: "/news"},
+	// {title: "News",linkTo: "/news"},
 	{title: "Trading",linkTo: "/trading"},
-	{title: "NakedTrades",linkTo: "/trades"},
-	{title: "Dataroma",linkTo: "/dataroma"},
 	{title: "Quotes",linkTo: "/quotes"},
 	{title: "Trends",linkTo: "/trends"},
 	{title: "SeekingAlpha",linkTo: "/seeking-alpha"},
