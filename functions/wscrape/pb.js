@@ -51,7 +51,7 @@ async function processRequest1(url,req,timeout) {
           sum: resultsSum, 
           results: results 
         }
-        console.log(holder)
+        // console.log(holder)
         agregateResults.push(holder)
       }
       return agregateResults
@@ -59,7 +59,8 @@ async function processRequest1(url,req,timeout) {
   catch(error) {
     // Handle errors
     console.error('Error:', error.message);
-    return {error: error.message}    
+    return {error: 
+      error.message}    
   }
 }
 

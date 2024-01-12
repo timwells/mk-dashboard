@@ -6,7 +6,7 @@
 			<a-col :span="24" :md="12">
 
 				<!-- Footer Copyright Notice -->
-				<p class="copyright">© 2023-2026 v24</p>
+				<p class="copyright">© 2023-2026 v25</p>
 				<!-- / Footer Copyright Notice -->
 
 			</a-col>
