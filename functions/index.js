@@ -8,7 +8,7 @@ const cors = require('cors');
 const app = express();
 const { config } = require("./config");
 
-const VERSION = "0.0.7";
+const VERSION = "0.0.8";
 const API_KEY_NAME = "x-api-key"
 
 const unauthorized = (res) => res.status(401).send('unauthorised');
@@ -51,8 +51,8 @@ app.get('/v1/scrape/:site/:service', (request, response) => {
 
 // Expose Express API as a single Cloud Function:
 // exports.fintech = functions.https.onRequest(app);
-const beefyOpts = {memory: '1GB', timeoutSeconds: 60};
-exports.fintech = functions.runWith(beefyOpts).https.onRequest(app);
+const gOpts = {memory: '1GB', timeoutSeconds: 60};
+exports.fintech = functions.runWith(gOpts).https.onRequest(app);
 
 const { scheduledFunction, jobadmin } = require("./jobs/job")
 

@@ -11,7 +11,10 @@ const state = {
 
 const getters = {}
 const mutations = {
-  SET_STOCK_WATCHES: (state, payload) => (state.stockWatches = payload)
+  SET_STOCK_WATCHES: (state, payload) => {
+    state.stockWatches = payload
+    // console.log(state.stockWatches)
+  }
 };
 
 const actions = {
@@ -24,9 +27,7 @@ const actions = {
       .then(response => {console.log(response.data)})
   },
   getStockWatches({ commit }) {
-    const dbRef = ref(getDatabase());
-
-    get(child(dbRef, `stocks/watch`))
+    get(child(ref(getDatabase()), `root/stocks/watch`))
       .then((snapshot) => {
         commit("SET_STOCK_WATCHES", null);
         if (snapshot.exists()) {

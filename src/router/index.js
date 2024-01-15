@@ -1,21 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { getCurrentUser } from '@/firebase'
+import { getCurrentUser, getCurrentUser1, getUserSecrets } from '@/firebase'
+
 Vue.use(VueRouter)
 
 let routes = [
-	{
-		// will match everything
+	{  // will match everything
 		path: '*',
 		component: () => import('../views/404.vue'),
-	},
-	{
+	},{
 		path: '/',
 		name: 'Home',
 		redirect: '/dashboard',
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/dashboard',
 		name: 'Dashboard',
 		layout: "dashboard",
@@ -24,43 +22,37 @@ let routes = [
 		// which is lazy-loaded when the route is visited.
 		component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/layout',
 		name: 'Layout',
 		layout: "dashboard",
 		component: () => import(/* webpackChunkName: "dashboard" */ '../views/Layout.vue'),
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/premium-bonds',
 		name: 'P.Bonds',
 		layout: "dashboard",
 		component: () => import(/* webpackChunkName: "funds" */'../views/PremiumBondsView.vue'),
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/models',
 		name: 'Models',
 		layout: "dashboard",
 		component: () => import(/* webpackChunkName: "funds" */'../views/Models.vue'),
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/stock-watch',
 		name: 'Stock Watch',
 		layout: "dashboard",
 		component: () => import(/* webpackChunkName: "funds" */'../views/StockWatch.vue'),
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/dividend-data',
 		name: 'Dividends',
 		layout: "dashboard",
 		component: () => import(/* webpackChunkName: "funds" */'../views/DividendData.vue'),
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/boe-irates',
 		name: 'BoE-IRates',
 		layout: "dashboard",
@@ -80,71 +72,61 @@ let routes = [
 		layout: "dashboard",
 		component: () => import('../views/StockScreener.vue'),
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/funds',
 		name: 'Funds',
 		layout: "dashboard",
 		component: () => import(/* webpackChunkName: "funds" */'../views/Funds.vue'),
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/market-indicators',
 		name: 'Market Indicators',
 		layout: "dashboard",
 		component: () => import(/* webpackChunkName: "market-indicators" */ '../views/MarketIndicators.vue'),
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/news',
 		name: 'News',
 		layout: "dashboard",
 		component: () => import(/* webpackChunkName: "trends" */ '../views/News.vue'),
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/trading',
 		name: 'Trading',
 		layout: "dashboard",
 		component: () => import(/* webpackChunkName: "trade-view" */ '../views/TradingViewTechAnalysis.vue'),
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/trades',
 		name: 'Trades',
 		layout: "dashboard",
 		component: () => import(/* webpackChunkName: "naked-trades" */ '../views/NakedTrader.vue'),
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/dataroma',
 		name: 'Dataroma',
 		layout: "dashboard",
 		component: () => import(/* webpackChunkName: "trade-view" */ '../views/DataromaView.vue'),
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/quotes',
 		name: 'Quotes',
 		layout: "dashboard",
 		component: () => import(/* webpackChunkName: "trade-view" */ '../views/TradingViewQuotes.vue'),
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/trends',
 		name: 'Trends',
 		layout: "dashboard",
 		component: () => import(/* webpackChunkName: "trends" */ '../views/Trends.vue'),
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/seeking-alpha',
 		name: 'Seeking Alpha',
 		layout: "dashboard",
 		component: () => import(/* webpackChunkName: "trends" */ '../views/SeekingAlpha.vue'),
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/fear-n-greed',
 		name: 'Fear & Greed',
 		layout: "dashboard",
@@ -188,13 +170,11 @@ let routes = [
 		},
 		component: () => import('../views/Profile.vue'),
 		meta: { requiresAuth: true }
-	},
-	{
+	},{
 		path: '/sign-in',
 		name: 'Sign-In',
 		component: () => import('../views/Sign-In.vue'),
-	},
-	{
+	},{
 		path: '/sign-out',
 		name: 'Sign-Out',
 		component: () => import('../views/Sign-Out.vue'),
@@ -231,24 +211,23 @@ const router = new VueRouter({
 	mode: 'hash',
 	base: process.env.BASE_URL,
 	routes,
-	scrollBehavior (to, from, savedPosition) {
-		if ( to.hash ) {
-			return {
-				selector: to.hash,
-				behavior: 'smooth',
-			}
+	scrollBehavior(to, from, savedPosition) {
+		if (to.hash) {
+			return { selector: to.hash, behavior: 'smooth'}
 		}
 		return { x: 0, y: 0, behavior: 'smooth' }
 	}
 })
 
 router.beforeEach(async (to, from, next) => {
-  const requiresAuth = to.matched.some(record => { return record.meta.requiresAuth;});
-  if(requiresAuth && !await getCurrentUser()) {
-    next('sign-in');
-  } else {
-    next();
-  }
+	const reqAuth = to.matched.some(record => { return record.meta.requiresAuth});	
+  	//if(requiresAuth && !await getCurrentUser()) {	
+	if(reqAuth && !await getCurrentUser1()) {
+    	next('sign-in');
+  	} else {
+		console.log("beforeEach.getSecrets then next()", await getUserSecrets())
+    	next();
+  	}
 })
 
 export default router

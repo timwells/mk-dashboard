@@ -70,18 +70,20 @@ const TRANSPORTER = nodemailer.createTransport({
 
 async function scanStockWatch() {
     const db = getDatabase();
-    const watchRef = db.ref('stocks/watch');
+    const watchRef = db.ref('root/stocks/watch');
     const snapshot = await watchRef.once('value');
     const obj = snapshot.val();
     let stocks = [];
     const ts = new Date();
 
-    await db.ref(`stocks/lastrun`).set(ts.toISOString())
+    await db.ref(`root/stocks/lastrun`).set(ts.toISOString())
+    let debugTicker=""
     try {
         for(let i = 0; i < obj.length; i++) {
             const ts = new Date();
+            debugTicker = obj[i].n;
             const { regularMarketPrice, currency } = await yF2.quote(obj[i].n);
-            await db.ref(`stocks/watch/${i}/v`).set(regularMarketPrice)
+            await db.ref(`root/stocks/watch/${i}/v`).set(regularMarketPrice)
             let bTrigger = false
             if(regularMarketPrice < obj[i].h) bTrigger = true
 
@@ -92,8 +94,8 @@ async function scanStockWatch() {
                 ts: ts.toLocaleString()
             })
 
-            await db.ref(`stocks/watch/${i}/tp`).set(bTrigger)
-            await db.ref(`stocks/watch/${i}/ts`).set(ts.toISOString())
+            await db.ref(`root/stocks/watch/${i}/tp`).set(bTrigger)
+            await db.ref(`root/stocks/watch/${i}/ts`).set(ts.toISOString())
         }
         const tsn = new Date();
         if(tsn.getHours() == 16) {
@@ -110,7 +112,7 @@ async function scanStockWatch() {
             });
         }        
     } catch (e) { 
-        await db.ref(`stocks/log`).set(e.message)            
+        await db.ref(`root/stocks/log`).set(e.message + ":" + debugTicker)            
         return 
     }
 }

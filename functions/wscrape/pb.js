@@ -59,8 +59,7 @@ async function processRequest1(url,req,timeout) {
   catch(error) {
     // Handle errors
     console.error('Error:', error.message);
-    return {error: 
-      error.message}    
+    return {error: error.message}    
   }
 }
 

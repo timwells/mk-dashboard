@@ -41,6 +41,9 @@
 								<a-tab-pane key="4" tab="Price">
 									<card-price-info :epic="lseSymbol(record.epic)"></card-price-info>
 								</a-tab-pane>
+								<a-tab-pane key="5" tab="£ View2">
+									<WidgetTradingViewTechAnalysisTest :symbol="record.epic"/> 
+								</a-tab-pane>
 							</a-tabs>
 						</template>
 
@@ -159,15 +162,18 @@ const colDictionary = [
 	{ title: 'P/L ', dataIndex: 'pl',scopedSlots: { customRender: 'pl' }}
 ];
 const OpenTradeCols = [
-colDictionary[0],colDictionary[1],colDictionary[2],
-colDictionary[3],colDictionary[4],colDictionary[5],
-colDictionary[6],colDictionary[7]
+	colDictionary[0],colDictionary[1],colDictionary[2],
+	colDictionary[3],colDictionary[4],colDictionary[5],
+	colDictionary[6],colDictionary[7]
 ];
 
 import { mapState } from "vuex";
 import WidgetTradingViewTechAnalysis from "@/components/Widgets/WidgetTradingViewTechAnalysis";
+import WidgetTradingViewTechAnalysisTest from "@/components/Widgets/WidgetTradingViewTechAnalysisTest";
+
 import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
 import WidgetTradingViewFinancials from "@/components/Widgets/WidgetTradingViewFinancials";
+
 import CardPriceInfo from "@/components/Cards/CardPriceInfo";
 
 const epicCorrections = [
@@ -178,6 +184,8 @@ const epicCorrections = [
 // https://blog.katastros.com/a?ID=01750-67585afe-3add-4a2a-929a-d49a26d82b6c
 export default ({
 	components: {
+		WidgetTradingViewTechAnalysisTest,
+		
 		WidgetTradingViewTechAnalysis,
 		WidgetTradingViewBrokerAnalysis,
 		WidgetTradingViewFinancials,

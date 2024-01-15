@@ -56,12 +56,14 @@ import { mapState } from "vuex";
 
 export default ({
 	computed: {
-    ...mapState("auth", ["user"])
+	    ...mapState("auth", ["user"]),
+	    ...mapState("app", ["secrets"]),
 	},
 	watch: {
 		user(n,o) {
 			if(n) {
-					this.$router.push('/dashboard')
+				// this.$store.dispatch('app/getSecrets')
+				this.$router.push('/dashboard')
 			}
 		}
 	},
@@ -75,6 +77,7 @@ export default ({
 	methods: {
 		// Handles input validation after submission.
 		handleSubmit(e) {
+			console.log("Sign-In.handleSubmit")
 			e.preventDefault();
 			this.form.validateFields((err, values) => {
 				if ( !err ) {

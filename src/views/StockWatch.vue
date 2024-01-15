@@ -109,6 +109,7 @@ export default ({
 	},
 	watch: {
         stockWatches(o,n) {
+			console.log(n)
 			this.loading = this.stockWatches.length > 0 ? false: true
 		},
     },
@@ -132,6 +133,7 @@ export default ({
 	},
 	methods: {
 		fullSymbol(r) {
+			console.log(r)
 			return r.hasOwnProperty('lse') ? 
 				r.lse : "LSE:" + r.n.split(".L")[0]
 		},

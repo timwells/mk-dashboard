@@ -1,4 +1,7 @@
 import axios from "axios";
+
+import { getUserSecrets } from '@/firebase'
+
 const CLOUD_EMULATION_FUNCTION_URL = process.env.VUE_APP_FIREBASE_EMULATION_FUNCTION_URL;
 
 // const CLOUD_FUNCTION_URL = CLOUD_EMULATION_FUNCTION_URL
@@ -126,7 +129,7 @@ const actions = {
   getCnnSenitmentModels({ commit }) {
     commit("SET_CNN_SENTIMENT_MODELS", []);
     axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/cnn/fearandgreedindicators`,{ headers: HEADERS })
-        .then(response => { commit("SET_CNN_SENTIMENT_MODLES", response.data) })
+        .then(response => { commit("SET_CNN_SENTIMENT_MODELS", response.data) })
   },
   getMmSmartDumbMoneyModels({ commit }) {
     commit("SET_MM_SMART_DUMB_MONEY_MODELS", []);
@@ -138,8 +141,15 @@ const actions = {
     axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/digrin/price?epic=${epic}`,{ headers: HEADERS })
         .then(response => { commit("SET_DGN_PRICE_MODELS", response.data) })
   },
-  getPremiumBondsData({ commit }, { holders }) {
+  async getPremiumBondsData({ commit }, { holders }) {
+
+    let secrets = await getUserSecrets();
+
+    console.log("getPremiumBondsData:",secrets)
+    console.log("getPremiumBondsData:",secrets["fintech_apikey"])
+    
     commit("SET_PREMIUM_BONDS", []);
+    console.log(holders);
     axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/pb/results?holders=${holders}`,{ headers: HEADERS })
         .then(response => { commit("SET_PREMIUM_BONDS", response.data) })
   }

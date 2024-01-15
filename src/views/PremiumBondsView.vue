@@ -39,9 +39,9 @@ import { mapState } from "vuex";
 const PREMUIM_BOND_HOLDERS = process.env.VUE_APP_PREMIUM_BONDS;
 
 const cols = [
-	{ title: 'Date', dataIndex: 'date', width: 100, scopedSlots: { customRender: 'date' }},
-	{ title: 'Bond', dataIndex: 'bond_number', width: 100, scopedSlots: { customRender: 'bond_number' }},
-	{ title: 'Prize', dataIndex: 'prize', width: 100, scopedSlots: { customRender: 'prize' }},
+	{ title: 'Date', dataIndex: 'date', width: 50, scopedSlots: { customRender: 'date' }},
+	{ title: 'Bond', dataIndex: 'bond_number', width: 50, scopedSlots: { customRender: 'bond_number' }},
+	{ title: 'Prize', dataIndex: 'prize', width: 50, scopedSlots: { customRender: 'prize' }},
 ];
 
 export default ({
