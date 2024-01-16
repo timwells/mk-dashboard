@@ -28,21 +28,12 @@ const getCurrentUser = () => {
   })
 };
 
-const getUserSecrets = async (user) => {
-  if(UserSecrets != null) { 
-    console.log('getUserSecrets.cache:',UserSecrets) 
-    return UserSecrets
+const getUserSecrets = async (user) => {  
+  if(UserSecrets == null) { 
+    const snapshot = await get(child(ref(getDatabase()), `root/secrets`))
+    if (snapshot.exists()) UserSecrets = snapshot.val();
   }
-
-  get(child(ref(getDatabase()), `root/secrets`))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        console.log(snapshot.val())
-        UserSecrets = snapshot.val();
-        console.log('getUserSecrets.init:',UserSecrets) 
-        return UserSecrets;
-      } 
-    }).catch((error) => { console.error(error); });  
+  return UserSecrets
 }
 
 const getCurrentUser1 = async () => { 
@@ -50,7 +41,8 @@ const getCurrentUser1 = async () => {
   console.log('-> getCurrentUser1');
   return await getAuth().onAuthStateChanged(async (user) => {
     if (user) {
-      console.log('getCurrentUser1:',user)
+      await getUserSecrets(user)
+      // console.log('getCurrentUser1:',user)
       return user
     } else {
       // User is signed out

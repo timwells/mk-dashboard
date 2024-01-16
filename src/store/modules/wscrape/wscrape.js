@@ -66,28 +66,27 @@ const mutations = {
 
 };
 
+async function genericGet(subPath,service,init,{commit}) {
+  let secrets = await getUserSecrets();
+  commit(service, init);
+  let response = await axios.get(`${secrets.fintech_host}${subPath}`,{ headers: { 'x-api-key' : secrets.fintech_apikey} })
+  commit(service, response.data)
+}
+
 const actions = {
-  getNakedTrades({ commit }) {
-    commit("SET_NAKED_TRADES", null);
-    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/nt/trades4`,{ headers: HEADERS })
-        .then(res => { /*console.log(res.data);*/ commit("SET_NAKED_TRADES", res.data) })
+  async getNakedTrades({ commit }) {
+    await genericGet(`/fintech/v1/scrape/nt/trades4`,"SET_NAKED_TRADES",null,{commit})
   },
-  getNakedArchives({ commit }) {
-    commit("SET_NAKED_ARCHIVES", []);
-    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/nt/archives`,{ headers: HEADERS })
-        .then(response => { commit("SET_NAKED_ARCHIVES", response.data) })
+  async getNakedArchives({ commit }) {
+    await genericGet(`/fintech/v1/scrape/nt/archives`,"SET_NAKED_ARCHIVES",[],{commit})
   },
-  getDividendData({ commit }) {
-    commit("SET_DIVIDEND_DATA", []);
-    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/dividenddata/exdividenddate`,{ headers: HEADERS })
-        .then(response => { commit("SET_DIVIDEND_DATA", response.data) })
+  async getDividendData({ commit }) {
+    await genericGet(`/fintech/v1/scrape/dividenddata/exdividenddate`,"SET_DIVIDEND_DATA",[],{commit})
   },
-  getDataroma({ commit }) {
-    commit("SET_DATAROMA", []);
-    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/dataroma`,{ headers: HEADERS })
-        .then(response => { commit("SET_DATAROMA", response.data) })
+  async getDataroma({ commit }) {
+    await genericGet(`/fintech/v1/scrape/dataroma`,"SET_DATAROMA",[],{commit})
   },
-  getDataromaHoldings({ commit }, { q }) {
+  async getDataromaHoldings({ commit }, { q }) {
     axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/dataroma?q=${q}`,{ headers: HEADERS })
         .then(response => { commit("SET_DATAROMA_HOLDINGS_MAP", { key: q, data: response.data }) })
   },
@@ -118,12 +117,12 @@ const actions = {
   },
   getCmv10yInterestRateModels({ commit }) {
     commit("SET_CMV_10Y_INTEREST_RATE_MODELS", []);
-  axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/cmv/y10interestrates`,{ headers: HEADERS })
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/cmv/y10interestrates`,{ headers: HEADERS })
         .then(response => { commit("SET_CMV_10Y_INTEREST_RATES_MODELS", response.data) })
   },
   getCmvYieldCurveModels({ commit }) {
     commit("SET_CMV_YIELD_CURVE_MODELS", []);
-  axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/cmv/yieldcurve`,{ headers: HEADERS })
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/cmv/yieldcurve`,{ headers: HEADERS })
         .then(response => { commit("SET_CMV_YIELD_CURVE_MODELS", response.data) })
   },
   getCnnSenitmentModels({ commit }) {
@@ -142,16 +141,7 @@ const actions = {
         .then(response => { commit("SET_DGN_PRICE_MODELS", response.data) })
   },
   async getPremiumBondsData({ commit }, { holders }) {
-
-    let secrets = await getUserSecrets();
-
-    console.log("getPremiumBondsData:",secrets)
-    console.log("getPremiumBondsData:",secrets["fintech_apikey"])
-    
-    commit("SET_PREMIUM_BONDS", []);
-    console.log(holders);
-    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/pb/results?holders=${holders}`,{ headers: HEADERS })
-        .then(response => { commit("SET_PREMIUM_BONDS", response.data) })
+    await genericGet(`/fintech/v1/scrape/pb/results?holders=${holders}`,"SET_PREMIUM_BONDS",[],{commit})
   }
 }
 

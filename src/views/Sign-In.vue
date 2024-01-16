@@ -62,7 +62,6 @@ export default ({
 	watch: {
 		user(n,o) {
 			if(n) {
-				// this.$store.dispatch('app/getSecrets')
 				this.$router.push('/dashboard')
 			}
 		}

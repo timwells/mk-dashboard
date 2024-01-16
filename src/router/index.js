@@ -225,7 +225,7 @@ router.beforeEach(async (to, from, next) => {
 	if(reqAuth && !await getCurrentUser1()) {
     	next('sign-in');
   	} else {
-		console.log("beforeEach.getSecrets then next()", await getUserSecrets())
+		// console.log("beforeEach.getSecrets then next()", await getUserSecrets())
     	next();
   	}
 })
