@@ -17,7 +17,7 @@ const mutations = {
 
 const actions = {
   async signIn({ commit }, { values }) {
-    console.log('-> auth.actions.signIn')
+    // console.log('-> auth.actions.signIn')
     commit('SET_USER', null)
     const res = await signInWithEmailAndPassword(auth,values.email,values.password)
       if (res) {

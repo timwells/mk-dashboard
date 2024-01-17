@@ -90,55 +90,35 @@ const actions = {
     axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/dataroma?q=${q}`,{ headers: HEADERS })
         .then(response => { commit("SET_DATAROMA_HOLDINGS_MAP", { key: q, data: response.data }) })
   },
-  getBoEIRates({ commit }) {
-    commit("SET_BOE_IRATES", []);
-    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/boe`,{ headers: HEADERS })
-        .then(response => { commit("SET_BOE_IRATES", response.data) })
+  async getBoEIRates({ commit }) {
+    await genericGet(`/fintech/v1/scrape/boe`,"SET_BOE_IRATES",[],{ commit })
   },
-  getCmvBuffettIndicatorModels({ commit }) {
-    commit("SET_CMV_BUFFETT_INDICATOR_MODELS", []);
-  axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/cmv/buffettindicators`,{ headers: HEADERS })
-        .then(response => { commit("SET_CMV_BUFFETT_INDICATOR_MODELS", response.data) })
+  async getCmvBuffettIndicatorModels({ commit }) {
+    await genericGet(`/fintech/v1/scrape/cmv/buffettindicators`,"SET_CMV_BUFFETT_INDICATOR_MODELS",[],{ commit })
   },
-  getCmvPriceEarningsModels({ commit }) {
-    commit("SET_CMV_PRICE_EARNINGS_MODELS", []);
-  axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/cmv/priceearnings`,{ headers: HEADERS })
-        .then(response => { commit("SET_CMV_PRICE_EARNINGS_MODELS", response.data) })
+  async getCmvPriceEarningsModels({ commit }) {
+    await genericGet(`/fintech/v1/scrape/cmv/priceearnings`,"SET_CMV_PRICE_EARNINGS_MODELS",[],{ commit})
   },
-  getCmvVixModels({ commit }) {
-    commit("SET_CMV_VIX_MODELS", []);
-  axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/cmv/vix`,{ headers: HEADERS })
-        .then(response => { commit("SET_CMV_VIX_MODELS", response.data) })
+  async getCmvVixModels({ commit }) {
+    await genericGet(`/fintech/v1/scrape/cmv/vix`,"SET_CMV_VIX_MODELS",[],{commit});
   },
-  getCmvSp500MeanReversionModels({ commit }) {
-    commit("SET_CMV_SP500_MEAN_REVERSION_MODELS", []);
-  axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/cmv/sp500meanreversion`,{ headers: HEADERS })
-        .then(response => { commit("SET_CMV_SP500_MEAN_REVERSION_MODELS", response.data) })
+  async getCmvSp500MeanReversionModels({ commit }) {
+    await genericGet(`/fintech/v1/scrape/cmv/sp500meanreversion`,"SET_CMV_SP500_MEAN_REVERSION_MODELS",[],{commit})
   },
-  getCmv10yInterestRateModels({ commit }) {
-    commit("SET_CMV_10Y_INTEREST_RATE_MODELS", []);
-    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/cmv/y10interestrates`,{ headers: HEADERS })
-        .then(response => { commit("SET_CMV_10Y_INTEREST_RATES_MODELS", response.data) })
+  async getCmv10yInterestRateModels({ commit }) {
+    await genericGet(`/fintech/v1/scrape/cmv/y10interestrates`,"SET_CMV_10Y_INTEREST_RATE_MODELS",[],{commit})
   },
-  getCmvYieldCurveModels({ commit }) {
-    commit("SET_CMV_YIELD_CURVE_MODELS", []);
-    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/cmv/yieldcurve`,{ headers: HEADERS })
-        .then(response => { commit("SET_CMV_YIELD_CURVE_MODELS", response.data) })
+  async getCmvYieldCurveModels({ commit }) {
+    await genericGet(`/fintech/v1/scrape/cmv/yieldcurve`,"SET_CMV_YIELD_CURVE_MODELS",[],{commit})
   },
-  getCnnSenitmentModels({ commit }) {
-    commit("SET_CNN_SENTIMENT_MODELS", []);
-    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/cnn/fearandgreedindicators`,{ headers: HEADERS })
-        .then(response => { commit("SET_CNN_SENTIMENT_MODELS", response.data) })
+  async getCnnSenitmentModels({ commit }) {
+    await genericGet(`/fintech/v1/scrape/cnn/fearandgreedindicators`,"SET_CNN_SENTIMENT_MODELS",[],{ commit })
   },
-  getMmSmartDumbMoneyModels({ commit }) {
-    commit("SET_MM_SMART_DUMB_MONEY_MODELS", []);
-    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/mm/smartdumbmoney`,{ headers: HEADERS })
-        .then(response => { commit("SET_MM_SMART_DUMB_MONEY_MODLES", response.data) })
+  async getMmSmartDumbMoneyModels({ commit }) {
+    await genericGet(`/fintech/v1/scrape/mm/smartdumbmoney`,"SET_MM_SMART_DUMB_MONEY_MODELS",[],{ commit })
   },
-  getDgnPriceModels({ commit },{epic}) {
-    commit("SET_DGN_PRICE_MODELS", []);
-    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/digrin/price?epic=${epic}`,{ headers: HEADERS })
-        .then(response => { commit("SET_DGN_PRICE_MODELS", response.data) })
+  async getDgnPriceModels({ commit },{epic}) {
+    await genericGet(`/fintech/v1/scrape/digrin/price?epic=${epic}`,"SET_DGN_PRICE_MODELS",[],{commit})
   },
   async getPremiumBondsData({ commit }, { holders }) {
     await genericGet(`/fintech/v1/scrape/pb/results?holders=${holders}`,"SET_PREMIUM_BONDS",[],{commit})

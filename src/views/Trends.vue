@@ -31,7 +31,7 @@ export default ({
 	},
 	mounted() {
     this.$store.dispatch("trends/getTrends");
-		console.log(process.env.VUE_APP_TITLE)
+		// console.log(process.env.VUE_APP_TITLE)
 	}
 })
 </script>

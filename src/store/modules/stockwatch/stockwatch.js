@@ -20,11 +20,11 @@ const mutations = {
 const actions = {
   jobinfo({commit}) {
     axios.get(`${CLOUD_FUNCTION_URL}/jobadmin/jobinfo`,{ headers: HEADERS })
-      .then(response => {console.log(response.data)})
+      .then(response => {/* console.log(response.data)*/ })
   },
   jobrun({ commit }) {
     axios.get(`${CLOUD_FUNCTION_URL}/jobadmin/jobrun`,{ headers: HEADERS })
-      .then(response => {console.log(response.data)})
+      .then(response => {/*console.log(response.data)*/ })
   },
   getStockWatches({ commit }) {
     get(child(ref(getDatabase()), `root/stocks/watch`))
@@ -38,7 +38,6 @@ const actions = {
     }).catch((error) => { console.error(error); });
   }
 }
-
 
 export default {
   namespaced: true,

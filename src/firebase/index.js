@@ -17,32 +17,18 @@ const auth = getAuth()
 const database = getDatabase(app)
 let UserSecrets = null
 
-const getCurrentUser = () => {
-  console.log('-> getCurrentUser');
-  return new Promise((resolve, reject) => {
-      const unsubscribe = getAuth().onAuthStateChanged(user => {
-          unsubscribe();
-          console.log('getCurrentUser:',user)
-          resolve(user);
-      }, reject);
-  })
-};
-
 const getUserSecrets = async (user) => {  
   if(UserSecrets == null) { 
     const snapshot = await get(child(ref(getDatabase()), `root/secrets`))
     if (snapshot.exists()) UserSecrets = snapshot.val();
-  }
-  return UserSecrets
+  } return UserSecrets
 }
 
-const getCurrentUser1 = async () => { 
+const getCurrentUser = async () => { 
   // Firebase auth state change listener
-  console.log('-> getCurrentUser1');
   return await getAuth().onAuthStateChanged(async (user) => {
     if (user) {
       await getUserSecrets(user)
-      // console.log('getCurrentUser1:',user)
       return user
     } else {
       // User is signed out
@@ -54,7 +40,6 @@ const getCurrentUser1 = async () => {
 export {
   auth,
   getCurrentUser,
-  getCurrentUser1,
   getUserSecrets,
   database
 };

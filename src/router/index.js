@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { getCurrentUser, getCurrentUser1, getUserSecrets } from '@/firebase'
+import { getCurrentUser, getUserSecrets } from '@/firebase'
 
 Vue.use(VueRouter)
 
@@ -222,7 +222,7 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
 	const reqAuth = to.matched.some(record => { return record.meta.requiresAuth});	
   	//if(requiresAuth && !await getCurrentUser()) {	
-	if(reqAuth && !await getCurrentUser1()) {
+	if(reqAuth && !await getCurrentUser()) {
     	next('sign-in');
   	} else {
 		// console.log("beforeEach.getSecrets then next()", await getUserSecrets())

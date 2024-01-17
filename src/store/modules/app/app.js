@@ -8,10 +8,7 @@ const state = {
 
 const getters = {};
 const mutations = {
-  SET_SECRETS: (state, payload) => {
-    state.secrets = payload
-    console.log(state.secrets)
-  }
+  SET_SECRETS: (state, payload) => {state.secrets = payload }
 };
 
 const actions = {

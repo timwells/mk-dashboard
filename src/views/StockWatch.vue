@@ -133,7 +133,7 @@ export default ({
 	},
 	methods: {
 		fullSymbol(r) {
-			console.log(r)
+			// console.log(r)
 			return r.hasOwnProperty('lse') ? 
 				r.lse : "LSE:" + r.n.split(".L")[0]
 		},
