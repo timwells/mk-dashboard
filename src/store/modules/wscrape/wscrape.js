@@ -1,12 +1,10 @@
 import axios from "axios";
-
 import { getUserSecrets } from '@/firebase'
 
 const CLOUD_EMULATION_FUNCTION_URL = process.env.VUE_APP_FIREBASE_EMULATION_FUNCTION_URL;
 
 // const CLOUD_FUNCTION_URL = CLOUD_EMULATION_FUNCTION_URL
 const CLOUD_FUNCTION_URL = process.env.VUE_APP_FIREBASE_FUNCTION_URL;
-
 
 const API_KEY = process.env.VUE_APP_FINTECH_API_KEY;
 const HEADERS = { 'x-api-key' : API_KEY }
@@ -63,7 +61,6 @@ const mutations = {
   SET_DGN_PRICE_MODELS: (state, payload) => (state.dgnPriceModels = payload),
 
   SET_PREMIUM_BONDS: (state, payload) => (state.premiumBondsData = payload),
-
 };
 
 async function genericGet(subPath,service,init,{commit}) {

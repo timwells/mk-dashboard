@@ -15,9 +15,7 @@
 				<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
 					<a-tabs default-active-key="1">
     					<a-tab-pane key="1" tab="Trade View">
-							<WidgetTradingViewTechAnalysis 
-								:symbol="fullSymbol(record.epic)">
-							</WidgetTradingViewTechAnalysis>
+							<a :href="tradeView(record.epic)" target="_blank">{{record.epic}}</a>
 						</a-tab-pane>
     					<a-tab-pane key="2" tab="Announcement">
 							<a-card :bordered="false" class="card-info">
@@ -146,11 +144,12 @@ export default ({
 			if(nEpic) return "LSE:" + nEpic.out; 
 			return "LSE:" + epic
 		},
+		tradeView(epic) {
+			return `https://www.tradingview.com/chart/?symbol=${this.fullSymbol(epic)}&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=${this.fullSymbol(epic)}`
+		},
 		expandedRowsChange(r) {
-			// console.log("expandedRowsChange:",r)
 		},
 		onExpand(exp,r) { 
-			// console.log("onExpand: ",exp,r);
 		},
 	},	
 	mounted() {

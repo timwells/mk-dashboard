@@ -3,7 +3,7 @@
 		<a-col :span="24" class="mb-24">
 			<a-tabs default-active-key="1">
 				<a-tab-pane key="1" tab="Open">
-					<a-row v-if="nakedTrades">
+					<a-row v-if="nakedTrades!=null">
 						<a-col :span="6">
 							<a-statistic title="Open Orders" :value="nakedTrades.statistics.openTrades" />
 						</a-col>
@@ -22,27 +22,17 @@
 						class='table table-small' style="margin: 0; background-color: white;">				
 						<template slot="expandedRowRender" slot-scope="record">
 							<a-tabs default-active-key="1">
-								<a-tab-pane key="1" tab="£ View">
-									<WidgetTradingViewTechAnalysis 
-										:symbol="fullSymbol(record.epic)" 
-										@container="container"> 
-									</WidgetTradingViewTechAnalysis>
+								<a-tab-pane key="1" tab="TradeView">
+									<a :href="tradeView(record.epic)" target="_blank">{{record.epic}}</a>
 								</a-tab-pane>
 								<a-tab-pane key="2" tab="Broker View">
-									<WidgetTradingViewBrokerAnalysis 
-										:symbol="fullSymbol(record.epic)">
-									</WidgetTradingViewBrokerAnalysis>
+									<WidgetTradingViewBrokerAnalysis :symbol="fullSymbol(record.epic)"/>
 								</a-tab-pane>
 								<a-tab-pane key="3" tab="Financials">
-									<WidgetTradingViewFinancials 
-										:symbol="fullSymbol(record.epic)">
-									</WidgetTradingViewFinancials>
+									<WidgetTradingViewFinancials :symbol="fullSymbol(record.epic)"/>
 								</a-tab-pane>
 								<a-tab-pane key="4" tab="Price">
 									<card-price-info :epic="lseSymbol(record.epic)"></card-price-info>
-								</a-tab-pane>
-								<a-tab-pane key="5" tab="£ View2">
-									<WidgetTradingViewTechAnalysisTest :symbol="record.epic"/> 
 								</a-tab-pane>
 							</a-tabs>
 						</template>
@@ -182,6 +172,13 @@ const epicCorrections = [
 ]
 
 // https://blog.katastros.com/a?ID=01750-67585afe-3add-4a2a-929a-d49a26d82b6c
+
+// https://www.tradingview.com/chart/?symbol=LSE%3ATTG&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=LSE%3ATTG
+// https://www.tradingview.com/chart/?symbol=LSE%3ATTG
+// &utm_source=www.tradingview.com
+// &utm_medium=widget
+// &utm_campaign=chart
+// &utm_term=LSE%3ATTG
 export default ({
 	components: {
 		WidgetTradingViewTechAnalysisTest,	
@@ -197,7 +194,6 @@ export default ({
 			this.allTrades = this.nakedTrades.trades
 			this.loading = false;
 		},
-		//getNakedArchives(o,n) { this.loading = this.nakedArchives.length > 0 ? false:true }
     },
 	data() {
 		return {
@@ -232,18 +228,14 @@ export default ({
 		lseSymbol(epic) {
 			return epic + ".L"
 		},
+		tradeView(epic) {
+			return `https://www.tradingview.com/chart/?symbol=${this.fullSymbol(epic)}&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=${this.fullSymbol(epic)}`
+		},
    		onExpand(exp,r) { 
-			// console.log("onExpand: ",exp,r);
 			if(!exp) {
-				//console.log("onExpand - DELETE-1",this.$children)
-				// console.log("onExpand - DELETE-2",this)
-				//console.log("onExpand - DELETE-2",this.$destroy())
-				// this.$el.children.removeChild(this.$el)
 			}
-			// console.log(this.$refs.tt)
 		},
 		expandedRowsChange(r) {
-			// console.log("expandedRowsChange:",r)
 		},
 		customRow(record) {
       		return { on: { click: event => { console.log("customRow:",event, record);}} };
