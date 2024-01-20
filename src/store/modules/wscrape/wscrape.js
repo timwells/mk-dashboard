@@ -32,8 +32,9 @@ const state = {
 
   dgnPriceModels: [],
 
-  premiumBondsData: []
+  premiumBondsData: [],
 
+  qqData:[]
 };
 
 const getters = {
@@ -61,6 +62,8 @@ const mutations = {
   SET_DGN_PRICE_MODELS: (state, payload) => (state.dgnPriceModels = payload),
 
   SET_PREMIUM_BONDS: (state, payload) => (state.premiumBondsData = payload),
+
+  SET_QQ_MODELS: (state,payload) => (state.qqData = payload)
 };
 
 async function genericGet(subPath,service,init,{commit}) {
@@ -117,8 +120,14 @@ const actions = {
   async getDgnPriceModels({ commit },{epic}) {
     await genericGet(`/fintech/v1/scrape/digrin/price?epic=${epic}`,"SET_DGN_PRICE_MODELS",[],{commit})
   },
+  async getPremiumBondsHolders({ commit }, { holders }) {
+    await genericGet(`/fintech/v1/scrape/pb/results?holders=${holders}`,"SET_PREMIUM_BONDS",[],{commit})
+  },
   async getPremiumBondsData({ commit }, { holders }) {
     await genericGet(`/fintech/v1/scrape/pb/results?holders=${holders}`,"SET_PREMIUM_BONDS",[],{commit})
+  },
+  async getQQData({ commit }) {
+    await genericGet(`/fintech/v1/scrape/qq/fearandgreed`,"SET_QQ_MODELS",[],{commit})
   }
 }
 

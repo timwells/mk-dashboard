@@ -9,16 +9,23 @@
 				<CardChartBondInfo v-if="market.type=='bond'" :title="market.title" />
 			</a-col>
 		</a-row>
+
+		<pre>{{qqData.length}}</pre>
+		<pre>{{qqData}}</pre>
+
+		<div v-for="(q, i) in qqData" :key="i">
+			<img :src="q" width="600">
+		</div>	
 	</div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 
 import CardChartFundInfo from '../components/Cards/CardChartFundInfo' ;
 import CardChartEquityInfo from '../components/Cards/CardChartEquityInfo';
 import CardChartIndexInfo from '../components/Cards/CardChartIndexInfo';
 import CardChartBondInfo from '../components/Cards/CardChartBondInfo';
-import { mapState } from "vuex";
 
 export default ({
 	components: {
@@ -28,7 +35,8 @@ export default ({
 		CardChartBondInfo
 	},
 	computed: {
-    	...mapState("markets", ["markets"])
+    	...mapState("markets", ["markets"]),
+    	...mapState("wscrape", ["qqData"]),
 	},
 	data() {
 		return {
@@ -36,6 +44,8 @@ export default ({
 	},
 	mounted() {
 	    this.$store.dispatch("markets/getMarkets1");
+	    this.$store.dispatch("wscrape/getQQData");
+
 	}
 })
 
