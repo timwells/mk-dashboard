@@ -4,7 +4,7 @@
 			<a-col class="col-content" :span="24" :xl="12">
 				<div class="card-content">
 					<h6>{{title}}</h6>
-					<img :src="url" alt="Performance Chart" height="340" width="100%"/>
+					<img :src="url" alt="Performance Chart" height="280" width="98%"/>
 				</div>
 				<!--div class="card-footer">
 					<span>Prices as at 31 May 2022</span>

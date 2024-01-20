@@ -62,14 +62,6 @@ export default ({
 			activeTab: 0,
 			pagination: { 
 				pageSize: 200, onChange: (p) => {
-					/*
-					for(let i=0; i < this.expandedIdList.length; i++) {
-						var e = document.getElementById(this.expandedIdList[i]); 
-						console.log(this.expandedIdList[i],e);
-						e.removeChild(e.children[0]);	
-					}
-					this.expandedIdList = []
-					*/
 				},
 			},
 		}

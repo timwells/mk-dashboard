@@ -4,12 +4,9 @@
 			<a-col class="col-content" :span="24" :xl="12">
 				<div class="card-content">
 					<h6>{{title}}</h6>
-					<p>{{ticker}}</p>					
-					<img v-if="ticker.length>1" :src="url" alt="Performance Chart" height="340" width="100%"/>
+					<!--p>{{ticker}}</p-->					
+					<img v-if="ticker.length>1" :src="url" alt="Performance Chart" height="280" width="98%"/>
 				</div>
-				<!--div class="card-footer">
-					<span>Prices as at 31 May 2022</span>
-				</div-->
 			</a-col>
 		</a-row>
 	</a-card>

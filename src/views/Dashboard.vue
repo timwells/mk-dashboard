@@ -2,24 +2,11 @@
 	<div>
 		<!-- Markets -->
 		<a-row :gutter="24" type="flex" align="stretch">
-			<a-col :span="24" :lg="24" :xl="24" class="mb-24" v-for="(market, index) in markets" :key="index">
-			
-				<CardChartFundInfo 
-					v-if="market.type=='fund'" 
-					:title="market.title" 
-					:ticker="market.ticker"/>
-
-				<CardChartEquityInfo v-if="market.type=='equity'" 
-					:title="market.title" 
-					:ticker="market.ticker"/>
-
-				<CardChartIndexInfo v-if="market.type=='index'" 
-					:title="market.title" 
-					:ticker="market.ticker"/>
-
-				<CardChartBondInfo v-if="market.type=='bond'" 
-					:title="market.title" />
-
+			<a-col :span="8" :lg="8" :xl="8" class="mb-8" v-for="(market, index) in markets" :key="index">			
+				<CardChartFundInfo v-if="market.type=='fund'" :title="market.title" :ticker="market.ticker"/>
+				<CardChartEquityInfo v-if="market.type=='equity'" :title="market.title" :ticker="market.ticker"/>
+				<CardChartIndexInfo v-if="market.type=='index'" :title="market.title" :ticker="market.ticker"/>
+				<CardChartBondInfo v-if="market.type=='bond'" :title="market.title" />
 			</a-col>
 		</a-row>
 	</div>
@@ -30,7 +17,7 @@
 import CardChartFundInfo from '../components/Cards/CardChartFundInfo' ;
 import CardChartEquityInfo from '../components/Cards/CardChartEquityInfo';
 import CardChartIndexInfo from '../components/Cards/CardChartIndexInfo';
-import CardChartBondInfo from '../components/Cards/CardChartBondInfo.vue';
+import CardChartBondInfo from '../components/Cards/CardChartBondInfo';
 import { mapState } from "vuex";
 
 export default ({
@@ -48,11 +35,14 @@ export default ({
 		}
 	},
 	mounted() {
-	    this.$store.dispatch("markets/getMarkets");
+	    this.$store.dispatch("markets/getMarkets1");
 	}
 })
 
 </script>
 
 <style lang="scss">
+.ant-card-body {
+    padding: 4px;
+}
 </style>
