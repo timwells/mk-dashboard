@@ -1,6 +1,6 @@
-import { getDatabase, ref, child, get} from "firebase/database";
+import axios from "axios";
 
-const _version = "1.0.1";
+const _version = "v28";
 const state = {
   version: _version,
   cfversion: "",
@@ -17,9 +17,10 @@ const actions = {
   setSecrets({commit}, {secrets}) {
     commit("SET_SECRETS", secrets);
   },
-  setCFVersion({commit}, {versionInfo}) {  
-    commit("SET_CF_VERSION", versionInfo);
-  }
+  async getCFVersion({commit},) {  
+    let response = await axios.get("https://us-central1-mk-d-b59f2.cloudfunctions.net/fintech/version")
+    commit("SET_CF_VERSION", response.data);
+  } 
 };
 
 export default {

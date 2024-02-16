@@ -25,5 +25,10 @@ Vue.component("layout-dashboard-rtl", DashboardRTLLayout);
 new Vue({
   store,
   router,
-  render: h => h(App)
+  render: h => h(App),
+  created() {
+    // Dispatch the action when the Vue instance is created
+    this.$store.dispatch('app/getCFVersion');
+  }
 }).$mount('#app')
+

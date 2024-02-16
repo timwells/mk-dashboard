@@ -1,12 +1,11 @@
-<template>
-	
+<template>	
 	<!-- Layout Footer -->
 	<a-layout-footer>
 		<a-row type="flex">
 			<a-col :span="24" :md="12">
 
 				<!-- Footer Copyright Notice -->
-				<p class="copyright">© 2023-2026 v27</p>
+				<p class="copyright">© 2024-30 app:{{cfversion}} cf:{{ cfversion }}</p>
 				<!-- / Footer Copyright Notice -->
 
 			</a-col>
@@ -27,7 +26,12 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default ({
+	computed: {
+    	...mapState("app", ["cfversion","version"])	
+	},
 	data() {
 		return {
 		}

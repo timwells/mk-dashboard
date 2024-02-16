@@ -30,8 +30,7 @@ export default ({
 		trendDateRange() { return "2012-01-01 " + new Date().toISOString().split("T")[0];}
 	},
 	mounted() {
-    this.$store.dispatch("trends/getTrends");
-		// console.log(process.env.VUE_APP_TITLE)
+	    this.$store.dispatch("trends/getTrends");
 	}
 })
 </script>
