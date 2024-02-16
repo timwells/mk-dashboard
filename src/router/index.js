@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { getCurrentUser, getUserSecrets } from '@/firebase'
+import { getCurrentUser } from '@/firebase'
 
 Vue.use(VueRouter)
 
