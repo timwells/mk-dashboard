@@ -5,7 +5,7 @@
 			<a-col :span="24" :md="12">
 
 				<!-- Footer Copyright Notice -->
-				<p class="copyright">© 2024-30 app:{{cfversion}} cf:{{ cfversion }}</p>
+				<p class="copyright">© 2024-30 app:{{version}} cf:{{cfversion}}</p>
 				<!-- / Footer Copyright Notice -->
 
 			</a-col>

@@ -18,6 +18,7 @@
   export default {
     props: {
       symbol: { type: String, default: ''},
+      
     },
     data: () => ({
       src: 'https://www.londonstockexchange.com/stock/JD./jd-sports-fashion-plc/company-page',

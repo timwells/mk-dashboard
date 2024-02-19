@@ -38,7 +38,7 @@ async function dgbPirce(tag,url) {
         const svgMatch = chartHtml.match(svgRegex);
 
         console.log(svgMatch[0]);
-    // await writeFileAsync(`./${tag}-chart-${i}.svg`,svgCleansed);
+       // await writeFileAsync(`./${tag}-chart-${i}.svg`,svgCleansed);
   })
 }
 

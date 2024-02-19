@@ -206,7 +206,6 @@ function addLayoutToRoute(
 }
 
 routes = routes.map((route) => addLayoutToRoute(route) ) ;
-
 const router = new VueRouter({
 	mode: 'hash',
 	base: process.env.BASE_URL,
@@ -221,11 +220,9 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
 	const reqAuth = to.matched.some(record => { return record.meta.requiresAuth});	
-  	//if(requiresAuth && !await getCurrentUser()) {	
 	if(reqAuth && !await getCurrentUser()) {
     	next('sign-in');
   	} else {
-		// console.log("beforeEach.getSecrets then next()", await getUserSecrets())
     	next();
   	}
 })

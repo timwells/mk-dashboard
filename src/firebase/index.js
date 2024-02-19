@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getDatabase, ref, child, get } from "firebase/database";
-import axios from "axios";
+import store from "@/store";
 
 const firebaseConfig = {
   apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
@@ -22,6 +22,7 @@ const getUserSecrets = async (user) => {
   if(UserSecrets == null) { 
     const snapshot = await get(child(ref(getDatabase()), `root/secrets`))
     if (snapshot.exists()) UserSecrets = snapshot.val();
+    store.dispatch("app/getSecrets")
   } return UserSecrets
 }
 
@@ -29,7 +30,7 @@ const getCurrentUser = async () => {
   // Firebase auth state change listener
   return await getAuth().onAuthStateChanged(async (user) => {
     if (user) {
-      await getUserSecrets(user); 
+      await getUserSecrets(user);
       return user
     } else {
       // User is signed out

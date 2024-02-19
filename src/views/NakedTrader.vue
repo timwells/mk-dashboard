@@ -187,7 +187,10 @@ export default ({
 		WidgetTradingViewFinancials,
 		CardPriceInfo
 	},
-	computed: {...mapState("wscrape", ["nakedTrades","nakedArchives"])},
+	computed: {
+		...mapState("wscrape", ["nakedTrades","nakedArchives"]),
+		...mapState("app", ["secrets"])
+	},
 	watch: {
         nakedTrades(o,n) {
 			this.openTrades = this.nakedTrades.openTrades
@@ -229,7 +232,9 @@ export default ({
 			return epic + ".L"
 		},
 		tradeView(epic) {
-			return `https://www.tradingview.com/chart/?symbol=${this.fullSymbol(epic)}&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=${this.fullSymbol(epic)}`
+			// return `https://www.tradingview.com/chart/AGxqmcG1?symbol=${this.fullSymbol(epic)}&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=${this.fullSymbol(epic)}`
+			// return `https://www.tradingview.com/chart/AGxqmcG1?symbol=${this.fullSymbol(epic)}&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=${this.fullSymbol(epic)}`
+			return `https://www.tradingview.com/chart/${this.secrets.tradingviewid}?symbol=${this.fullSymbol(epic)}&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=${this.fullSymbol(epic)}`
 		},
    		onExpand(exp,r) { 
 			if(!exp) {
