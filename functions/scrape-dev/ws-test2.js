@@ -1,8 +1,6 @@
 const {config} = require("../config")
 const axios = require('axios')
-
 const fetch = require('node-fetch')
-
 const cheerio = require('cheerio');
 const fs = require('fs');
 const fsPromises = fs.promises;
@@ -57,7 +55,8 @@ const fundDir = [
 
 let fundList = [];
 async function BuildFundList() {
-    for(let fd = 0; fd < fundDir.length; fd++ ) {
+    // for(let fd = 0; fd < fundDir.length; fd++ ) {
+    for(let fd = 0; fd < 1; fd++ ) {
         console.log(fundDir[fd])
         let {data} = await axios.get(fundDir[fd])
         const $ = cheerio.load(data)
@@ -72,6 +71,7 @@ async function BuildFundList() {
 }
 
 async function GetFundDetails() {
+    console.log(fundList)
     console.log("GetFundDetails:",fundList.length);
     for(let i=0; i < fundList.length; i++) {
         await GetFundDetail(i,fundList[i].name,fundList[i].link)
@@ -134,7 +134,7 @@ async function GetFundDetail(i,name,path) {
 }
 
 async function SaveFundDetails() {
-    await writeFileAsync(`./fundSummary.csv`,convertToCSV(fundSummary,","));
+    await writeFileAsync(`./fundSummary2.csv`,convertToCSV(fundSummary,","));
 }
 
 async function convertFundDetailsToJson() {
@@ -452,10 +452,11 @@ const buffettIndicator = (req, res) => {
     };
 
 (async () => {
-    // await BuildFundList();
-    // await GetFundDetails();
-    // await SaveFundDetails();
-    // await convertFundDetailsToJson();
+    await BuildFundList();
+    await GetFundDetails();
+    await SaveFundDetails();
+    //await convertFundDetailsToJson();
+
     // await GetFundDetail(0,"aberdeen-standard-global","https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/a/aberdeen-standard-global-innovation-equity-accumulation")
     // await ScanDividendData();
     // await ScanLondonStockHeatmapData();
@@ -472,7 +473,7 @@ const buffettIndicator = (req, res) => {
     // await scanSP500PE()
     // await scanShillerPE()
   
-    await buffettIndicator();
+    //await buffettIndicator();
     console.log("done");
 })();
   

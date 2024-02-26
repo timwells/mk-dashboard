@@ -11,7 +11,6 @@ async function getPuppetInstance() {
     }
     return gPuppetInstance
 }
-
 const sleep = ms => new Promise(res => setTimeout(res, ms));
 
 let startTime = 0
@@ -23,6 +22,13 @@ function watchTimeNow(tag,reset) {
     if(reset) initStopWatch()
 }
 
+function toCSV(arr,delim) {
+    const array = [Object.keys(arr[0])].concat(arr)
+    return array.map(it => {
+      return Object.values(it).join(delim);
+    }).join('\n')
+  }
+
 
 module.exports = {
     getPuppetInstance,
@@ -30,5 +36,6 @@ module.exports = {
     initStopWatch,
     watchTimeNow,
     writeFileAsync,
-    readFileAsync
+    readFileAsync,
+    toCSV
 }

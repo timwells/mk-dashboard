@@ -4,7 +4,7 @@
 			<a-col class="col-content" :span="24" :xl="12">
 				<div class="card-content">
 					<iframe 
-						:src="url"
+						:src="url2"
 						:title="title" 
 						width="100%" 
 						height="1380" 
@@ -34,7 +34,8 @@
 		},
 		data() {
 			return {
-				url:`https://webfund6.financialexpress.net/clients/Hargreaves/chartingTool.aspx?code=${this.sedol}&CodeType=SEDOL&InstrType=F`,
+				url:  `https://webfund6.financialexpress.net/clients/Hargreaves/chartingTool.aspx?code=${this.sedol}&CodeType=SEDOL&InstrType=F`,
+				url2: `https://webfund6.financialexpress.net/clients/Hargreaves/chartbuilder.aspx?codes=${this.sedol}&color=f65d1a&hide=&span=M60&plotSingleAsPrice=true&totalReturn=false&yAxisLabel=_`
 			}
 		},
 		methods: {
