@@ -27,8 +27,12 @@ function toCSV(arr,delim) {
     return array.map(it => {
       return Object.values(it).join(delim);
     }).join('\n')
-  }
+}
 
+function randomInt(min, max) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
+  
 
 module.exports = {
     getPuppetInstance,
@@ -37,5 +41,6 @@ module.exports = {
     watchTimeNow,
     writeFileAsync,
     readFileAsync,
-    toCSV
+    toCSV,
+    randomInt
 }

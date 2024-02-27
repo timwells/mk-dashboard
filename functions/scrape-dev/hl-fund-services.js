@@ -29,51 +29,96 @@ const FUNDS_DIR = [
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/r",
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/s",
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/t",
+
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/u",
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/v",
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/w",
+
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/x",
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/y",
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/z",
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/0"
 ]
 
+function fundSearchGroup(fundSearch) {
+    let fsr = fundSearch.split("/")
+    return `${fsr[fsr.length - 1]}-fund`
+}
+
 async function GetFundList(fundsDirectory) {
     // for(let fd = 0; fd < fundDir.length; fd++ ) {
     let fundList = [];
+    let totalFunds = 0;
+
     for(let fd = 0; fd < 1; fd++ ) {
-        let { data } = await axios.get(fundsDirectory[fd])
+        try {
+            let { data } = await axios.get(fundsDirectory[fd])
+            const $ = cheerio.load(data)
+            const listItems = $("#mainContent .list-unstyled li"); 
+            totalFunds += listItems.length;
+            console.log("GetFundList:",totalFunds,listItems.length,fundsDirectory[fd]);
+            
+            listItems.each((idx, el) => {
+                const fund = {}
+                fund.name = $(el).children("a").text();
+                fund.link = $(el).children("a").attr("href");
+                fundList.push(fund);
+            })
+        } catch (e) {
+            console.log("ERROR GetFundList",e.message,fundsDirectory[fd]);
+        }
+    }
+    return fundList
+}
+
+async function GetFundList2(fundsDirectory) {
+    let fundList = [];
+    let totalFunds = 0;
+
+    try {
+        let { data } = await axios.get(fundsDirectory)
         const $ = cheerio.load(data)
         const listItems = $("#mainContent .list-unstyled li"); 
+        totalFunds += listItems.length;
+        console.log("GetFundList:",totalFunds,listItems.length,fundsDirectory);
+        
         listItems.each((idx, el) => {
             const fund = {}
             fund.name = $(el).children("a").text();
             fund.link = $(el).children("a").attr("href");
             fundList.push(fund);
         })
+    } catch (e) {
+        console.log("ERROR GetFundList",e.message,fundsDirectory);
     }
     return fundList
 }
 
-async function GetFundDetails(fundList) {
+
+async function GetFundDetails(fundList) {    
     let fundDetails = [];
     console.log("GetFundDetails:",fundList.length);
     for(let i=0; i < fundList.length; i++) {
         let fundDetail = await GetFundDetail(i,fundList[i].name,fundList[i].link)
-        if(fundDetail)
+        if(fundDetail) {
             fundDetails.push(fundDetail)
+            let d = c.randomInt(480,910)
+            console.log(`${i} of ${fundList.length} | ${fundDetail.name} - ${fundDetail.type}  / Delay ${d} ms`)   
+            c.sleep(d) 
+        }
     }
+
     return fundDetails
 }
-
 
 // https://webfund6.financialexpress.net/clients/Hargreaves/chartbuilder.aspx?
 // codes=FGWTB&color=f65d1a&hide=&span=M60&plotSingleAsPrice=true&totalReturn=false&yAxisLabel=_
 async function GetFundDetail(i,name,path) {
-    let { data } = await axios.get(path)
-    const $ = await cheerio.load(data)
-    let details = {}        
+    let details = null
     try {
+        details = {}        
+        let { data } = await axios.get(path)
+        const $ = await cheerio.load(data)
         details.name = $("head meta[name='Fund_Title']").attr("content");
         
         details.href = path;
@@ -159,12 +204,12 @@ async function GetFundDetail(i,name,path) {
             });
         })
         details.holdings = holdings
-        console.log(i,details.name,(details))
     }
-    catch(e) {
-        console.log("Exception:",i,name,path)
+    catch (e) {
+        console.log("ERROR GetFundDetail",e.message,i,name,path);
         details = null
     }
+
     return details
 }
 
@@ -205,65 +250,22 @@ async function fundsQuery(url,qry,timeout) {
 // ?start=0&rpp=1000&lo=0&sort=fd.full_description&sort_dir=asc
 // https://www.hl.co.uk/funds
 
-const HL_SEARCH = "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results"
-
 async function scanFunds() {
-    //let $ = await fundsQuery(HL_FUNDS,"#fund-search-button-count",5000)    
-    //let count = parseInt($("#fund-search-button-count").html())
-    //console.log(count)
-
-    /*
-    for(let i = 0; i < count; i+=1000) {
-        let q = `${HL_SEARCH}?start=${i}&rpp=1000&lo=0&sort=fd.full_description&sort_dir=asc`
-        console.log(q)
-    }
-    */
-    let i = 0;
-    let page = 1;
-    let q = `${HL_SEARCH}?start=${i}&rpp=${page}&lo=0&sort=fd.full_description&sort_dir=asc`
-    $ = await fundsQuery(q,".results__table",4000)
-    const sel = '.results__table > tbody > tr';
-
-    // Select the table by its id
-    const table = $('.results__table');
-
-    // Iterate over each row in the table
-    table.find('tr').each((i, row) => {
-        const columns = $(row).find('td'); // Find all td elements within the current row
-
-        // Iterate over each column in the row
-        columns.each((j, column) => {
-            // console.log(`Row ${i + 1}, Column ${j + 1}: ${$(column).text()}`);
-            console.log(column.children.length,column.children[0].data);
-            console.log(column.children[0]);
-            console.log('--------------------------');
-
-            //console.log(`${$(column).text()}`);
-            //console.log(`${$(column).data}`);
-        });
-    });
-
-    /*
-    $(sel).each((i, e) => {         
-        console.log(`row ${i} of ${e.children.length}`);
-        for(let a=0; a < e.children.length; a++) {
-            console.log(e.children[a].name)
-            console.log(e.children[a].)
-            // console.log(e.children[a].children[0].children.data)
-        }
-    })
-    */
+    let fundsList = await GetFundList(FUNDS_DIR);  
+    let fundsDetails = await GetFundDetails(fundsList)
+    // await SaveFundDetails(fundsDetails)
 }
 
-async function scanFunds1(){
-    let fundsList = await GetFundList(FUNDS_DIR);
-    //console.log(fundsList)
-    let fundsDetails = await GetFundDetails(fundsList)
-    //console.log(fundsDetails)
-    await SaveFundDetails(fundsDetails)
+async function scanFunds1() {
+    for(let i = 0; i < FUNDS_DIR.length; i++) {
+        console.log("Scan: " + FUNDS_DIR[i])
+        let fundsList = await GetFundList2(FUNDS_DIR[i]);
+        let fundsDetails = await GetFundDetails(fundsList)
+        let fsg = fundSearchGroup(FUNDS_DIR[i])
+        await c.writeFileAsync(`./funds/${fsg}.json`,JSON.stringify(fundsDetails));
+    }
 }
 
 module.exports = {
-    scanFunds,
-    scanFunds1
+    scanFunds1,
 }
