@@ -37,19 +37,31 @@ const fundsColumns = [
 		title: 'Type',
 		dataIndex: 'type',
 		scopedSlots: { customRender: 'type' },
-	},{
+	},
+	{
 		title: 'Sedol',
 		dataIndex: 'sedol',
 		scopedSlots: { customRender: 'sedol' },
-	},{
+	},
+	{
+		title: 'Citi Code',
+		dataIndex: 'citicode',
+		scopedSlots: { customRender: 'citicode' },
+	},
+	
+/*	
+	{
 		title: 'Bid',
 		dataIndex: 'bidPrice',
 		scopedSlots: { customRender: 'bidPrice' },
-	},{
+	},
+	{
 		title: 'Ask',
 		dataIndex: 'askPrice',
 		scopedSlots: { customRender: 'askPrice' },
-	},{
+	},
+*/	
+	{
 		title: 'Initial Charge',
 		dataIndex: 'netIC',
 		sorter: (a, b) => a.netIC - b.netIC,

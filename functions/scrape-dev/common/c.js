@@ -1,8 +1,10 @@
-const puppeteer = require('puppeteer');
+const path = require('path');
 const fs = require('fs')
+const fsPromises = fs.promises;
 const { promisify } = require('util')
 const writeFileAsync = promisify(fs.writeFile)
 const readFileAsync = promisify(fs.readFile)
+const puppeteer = require('puppeteer');
 
 let gPuppetInstance = null
 async function getPuppetInstance() {
@@ -32,7 +34,25 @@ function toCSV(arr,delim) {
 function randomInt(min, max) { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
-  
+
+async function getFilesByPattern(directory, pattern) {
+    let pf = [];
+    let files = await fsPromises.readdir(directory);
+    for(let i = 0; i < files.length; i++) {
+      let bInclude = false;
+      if(pattern === "*") {
+        bInclude = true;
+      }
+      else if(new RegExp(pattern).test(files[i])) {
+        bInclude = true;
+      }
+      else { /* Do nothing */ }
+      if(bInclude) {
+        pf.push(directory + '/'+ files[i])
+      }
+    }
+    return pf;
+}
 
 module.exports = {
     getPuppetInstance,
@@ -42,5 +62,6 @@ module.exports = {
     writeFileAsync,
     readFileAsync,
     toCSV,
-    randomInt
+    randomInt,
+    getFilesByPattern
 }

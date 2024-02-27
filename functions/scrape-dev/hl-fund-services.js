@@ -94,7 +94,6 @@ async function GetFundList2(fundsDirectory) {
     return fundList
 }
 
-
 async function GetFundDetails(fundList) {    
     let fundDetails = [];
     console.log("GetFundDetails:",fundList.length);
@@ -253,7 +252,6 @@ async function fundsQuery(url,qry,timeout) {
 async function scanFunds() {
     let fundsList = await GetFundList(FUNDS_DIR);  
     let fundsDetails = await GetFundDetails(fundsList)
-    // await SaveFundDetails(fundsDetails)
 }
 
 async function scanFunds1() {
@@ -266,6 +264,20 @@ async function scanFunds1() {
     }
 }
 
+async function mergeFunds() {
+    let files = await c.getFilesByPattern("./funds","*")
+    let allFunds = []
+    for(let f in files) {
+        console.log(files[f])
+        let obj = JSON.parse(await c.readFileAsync(files[f]))
+        allFunds.push(...obj)
+    }
+    await c.writeFileAsync(`./allFunds.json`,JSON.stringify(allFunds));
+
+    console.log("allFunds",allFunds.length)
+}
+
 module.exports = {
     scanFunds1,
+    mergeFunds
 }

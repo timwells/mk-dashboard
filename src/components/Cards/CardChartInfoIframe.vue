@@ -4,7 +4,7 @@
 			<a-col class="col-content" :span="24" :xl="12">
 				<div class="card-content">
 					<iframe 
-						:src="url2"
+						:src="url"
 						:title="title" 
 						width="100%" 
 						height="1380" 
