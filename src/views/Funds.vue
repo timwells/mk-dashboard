@@ -62,7 +62,7 @@ const fundsColumns = [
 	},
 */	
 	{
-		title: 'Initial Charge',
+		title: 'Init Charge',
 		dataIndex: 'netIC',
 		sorter: (a, b) => a.netIC - b.netIC,
     	sortDirections: ["descend", "ascend"],
@@ -100,4 +100,5 @@ export default ({
 })
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+</style>

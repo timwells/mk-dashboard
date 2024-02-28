@@ -74,14 +74,18 @@
 			<template slot="sedol" slot-scope="sedol">
 				<p class="m-0 font-regular text-muted">{{ sedol }}</p>
 			</template>
+			<!-- Fund CITICODE -->
+			<template slot="citicode" slot-scope="citicode">
+				<p class="m-0 font-regular text-muted">{{ citicode }}</p>
+			</template>
 			<!-- Fund Bid Price -->
-			<template slot="bidPrice" slot-scope="bidPrice">
+			<!--template slot="bidPrice" slot-scope="bidPrice">
 				<p class="m-0 font-regular text-muted">{{ bidPrice }}</p>
-			</template>
+			</template-->
 			<!-- Fund Ask Price -->
-			<template slot="askPrice" slot-scope="askPrice">
+			<!--template slot="askPrice" slot-scope="askPrice">
 				<p class="m-0 font-regular text-muted">{{ askPrice }}</p>
-			</template>
+			</template-->
 			<!-- Fund Initial Charge -->
 			<template slot="netIC" slot-scope="netIC">
 				<p class="m-0 font-regular text-muted">{{ netIC }}</p>
