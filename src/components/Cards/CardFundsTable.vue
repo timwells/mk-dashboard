@@ -48,7 +48,13 @@
 			<a-button icon="plus" type="primary" slot="action" slot-scope="record" @click="onExpand(record.key)"></a-button>
 
 			<div slot="expandedRowRender" slot-scope="record" style="margin: 0">
-				<CardChartInfoIframe :title="record.name" :sedol="record.sedol"></CardChartInfoIframe>
+				<CardChartInfoIframe 
+					:title="record.name" 
+					:sedol="record.sedol" 
+					:citicode="record.citicode"
+					:holdings="record.holdings"
+					:peformance="record.peformance">
+				</CardChartInfoIframe>
 			</div>
 			<!-- Fund Name -->
 			<template slot="name" slot-scope="text, record, index, column">
@@ -76,7 +82,7 @@
 			</template>
 			<!-- Fund CITICODE -->
 			<template slot="citicode" slot-scope="citicode">
-				<p class="m-0 font-regular text-muted">{{ citicode }}</p>
+				<p class="m-0 font-regular text-muted">F{{ citicode }}</p>
 			</template>
 			<!-- Fund Bid Price -->
 			<!--template slot="bidPrice" slot-scope="bidPrice">

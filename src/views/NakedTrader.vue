@@ -259,7 +259,7 @@ export default ({
 
 <style lang="scss">
 .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
-    padding: 8px 8px;
+    padding: 6px 6px;
 }
 
 </style>

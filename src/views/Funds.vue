@@ -32,21 +32,25 @@ const fundsColumns = [
 			customRender: 'name', 
 	      	filterDropdown: 'filterDropdown',
  	     	filterIcon: 'filterIcon'
-		}
+		},
+		width: 400, 
 	},{
 		title: 'Type',
 		dataIndex: 'type',
 		scopedSlots: { customRender: 'type' },
+		width: 160, 
 	},
 	{
 		title: 'Sedol',
 		dataIndex: 'sedol',
 		scopedSlots: { customRender: 'sedol' },
+		width: 120, 
 	},
 	{
 		title: 'Citi Code',
 		dataIndex: 'citicode',
 		scopedSlots: { customRender: 'citicode' },
+		width: 80, 
 	},
 	
 /*	
@@ -61,13 +65,15 @@ const fundsColumns = [
 		scopedSlots: { customRender: 'askPrice' },
 	},
 */	
-	{
+/*	{
 		title: 'Init Charge',
 		dataIndex: 'netIC',
 		sorter: (a, b) => a.netIC - b.netIC,
     	sortDirections: ["descend", "ascend"],
 		scopedSlots: { customRender: 'netIC' },
-	},{
+	},
+*/
+	{
 		title: 'Annual Charge',
 		dataIndex: 'netAC',
 		sorter: (a, b) => a.netAC - b.netAC,
@@ -91,7 +97,7 @@ export default ({
 	data() {
 		return {
 			fundsColumns,
-			pagination: { pageSize: 200 },
+			pagination: { pageSize: 300 },
 		}
 	},
 	mounted() {

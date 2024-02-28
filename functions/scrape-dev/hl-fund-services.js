@@ -277,7 +277,21 @@ async function mergeFunds() {
     console.log("allFunds",allFunds.length)
 }
 
+async function cleanFunds() {
+    let fObj = JSON.parse(await c.readFileAsync(`./allFunds.json`));
+    for(let i = 0; i < fObj.length; i++) {
+        if('href' in fObj[i]) {
+            delete fObj[i].href
+        }
+    }
+
+    await c.writeFileAsync(`./allFunds1.json`,JSON.stringify(fObj));
+
+    console.log("allFunds",fObj.length)
+}
+
 module.exports = {
     scanFunds1,
-    mergeFunds
+    mergeFunds,
+    cleanFunds
 }
