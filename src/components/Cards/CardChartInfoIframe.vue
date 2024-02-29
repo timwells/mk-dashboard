@@ -117,27 +117,3 @@ export default ({
 }
 }
 </style>
-
-data() {
-	return {
-		openTrades: [],
-		allTrades: [],
-		loading: true,
-		OpenTradeCols,
-		colDictionary,
-		pagination: { 
-			pageSize: 200, onChange: (p) => {
-				/*
-				for(let i=0; i < this.expandedIdList.length; i++) {
-					var e = document.getElementById(this.expandedIdList[i]); 
-					console.log(this.expandedIdList[i],e);
-					e.removeChild(e.children[0]);	
-				}
-				this.expandedIdList = []
-				*/
-			},
-		},
-		expandedIdList: [],
-		expandedRowKeys: []
-	}
-},
