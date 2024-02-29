@@ -14,6 +14,7 @@ const getters = {
   }
 }
 
+
 const mutations = {
   SET_SECRETS: (state, payload) => { state.secrets = payload },
   SET_CF_VERSION: (state, payload) => { state.cfversion = payload }
