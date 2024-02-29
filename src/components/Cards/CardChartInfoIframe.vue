@@ -28,8 +28,27 @@
 				</a-card>
 			</a-col>
 		</a-row>
-		<a-row>
-			<pre>{{ performance }}</pre>
+		<a-row :gutter="24" type="flex" align="stretch">
+			<a-col class="mb-12" :span="12" :xl="12">
+				<a-card>
+					<div class="card-content">
+						<a-table 
+							:columns="pCols"
+							:data-source="performance"
+							:pagination="pagination"
+							class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
+							<template slot="period" slot-scope="period">
+								<p class="m-0 font-regular text-muted">{{ period }}</p>
+							</template>
+
+							<template slot="retn" slot-scope="retn">
+								<p class="m-0 font-regular text-muted">{{ retn }}</p>
+							</template>
+						</a-table>
+					</div>
+				</a-card>
+			</a-col>
+		
 		</a-row>
 	</div>
 </template>
