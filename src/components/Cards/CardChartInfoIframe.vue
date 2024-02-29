@@ -1,32 +1,37 @@
 <template>
-	<a-row :gutter="24" type="flex" align="stretch">
-		<a-col class="mb-8" :span="12" :xl="12">
-			<a-card>
-				<div class="card-content">
-					<img :src="url2" alt="Performance Chart" height="300" width="100%">
-				</div>
-			</a-card>
-		</a-col>
-		<a-col class="mb-8" :span="12" :xl="12">
-			<a-card>
-				<div class="card-content">
-					<a-table 
-						:columns="hCols"
-						:data-source="holdings"
-						:pagination="pagination"
-						class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
-						<template slot="security" slot-scope="security">
-							<p class="m-0 font-regular text-muted">{{ security }}</p>
-						</template>
+	<div>
+		<a-row :gutter="24" type="flex" align="stretch">
+			<a-col class="mb-8" :span="12" :xl="12">
+				<a-card>
+					<div class="card-content">
+						<img :src="url2" alt="Performance Chart" height="300" width="100%">
+					</div>
+				</a-card>
+			</a-col>
+			<a-col class="mb-8" :span="12" :xl="12">
+				<a-card>
+					<div class="card-content">
+						<a-table 
+							:columns="hCols"
+							:data-source="holdings"
+							:pagination="pagination"
+							class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
+							<template slot="security" slot-scope="security">
+								<p class="m-0 font-regular text-muted">{{ security }}</p>
+							</template>
 
-						<template slot="weight" slot-scope="weight">
-							<p class="m-0 font-regular text-muted">{{ weight }}</p>
-						</template>
-					</a-table>
-				</div>
-			</a-card>
-		</a-col>
-	</a-row>
+							<template slot="weight" slot-scope="weight">
+								<p class="m-0 font-regular text-muted">{{ weight }}</p>
+							</template>
+						</a-table>
+					</div>
+				</a-card>
+			</a-col>
+		</a-row>
+		<a-row>
+			<pre>{{ performance }}</pre>
+		</a-row>
+	</div>
 </template>
 
 <script>
@@ -66,7 +71,6 @@ const pCols = [
 	}
 ]
 
-
 export default ({
 	props: {
 		title: {
@@ -81,8 +85,8 @@ export default ({
 			type: String,
 			default: "",
 		},
-		perfomance: {type: Array},
-		holdings: {type: Array}
+		holdings: {type: Array},
+		performance: {type: Array}
 	},
 	data() {
 		return {

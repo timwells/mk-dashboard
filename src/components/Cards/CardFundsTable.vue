@@ -53,7 +53,7 @@
 					:sedol="record.sedol" 
 					:citicode="record.citicode"
 					:holdings="record.holdings"
-					:peformance="record.peformance">
+					:performance="record.performance">
 				</CardChartInfoIframe>
 			</div>
 			<!-- Fund Name -->
