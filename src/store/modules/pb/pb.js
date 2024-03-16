@@ -4,8 +4,23 @@ const state = {
   holders: []
 };
 
-const getters = {}
+const getters = {
+  getHoldersQry: state => {
+    let hQry = ""
+    for(let i=0; i<state.holders.length; i++) {
+      if(hQry.length>0) hQry += ","
+      hQry += `${state.holders[i].n}:${state.holders[i].h}`
+    } return hQry
+  },
 
+  getHolderValue: (state) => (name) => {
+      if(name.length>0) return (state.holders.find(h => h.n === name)).v;
+      else return 0
+  }  
+}
+const setters = {
+
+}
 const mutations = {
   SET_HOLDERS: (state, payload) => (state.holders = payload)
 };
@@ -28,6 +43,7 @@ export default {
   namespaced: true,
   state,
   getters,
+  setters,
   mutations,
   actions
 }
