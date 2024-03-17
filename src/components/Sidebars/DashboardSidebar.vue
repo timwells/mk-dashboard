@@ -37,6 +37,7 @@
 <script>
 const sidebarItems= [
 	{title: "Markets", linkTo: "/dashboard"},
+	{title: "FED",linkTo: "/fed-insights"},
 	{title: "Models",linkTo: "/models"},
 	{title: "P.Bonds",linkTo: "/premium-bonds"},
 	{title: "NakedTrades",linkTo: "/trades"},

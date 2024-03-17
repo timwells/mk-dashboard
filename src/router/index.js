@@ -35,6 +35,12 @@ let routes = [
 		component: () => import(/* webpackChunkName: "funds" */'../views/PremiumBondsView.vue'),
 		meta: { requiresAuth: true }
 	},{
+		path: '/fed-insights',
+		name: 'FEDi',
+		layout: "dashboard",
+		component: () => import(/* webpackChunkName: "funds" */'../views/FedInsightsView.vue'),
+		meta: { requiresAuth: true }
+	},{
 		path: '/models',
 		name: 'Models',
 		layout: "dashboard",
