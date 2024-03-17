@@ -1,31 +1,33 @@
 <template>
 	<a-row :gutter="24" type="flex">
 		<a-col v-if="show" :span="24" class="mb-24">
-			<a-tabs v-if="premiumBondsData.length" v-model="activeTab">
-				<a-tab-pane v-for="(holder,index) in premiumBondsData" :key="index" :tab="holder.name">
+			<div v-if="holders.length>0 && premiumBondsData.length>0">
+				<a-tabs v-if="holders.length" v-model="activeTab">
+					<a-tab-pane v-for="(holder,index) in premiumBondsData" :key="index" :tab="holder.name">
 					
-					<a-row v-if="holders.length">
-						<a-col :span="4"><a-statistic title="Holder" :value="holder.holder" /></a-col>
-						<a-col :span="4"><a-statistic title="Prizes" :value="holder.results.length" /></a-col>
-						<a-col :span="4"><a-statistic title="Sum" :value="holder.sum" /></a-col>
-						<a-col :span="4"><a-statistic title="Holdings" :value="getHolderValue2(holder.name)" /></a-col>
-					</a-row>
+						<a-row>
+							<a-col :span="4"><a-statistic title="Holder" :value="holder.holder" /></a-col>
+							<a-col :span="4"><a-statistic title="Prizes" :value="holder.results.length" /></a-col>
+							<a-col :span="4"><a-statistic title="Sum" :value="holder.sum" /></a-col>
+							<a-col :span="4"><a-statistic title="Holdings" :value="getHolderValue2(holder.name)" /></a-col>
+						</a-row>
 
-					<a-table
-						:loading="loading"
-						:columns="cols"
-						:data-source="holder.results" 
-						:pagination="pagination"
-						:rowKey="(record,index) => index"
-						class='table table-small' style="margin: 0; background-color: white;">	
-						
-						<template slot="date" slot-scope="date"><p class="m-0 font-regular text-muted">{{ date }}</p></template>
-						<template slot="bond" slot-scope="bond"><p class="m-0 font-regular text-muted">{{ bond }}</p></template>
-						<template slot="prize" slot-scope="prize"><p class="m-0 font-regular text-muted">{{ prize }}</p></template>
+						<a-table
+							:loading="loading"
+							:columns="cols"
+							:data-source="holder.results" 
+							:pagination="pagination"
+							:rowKey="(record,index) => index"
+							class='table table-small' style="margin: 0; background-color: white;">	
+							
+							<template slot="date" slot-scope="date"><p class="m-0 font-regular text-muted">{{ date }}</p></template>
+							<template slot="bond" slot-scope="bond"><p class="m-0 font-regular text-muted">{{ bond }}</p></template>
+							<template slot="prize" slot-scope="prize"><p class="m-0 font-regular text-muted">{{ prize }}</p></template>
 
-					</a-table>
-				</a-tab-pane>
-			</a-tabs>
+						</a-table>
+					</a-tab-pane>
+				</a-tabs>
+			</div>
 		</a-col>
 	</a-row>
 </template>

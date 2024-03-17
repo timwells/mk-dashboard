@@ -286,12 +286,11 @@ async function cleanFunds() {
     }
 
     await c.writeFileAsync(`./allFunds1.json`,JSON.stringify(fObj));
-
     console.log("allFunds",fObj.length)
 }
 
 module.exports = {
     scanFunds1,
     mergeFunds,
-    cleanFunds
+    cleanFunds,
 }
