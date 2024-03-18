@@ -66,8 +66,7 @@ async function scanFtse350DetailsPageCount(){
 }
 
 async function scanFtseIndexes(){
-    let stocks = []
-    
+    let stocks = []    
     let nPages = await getFtseIndexPageCount('https://www.hl.co.uk/shares/stock-market-summary/ftse-100')
     console.log(nPages, 'ftse-100')
 

@@ -93,12 +93,8 @@ const actions = {
   async getBoEIRates({ commit }) {
     await genericGet(`/fintech/v1/scrape/boe`,"SET_BOE_IRATES",[],{ commit })
   },
-  async getCmvBuffettIndicatorModels({ commit }) {
-    await genericGet(`/fintech/v1/scrape/cmv/buffettindicators`,"SET_CMV_BUFFETT_INDICATOR_MODELS",[],{ commit })
-  },
-  async getCmvPriceEarningsModels({ commit }) {
-    await genericGet(`/fintech/v1/scrape/cmv/priceearnings`,"SET_CMV_PRICE_EARNINGS_MODELS",[],{ commit})
-  },
+  async getCmvBuffettIndicatorModels({ commit }) { await genericGet(`/fintech/v1/scrape/cmv/buffettindicators`,"SET_CMV_BUFFETT_INDICATOR_MODELS",[],{ commit })},
+  async getCmvPriceEarningsModels({ commit }) { await genericGet(`/fintech/v1/scrape/cmv/priceearnings`,"SET_CMV_PRICE_EARNINGS_MODELS",[],{ commit})},
   async getCmvVixModels({ commit }) {
     await genericGet(`/fintech/v1/scrape/cmv/vix`,"SET_CMV_VIX_MODELS",[],{commit});
   },
@@ -129,6 +125,7 @@ const actions = {
   async getQQData({ commit }) {
     await genericGet(`/fintech/v1/scrape/qq/fearandgreed`,"SET_QQ_MODELS",[],{commit})
   }
+  
 }
 
 export default {
