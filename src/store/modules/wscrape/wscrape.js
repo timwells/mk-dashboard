@@ -12,7 +12,6 @@ const HEADERS = { 'x-api-key' : API_KEY }
 const state = {
   nakedTrades: null,
   nakedArchives: [],
-
   dataroma: [],
   dataromaHoldingsMap: [],
 
@@ -29,12 +28,13 @@ const state = {
   cnnSentimentModels:[],
 
   mmSmartDumbMoneyModels: [],
-
   dgnPriceModels: [],
 
   premiumBondsData: [],
 
-  qqData:[]
+  qqData:[],
+
+  hlIndexData:[]
 };
 
 const getters = {
@@ -56,14 +56,13 @@ const mutations = {
   SET_CMV_YIELD_CURVE_MODELS: (state, payload) => (state.cmvYieldCurveModels = payload),
 
   SET_CNN_SENTIMENT_MODELS: (state, payload) => (state.cnnSentimentModels = payload),
-
   SET_MM_SMART_DUMB_MONEY_MODELS: (state, payload) => (state.mmSmartDumbMoneyModels = payload),
-
   SET_DGN_PRICE_MODELS: (state, payload) => (state.dgnPriceModels = payload),
-
   SET_PREMIUM_BONDS: (state, payload) => (state.premiumBondsData = payload),
 
-  SET_QQ_MODELS: (state,payload) => (state.qqData = payload)
+  SET_QQ_MODELS: (state,payload) => (state.qqData = payload),
+
+  SET_HLINDEX_MODELS: (state,payload) => (state.hlIndexData = payload)
 };
 
 async function genericGet(subPath,service,init,{commit}) {
@@ -124,8 +123,11 @@ const actions = {
   },
   async getQQData({ commit }) {
     await genericGet(`/fintech/v1/scrape/qq/fearandgreed`,"SET_QQ_MODELS",[],{commit})
+  },
+  async getHLIndexData({ commit }) {
+    await genericGet(`/fintech/v1/scrape/hlindex/indexes`,"SET_HLINDEX_MODELS",[],{commit})
   }
-  
+
 }
 
 export default {

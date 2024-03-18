@@ -23,12 +23,18 @@ let routes = [
 		component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
 		meta: { requiresAuth: true }
 	},{
+		path: '/hl-index',
+		name: 'HLi',
+		layout: "dashboard",
+		component: () => import(/* webpackChunkName: "funds" */'../views/IndexView.vue'),
+		meta: { requiresAuth: true }
+	},/*{
 		path: '/layout',
 		name: 'Layout',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "dashboard" */ '../views/Layout.vue'),
+		component: () => import('../views/Layout.vue'),
 		meta: { requiresAuth: true }
-	},{
+	},*/{
 		path: '/premium-bonds',
 		name: 'P.Bonds',
 		layout: "dashboard",

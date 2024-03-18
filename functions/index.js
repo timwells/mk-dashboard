@@ -8,7 +8,7 @@ const cors = require('cors');
 const app = express();
 const { config } = require("./config");
 
-const VERSION = "1.0.2";
+const VERSION = "1.0.3";
 const API_KEY_NAME = "x-api-key"
 
 const unauthorized = (res) => res.status(401).send('unauthorised');

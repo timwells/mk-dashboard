@@ -33,9 +33,9 @@ async function getFtseIndex(path,index) {
                 switch(j) {
                     case 0: row.epic = entity; break;
                     case 1: row.name = entity; break;
-                    case 2: row.price = entity; break;
-                    case 3: row.change = entity; break;
-                    case 4: row.percentage = entity; break;
+                    case 2: row.price = parseFloat(entity.replace(',','')); break;
+                    case 3: row.change = parseFloat(entity.replace(',','')); break;
+                    case 4: row.percentage = parseFloat(entity.replace('%','')); break;
                     default: break;
                 }   
             });
@@ -48,28 +48,27 @@ async function getFtseIndex(path,index) {
 const indexes = async (req, res) => {
     let stocks = []    
 
-    let nPages = await getFtseIndexPageCount(`${HL_SHARES_HOST}/ftse-100`)
-    console.log('ftse-100',nPages)
+    // https://www.hl.co.uk/shares/stock-market-summary/ftse-all-share
+    let nPages = await getFtseIndexPageCount(`${HL_SHARES_HOST}/ftse-all-share`)
     for(let i = 1; i <= nPages; i++) {
-        stocks.push(...await getFtseIndex(`${HL_SHARES_HOST}/ftse-100?page=${i}`,'ftse-100'))
+        stocks.push(...await getFtseIndex(`${HL_SHARES_HOST}/ftse-all-share?page=${i}`,'ftse-all-share'))
     }
-  
-    console.log('ftse-250',nPages)
+
+    /*
     nPages = await getFtseIndexPageCount(`${HL_SHARES_HOST}/ftse-250`)
     for(let i = 1; i <= nPages; i++) {
         stocks.push(...await getFtseIndex(`${HL_SHARES_HOST}/ftse-250?page=${i}`,'ftse-250'))
     }
 
-    console.log('ftse-350',nPages)
-    nPages = await getFtseIndexPageCount(`${HL_SHARES_HOST}/ftse-350`)
+    nPages = await getFtseIndexPageCount(`${HL_SHARES_HOST}/ftse-100`)
     for(let i = 1; i <= nPages; i++) {
-        stocks.push(...await getFtseIndex(`${HL_SHARES_HOST}/ftse-350?page=${i}`,'ftse-350'))
+        stocks.push(...await getFtseIndex(`${HL_SHARES_HOST}/ftse-100?page=${i}`,'ftse-100'))
     }
-
+    const uStocks = [...new Map(stocks.map(v => [v.epic, v])).values()]
+    */
     res.status(200).json(stocks);
 }
 
-
 module.exports = {
     indexes,
-} 
+}

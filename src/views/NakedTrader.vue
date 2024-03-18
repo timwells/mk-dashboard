@@ -172,7 +172,6 @@ const epicCorrections = [
 ]
 
 // https://blog.katastros.com/a?ID=01750-67585afe-3add-4a2a-929a-d49a26d82b6c
-
 // https://www.tradingview.com/chart/?symbol=LSE%3ATTG&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=LSE%3ATTG
 // https://www.tradingview.com/chart/?symbol=LSE%3ATTG
 // &utm_source=www.tradingview.com
