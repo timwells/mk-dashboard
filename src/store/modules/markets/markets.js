@@ -1,4 +1,3 @@
-import axios from "axios";
 import { getDatabase, ref, child, get} from "firebase/database";
 
 const state = {
@@ -13,12 +12,6 @@ const mutations = {
 };
 
 const actions = {
-  getMarkets({ commit }) {
-    commit("SET_MARKETS", null);
-    axios.get(`./data/markets.json`).then(response => {
-        commit("SET_MARKETS", response.data);
-    })
-  },
   getMarkets1({ commit }) {
     commit("SET_MARKETS", null);
     get(child(ref(getDatabase()), `root/fundinfo`))

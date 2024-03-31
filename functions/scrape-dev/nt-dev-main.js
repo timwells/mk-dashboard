@@ -13,4 +13,7 @@ const siteServices = require('./nt-dev.js')
 // console.log(siteServices)
 
 let result = siteServices['scanTrades2']()
-result.then((d) => { console.log("done...") })
+result.then((d) => { 
+    console.log(d);
+    console.log("done...") 
+})

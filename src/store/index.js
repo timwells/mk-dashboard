@@ -16,6 +16,7 @@ import wscrape from "./modules/wscrape/wscrape";
 import crypto from "./modules/crypto/crypto"
 import stockwatch from "./modules/stockwatch/stockwatch"
 import pb from "./modules/pb/pb"
+import fedinfo from "./modules/fedinfo/fedinfo"
 
 Vue.use(Vuex);
 
@@ -25,6 +26,7 @@ export default new Vuex.Store({
     funds, markets, quote,
     trends, indicators, newsfeed,
     sa, tradeview, wscrape,
-    crypto, stockwatch, pb
+    crypto, stockwatch, pb,
+    fedinfo
   }
 });

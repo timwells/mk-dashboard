@@ -74,7 +74,7 @@ async function genericGet(subPath,service,init,{commit}) {
 
 const actions = {
   async getNakedTrades({ commit }) {
-    await genericGet(`/fintech/v1/scrape/nt/trades4`,"SET_NAKED_TRADES",null,{commit})
+    await genericGet(`/fintech/v1/scrape/nt/trades`,"SET_NAKED_TRADES",null,{commit})
   },
   async getNakedArchives({ commit }) {
     await genericGet(`/fintech/v1/scrape/nt/archives`,"SET_NAKED_ARCHIVES",[],{commit})
@@ -127,7 +127,6 @@ const actions = {
   async getHLIndexData({ commit }) {
     await genericGet(`/fintech/v1/scrape/hlindex/indexes`,"SET_HLINDEX_MODELS",[],{commit})
   }
-
 }
 
 export default {

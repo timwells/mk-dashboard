@@ -1,4 +1,5 @@
 const axios = require('axios');
+const moment = require('moment');
 const cheerio = require('cheerio');
 const NT_SITE_URL = "https://www.nakedtrader.co.uk"
 const NT_SITE_TRADES = NT_SITE_URL + "/trades.htm?type=sh"
@@ -13,6 +14,7 @@ function scanTrades2() {
             const allTrades = [];
             const headers = [];
             const openTrades = [];
+            const closedTrades = [];
             let nAllTrades = 0; 
             let nGains = 0;
             let nLosses = 0;
@@ -37,15 +39,14 @@ function scanTrades2() {
                     else { rowObj[headers[i]] = (item.length > 0) ? parseFloat(item) : item; }
                 });
 
+                // Valdiate Order
                 if(Object.keys(rowObj).length > 0) {
-                    if(rowObj["stock"].length > 0 && 
-                        rowObj["epic"].length > 0 &&
-                        rowObj["buydate"].length > 0 &&
-                        rowObj["price"] > 0) {
+                    if(rowObj["stock"].length > 0 && rowObj["epic"].length > 0 && rowObj["buydate"].length > 0 && rowObj["price"] > 0) {
 
                         // Validate Buy Date
                         let splitDate = rowObj["buydate"].split("/");
                         let newBuyDate = `${splitDate[2]}-${splitDate[1]}-${splitDate[0]}` 
+                                                
                         let baseDate = Date.parse("2010-01-01");
                         let buyDate = Date.parse(newBuyDate);
 
@@ -57,27 +58,32 @@ function scanTrades2() {
                             // Calculate the trading statistics
                             nAllTrades++;
                             let pl = rowObj["pl"]
+                            let bd = moment(rowObj["buydate"],"DD/MM/YYYY")
+                            let sd = moment(rowObj["selldate"],"DD/MM/YYYY")
 
-                            // console.log("pl:",typeof pl)
-                            if(typeof pl === "number") {
-                                nClosedTrades++
-                                (pl > 0) ? nGains++ : nLosses++
+                            if(rowObj["selldate"].length > 0) {
+                                // console.log("Sell days Open:",rowObj["epic"],sd.diff(bd, 'days'))
+                                rowObj["dopn"] = sd.diff(bd, 'days')
+                                nClosedTrades++                                
+                                
+                                if(typeof pl === "number") {(pl > 0) ? nGains++ : nLosses++}                                
+                                
+                                
+                                closedTrades.push(rowObj)
                             } else {
-                                console.log("Process:",rowObj["epic"])
                                 nOpenTrades++;
-                                openOrderCost += rowObj["tc"];
-                                openTrades.push(rowObj)
-                                let daysOpen = (((new Date()) - buyDate) / (1000 * 3600 * 24)).toFixed(0)
-                                rowObj["buydate"] = `${rowObj["buydate"]} (${daysOpen})`
-                            }  
+                                openOrderCost += rowObj["tc"]
+                                let daysOpen = moment().diff(bd,"days")
+                                rowObj["buydate"] = `${rowObj["buydate"]}`
+                                rowObj["dopn"] = daysOpen
+                                openTrades.push(rowObj) 
+                            } 
                             allTrades.push(rowObj)
-                            console.log(rowObj["buydate"])
                         }
                     } else {
-                        console.log(rowObj["epic"],"Buydate < baseDate")
+                        console.log("SKIP:",rowObj["epic"],"Buydate < baseDate")
                     }
                 }
-                // console.log(rowObj)
             });
 
             /*
@@ -86,15 +92,17 @@ function scanTrades2() {
             console.log(`OpenTrades: ${nOpenTrades}, ClosedTrades: ${nClosedTrades} AllTrades: ${nAllTrades}`)
             console.log(`OpenOrderCost: ${openOrderCost}`)
             console.log(`OpenTrades: ${openTrades}`)
+
             */
             let resObj = {
-                trades: allTrades,
+                allTrades: allTrades,
                 openTrades: openTrades,
+                closedTrades: closedTrades,
                 statistics : {
                     allTrades: nAllTrades,
                     closedTrades: nClosedTrades,
                     openTrades: nOpenTrades,
-                    openOrderCost : openOrderCost,
+                    openOrderCost : parseFloat(openOrderCost.toFixed(2)),
                     gains : nGains,
                     losses: nLosses,
                     gainPercent: +((nGains/nClosedTrades)*100).toFixed(2),
