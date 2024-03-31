@@ -8,7 +8,7 @@ const cors = require('cors');
 const app = express();
 const { config } = require("./config");
 
-const VERSION = "1.0.6";
+const VERSION = "1.0.10";
 const API_KEY_NAME = "x-api-key"
 
 const unauthorized = (res) => res.status(401).send('unauthorised');
@@ -47,7 +47,6 @@ app.get('/v1/scrape/:site/:service', (request, response) => {
         
     } else unauthorized(response)
 })
-
 
 // Expose Express API as a single Cloud Function:
 // exports.fintech = functions.https.onRequest(app);

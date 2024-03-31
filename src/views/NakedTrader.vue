@@ -1,10 +1,10 @@
 <template>
 	<a-row :gutter="24" type="flex">
 		<a-col :span="24" class="mb-24">
-			<h5>Last Updated: {{ nakedArchives[0].archives[0] }}</h5>
+			<h5 v-if="nakedArchives">Last Updated: {{ nakedArchives[0].archives[0].name}}</h5>
 			<a-tabs default-active-key="1">
 				<a-tab-pane key="1" tab="Open">
-					<a-row v-if="nakedTrades!=null">
+					<a-row>
 						<a-col :span="6">
 							<a-statistic title="Open Orders" :value="nakedTrades.statistics.openTrades" />
 						</a-col>
@@ -92,13 +92,27 @@
 					</a-row>
 				</a-tab-pane>	
 				<a-tab-pane key="4" tab="Archive">
-					<ul>
-						<li v-for="x in nakedArchives" :key="x.index">{{ x.year }}
-							<ul>
-								<li v-for="y in x.archives" :key="y.index">{{ y }}</li>
-							</ul>				
-						</li>
-					</ul>
+					<a-row>
+						<a-col :span="6">
+							<a-card>
+								<a-list
+									item-layout="vertical"
+									:data-source="nakedArchives">
+									<a-list-item slot="renderItem" slot-scope="item">
+										<a-list-item-meta :title="item.yearMonth"/>
+											<li v-for="y in item.archives" 
+												:key="y.index"
+												@click="getArchiveContent(y.href)">{{ y.name }}</li>
+									</a-list-item>
+								</a-list>
+							</a-card>
+						</a-col>
+						<a-col :span="18">
+							<a-card :bodyStyle="{paddingTop: 0, paddingBottom: '16px' }">
+								<div v-html="nakedArchiveContent"></div>
+							</a-card>
+						</a-col>
+					</a-row>
 				</a-tab-pane>
 			</a-tabs>
 		</a-col>
@@ -106,6 +120,37 @@
 </template>
 
 <script>
+/*
+<a-list-item v-for="x in nakedArchives" :key="x.index">{{ x.yearMonth }}
+										<ul>
+											<li v-for="y in x.archives" 
+												:key="y.index"
+												@click="getArchiveContent(y.href)">{{ y.name }}</li>
+										</ul>				
+									</a-list-item>
+
+
+<a-list
+	class="invoice-list"
+	item-layout="horizontal"
+	:split="false"
+	:data-source="data"
+>
+	<a-list-item slot="renderItem" slot-scope="item">
+		<a-button slot="actions" type="link">
+			<svg width="15" height="15" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path fill-rule="evenodd" clip-rule="evenodd" d="M3 17C3 16.4477 3.44772 16 4 16H16C16.5523 16 17 16.4477 17 17C17 17.5523 16.5523 18 16 18H4C3.44772 18 3 17.5523 3 17ZM6.29289 9.29289C6.68342 8.90237 7.31658 8.90237 7.70711 9.29289L9 10.5858L9 3C9 2.44772 9.44771 2 10 2C10.5523 2 11 2.44771 11 3L11 10.5858L12.2929 9.29289C12.6834 8.90237 13.3166 8.90237 13.7071 9.29289C14.0976 9.68342 14.0976 10.3166 13.7071 10.7071L10.7071 13.7071C10.5196 13.8946 10.2652 14 10 14C9.73478 14 9.48043 13.8946 9.29289 13.7071L6.29289 10.7071C5.90237 10.3166 5.90237 9.68342 6.29289 9.29289Z" fill="#111827"/>
+			</svg>
+			PDF
+		</a-button>
+		<a-list-item-meta
+			:title="item.title"
+			:description="item.code"
+		></a-list-item-meta>
+		<div class="amount">${{ item.amount }}</div>
+	</a-list-item>
+</a-list>
+*/
 const colDictionary = [
 	{ title:'Stock', dataIndex:'stock', width: 140, scopedSlots: { customRender: 'stock' }},
 	{ title:'Epic', dataIndex:'epic', width: 60, scopedSlots: { customRender: 'epic' }},
@@ -152,6 +197,8 @@ import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingV
 import WidgetTradingViewFinancials from "@/components/Widgets/WidgetTradingViewFinancials";
 import CardPriceInfo from "@/components/Cards/CardPriceInfo";
 
+
+
 const epicCorrections = [
 	{in:"T17",out:"TM17"},
 	{in:"BAE",out:"BA."}
@@ -173,13 +220,11 @@ export default ({
 		CardPriceInfo
 	},
 	computed: {
-		...mapState("wscrape", ["nakedTrades","nakedArchives"]),
+		...mapState("wscrape", ["nakedTrades","nakedArchives","nakedArchiveContent"]),
 		...mapState("app", ["secrets"])
 	},
 	watch: {
         nakedTrades(o,n) {
-			//this.openTrades = this.nakedTrades.openTrades
-			//this.allTrades = this.nakedTrades.allTrades
 			this.loading = false;
 		},
     },
@@ -217,6 +262,9 @@ export default ({
    	 	},
 		container(id) {
 			this.expandedIdList.push(id)
+		},
+		getArchiveContent(href){
+			this.$store.dispatch("wscrape/getNakedArchiveContent",{content:href});
 		}
 	},	
 	mounted() {
@@ -232,4 +280,9 @@ export default ({
     padding: 6px 6px;
 }
 
+li:hover{ color: blue}
+
+li {
+  list-style-type: none;
+}
 </style>

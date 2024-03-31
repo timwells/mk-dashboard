@@ -120,18 +120,35 @@ const archives = (req, res) => {
             const $ = cheerio.load(resp.data);
             const sel = '#center2 > h2';
             $(sel).each((i, e) => {                
-                let archive = { year: e.children[0].data, archives:[] }
+                let archive = { yearMonth: e.children[0].data, archives:[] }
                 for(let a = 0; a < e.next.children.length; a++) {
-                    archive.archives.push(e.next.children[a].children[0].children[0].data)
+                    let _href = e.next.children[a].children[0].attribs["href"].replace(".",NT_SITE_URL)
+                    let _name = e.next.children[a].children[0].children[0].data
+                    archive.archives.push({name:_name, href:_href})
                 }
                 records.push(archive)
             })
-            res.status(200).json(records);
+           res.status(200).json(records);
         });
 }
 
+const archiveContent = (req, res) => {
+    axios.get(`${req.query.a}`,{ headers: { Cookie: "nt=1;" } })
+        .then(async (resp) => {
+            const $ = await cheerio.load(resp.data);
+            const sel = '#center2';
+            let html = ""
+            $(sel).each((i, e) => {
+                html = $(e).html().replaceAll("Site updated every other Thursday afternoon","")
+                html = html.replaceAll("h1","h5").replaceAll("h2","h6")
+            })
+            res.status(200).send(html)
+        });
+}
+
+
 module.exports = {
     trades,
-    archivesdata,
     archives,
+    archiveContent
 }

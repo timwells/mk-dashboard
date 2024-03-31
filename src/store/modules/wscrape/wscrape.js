@@ -12,6 +12,8 @@ const HEADERS = { 'x-api-key' : API_KEY }
 const state = {
   nakedTrades: null,
   nakedArchives: [],
+  nakedArchiveContent: "",
+
   dataroma: [],
   dataromaHoldingsMap: [],
 
@@ -44,10 +46,15 @@ const getters = {
 const mutations = {
   SET_NAKED_TRADES: (state, payload) => (state.nakedTrades = payload),
   SET_NAKED_ARCHIVES: (state, payload) => (state.nakedArchives = payload),
+  SET_NAKED_ARCHIVE_CONTENT: (state, payload) => (state.nakedArchiveContent = payload),
+    
   SET_DIVIDEND_DATA: (state, payload) => (state.dividendData = payload),
+
   SET_DATAROMA: (state, payload) => (state.dataroma = payload),
   SET_DATAROMA_HOLDINGS_MAP: (state, payload) => (state.dataromaHoldingsMap.push(payload)),
+
   SET_BOE_IRATES: (state, payload) => (state.boeIRates = payload),
+
   SET_CMV_BUFFETT_INDICATOR_MODELS: (state, payload) => (state.cmvBuffettIndicatorModels = payload),
   SET_CMV_PRICE_EARNINGS_MODELS: (state, payload) => (state.cmvPriceEarningsModels = payload),
   SET_CMV_VIX_MODELS: (state, payload) => (state.cmvVixModels = payload),
@@ -58,6 +65,7 @@ const mutations = {
   SET_CNN_SENTIMENT_MODELS: (state, payload) => (state.cnnSentimentModels = payload),
   SET_MM_SMART_DUMB_MONEY_MODELS: (state, payload) => (state.mmSmartDumbMoneyModels = payload),
   SET_DGN_PRICE_MODELS: (state, payload) => (state.dgnPriceModels = payload),
+
   SET_PREMIUM_BONDS: (state, payload) => (state.premiumBondsData = payload),
 
   SET_QQ_MODELS: (state,payload) => (state.qqData = payload),
@@ -78,6 +86,9 @@ const actions = {
   },
   async getNakedArchives({ commit }) {
     await genericGet(`/fintech/v1/scrape/nt/archives`,"SET_NAKED_ARCHIVES",[],{commit})
+  },
+  async getNakedArchiveContent({ commit },{ content }) {
+    await genericGet(`/fintech/v1/scrape/nt/archiveContent?a=${content}`,"SET_NAKED_ARCHIVE_CONTENT","",{commit})
   },
   async getDividendData({ commit }) {
     await genericGet(`/fintech/v1/scrape/dividenddata/exdividenddate`,"SET_DIVIDEND_DATA",[],{commit})

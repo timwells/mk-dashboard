@@ -148,19 +148,36 @@ function scanArchives() {
             const sel = '#center2 > h2';
             $(sel).each((i, e) => {                
                 let archive = { yearMonth: e.children[0].data, archives:[] }
-                for(let a=0; a < e.next.children.length; a++) {
-                    archive.archives.push(e.next.children[a].children[0].children[0].data)
+                for(let a = 0; a < e.next.children.length; a++) {
+                    let _href = e.next.children[a].children[0].attribs["href"].replace(".",NT_SITE_URL)
+                    let _name = e.next.children[a].children[0].children[0].data
+                    archive.archives.push({name:_name, href:_href})
                 }
-                // if(i>3) process.exit(1);
+                // if(i>1) process.exit(1);
                 records.push(archive)
             })
             return records
         });
 }
 
+// center2
+function archiveContent() {
+    return axios.get("https://www.nakedtrader.co.uk/?id=592",{ headers: { Cookie: "nt=1;" } })
+        .then(async (resp) => {
+            const $ = await cheerio.load(resp.data);
+            const sel = '#center2';
+
+            $(sel).each((i, e) => { 
+                // console.log($(e).html().replaceAll("<br>",""))
+                console.log($(e).text())
+            })
+        });
+}
+
 module.exports = {
     scanTrades,
     scanTrades2,
-    scanArchives
+    scanArchives,
+    archiveContent
 }
 
