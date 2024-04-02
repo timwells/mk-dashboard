@@ -1,8 +1,10 @@
 const axios = require('axios');
+const cheerio = require('cheerio');
 
 // https://www.nsandi.com/premium-bonds-have-i-won-ajax
 const PB_SITE_HOST = "https://www.nsandi.com"
 const PB_RESULTS = PB_SITE_HOST + "/premium-bonds-have-i-won-ajax"
+const PB_NEXT_DRAW_DATE = PB_SITE_HOST + "/prize-checker"
 
 async function lookUpResults(url,nh) {
   try {
@@ -25,7 +27,6 @@ async function lookUpResults(url,nh) {
     lastSixMonth.data.history.forEach(e => { results.push(e) });
 
     return results
-
   } catch (error) {
     // Handle errors
     console.error('Error:', error.message);
@@ -33,9 +34,8 @@ async function lookUpResults(url,nh) {
   }
 }
 
-async function processRequest1(url,req,timeout) {
-  let agregateResults = []
-
+async function processResultsRequest(url,req) {
+  let aggregateResults = []
   try {
       let holders = req.query.holders
       let nhs = holders.split(",")
@@ -52,15 +52,21 @@ async function processRequest1(url,req,timeout) {
           results: results 
         }
         // console.log(holder)
-        agregateResults.push(holder)
+        aggregateResults.push(holder)
       }
-      return agregateResults
+      return aggregateResults
   }
   catch(error) {
     // Handle errors
     console.error('Error:', error.message);
     return {error: error.message}    
   }
+}
+
+async function processNextPrizeDrawDate(url) {
+  const { data } = await axios.get(url);
+  const $ = cheerio.load(data);
+  return $('#pc-container .pb-countdown-caption').text().replaceAll("\t","").replaceAll("\n","")
 }
 
 async function processRequestDebug(url,req,timeout) {
@@ -70,14 +76,28 @@ async function processRequestDebug(url,req,timeout) {
 }
 
 const results = async (req, res) => {
-    res.status(200).json(await processRequest1(`${PB_RESULTS}`,req,60000))
+    res.status(200).json(await processResultsRequest(`${PB_RESULTS}`,req,60000))
 }
 
-const results1 = async (req, res) => {
-  res.status(200).json(await processRequestDebug(`${PB_RESULTS}`,req,60000))
+const results2 = async (req, res) => {
+  let resObj = {}  
+  resObj.results = await processResultsRequest(`${PB_RESULTS}`,req)
+  resObj.nextDrawDate = await processNextPrizeDrawDate(`${PB_NEXT_DRAW_DATE}`)
+
+  res.status(200).json(resObj)
+}
+
+const nextprizedraw = async (req, res) => {
+  res.status(200).json(await processNextPrizeDrawDate(`${PB_NEXT_DRAW_DATE}`))
+}
+const test = async (req, res) => {
+  res.status(200).send("Hello: nextPrizeDraw");
 }
 
 module.exports = {
     results,
-    results1,
+    results2,
+
+    nextprizedraw,
+    test,
 }

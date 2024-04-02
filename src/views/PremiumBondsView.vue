@@ -1,9 +1,10 @@
 <template>
 	<a-row :gutter="24" type="flex">
 		<a-col v-if="show" :span="24" class="mb-24">
-			<div v-if="holders.length>0 && premiumBondsData.length>0">
+			<div v-if="holders.length>0 && premiumBondsData.results.length>0">
+				<h5>{{premiumBondsData.nextDrawDate}}</h5>
 				<a-tabs v-if="holders.length" v-model="activeTab">
-					<a-tab-pane v-for="(holder,index) in premiumBondsData" :key="index" :tab="holder.name">
+					<a-tab-pane v-for="(holder,index) in premiumBondsData.results" :key="index" :tab="holder.name">
 					
 						<a-row>
 							<a-col :span="4"><a-statistic title="Holder" :value="holder.holder" /></a-col>
@@ -50,7 +51,7 @@ export default ({
 	},
 	watch: {
         premiumBondsData(nn, prv) {
-			if(nn.length>0) {
+			if(nn != null) {
 				this.show = true;
 				this.loading = false;
 			}
