@@ -2,7 +2,7 @@
 	<div>
 		<!-- Markets -->
 		<a-row :gutter="24" type="flex" align="stretch">
-			<a-col :span="8" :lg="8" :xl="8" class="mb-8" v-for="(market, index) in markets" :key="index">			
+			<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(market, index) in markets" :key="index">			
 				<CardChartFundInfo v-if="market.type=='fund'" :title="market.title" :ticker="market.ticker"/>
 				<CardChartEquityInfo v-if="market.type=='equity'" :title="market.title" :ticker="market.ticker"/>
 				<CardChartIndexInfo v-if="market.type=='index'" :title="market.title" :ticker="market.ticker"/>

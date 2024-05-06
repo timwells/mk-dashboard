@@ -88,25 +88,25 @@ let routes = [
 		path: '/funds',
 		name: 'Funds',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "funds" */'../views/Funds.vue'),
+		component: () => import('../views/Funds.vue'),
 		meta: { requiresAuth: true }
 	},{
 		path: '/market-indicators',
 		name: 'Market Indicators',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "market-indicators" */ '../views/MarketIndicators.vue'),
+		component: () => import( '../views/MarketIndicators.vue'),
 		meta: { requiresAuth: true }
 	},{
 		path: '/news',
 		name: 'News',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "trends" */ '../views/News.vue'),
+		component: () => import('../views/News.vue'),
 		meta: { requiresAuth: true }
 	},{
 		path: '/trading',
 		name: 'Trading',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "trade-view" */ '../views/TradingViewTechAnalysis.vue'),
+		component: () => import('../views/TradingViewTechAnalysis.vue'),
 		meta: { requiresAuth: true }
 	},{
 		path: '/trades',
@@ -118,31 +118,31 @@ let routes = [
 		path: '/dataroma',
 		name: 'Dataroma',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "trade-view" */ '../views/DataromaView.vue'),
+		component: () => import( '../views/DataromaView.vue'),
 		meta: { requiresAuth: true }
 	},{
 		path: '/quotes',
 		name: 'Quotes',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "trade-view" */ '../views/TradingViewQuotes.vue'),
+		component: () => import('../views/TradingViewQuotes.vue'),
 		meta: { requiresAuth: true }
 	},{
 		path: '/trends',
 		name: 'Trends',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "trends" */ '../views/Trends.vue'),
+		component: () => import('../views/Trends.vue'),
 		meta: { requiresAuth: true }
 	},{
 		path: '/seeking-alpha',
 		name: 'Seeking Alpha',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "trends" */ '../views/SeekingAlpha.vue'),
+		component: () => import('../views/SeekingAlpha.vue'),
 		meta: { requiresAuth: true }
 	},{
 		path: '/fear-n-greed',
 		name: 'Fear & Greed',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "trends" */ '../views/CryptoFearNGreedIndex.vue'),
+		component: () => import('../views/CryptoFearNGreedIndex.vue'),
 		meta: { requiresAuth: true }
 	},
 

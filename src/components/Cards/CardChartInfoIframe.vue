@@ -4,6 +4,7 @@
 			<a-col class="mb-8" :span="12" :xl="12">
 				<a-card>
 					<div class="card-content">
+						<!-- Performance Chart -->
 						<img :src="url2" alt="Performance Chart" height="300" width="100%">
 					</div>
 				</a-card>
@@ -11,6 +12,7 @@
 			<a-col class="mb-8" :span="12" :xl="12">
 				<a-card>
 					<div class="card-content">
+						<!-- Weights Table -->
 						<a-table 
 							:columns="hCols"
 							:data-source="holdings"
@@ -32,6 +34,7 @@
 			<a-col class="mb-12" :span="12" :xl="12">
 				<a-card>
 					<div class="card-content">
+						<!-- Returns Table -->
 						<a-table 
 							:columns="pCols"
 							:data-source="performance"
@@ -109,7 +112,7 @@ export default ({
 	},
 	data() {
 		return {
-			url2: `https://webfund6.financialexpress.net/clients/Hargreaves/chartbuilder.aspx?codes=F${this.citicode}&color=f65d1a&hide=&span=M60&plotSingleAsPrice=true&totalReturn=false&yAxisLabel=_`,				
+			url2: `https://webfund6.financialexpress.net/clients/Hargreaves/chartbuilder.aspx?codes=F${this.citicode}&color=f65d1a&hide=&span=M120&plotSingleAsPrice=true&totalReturn=false&yAxisLabel=_`,				
 			hCols,
 			pCols,
 			pagination: false
