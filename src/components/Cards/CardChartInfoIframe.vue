@@ -139,7 +139,7 @@ export default ({
 <style lang="scss">
 .ant-card-body {
 	.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
-    padding: 6px 6px;
-}
+    	padding: 6px 6px;
+	}
 }
 </style>
