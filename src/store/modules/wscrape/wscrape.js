@@ -32,7 +32,7 @@ const state = {
   mmSmartDumbMoneyModels: [],
   dgnPriceModels: [],
 
-  premiumBondsData: [],
+  premiumBondsData: null,
 
   qqData:[],
 
@@ -130,7 +130,7 @@ const actions = {
     await genericGet(`/fintech/v1/scrape/pb/results?holders=${holders}`,"SET_PREMIUM_BONDS",[],{commit})
   },
   async getPremiumBondsData({ commit }, { holders }) {
-    await genericGet(`/fintech/v1/scrape/pb/results?holders=${holders}`,"SET_PREMIUM_BONDS",[],{commit})
+    await genericGet(`/fintech/v1/scrape/pb/results2?holders=${holders}`,"SET_PREMIUM_BONDS",null,{commit})
   },
   async getQQData({ commit }) {
     await genericGet(`/fintech/v1/scrape/qq/fearandgreed`,"SET_QQ_MODELS",[],{commit})
