@@ -132,7 +132,7 @@ const colDictionary = [
 		scopedSlots: { customRender: 'qty' }
 	},
 	{ title:'Price', dataIndex:'price', width: 60, scopedSlots: { customRender: 'price' }},
-	{ title:'Cost', dataIndex:'tc',width: 60,scopedSlots: { customRender: 'tc' }},
+	{ title:'Cost', dataIndex:'tc',width: 80,scopedSlots: { customRender: 'tc' }},
 	{ title:'Target', dataIndex:'target',width: 60,scopedSlots: { customRender: 'target' }},
 	{ title:'Diff', dataIndex:'pd', width: 60, 
 		sortDirections: ["descend", "ascend"],
