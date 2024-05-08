@@ -47,9 +47,12 @@
 						<template slot="stop" slot-scope="stop"><p class="m-0 font-regular text-muted">{{ stop }}</p></template>
 						<template slot="buydate" slot-scope="buydate"><p class="m-0 font-regular text-muted">{{ buydate }}</p></template>
 
-						<template slot="tc" slot-scope="tc"><p class="m-0 font-regular text-muted">£{{ tc }}</p></template>
+						<template slot="tc" slot-scope="tc"><p class="m-0 font-regular text-muted">{{ tc }}</p></template>
 						<template slot="pd" slot-scope="pd"><p class="m-0 font-regular text-muted">{{ pd }}</p></template>
 						<template slot="cp" slot-scope="cp"><p class="m-0 font-regular text-muted">{{ cp }}</p></template>
+						<template slot="xp" slot-scope="xp"><p class="m-0 font-regular text-muted">{{ xp }}</p></template>
+						<template slot="xpd" slot-scope="xpd"><p class="m-0 font-regular text-muted">{{ xpd }}</p></template>
+
 					</a-table>
 				</a-tab-pane>
 				<a-tab-pane key="2" tab="Closed">
@@ -76,7 +79,7 @@
 					</a-table>
 				</a-tab-pane>
 				<a-tab-pane key="3" tab="Statistics">
-					<a-row v-if="nakedTrades">
+					<a-row v-if="nakedTrades!=null">
 						<a-col :span="6">
 							<a-statistic title="Open Orders" :value="nakedTrades.statistics.openTrades" />
 						</a-col>
@@ -92,7 +95,7 @@
 					</a-row>
 				</a-tab-pane>	
 				<a-tab-pane key="4" tab="Archive">
-					<a-row>
+					<a-row v-if="nakedArchiveContent.length>0">
 						<a-col :span="6">
 							<a-card>
 								<a-list
@@ -147,6 +150,12 @@ const colDictionary = [
 		sorter: (a, b) => a.cp - b.cp,
 		scopedSlots: { customRender: 'cp' }
 	},
+	{ title:'XP', dataIndex:'xp', width: 80, scopedSlots: { customRender: 'xp' }},
+	{ title:'XPD', dataIndex:'xpd', width: 80, 
+		sortDirections: ["descend", "ascend"],
+		sorter: (a, b) => a.xpd - b.xpd,
+		scopedSlots: { customRender: 'xpd' }
+	},
 	{ title:'Stop',dataIndex: 'stop',width: 60,scopedSlots: { customRender: 'stop' }},
 	{ title:'Sell', dataIndex: 'sell', width: 80,scopedSlots: { customRender: 'sell' }},
 	{ title:'Sell Date', dataIndex: 'selldate',width: 100,scopedSlots: { customRender: 'selldate' }},
@@ -156,7 +165,8 @@ const colDictionary = [
 		width: 60,
 		sortDirections: ["descend", "ascend"],
 		sorter: (a, b) => a.cp - b.cp,
-		scopedSlots: { customRender: 'pl' }}
+		scopedSlots: { customRender: 'pl' }
+	},
 ];
 
 import { mapState } from "vuex";
@@ -193,7 +203,7 @@ export default ({
 		...mapState("app", ["secrets"])
 	},
 	watch: {
-        nakedTrades(o,n) {
+        nakedTrades(n,o) {
 			this.loading = false;
 		},
     },
