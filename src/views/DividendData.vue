@@ -68,7 +68,12 @@
 
 const dividendColumns = [
 	{ title: 'Epic', dataIndex: 'epic', scopedSlots: { customRender: 'epic' }},
-	{ title: 'Name', dataIndex: 'name', scopedSlots: { customRender: 'name' }},
+	{ title: 'Name', dataIndex: 'name', 
+		sorter: (a, b) => a.name.localeCompare(b.name),
+		scopedSlots: { 
+			customRender: 'name'
+		}
+	},
 	{ 
 		title: 'Market', 
 		dataIndex: 'market', 
@@ -76,11 +81,11 @@ const dividendColumns = [
     	sorter: (a, b) => a.market.localeCompare(b.market),
 		scopedSlots: { customRender: 'market' }
 	},
-	{ title: 'Price', dataIndex: 'price', scopedSlots: { customRender: 'price' }},
-	{ title: 'Impact', dataIndex: 'impact', scopedSlots: { customRender: 'impact' }},
+	{ title: 'Price(p)', dataIndex: 'price', scopedSlots: { customRender: 'price' }},
+	{ title: 'Impact(%)', dataIndex: 'impact', scopedSlots: { customRender: 'impact' }},
 	{ title: 'Declaration', dataIndex: 'declarationDate', scopedSlots: { customRender: 'declarationDate' }},
 	{ 
-		title: 'Dividend', 
+		title: 'Dividend (p)', 
 		dataIndex: 'dividend', 
 		sortDirections: ["descend", "ascend"],
     	sorter: (a, b) => a.dividend.localeCompare(b.dividend),		
@@ -97,7 +102,6 @@ const dividendColumns = [
 ];
 
 const epicCorrections = [{in:"T17",out:"TM17"}]
-
 import { mapState } from "vuex";
 import WidgetTradingViewTechAnalysis from "@/components/Widgets/WidgetTradingViewTechAnalysis";
 import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
