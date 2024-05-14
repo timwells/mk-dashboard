@@ -4,7 +4,7 @@
 			<h5 v-if="nakedArchives">Last Updated: {{ nakedArchives[0].archives[0].name}}</h5>
 			<a-tabs default-active-key="1">
 				<a-tab-pane key="1" tab="Open">
-					<a-row>
+					<a-row v-if="nakedTrades!=null">
 						<a-col :span="6">
 							<a-statistic title="Open Orders" :value="nakedTrades.statistics.openTrades" />
 						</a-col>
@@ -12,9 +12,9 @@
 							<a-statistic title="Open Order Cost £" :value="nakedTrades.statistics.openOrderCost" />
 						</a-col>
 					</a-row>
-					<a-table
+					<a-table v-if="nakedTrades"
 						:loading="loading"
-						:columns="colDictionary"
+						:columns="openColumns"
 						:data-source="nakedTrades.openTrades" 
 						:pagination="pagination"
 						:rowKey="(record,index) => index"
@@ -56,9 +56,9 @@
 					</a-table>
 				</a-tab-pane>
 				<a-tab-pane key="2" tab="Closed">
-					<a-table
+					<a-table v-if="nakedTrades"
 						:loading="loading"
-						:columns="colDictionary"
+						:columns="columns"
 						:data-source="nakedTrades.closedTrades" 
 						:pagination="pagination"
 						:rowKey="(record,index) => index"
@@ -95,7 +95,7 @@
 					</a-row>
 				</a-tab-pane>	
 				<a-tab-pane key="4" tab="Archive">
-					<a-row v-if="nakedArchiveContent.length>0">
+					<a-row v-if="nakedArchives.length>0">
 						<a-col :span="6">
 							<a-card>
 								<a-list
@@ -103,9 +103,13 @@
 									:data-source="nakedArchives">
 									<a-list-item slot="renderItem" slot-scope="item">
 										<a-list-item-meta :title="item.yearMonth"/>
-											<li v-for="y in item.archives" 
-												:key="y.index"
-												@click="getArchiveContent(y.href)">{{ y.name }}</li>
+											<pre>{{ item }}</pre>
+											<div v-if="item">
+												<li v-for="y in item.archives" 
+													:key="y.index"
+													@click="getArchiveContent(y.href)">{{ y.name }}>
+												</li>
+											</div>
 									</a-list-item>
 								</a-list>
 							</a-card>
@@ -123,12 +127,15 @@
 </template>
 
 <script>
-const colDictionary = [
+const columns = [
 	{ title:'Stock', dataIndex:'stock', width: 140, scopedSlots: { customRender: 'stock' }},
 	{ title:'Epic', dataIndex:'epic', width: 60, scopedSlots: { customRender: 'epic' }},
 	{ title:'Bought', dataIndex:'buydate', width: 100, scopedSlots: { customRender: 'buydate' }},
-	{ title:'Opn.d', dataIndex:'dopn', width: 60, scopedSlots: { customRender: 'dopn' }},
-	
+	{ title:'Dopn', dataIndex:'dopn', width: 60, 
+		sortDirections: ["descend", "ascend"],
+		sorter: (a, b) => a.cp - b.cp,
+		scopedSlots: { customRender: 'dopn' }
+	},
 	{ title:'Qty', dataIndex:'qty', width: 60,
 		sortDirections: ["descend", "ascend"],
 		sorter: (a, b) => a.cp - b.cp,
@@ -136,7 +143,7 @@ const colDictionary = [
 	},
 	{ title:'Price', dataIndex:'price', width: 60, scopedSlots: { customRender: 'price' }},
 	{ title:'Cost', dataIndex:'tc',width: 80,scopedSlots: { customRender: 'tc' }},
-	{ title:'Target', dataIndex:'target',width: 60,scopedSlots: { customRender: 'target' }},
+	{ title:'Trgt', dataIndex:'target',width: 60,scopedSlots: { customRender: 'target' }},
 	{ title:'Diff', dataIndex:'pd', width: 60, 
 		sortDirections: ["descend", "ascend"],
 		sorter: (a, b) => a.cp - b.cp,
@@ -158,7 +165,7 @@ const colDictionary = [
 	},
 	{ title:'Stop',dataIndex: 'stop',width: 60,scopedSlots: { customRender: 'stop' }},
 	{ title:'Sell', dataIndex: 'sell', width: 80,scopedSlots: { customRender: 'sell' }},
-	{ title:'Sell Date', dataIndex: 'selldate',width: 100,scopedSlots: { customRender: 'selldate' }},
+	{ title:'Sell.D', dataIndex: 'selldate',width: 100,scopedSlots: { customRender: 'selldate' }},
 	{ 
 		title:'P/L', 
 		dataIndex:'pl',
@@ -168,6 +175,21 @@ const colDictionary = [
 		scopedSlots: { customRender: 'pl' }
 	},
 ];
+const openColumns = [
+	columns[0],
+	columns[1],
+	columns[2],
+	columns[3],
+	columns[4],
+	columns[5],
+	columns[6],
+	columns[7],
+	columns[8],
+	columns[9],
+	columns[10],
+	columns[11],
+	columns[12],
+]
 
 import { mapState } from "vuex";
 import WidgetTradingViewTechAnalysis from "@/components/Widgets/WidgetTradingViewTechAnalysis";
@@ -212,7 +234,8 @@ export default ({
 			openTrades: [],
 			allTrades: [],
 			loading: true,
-			colDictionary,
+			columns,
+			openColumns,
 			pagination: { pageSize: 500, onChange: (p) => {},},
 			expandedIdList: [],
 			expandedRowKeys: []

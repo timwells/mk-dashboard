@@ -49,7 +49,7 @@ async function processResultsRequest(url,req) {
           name: nh.name,
           holder: nh.holder, 
           sum: resultsSum, 
-          results: results 
+          results: results
         }
         // console.log(holder)
         aggregateResults.push(holder)
