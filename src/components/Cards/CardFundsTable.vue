@@ -91,9 +91,9 @@
 				<p class="m-0 font-regular text-muted">{{ askPrice }}</p>
 			</template-->
 			<!-- Fund Initial Charge -->
-			<!--template slot="netIC" slot-scope="netIC">
+			<template slot="netIC" slot-scope="netIC">
 				<p class="m-0 font-regular text-muted">{{ netIC }}</p>
-			</template-->
+			</template>
 
 
 		</a-table>

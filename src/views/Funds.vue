@@ -65,14 +65,13 @@ const fundsColumns = [
 		scopedSlots: { customRender: 'askPrice' },
 	},
 */	
-/*	{
+{
 		title: 'Init Charge',
 		dataIndex: 'netIC',
 		sorter: (a, b) => a.netIC - b.netIC,
     	sortDirections: ["descend", "ascend"],
 		scopedSlots: { customRender: 'netIC' },
 	},
-*/
 	{
 		title: 'Annual Charge',
 		dataIndex: 'netAC',

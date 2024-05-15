@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getDatabase, ref, child, get } from "firebase/database";
 
-const _version = "v42";
+const _version = "v44";
 const state = {
   version: _version,
   cfversion: "",
