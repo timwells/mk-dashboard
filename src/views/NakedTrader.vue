@@ -103,7 +103,6 @@
 									:data-source="nakedArchives">
 									<a-list-item slot="renderItem" slot-scope="item">
 										<a-list-item-meta :title="item.yearMonth"/>
-											<pre>{{ item }}</pre>
 											<div v-if="item">
 												<li v-for="y in item.archives" 
 													:key="y.index"
