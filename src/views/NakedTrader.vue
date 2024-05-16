@@ -106,7 +106,7 @@
 											<div v-if="item">
 												<li v-for="y in item.archives" 
 													:key="y.index"
-													@click="getArchiveContent(y.href)">{{ y.name }}>
+													@click="getArchiveContent(y.href)">{{ y.name }}
 												</li>
 											</div>
 									</a-list-item>
