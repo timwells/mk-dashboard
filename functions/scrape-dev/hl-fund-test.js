@@ -16,9 +16,9 @@ const hlIndexServices = require('./hl-index-services.js')
 
 // Process HL Funds: Names, prices, composition
 // let result = hlServices['scanFunds'](1)
-// let result = hlServices['getFundDetailsTest']()
+let result = hlServices['getFundDetailsTest']()
 //let result = hlServices['mergeFunds']()
-let result = hlServices['reformatFunds']()
+// let result = hlServices['reformatFunds']()
 result.then((d) => { 
     console.log("done...") 
 })

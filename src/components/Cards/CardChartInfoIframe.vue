@@ -1,5 +1,12 @@
 <template>
 	<div>
+		<!--a-row :gutter="24" type="flex" align="stretch">
+			<a-col :span="24" :xl="24">
+				<a-card v-if="sedol">
+					<pre>{{ fundDetails.length }}</pre>
+				</a-card>
+			</a-col>
+		</a-row-->
 		<a-row :gutter="24" type="flex" align="stretch">
 			<a-col :span="24" :xl="24">
 				<a-card>
@@ -13,24 +20,40 @@
 		<a-row :gutter="24" type="flex" align="stretch">
 			<a-tabs default-active-key="1">
 				<a-tab-pane key="1" tab="Summary">
-					<a-card v-if="fundDetails">
+					<a-card v-if="details(sedol)">
 						<div class="card-content">
-							<a :href="fundDetails.href">{{fundDetails.name }}</a>
-							<p>Type: {{fundDetails.type }}</p>
-							<p>Bid: {{fundDetails.bidPrice }}</p>
-							<p>Ask: {{fundDetails.askPrice }}</p>
-							<p>netIC: {{fundDetails.netIC }}</p>
-							<p>netAC: {{fundDetails.netAC }}</p>
+							<a :href="details(sedol).href" target="_blank">{{details(sedol).name }}</a>
+							<div>
+								<h5>Type: {{details(sedol).type }}</h5>
+							</div>
+							<div>
+								<span class="price-divide">
+									Bid: {{details(sedol).bidPrice }}
+								</span>
+								<span class="price-divide">
+									Ask: {{details(sedol).askPrice }}
+								</span>
+								<span class="price-divide">
+									<img :src="details(sedol).changeArrow"/>
+								</span>
+								<span class="price-divide">
+									{{details(sedol).changeAmount }}
+								</span>
+							</div>
+							<div>
+								<span>netIC: {{details(sedol).netIC }}</span>							
+								<span>netAC: {{details(sedol).netAC }}</span>
+							</div>
 						</div>
 					</a-card>
 				</a-tab-pane>	 
 				<a-tab-pane key="2" tab="Holdings">
-					<a-card v-if="fundDetails">
+					<a-card v-if="details(sedol)">
 						<div class="card-content">
 							<!-- Weights Table -->
 							<a-table 
 								:columns="hCols"
-								:data-source="fundDetails.holdings"
+								:data-source="details(sedol).holdings"
 								:pagination="pagination"
 								class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
 								<template slot="security" slot-scope="security">
@@ -45,12 +68,12 @@
 					</a-card>
 				</a-tab-pane>
 				<a-tab-pane key="3" tab="Performance">
-					<a-card v-if="fundDetails">
+					<a-card v-if="details(sedol)">
 						<div class="card-content">
 							<!-- Returns Table -->
 							<a-table 
 								:columns="pCols"
-								:data-source="fundDetails.performance"
+								:data-source="details(sedol).performance"
 								:pagination="pagination"
 								class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
 								<template slot="period" slot-scope="period">
@@ -65,12 +88,12 @@
 					</a-card>
 				</a-tab-pane>
 				<a-tab-pane key="4" tab="Sectors">
-					<a-card v-if="fundDetails">
+					<a-card v-if="details(sedol)">
 						<div class="card-content">
 							<!-- Weights Table -->
 							<a-table 
 								:columns="sCols"
-								:data-source="fundDetails.sectors"
+								:data-source="details(sedol).sectors"
 								:pagination="pagination"
 								class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
 								<template slot="security" slot-scope="sector">
@@ -85,12 +108,12 @@
 					</a-card>
 				</a-tab-pane>
 				<a-tab-pane key="5" tab="Countries">
-					<a-card v-if="fundDetails">
+					<a-card v-if="details(sedol)">
 						<div class="card-content">
 							<!-- Weights Table -->
 							<a-table 
 								:columns="cCols"
-								:data-source="fundDetails.countries"
+								:data-source="details(sedol).countries"
 								:pagination="pagination"
 								class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
 								<template slot="security" slot-scope="country">
@@ -110,14 +133,7 @@
 </template>
 
 <script>
-/*<iframe 
-	:src="url"
-	:title="title" 
-	width="100%" 
-	height="1380" 
-	style="border:none;">
-</iframe>*/
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 const hCols = [{
 		title: 'Security',
@@ -174,27 +190,21 @@ const cCols = [{
 
 export default ({
 	props: {
-		title: {
-			type: String,
-			default: "",
-		},
-		fund: {
-			type: String,
-			default: "",
-		},
-		sedol: {
-			type: String,
-			default: "",
-		},
-		citicode: {
-			type: String,
-			default: "",
-		},
+		title: { type: String, default: "" },
+		fund: { type: String, default: "" },
+		sedol: { type: String, default: "" },
+		citicode: { type: String, default: ""},
 		holdings: {type: Array},
 		performance: {type: Array}
 	},
 	computed: {
     	...mapState("wscrape", ["fundDetails"]),
+		...mapGetters("wscrape",["fundDetail"]),
+	},
+	watch: {
+		fundDetails(o,n) {
+			// console.log(o,n)
+		}
 	},
 	data() {
 		return {
@@ -206,10 +216,14 @@ export default ({
 			pagination: false
 		}
 	},
-	methods: {},
+	methods: {
+		details(key) {
+			return this.fundDetail(key)
+		}
+
+	},
 	mounted() {
 		this.$store.dispatch("wscrape/getFundDetail",{fund: this.fund });
-		//this.$store.dispatch("wscrape/getDataromaHoldings",{ q: this.detail });
 	}
 })
 
@@ -233,5 +247,19 @@ export default ({
 	.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
     	padding: 6px 6px;
 	}
+}
+
+.change-divide .change {
+    font-size: 1.3em;
+    margin-right: 0.1em;
+    font-weight: bold;
+}
+
+.price-divide {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-right: 0.4em;
+    padding-right: 0.4em;
+    border-right: 0.08em solid #1e1d56;
 }
 </style>

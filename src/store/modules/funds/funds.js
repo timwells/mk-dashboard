@@ -10,13 +10,11 @@ const getters = {}
 
 const mutations = {
     SET_FUNDS: (state, payload) => (state.funds = payload),
-    SET_DETAILS: (state, payload) => (state.funds = payload)
 };
 
 const actions = {
   getFunds({ commit }) {
     commit("SET_FUNDS", null);
-    console.log("getFunds")
 
     axios.get(`./data/allFunds.json`)
       .then(response => {

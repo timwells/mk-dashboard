@@ -142,6 +142,49 @@ async function GetFundDetail(i,name,path) {
         details.bidPrice = (bidPrice != null) ? parseFloat(bidPrice.replace(",","").replace("p","")) : null;
         details.askPrice = (askPrice != null) ? parseFloat(askPrice.replace(",","").replace("p","")) : null;
 
+        // Change
+        // let changeArrow = $("#stock_change_arrow").attr("src")
+        details.changeArrow = $("#stock_change_arrow").attr("src")
+
+        let changeAmount = $("#security-price .price .row .row .change-divide .change").html()
+        details.changeAmount = changeAmount.trimStart().trimEnd()
+
+
+        // Find all span elements below the current node
+        // const spansBelow = changeAmount.find('span');
+        // console.log("spansBelow:",spansBelow.length)
+
+        // Iterate over each span element and print its text content
+        //changeAmount.each((i, e) => {
+        //    console.log($(e).text());
+        //});
+
+
+        /*
+        for (let i = 0; i < changeAmount.length; i++) {
+            // console.log(i,changeAmount[i].type,changeAmount[i].name,changeAmount[i].children.length,changeAmount[i].children[0].type);
+            console.log(i,
+                changeAmount[i].children.length,
+                changeAmount[i].children[0].type,
+                changeAmount[i].children[0].data);
+        }
+        */
+
+
+        // details.changeAmount = changeAmount;
+        /*
+        <span class="change-divide">
+            <span class="change-arrow">
+                <img id="stock_change_arrow" src="https://online.hl.co.uk/img/hl/layout/security-down-arrow.gif">
+            </span>
+            <span class="negative change">0.09p</span>
+            <span class="negative change">(0.11%)</span>
+        </span>
+        */
+
+
+
+
         // Charges
         details.netIC = null
         details.netAC = null
@@ -153,8 +196,6 @@ async function GetFundDetail(i,name,path) {
             let rH = $(icRows[r]).children("th").text().trimStart().trimEnd();
             let rD = $(icRows[r]).children("td").text().trimStart().trimEnd();
             
-            console.log(rH);
-
             if(rH.localeCompare("Net initial charge:") == 0) {
                 details.netIC = (rD != null) ? parseFloat(rD.replace("%","")) : null;;
             }
@@ -260,7 +301,7 @@ async function GetFundDetail(i,name,path) {
         details = null
     }
 
-    console.log(details);
+    // console.log(details);
     return details
 }
 
@@ -359,7 +400,7 @@ async function cleanFunds() {
 
 
 // https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/j/jupiter-india-select-class-d-gbp-accumulation
-
+// https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/j/jupiter-india-class-x-accumulation
 async function getFundDetailsTest() {
     let path = "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/j/jupiter-india-select-class-d-gbp-accumulation"
     await GetFundDetail(0,"jupiter",path) 

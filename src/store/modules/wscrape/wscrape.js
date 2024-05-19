@@ -10,7 +10,7 @@ const API_KEY = process.env.VUE_APP_FINTECH_API_KEY;
 const HEADERS = { 'x-api-key' : API_KEY }
 
 const state = {
-  fundDetails: null,
+  fundDetails: [],
 
   nakedTrades: null,
   nakedArchives: [],
@@ -42,11 +42,12 @@ const state = {
 };
 
 const getters = {
-  holdings: (state) => (key) => state.dataromaHoldingsMap.find((holding) => (holding.key === key))
+  holdings: (state) => (key) => state.dataromaHoldingsMap.find((holding) => (holding.key === key)),
+  fundDetail: (state) => (sedol) => state.fundDetails.find((fd) => (fd.sedol === sedol)),
 }
 
 const mutations = {
-  SET_FUND_DETAILS: (state, payload) => (state.fundDetails = payload),
+  SET_FUND_DETAILS: (state, payload) => state.fundDetails.push(payload),
 
   SET_NAKED_TRADES: (state, payload) => (state.nakedTrades = payload),
   SET_NAKED_ARCHIVES: (state, payload) => (state.nakedArchives = payload),
@@ -85,14 +86,10 @@ async function genericGet(subPath,service,init,{commit}) {
 }
 
 const actions = {
-
-
-  //async getFundDetail({ commit }) {
-  //  await genericGet(`/fintech/v1/scrape/hlfund/details`,"SET_FUND_DETAILS",null,{commit})
-  //},
-  
   async getFundDetail({ commit }, { fund }) {
-    //console.log(fund)
+
+    console.log(`getFundDetail: ${fund}`)
+
     axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/hlfund/details?fund=${fund}`, { headers: HEADERS })
       .then(response => { commit("SET_FUND_DETAILS", response.data) })
   },

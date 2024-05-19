@@ -32,6 +32,11 @@ async function _fundDetail(path) {
         details.bidPrice = (bidPrice != null) ? parseFloat(bidPrice.replace(",","").replace("p","")) : null;
         details.askPrice = (askPrice != null) ? parseFloat(askPrice.replace(",","").replace("p","")) : null;
 
+        // Change
+        details.changeArrow = $("#stock_change_arrow").attr("src")
+        let changeAmount = $("#security-price .price .row .row .change-divide .change").html()
+        details.changeAmount = changeAmount.trimStart().trimEnd()
+
         // Charges
         details.netIC = null
         details.netAC = null
@@ -43,11 +48,7 @@ async function _fundDetail(path) {
             let rH = $(icRows[r]).children("th").text().trimStart().trimEnd();
             let rD = $(icRows[r]).children("td").text().trimStart().trimEnd();
             
-            console.log(rH);
-
-            if(rH.localeCompare("Net initial charge:") == 0) {
-                details.netIC = (rD != null) ? parseFloat(rD.replace("%","")) : null;;
-            }
+            if(rH.localeCompare("Net initial charge:") == 0) { details.netIC = (rD != null) ? parseFloat(rD.replace("%","")) : null;}
         }
 
         // Annual Charges
