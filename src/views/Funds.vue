@@ -52,7 +52,6 @@ const fundsColumns = [
 		scopedSlots: { customRender: 'citicode' },
 		width: 80, 
 	},
-	
 /*	
 	{
 		title: 'Bid',
@@ -63,15 +62,15 @@ const fundsColumns = [
 		title: 'Ask',
 		dataIndex: 'askPrice',
 		scopedSlots: { customRender: 'askPrice' },
-	},
-*/	
-{
+	},	
+	{
 		title: 'Init Charge',
 		dataIndex: 'netIC',
 		sorter: (a, b) => a.netIC - b.netIC,
     	sortDirections: ["descend", "ascend"],
 		scopedSlots: { customRender: 'netIC' },
 	},
+*/
 	{
 		title: 'Annual Charge',
 		dataIndex: 'netAC',
@@ -91,7 +90,7 @@ export default ({
 		CardFundsTable,
 	},
 	computed: {
-    	...mapState("funds", ["funds"])
+    	...mapState("funds", ["funds"]),
 	},
 	data() {
 		return {

@@ -42,6 +42,7 @@
 			<div slot="expandedRowRender" slot-scope="record" style="margin: 0">
 				<CardChartInfoIframe 
 					:title="record.name" 
+					:fund="record.fund"
 					:sedol="record.sedol" 
 					:citicode="record.citicode"
 					:holdings="record.holdings"
@@ -91,9 +92,9 @@
 				<p class="m-0 font-regular text-muted">{{ askPrice }}</p>
 			</template-->
 			<!-- Fund Initial Charge -->
-			<template slot="netIC" slot-scope="netIC">
+			<!--template slot="netIC" slot-scope="netIC">
 				<p class="m-0 font-regular text-muted">{{ netIC }}</p>
-			</template>
+			</template-->
 
 
 		</a-table>
@@ -102,6 +103,7 @@
 
 <script>
 import CardChartInfoIframe from '@/components/Cards/CardChartInfoIframe';
+import { mapState } from "vuex";
 
 export default ({
 	props: {
@@ -122,6 +124,9 @@ export default ({
 		// CardChartInfo,
 		CardChartInfoIframe
 	},
+	computed: {
+		...mapState("wscrape", ["fundDetail"])
+	},
 	data() {
 		return {
 			curExpandedRowKeys: [],
@@ -133,6 +138,8 @@ export default ({
 	},
 	methods: {
    		onExpand(rowkey) {
+			console.log("onExpand:");
+
 			if (this.curExpandedRowKeys.length > 0) {
 				let index = this.curExpandedRowKeys.indexOf(rowkey);
 				if (index > -1) {

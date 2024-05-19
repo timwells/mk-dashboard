@@ -2,29 +2,32 @@ import axios from "axios";
 const FILTER_ACCUMULATION = "Accumulation"
 
 const state = {
-  funds: null
+  funds: null,
+  details: null
 }
 
 const getters = {}
 
 const mutations = {
-    SET_FUNDS: (state, payload) => (state.funds = payload)
+    SET_FUNDS: (state, payload) => (state.funds = payload),
+    SET_DETAILS: (state, payload) => (state.funds = payload)
 };
 
 const actions = {
   getFunds({ commit }) {
     commit("SET_FUNDS", null);
+    console.log("getFunds")
+
     axios.get(`./data/allFunds.json`)
-    // axios.get(`./data/funds.json`)
       .then(response => {
-        // console.log(response.data)
         commit("SET_FUNDS", 
-          response.data
-            .filter(f => ((f.type === FILTER_ACCUMULATION) && (f.netAC > 0)))
-            //.filter(f => ((f.type === FILTER_ACCUMULATION) && (f.netAC.length > 0)))
-              .map((f,i) => { f.key = i; return f}));
+            (response.data
+              .filter(f => ((f.type === FILTER_ACCUMULATION) && (f.netAC > 0)))
+                .map((f,i) => { f.key = i; return f}))
+                  .sort((a,b) => a.netAC - b.netAC)                
+        )
       })
-  }
+  },
 }
 
 export default {

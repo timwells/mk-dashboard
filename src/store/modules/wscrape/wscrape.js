@@ -10,6 +10,8 @@ const API_KEY = process.env.VUE_APP_FINTECH_API_KEY;
 const HEADERS = { 'x-api-key' : API_KEY }
 
 const state = {
+  fundDetails: null,
+
   nakedTrades: null,
   nakedArchives: [],
   nakedArchiveContent: "",
@@ -44,6 +46,8 @@ const getters = {
 }
 
 const mutations = {
+  SET_FUND_DETAILS: (state, payload) => (state.fundDetails = payload),
+
   SET_NAKED_TRADES: (state, payload) => (state.nakedTrades = payload),
   SET_NAKED_ARCHIVES: (state, payload) => (state.nakedArchives = payload),
   SET_NAKED_ARCHIVE_CONTENT: (state, payload) => (state.nakedArchiveContent = payload),
@@ -81,6 +85,18 @@ async function genericGet(subPath,service,init,{commit}) {
 }
 
 const actions = {
+
+
+  //async getFundDetail({ commit }) {
+  //  await genericGet(`/fintech/v1/scrape/hlfund/details`,"SET_FUND_DETAILS",null,{commit})
+  //},
+  
+  async getFundDetail({ commit }, { fund }) {
+    //console.log(fund)
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/hlfund/details?fund=${fund}`, { headers: HEADERS })
+      .then(response => { commit("SET_FUND_DETAILS", response.data) })
+  },
+
   async getNakedTrades({ commit }) {
     await genericGet(`/fintech/v1/scrape/nt/trades`,"SET_NAKED_TRADES",null,{commit})
   },
