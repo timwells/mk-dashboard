@@ -13,7 +13,8 @@ let routes = [
 		name: 'Home',
 		redirect: '/dashboard',
 		meta: { requiresAuth: true }
-	},{
+	},
+	{
 		path: '/dashboard',
 		name: 'Dashboard',
 		layout: "dashboard",
@@ -22,7 +23,15 @@ let routes = [
 		// which is lazy-loaded when the route is visited.
 		component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
 		meta: { requiresAuth: true }
-	},{
+	},
+	{
+		path: '/market-ratios',
+		name: 'Ratios',
+		layout: "dashboard",
+		component: () => import(/* webpackChunkName: "dashboard" */ '../views/Ratios.vue'),
+		meta: { requiresAuth: true }
+	},	
+	{
 		path: '/hl-index',
 		name: 'HLi',
 		layout: "dashboard",

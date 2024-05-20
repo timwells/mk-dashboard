@@ -9,7 +9,6 @@
 				<CardChartBondInfo v-if="market.type=='bond'" :title="market.title" />
 			</a-col>
 		</a-row>
-
 	</div>
 </template>
 
@@ -47,4 +46,5 @@ export default ({
 .ant-card-body {
     padding: 4px;
 }
+
 </style>

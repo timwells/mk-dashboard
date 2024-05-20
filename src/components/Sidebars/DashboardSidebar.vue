@@ -36,7 +36,10 @@
 
 <script>
 const sidebarItems= [
+
 	{title: "Markets", linkTo: "/dashboard"},
+	{title: "Ratios",linkTo: "/market-ratios"},
+
 	{title: "Funds",linkTo: "/funds"},
 	{title: "NakedTrades",linkTo: "/trades"},
 	{title: "Dividends",linkTo: "/dividend-data"},
