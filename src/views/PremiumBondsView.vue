@@ -7,10 +7,11 @@
 					<a-tab-pane v-for="(holder,index) in premiumBondsData.results" :key="index" :tab="holder.name">
 					
 						<a-row>
-							<a-col :span="4"><a-statistic title="Holder" :value="holder.holder" /></a-col>
+							<a-col :span="4"><a-statistic title="Holder" :value="getHolder(holder.holder)" /></a-col>
 							<a-col :span="4"><a-statistic title="Prizes" :value="holder.results.length" /></a-col>
 							<a-col :span="4"><a-statistic title="Sum" :value="holder.sum" /></a-col>
 							<a-col :span="4"><a-statistic title="Holdings" :value="getHolderValue2(holder.name)" /></a-col>
+							<a-col :span="4"><a-statistic title="6MWR" :value="getHolderWinRate2(holder.name,holder.sum)" /></a-col>
 						</a-row>
 
 						<a-table
@@ -47,7 +48,7 @@ export default ({
 	computed: {
     	...mapState("pb", ["holders"]),
 		...mapState("wscrape", ["premiumBondsData"]),
-		...mapGetters("pb", ['getHoldersQry','getHolderValue']),
+		...mapGetters("pb", ['getHoldersQry','getHolderValue','getHolderWinRate']),
 	},
 	watch: {
         premiumBondsData(nn, prv) {
@@ -73,10 +74,11 @@ export default ({
         this.$store.dispatch("pb/getHolders")
 	},
 	methods: {
-		getHolderValue2(name) {
-			return this.getHolderValue(name)
-    	}
+		getHolder(name) { return " "+name},
+		getHolderValue2(name) { return this.getHolderValue(name)},
+		getHolderWinRate2(name,winnings) { return this.getHolderWinRate(name,winnings) + "%"},
 	}
+
 })
 
 </script>

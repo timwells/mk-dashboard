@@ -16,11 +16,17 @@ const getters = {
   getHolderValue: (state) => (name) => {
       if(name.length>0) return (state.holders.find(h => h.n === name)).v;
       else return 0
-  }  
-}
-const setters = {
+  },
+
+  getHolderWinRate: (state) => (name,winings) => {
+    if(name.length>0) return (100*(winings/((state.holders.find(h => h.n === name)).v))).toFixed(1);
+    else return 0
+}  
 
 }
+const setters = {
+}
+
 const mutations = {
   SET_HOLDERS: (state, payload) => (state.holders = payload)
 };
@@ -31,7 +37,6 @@ const actions = {
     get(child(ref(getDatabase()), `root/pb/holders`))
       .then((snapshot) => {
         if (snapshot.exists()) { 
-            // console.log('getHolders:',snapshot.val())
             commit("SET_HOLDERS", snapshot.val())
         }
       })

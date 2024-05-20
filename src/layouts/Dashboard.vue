@@ -104,7 +104,6 @@
 		},
 		methods: {
 			toggleSidebar( value ) {
-				console.log("toggleSidebar",value)
 				this.sidebarCollapsed = value ;
 			},
 			toggleSettingsDrawer( value ) {

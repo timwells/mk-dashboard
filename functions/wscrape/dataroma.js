@@ -12,7 +12,7 @@ const scrapedata = (req, res) => {
             $(sel).each((i, e) => {
               sivs.push({
                 name: $(e)[0].children[0].data,
-                lastUpdate: $(e)[0].children[1].children[0].data.trimStart(),
+                lastUpdate: $(e)[0].children[1].children[0].data.trimStart().replace("Updated",""),
                 detail: $(e).attr("href")
               })
             });

@@ -7,6 +7,8 @@
 const cheerio = require('cheerio');
 const axios = require('axios')
 const c = require('./common/c');
+const LTIME = 280
+const HTIME = 400
 
 const FUNDS_DIR = [
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/a",
@@ -72,6 +74,8 @@ async function GetFundList(fundsDirectory) {
 }
 
 async function GetFundList2(fundsDirectory) {
+    console.log(`GetFundList2:${fundsDirectory}`);
+
     let fundList = [];
     let totalFunds = 0;
 
@@ -87,6 +91,7 @@ async function GetFundList2(fundsDirectory) {
             fund.name = $(el).children("a").text();
             fund.link = $(el).children("a").attr("href");
             fundList.push(fund);
+            console.log(fund);
         })
     } catch (e) {
         console.log("ERROR GetFundList",e.message,fundsDirectory);
@@ -101,8 +106,8 @@ async function GetFundDetails(fundList) {
         let fundDetail = await GetFundDetail(i,fundList[i].name,fundList[i].link)
         if(fundDetail) {
             fundDetails.push(fundDetail)
-            let d = c.randomInt(480,910)
-            console.log(`${i} of ${fundList.length} | ${fundDetail.name} - ${fundDetail.type}  / Delay ${d} ms`)   
+            let d = c.randomInt(LTIME,HTIME)
+            console.log(`${i} of ${fundList.length} | ${fundDetail.name} - ${fundDetail.type} / delay ${d} ms`)   
             c.sleep(d) 
         }
     }
@@ -137,6 +142,49 @@ async function GetFundDetail(i,name,path) {
         details.bidPrice = (bidPrice != null) ? parseFloat(bidPrice.replace(",","").replace("p","")) : null;
         details.askPrice = (askPrice != null) ? parseFloat(askPrice.replace(",","").replace("p","")) : null;
 
+        // Change
+        // let changeArrow = $("#stock_change_arrow").attr("src")
+        details.changeArrow = $("#stock_change_arrow").attr("src")
+
+        let changeAmount = $("#security-price .price .row .row .change-divide .change").html()
+        details.changeAmount = changeAmount.trimStart().trimEnd()
+
+
+        // Find all span elements below the current node
+        // const spansBelow = changeAmount.find('span');
+        // console.log("spansBelow:",spansBelow.length)
+
+        // Iterate over each span element and print its text content
+        //changeAmount.each((i, e) => {
+        //    console.log($(e).text());
+        //});
+
+
+        /*
+        for (let i = 0; i < changeAmount.length; i++) {
+            // console.log(i,changeAmount[i].type,changeAmount[i].name,changeAmount[i].children.length,changeAmount[i].children[0].type);
+            console.log(i,
+                changeAmount[i].children.length,
+                changeAmount[i].children[0].type,
+                changeAmount[i].children[0].data);
+        }
+        */
+
+
+        // details.changeAmount = changeAmount;
+        /*
+        <span class="change-divide">
+            <span class="change-arrow">
+                <img id="stock_change_arrow" src="https://online.hl.co.uk/img/hl/layout/security-down-arrow.gif">
+            </span>
+            <span class="negative change">0.09p</span>
+            <span class="negative change">(0.11%)</span>
+        </span>
+        */
+
+
+
+
         // Charges
         details.netIC = null
         details.netAC = null
@@ -147,6 +195,7 @@ async function GetFundDetail(i,name,path) {
         for(let r = 0; r < icRows.length; r++) {
             let rH = $(icRows[r]).children("th").text().trimStart().trimEnd();
             let rD = $(icRows[r]).children("td").text().trimStart().trimEnd();
+            
             if(rH.localeCompare("Net initial charge:") == 0) {
                 details.netIC = (rD != null) ? parseFloat(rD.replace("%","")) : null;;
             }
@@ -202,13 +251,57 @@ async function GetFundDetail(i,name,path) {
                 }
             });
         })
+
         details.holdings = holdings
+
+        // top-sectors
+        let sectors = [];
+        let SectorsTable = $('#top-sectors .factsheet-table');
+        SectorsTable.find('tr').each((i, row) => {
+            let colsD = $(row).find('td');          
+            
+            colsD.each((j, col) => {
+                let entity = $(col).text().replace(/[\n|\t]/gm, '')
+                if(j === 0) {
+                    let sector = {}
+                    sector.sector = entity
+                    sector.weight = ""
+                    sectors.push(sector)
+                } else {
+                    sectors[i-1].weight = entity
+                }
+            });
+        })
+
+        details.sectors = sectors
+    
+        // top-countries
+        let countries = [];
+        let CountriesTable = $('#top-countries .factsheet-table');
+        CountriesTable.find('tr').each((i, row) => {
+            let colsD = $(row).find('td');          
+            
+            colsD.each((j, col) => {
+                let entity = $(col).text().replace(/[\n|\t]/gm, '')
+                if(j === 0) {
+                    let country = {}
+                    country.country = entity
+                    country.weight = ""
+                    countries.push(country)
+                } else {
+                    countries[i-1].weight = entity
+                }
+            });
+        })
+
+        details.countries = countries
     }
     catch (e) {
         console.log("ERROR GetFundDetail",e.message,i,name,path);
         details = null
     }
 
+    // console.log(details);
     return details
 }
 
@@ -249,13 +342,14 @@ async function fundsQuery(url,qry,timeout) {
 // ?start=0&rpp=1000&lo=0&sort=fd.full_description&sort_dir=asc
 // https://www.hl.co.uk/funds
 
-async function scanFunds() {
-    let fundsList = await GetFundList(FUNDS_DIR);  
-    let fundsDetails = await GetFundDetails(fundsList)
-}
+//async function scanFunds() {
+//    let fundsList = await GetFundList(FUNDS_DIR);  
+//    let fundsDetails = await GetFundDetails(fundsList)
+//}
 
-async function scanFunds1() {
-    for(let i = 0; i < FUNDS_DIR.length; i++) {
+async function scanFunds(count) {
+    let l = count == 0 ? FUNDS_DIR.length: count 
+    for(let i = 0; i < l; i++) {
         console.log("Scan: " + FUNDS_DIR[i])
         let fundsList = await GetFundList2(FUNDS_DIR[i]);
         let fundsDetails = await GetFundDetails(fundsList)
@@ -277,6 +371,21 @@ async function mergeFunds() {
     console.log("allFunds",allFunds.length)
 }
 
+async function reformatFunds() {
+    let fObj = JSON.parse(await c.readFileAsync(`./allFunds.json`));
+    for(let i = 0; i < fObj.length; i++) {
+        if('performance' in fObj[i]) { delete fObj[i].performance }
+        if('holdings' in fObj[i]) { delete fObj[i].holdings }
+        if('sectors' in fObj[i]) { delete fObj[i].sectors }
+        if('countries' in fObj[i]) { delete fObj[i].countries }
+        if('href' in fObj[i]) { fObj[i].fund = fObj[i].href.replace("https://www.hl.co.uk/","")}
+        if('bidPrice' in fObj[i]) { delete fObj[i].bidPrice }
+        if('askPrice' in fObj[i]) { delete fObj[i].askPrice }
+    }
+
+    await c.writeFileAsync(`./allFunds1.json`,JSON.stringify(fObj));
+    console.log("allFunds",fObj.length)
+}
 async function cleanFunds() {
     let fObj = JSON.parse(await c.readFileAsync(`./allFunds.json`));
     for(let i = 0; i < fObj.length; i++) {
@@ -289,8 +398,18 @@ async function cleanFunds() {
     console.log("allFunds",fObj.length)
 }
 
+
+// https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/j/jupiter-india-select-class-d-gbp-accumulation
+// https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/j/jupiter-india-class-x-accumulation
+async function getFundDetailsTest() {
+    let path = "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/j/jupiter-india-select-class-d-gbp-accumulation"
+    await GetFundDetail(0,"jupiter",path) 
+}
+
 module.exports = {
-    scanFunds1,
+    scanFunds,
     mergeFunds,
     cleanFunds,
+    reformatFunds,
+    getFundDetailsTest
 }

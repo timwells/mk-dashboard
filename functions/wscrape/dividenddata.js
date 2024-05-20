@@ -47,6 +47,10 @@ const scrapedata = (req, res) => {
                         exDividendDate: rowCols[7].children[0].data,
                         days: daysToGo
                     }
+
+                    dividendObj.price = dividendObj.price.replace("p",""),
+                    dividendObj.dividend = dividendObj.price.replace("p",""),
+                
                     dividendData.push(dividendObj)
                 }
             })
@@ -87,6 +91,11 @@ const exdividenddate = (req, res) => {
                         exDividendDate: rowCols[7].children[0].data,
                         days: daysToGo
                     }
+
+                    dividendObj.price = dividendObj.price.replace("p","").replace("€",""),
+                    dividendObj.dividend = dividendObj.price.replace("p","").replace("€",""), 
+                    dividendObj.impact = dividendObj.impact.replace("%",""),
+                    
                     dividendData.push(dividendObj)
                 }
             })
@@ -95,6 +104,6 @@ const exdividenddate = (req, res) => {
 }
     
 module.exports = {
-    scrapedata,
+    // scrapedata,
     exdividenddate
 }

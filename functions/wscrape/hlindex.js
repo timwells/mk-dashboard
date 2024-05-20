@@ -42,7 +42,7 @@ async function getFtseIndex(path,index) {
             rows.push(row);
         }
     })
-    return rows;
+    return rows
 }
 
 const indexes = async (req, res) => {
@@ -66,7 +66,10 @@ const indexes = async (req, res) => {
     }
     const uStocks = [...new Map(stocks.map(v => [v.epic, v])).values()]
     */
-    res.status(200).json(stocks);
+
+    // points.sort(function(a, b){return a - b});
+    // var res = myarray.sort((a, b) => b.age-a.age);
+    res.status(200).json(stocks.sort((a, b) => a.percentage - b.percentage));
 }
 
 module.exports = {

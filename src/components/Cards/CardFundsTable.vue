@@ -1,13 +1,5 @@
 <template>
 	<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
-		<!--template #title>
-			<a-row type="flex" align="middle">
-				<a-col :span="24" :md="12">
-					<h5 class="font-semibold m-0">Funds Table</h5>
-				</a-col>
-			</a-row>
-		</template-->
-
 		<a-table 
 			:columns="columns" 
 			:data-source="data" 
@@ -22,8 +14,8 @@
                     	:placeholder="`Search ${column.dataIndex}`"
                     	:value="selectedKeys[0]"
                     	style="width: 188px; margin-bottom: 8px; display: block"
-                    	@change="e =>setSelectedKeys(e.target.value ? [e.target.value] : [])"
-                    	@pressEnter="() =>handleSearch(selectedKeys, confirm, column.dataIndex)"/>
+                    	@change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                    	@pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"/>
                   	<a-button
                     	type="primary"
                     	icon="search"
@@ -50,6 +42,7 @@
 			<div slot="expandedRowRender" slot-scope="record" style="margin: 0">
 				<CardChartInfoIframe 
 					:title="record.name" 
+					:fund="record.fund"
 					:sedol="record.sedol" 
 					:citicode="record.citicode"
 					:holdings="record.holdings"
@@ -84,6 +77,12 @@
 			<template slot="citicode" slot-scope="citicode">
 				<p class="m-0 font-regular text-muted">F{{ citicode }}</p>
 			</template>
+			<!-- Fund Annual Charge -->
+			<template slot="netAC" slot-scope="netAC">
+				<p class="m-0 font-regular text-muted">{{ netAC }}</p>
+			</template>
+
+
 			<!-- Fund Bid Price -->
 			<!--template slot="bidPrice" slot-scope="bidPrice">
 				<p class="m-0 font-regular text-muted">{{ bidPrice }}</p>
@@ -93,19 +92,18 @@
 				<p class="m-0 font-regular text-muted">{{ askPrice }}</p>
 			</template-->
 			<!-- Fund Initial Charge -->
-			<template slot="netIC" slot-scope="netIC">
+			<!--template slot="netIC" slot-scope="netIC">
 				<p class="m-0 font-regular text-muted">{{ netIC }}</p>
-			</template>
-			<!-- Fund Annual Charge -->
-			<template slot="netAC" slot-scope="netAC">
-				<p class="m-0 font-regular text-muted">{{ netAC }}</p>
-			</template>
+			</template-->
+
+
 		</a-table>
 	</a-card>
 </template>
 
 <script>
 import CardChartInfoIframe from '@/components/Cards/CardChartInfoIframe';
+import { mapState } from "vuex";
 
 export default ({
 	props: {
@@ -126,6 +124,9 @@ export default ({
 		// CardChartInfo,
 		CardChartInfoIframe
 	},
+	computed: {
+		...mapState("wscrape", ["fundDetail"])
+	},
 	data() {
 		return {
 			curExpandedRowKeys: [],
@@ -137,6 +138,8 @@ export default ({
 	},
 	methods: {
    		onExpand(rowkey) {
+			console.log("onExpand:");
+
 			if (this.curExpandedRowKeys.length > 0) {
 				let index = this.curExpandedRowKeys.indexOf(rowkey);
 				if (index > -1) {

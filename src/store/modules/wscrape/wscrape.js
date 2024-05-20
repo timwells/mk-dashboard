@@ -10,6 +10,8 @@ const API_KEY = process.env.VUE_APP_FINTECH_API_KEY;
 const HEADERS = { 'x-api-key' : API_KEY }
 
 const state = {
+  fundDetails: [],
+
   nakedTrades: null,
   nakedArchives: [],
   nakedArchiveContent: "",
@@ -40,10 +42,13 @@ const state = {
 };
 
 const getters = {
-  holdings: (state) => (key) => state.dataromaHoldingsMap.find((holding) => (holding.key === key))
+  holdings: (state) => (key) => state.dataromaHoldingsMap.find((holding) => (holding.key === key)),
+  fundDetail: (state) => (sedol) => state.fundDetails.find((fd) => (fd.sedol === sedol)),
 }
 
 const mutations = {
+  SET_FUND_DETAILS: (state, payload) => state.fundDetails.push(payload),
+
   SET_NAKED_TRADES: (state, payload) => (state.nakedTrades = payload),
   SET_NAKED_ARCHIVES: (state, payload) => (state.nakedArchives = payload),
   SET_NAKED_ARCHIVE_CONTENT: (state, payload) => (state.nakedArchiveContent = payload),
@@ -81,6 +86,14 @@ async function genericGet(subPath,service,init,{commit}) {
 }
 
 const actions = {
+  async getFundDetail({ commit }, { fund }) {
+
+    console.log(`getFundDetail: ${fund}`)
+
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/hlfund/details?fund=${fund}`, { headers: HEADERS })
+      .then(response => { commit("SET_FUND_DETAILS", response.data) })
+  },
+
   async getNakedTrades({ commit }) {
     await genericGet(`/fintech/v1/scrape/nt/trades`,"SET_NAKED_TRADES",null,{commit})
   },
@@ -103,8 +116,12 @@ const actions = {
   async getBoEIRates({ commit }) {
     await genericGet(`/fintech/v1/scrape/boe`,"SET_BOE_IRATES",[],{ commit })
   },
-  async getCmvBuffettIndicatorModels({ commit }) { await genericGet(`/fintech/v1/scrape/cmv/buffettindicators`,"SET_CMV_BUFFETT_INDICATOR_MODELS",[],{ commit })},
-  async getCmvPriceEarningsModels({ commit }) { await genericGet(`/fintech/v1/scrape/cmv/priceearnings`,"SET_CMV_PRICE_EARNINGS_MODELS",[],{ commit})},
+  async getCmvBuffettIndicatorModels({ commit }) { 
+    await genericGet(`/fintech/v1/scrape/cmv/buffettindicators`,"SET_CMV_BUFFETT_INDICATOR_MODELS",[],{ commit })
+  },
+  async getCmvPriceEarningsModels({ commit }) { 
+    await genericGet(`/fintech/v1/scrape/cmv/priceearnings`,"SET_CMV_PRICE_EARNINGS_MODELS",[],{ commit})
+  },
   async getCmvVixModels({ commit }) {
     await genericGet(`/fintech/v1/scrape/cmv/vix`,"SET_CMV_VIX_MODELS",[],{commit});
   },

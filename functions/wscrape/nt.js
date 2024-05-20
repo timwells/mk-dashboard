@@ -49,6 +49,9 @@ const trades = (req, res) => {
                             rowObj["tc"] = +((rowObj["qty"] * rowObj["price"]) / 100).toFixed(2)
                             rowObj["pd"] = +(rowObj["target"] - rowObj["price"]).toFixed(2)
                             rowObj["cp"] = +(100 * (rowObj["target"] - rowObj["price"]) / rowObj["price"]).toFixed(2)    
+                            
+                            rowObj["xp"] = +((rowObj["qty"] * rowObj["target"]) / 100).toFixed(2)    
+                            rowObj["xpd"] = +(rowObj["xp"] - rowObj["tc"]).toFixed(2)
 
                             // Calculate the trading statistics
                             nAllTrades++;

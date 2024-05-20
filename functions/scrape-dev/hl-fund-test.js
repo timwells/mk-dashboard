@@ -5,8 +5,20 @@ const hlIndexServices = require('./hl-index-services.js')
 // let result = hlServices['mergeFunds']()
 //let result = hlServices['scanFunds1']()
 //let result = hlServices['testFundSplit']()
+
 // scanFtse100DetailsPageCount
-let result = hlIndexServices['scanFtseIndexes']()
+//let result = hlIndexServices['scanFtseIndexes']()
+//result.then((d) => { 
+//    console.log("done...") 
+//})
+
+
+
+// Process HL Funds: Names, prices, composition
+// let result = hlServices['scanFunds'](1)
+let result = hlServices['getFundDetailsTest']()
+//let result = hlServices['mergeFunds']()
+// let result = hlServices['reformatFunds']()
 result.then((d) => { 
     console.log("done...") 
 })
