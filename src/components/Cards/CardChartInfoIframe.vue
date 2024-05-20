@@ -8,7 +8,7 @@
 			</a-col>
 		</a-row-->
 		<a-row :gutter="24" type="flex" align="stretch">
-			<a-col :span="24" :xl="24">
+			<a-col :span="12" :xl="12">
 				<a-card>
 					<div class="card-content">
 						<!-- Performance Chart -->
@@ -16,118 +16,108 @@
 					</div>
 				</a-card>
 			</a-col>
-		</a-row>
-		<a-row :gutter="24" type="flex" align="stretch">
-			<a-tabs default-active-key="1">
-				<a-tab-pane key="1" tab="Summary">
-					<a-card v-if="details(sedol)">
-						<div class="card-content">
-							<a :href="details(sedol).href" target="_blank">{{details(sedol).name }}</a>
-							<div>
-								<h5>Type: {{details(sedol).type }}</h5>
+			<a-col :span="12" :xl="12">
+				<a-tabs default-active-key="1">
+					<a-tab-pane key="1" tab="Summary">
+						<a-card v-if="details(sedol)">
+							<div class="card-content">
+								<a :href="details(sedol).href" target="_blank">{{details(sedol).name }}</a>
+								<div>
+									<span class="price-divide">Type: {{details(sedol).type }}</span>
+									<span class="price-divide">netIC: {{details(sedol).netIC}}</span>							
+									<span class="price-divide">netAC: {{details(sedol).netAC}}</span>
+								</div>
+								<div>
+									<span class="price-divide">Bid: {{details(sedol).bidPrice}}</span>
+									<span class="price-divide">Ask: {{details(sedol).askPrice}}</span>
+									<span class="price-divide"><img :src="details(sedol).changeArrow"/></span>
+									<span class="price-divide">{{details(sedol).changeAmount}}</span>
+								</div>
 							</div>
-							<div>
-								<span class="price-divide">
-									Bid: {{details(sedol).bidPrice }}
-								</span>
-								<span class="price-divide">
-									Ask: {{details(sedol).askPrice }}
-								</span>
-								<span class="price-divide">
-									<img :src="details(sedol).changeArrow"/>
-								</span>
-								<span class="price-divide">
-									{{details(sedol).changeAmount }}
-								</span>
+						</a-card>
+					</a-tab-pane>	 
+					<a-tab-pane key="2" tab="Holdings">
+						<a-card v-if="details(sedol)">
+							<div class="card-content">
+								<!-- Weights Table -->
+								<a-table 
+									:columns="hCols"
+									:data-source="details(sedol).holdings"
+									:pagination="pagination"
+									class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
+									<template slot="security" slot-scope="security">
+										<p class="m-0 font-regular text-muted">{{ security }}</p>
+									</template>
+
+									<template slot="weight" slot-scope="weight">
+										<p class="m-0 font-regular text-muted">{{ weight }}</p>
+									</template>
+								</a-table>
 							</div>
-							<div>
-								<span>netIC: {{details(sedol).netIC }}</span>							
-								<span>netAC: {{details(sedol).netAC }}</span>
+						</a-card>
+					</a-tab-pane>
+					<a-tab-pane key="3" tab="Performance">
+						<a-card v-if="details(sedol)">
+							<div class="card-content">
+								<!-- Returns Table -->
+								<a-table 
+									:columns="pCols"
+									:data-source="details(sedol).performance"
+									:pagination="pagination"
+									class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
+									<template slot="period" slot-scope="period">
+										<p class="m-0 font-regular text-muted">{{ period }}</p>
+									</template>
+
+									<template slot="retn" slot-scope="retn">
+										<p class="m-0 font-regular text-muted">{{ retn }}</p>
+									</template>
+								</a-table>
 							</div>
-						</div>
-					</a-card>
-				</a-tab-pane>	 
-				<a-tab-pane key="2" tab="Holdings">
-					<a-card v-if="details(sedol)">
-						<div class="card-content">
-							<!-- Weights Table -->
-							<a-table 
-								:columns="hCols"
-								:data-source="details(sedol).holdings"
-								:pagination="pagination"
-								class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
-								<template slot="security" slot-scope="security">
-									<p class="m-0 font-regular text-muted">{{ security }}</p>
-								</template>
+						</a-card>
+					</a-tab-pane>
+					<a-tab-pane key="4" tab="Sectors">
+						<a-card v-if="details(sedol)">
+							<div class="card-content">
+								<!-- Weights Table -->
+								<a-table 
+									:columns="sCols"
+									:data-source="details(sedol).sectors"
+									:pagination="pagination"
+									class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
+									<template slot="security" slot-scope="sector">
+										<p class="m-0 font-regular text-muted">{{ sector }}</p>
+									</template>
 
-								<template slot="weight" slot-scope="weight">
-									<p class="m-0 font-regular text-muted">{{ weight }}</p>
-								</template>
-							</a-table>
-						</div>
-					</a-card>
-				</a-tab-pane>
-				<a-tab-pane key="3" tab="Performance">
-					<a-card v-if="details(sedol)">
-						<div class="card-content">
-							<!-- Returns Table -->
-							<a-table 
-								:columns="pCols"
-								:data-source="details(sedol).performance"
-								:pagination="pagination"
-								class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
-								<template slot="period" slot-scope="period">
-									<p class="m-0 font-regular text-muted">{{ period }}</p>
-								</template>
+									<template slot="weight" slot-scope="weight">
+										<p class="m-0 font-regular text-muted">{{ weight }}</p>
+									</template>
+								</a-table>
+							</div>
+						</a-card>
+					</a-tab-pane>
+					<a-tab-pane key="5" tab="Countries">
+						<a-card v-if="details(sedol)">
+							<div class="card-content">
+								<!-- Weights Table -->
+								<a-table 
+									:columns="cCols"
+									:data-source="details(sedol).countries"
+									:pagination="pagination"
+									class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
+									<template slot="security" slot-scope="country">
+										<p class="m-0 font-regular text-muted">{{ country }}</p>
+									</template>
 
-								<template slot="retn" slot-scope="retn">
-									<p class="m-0 font-regular text-muted">{{ retn }}</p>
-								</template>
-							</a-table>
-						</div>
-					</a-card>
-				</a-tab-pane>
-				<a-tab-pane key="4" tab="Sectors">
-					<a-card v-if="details(sedol)">
-						<div class="card-content">
-							<!-- Weights Table -->
-							<a-table 
-								:columns="sCols"
-								:data-source="details(sedol).sectors"
-								:pagination="pagination"
-								class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
-								<template slot="security" slot-scope="sector">
-									<p class="m-0 font-regular text-muted">{{ sector }}</p>
-								</template>
-
-								<template slot="weight" slot-scope="weight">
-									<p class="m-0 font-regular text-muted">{{ weight }}</p>
-								</template>
-							</a-table>
-						</div>
-					</a-card>
-				</a-tab-pane>
-				<a-tab-pane key="5" tab="Countries">
-					<a-card v-if="details(sedol)">
-						<div class="card-content">
-							<!-- Weights Table -->
-							<a-table 
-								:columns="cCols"
-								:data-source="details(sedol).countries"
-								:pagination="pagination"
-								class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
-								<template slot="security" slot-scope="country">
-									<p class="m-0 font-regular text-muted">{{ country }}</p>
-								</template>
-
-								<template slot="weight" slot-scope="weight">
-									<p class="m-0 font-regular text-muted">{{ weight }}</p>
-								</template>
-							</a-table>
-						</div>
-					</a-card>
-				</a-tab-pane>
-			</a-tabs>
+									<template slot="weight" slot-scope="weight">
+										<p class="m-0 font-regular text-muted">{{ weight }}</p>
+									</template>
+								</a-table>
+							</div>
+						</a-card>
+					</a-tab-pane>
+				</a-tabs>
+			</a-col>
 		</a-row>
 	</div>
 </template>
@@ -260,6 +250,6 @@ export default ({
     font-weight: bold;
     margin-right: 0.4em;
     padding-right: 0.4em;
-    border-right: 0.08em solid #1e1d56;
+    /* border-right: 0.08em solid #1e1d56; */
 }
 </style>
