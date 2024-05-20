@@ -18,27 +18,21 @@
 			<a-col :span="12" :xl="12">
 				<a-tabs default-active-key="0">
 					<a-tab-pane key="0" tab="Chart">
-						<img :src="url2" height="300" width="100%">
-					</a-tab-pane>
-					<a-tab-pane key="1" tab="Summary">
-						<a-card v-if="details(sedol)">
-							<div class="card-content">
-								<a :href="details(sedol).href" target="_blank">{{details(sedol).name }}</a>
-								<div>
-									<span class="price-divide">Type: {{details(sedol).type }}</span>
-									<span class="price-divide">netIC: {{details(sedol).netIC}}</span>							
-									<span class="price-divide">netAC: {{details(sedol).netAC}}</span>
-								</div>
-								<div>
-									<span class="price-divide">Bid: {{details(sedol).bidPrice}}</span>
-									<span class="price-divide">Ask: {{details(sedol).askPrice}}</span>
-									<span class="price-divide"><img :src="details(sedol).changeArrow"/></span>
-									<span class="price-divide">{{details(sedol).changeAmount}}</span>
-								</div>
+						<div class="card-content">
+							<a :href="details(sedol).href" target="_blank">{{details(sedol).name }}</a>
+							<div>
+								<span class="price-divide">Bid:{{details(sedol).bidPrice}}</span>
+								<span class="price-divide">Ask:{{details(sedol).askPrice}}</span>
+								<span class="price-divide"><img :src="details(sedol).changeArrow"/></span>
+								<span class="price-divide">{{details(sedol).changeAmount}}</span>
+								<span class="price-divide">Type:{{details(sedol).type }}</span>
+								<span class="price-divide">netIC:{{details(sedol).netIC}}</span>							
+								<span class="price-divide">netAC:{{details(sedol).netAC}}</span>
 							</div>
-						</a-card>
-					</a-tab-pane>	 
-					<a-tab-pane key="2" tab="Holdings">
+							<img :src="chart" height="300" width="100%">
+						</div>
+					</a-tab-pane>
+					<a-tab-pane key="1" tab="Holdings">
 						<a-card v-if="details(sedol)">
 							<div class="card-content">
 								<!-- Weights Table -->
@@ -58,7 +52,7 @@
 							</div>
 						</a-card>
 					</a-tab-pane>
-					<a-tab-pane key="3" tab="Performance">
+					<a-tab-pane key="2" tab="Performance">
 						<a-card v-if="details(sedol)">
 							<div class="card-content">
 								<!-- Returns Table -->
@@ -78,7 +72,7 @@
 							</div>
 						</a-card>
 					</a-tab-pane>
-					<a-tab-pane key="4" tab="Sectors">
+					<a-tab-pane key="3" tab="Sectors">
 						<a-card v-if="details(sedol)">
 							<div class="card-content">
 								<!-- Weights Table -->
@@ -98,7 +92,7 @@
 							</div>
 						</a-card>
 					</a-tab-pane>
-					<a-tab-pane key="5" tab="Countries">
+					<a-tab-pane key="4" tab="Countries">
 						<a-card v-if="details(sedol)">
 							<div class="card-content">
 								<!-- Weights Table -->
@@ -200,7 +194,7 @@ export default ({
 	},
 	data() {
 		return {
-			url2: `https://webfund6.financialexpress.net/clients/Hargreaves/chartbuilder.aspx?codes=F${this.citicode}&color=f65d1a&hide=&span=M120&plotSingleAsPrice=true&totalReturn=false&yAxisLabel=_`,				
+			chart: `https://webfund6.financialexpress.net/clients/Hargreaves/chartbuilder.aspx?codes=F${this.citicode}&color=f65d1a&hide=&span=M120&plotSingleAsPrice=true&totalReturn=false&yAxisLabel=_`,				
 			hCols,
 			pCols,
 			sCols,
@@ -252,6 +246,6 @@ export default ({
     font-weight: bold;
     margin-right: 0.4em;
     padding-right: 0.4em;
-    /* border-right: 0.08em solid #1e1d56; */
+    border-right: 0.13em solid #1e1d56;
 }
 </style>
