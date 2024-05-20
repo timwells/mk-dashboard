@@ -8,16 +8,18 @@
 			</a-col>
 		</a-row-->
 		<a-row :gutter="24" type="flex" align="stretch">
-			<a-col :span="12" :xl="12">
+			<!--a-col :span="12" :xl="12">
 				<a-card>
 					<div class="card-content">
-						<!-- Performance Chart -->
 						<img :src="url2" alt="Performance Chart" height="300" width="100%">
 					</div>
 				</a-card>
-			</a-col>
+			</a-col-->
 			<a-col :span="12" :xl="12">
-				<a-tabs default-active-key="1">
+				<a-tabs default-active-key="0">
+					<a-tab-pane key="0" tab="Chart">
+						<img :src="url2" height="300" width="100%">
+					</a-tab-pane>
 					<a-tab-pane key="1" tab="Summary">
 						<a-card v-if="details(sedol)">
 							<div class="card-content">
