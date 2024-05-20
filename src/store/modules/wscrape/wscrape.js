@@ -10,8 +10,8 @@ const API_KEY = process.env.VUE_APP_FINTECH_API_KEY;
 const HEADERS = { 'x-api-key' : API_KEY }
 
 const state = {
+  mtplData: [],
   fundDetails: [],
-
   nakedTrades: null,
   nakedArchives: [],
   nakedArchiveContent: "",
@@ -47,6 +47,9 @@ const getters = {
 }
 
 const mutations = {
+
+  SET_MTPL_DATA: (state, payload) => state.  mtplData.push(payload),
+
   SET_FUND_DETAILS: (state, payload) => state.fundDetails.push(payload),
 
   SET_NAKED_TRADES: (state, payload) => (state.nakedTrades = payload),
@@ -86,10 +89,11 @@ async function genericGet(subPath,service,init,{commit}) {
 }
 
 const actions = {
+  async getMtplData({ commit },{ ds }) {
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/mtpl/dataset?ds=${ds}`,{ headers: HEADERS })
+      .then(response => { commit("SET_MTPL_DATA", response.data) })
+  },
   async getFundDetail({ commit }, { fund }) {
-
-    console.log(`getFundDetail: ${fund}`)
-
     axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/hlfund/details?fund=${fund}`, { headers: HEADERS })
       .then(response => { commit("SET_FUND_DETAILS", response.data) })
   },
@@ -154,7 +158,8 @@ const actions = {
   },
   async getHLIndexData({ commit }) {
     await genericGet(`/fintech/v1/scrape/hlindex/indexes`,"SET_HLINDEX_MODELS",[],{commit})
-  }
+  },
+
 }
 
 export default {
