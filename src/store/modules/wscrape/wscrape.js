@@ -46,9 +46,18 @@ const getters = {
   fundDetail: (state) => (sedol) => state.fundDetails.find((fd) => (fd.sedol === sedol)),
 }
 
-const mutations = {
 
-  SET_MTPL_DATA: (state, payload) => state.  mtplData.push(payload),
+/*
+const mutations = {
+  updateItem(state, { index, item }) { Vue.set(state.items, index, item);},
+  addItem(state, item) { state.items.push(item);},
+  removeItem(state, index) { state.items.splice(index, 1);},
+  replaceAllItems(state, newItems) { state.items = [...newItems];}
+}
+*/
+
+const mutations = {
+  SET_MTPL_DATA: (state, payload) => state.mtplData.push(payload),
 
   SET_FUND_DETAILS: (state, payload) => state.fundDetails.push(payload),
 
@@ -90,7 +99,14 @@ async function genericGet(subPath,service,init,{commit}) {
 
 const actions = {
   async getMtplData({ commit },{ ds }) {
-    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/mtpl/dataset?ds=${ds}`,{ headers: HEADERS })
+
+    // Look up
+    console.log(state.mtplData.length)
+
+    const index = state.mtplData.findIndex(obj => obj[ds] === ds);
+    // return index >= 0 ? [ ...array.slice(0, index), ...array.slice(index + 1)] : array;
+  
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/mtpl/dataset?ds=${ds}`, { headers: HEADERS })
       .then(response => { commit("SET_MTPL_DATA", response.data) })
   },
   async getFundDetail({ commit }, { fund }) {
