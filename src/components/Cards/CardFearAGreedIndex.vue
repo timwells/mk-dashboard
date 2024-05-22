@@ -9,7 +9,6 @@
 			</a-col>
 		</a-row>
 	</a-card>
-
 </template>
 
 <script>
