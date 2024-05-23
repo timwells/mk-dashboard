@@ -1,70 +1,68 @@
 <template>
 	<div>
-		<apexchart v-if="series!=null" :options="chartOptions" :series="series"></apexchart>
+		<apexchart v-if="shillerPESeries!=null" 
+			:options="shillerPEChartOpts" 
+			:series="shillerPESeries"
+			width="800" 
+			height="450">
+		</apexchart>
 	</div>
-	<!--a-card :bordered="false" class="card-info">
-		<a-row type="flex">
-			<a-col class="col-content" :span="24" :xl="12">
-				<div class="card-content">
-					<apexchart v-if="series!=null" height="auto" :options="chartOptions" :series="series"></apexchart>
-				</div>
-			</a-col>
-		</a-row>
-	</a-card-->
 </template>
 
 <script>
-import { mapState } from "vuex";
+const DS_SHILLER_PE = "shiller-pe/table/by-year"
+const DS_SP500_PE = "s-p-500-pe-ratio/table/by-month"
+
+import { mapState, mapGetters } from "vuex";
 
 export default ({
 	components: {
 	},
 	computed: {
-    	...mapState("wscrape", ["mtplData"]),
+    	...mapState("wscrape", ["mtplDataSets"]),
+		...mapGetters("wscrape",["gMtplDataSet"]),
 	},
 	watch: {
-		mtplData(o,n) {
-			this.series = [{ name: n[0].rows.ds, data: n[0].rows.map(e => e.value)}]
-			this.chartOptions.xaxis.categories = n[0].rows.map((e,i) => ((i % 4) == 0 ? "": e.date));
+		mtplDataSets(o,n) {
+			console.log(DS_SHILLER_PE, this.gMtplDataSet(DS_SHILLER_PE))
+			console.log(DS_SP500_PE, this.gMtplDataSet(DS_SP500_PE))
+
+			/*
+			if(n[0].ds === DS_SHILLER_PE) {
+				this.shillerPESeries = [{ name: n[0].rows.ds, data: n[0].rows.map(e => e.value)}]
+				this.shillerPEChartOpts.xaxis.categories = n[0].rows.map((v,i) => v.date);
+				this.shillerPEChartOpts.title.text = n[0].ds
+			}
+			*/
 		}
-        // values(o,n) { if(o) this.updateChart() },
-        // categories(o,n) { if(o) this.updateChart() },
     },
 	data() {
 		return {
-			series: null,
-			chartOptions: {
-				chart: { height: 100, type: 'line', zoom: { enabled: false } },
+			shillerPESeries: null,
+			shillerPEChartOpts: {
+				chart: { type: 'line', zoom: { enabled: false } },
 				dataLabels: { enabled: false },
 				stroke: { curve: 'straight' },
 				title: { text: '', align: 'left' },
                 stroke: { curve: 'straight',  width: 1 },
-				grid: {
-					row: {
-						colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-						opacity: 0.5
-					},
-				},
-				xaxis: { categories: null }
+				grid: { row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5}},
+				xaxis: { categories: null,tickAmount: 45, } // Adjust tick amount to space labels
 			},
-			testSeries: [{name: "Desktops",data: [10, 41, 35, 51, 49, 62, 69, 91, 148]}],
-			testChartOptions: {
-				chart: { height: 400, type: 'line', zoom: { enabled: false }},
+			spPESeries: null,
+			spPEChartOpts: {
+				chart: { type: 'line', zoom: { enabled: false } },
 				dataLabels: { enabled: false },
-				stroke: { curve: 'straight'},
-				title: { text: 'Product Trends by Month',align: 'left' },
-				grid: {
-					row: {
-						colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-						opacity: 0.5
-					},
-				},
-				xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],}
-	        }
+				stroke: { curve: 'straight' },
+				title: { text: '', align: 'left' },
+                stroke: { curve: 'straight',  width: 1 },
+				grid: { row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5}},
+				xaxis: { categories: null,tickAmount: 45, } // Adjust tick amount to space labels
+			},
 		}
 	},
 	mounted() {
-		this.$store.dispatch("wscrape/getMtplData",{ds:"shiller-pe/table/by-month"});
+		this.$store.dispatch("wscrape/getMtplData",{ds: DS_SHILLER_PE});
+		this.$store.dispatch("wscrape/getMtplData",{ds: DS_SP500_PE})
 	},
 })
 

@@ -1,24 +1,10 @@
 <template>
 	<div>
-		<!--a-row :gutter="24" type="flex" align="stretch">
-			<a-col :span="24" :xl="24">
-				<a-card v-if="sedol">
-					<pre>{{ fundDetails.length }}</pre>
-				</a-card>
-			</a-col>
-		</a-row-->
 		<a-row :gutter="24" type="flex" align="stretch">
-			<!--a-col :span="12" :xl="12">
-				<a-card>
-					<div class="card-content">
-						<img :src="url2" alt="Performance Chart" height="300" width="100%">
-					</div>
-				</a-card>
-			</a-col-->
 			<a-col :span="12" :xl="12">
 				<a-tabs default-active-key="0">
 					<a-tab-pane key="0" tab="Chart">
-						<div class="card-content">
+						<div v-if="details(sedol) !=null" class="card-content" >
 							<a :href="details(sedol).href" target="_blank">{{details(sedol).name }}</a>
 							<div>
 								<span class="price-divide">Bid:{{details(sedol).bidPrice}}</span>
@@ -185,7 +171,7 @@ export default ({
 	},
 	computed: {
     	...mapState("wscrape", ["fundDetails"]),
-		...mapGetters("wscrape",["fundDetail"]),
+		...mapGetters("wscrape",["gfundDetail"]),
 	},
 	watch: {
 		fundDetails(o,n) {
@@ -204,7 +190,7 @@ export default ({
 	},
 	methods: {
 		details(key) {
-			return this.fundDetail(key)
+			return this.gfundDetail(key)
 		}
 
 	},

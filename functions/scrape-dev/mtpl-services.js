@@ -1,4 +1,5 @@
 const axios = require('axios');
+const moment = require('moment')
 const cheerio = require('cheerio');
 
 // https://www.multpl.com/
@@ -35,9 +36,7 @@ const _SHILLER_PE_RATIO_BY_MONTH = "https://www.multpl.com/shiller-pe/table/by-m
 const _SP500_DIVIDEND_YIELD = "https://www.multpl.com/s-p-500-dividend-yield/table/by-month"
 
 async function scanTest2 () {
-
     const dataSrc = _SP500_DIVIDEND_YIELD
-
     const { meta, data } = await axios.get(dataSrc)
     const $ = await cheerio.load(data);
     const table = $("#datatable")
@@ -48,9 +47,8 @@ async function scanTest2 () {
         let obj = {}
         cols.each((j, col) => {
             let entity = $(col).text().replace(/[\n|\t]/gm, '').trimStart().trimEnd()
-
             switch(j) {
-                case 0: obj.date = entity; break;
+                case 0: obj.date = moment(entity, 'MMM DD, YYYY').format('YYYY-MM-DD'); break;
                 case 1: obj.value = parseFloat(entity.replace("%","").replace("†","")); break;
                 default: break;
             }

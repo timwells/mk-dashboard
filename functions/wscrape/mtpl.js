@@ -1,4 +1,5 @@
 const axios = require('axios');
+const moment = require('moment')
 const cheerio = require('cheerio');
 
 const MULTPL_HOST = "https://www.multpl.com"
@@ -25,7 +26,7 @@ const dataset = async (req, res) => {
                 let entity = $(col).text().replace(/[\n|\t]/gm, '').trimStart().trimEnd()
 
                 switch(j) {
-                    case 0: obj.date = entity; break;
+                    case 0: obj.date = moment(entity, 'MMM DD, YYYY').format('YYYY-MM-DD'); break;
                     case 1: obj.value = parseFloat(entity.replace("%","").replace("†","")); break;
                     default: break;
                 }

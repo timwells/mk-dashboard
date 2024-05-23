@@ -10,7 +10,7 @@ const API_KEY = process.env.VUE_APP_FINTECH_API_KEY;
 const HEADERS = { 'x-api-key' : API_KEY }
 
 const state = {
-  mtplData: [],
+  mtplDataSets: [],
   fundDetails: [],
   nakedTrades: null,
   nakedArchives: [],
@@ -43,7 +43,8 @@ const state = {
 
 const getters = {
   holdings: (state) => (key) => state.dataromaHoldingsMap.find((holding) => (holding.key === key)),
-  fundDetail: (state) => (sedol) => state.fundDetails.find((fd) => (fd.sedol === sedol)),
+  gfundDetail: (state) => (sedol) => state.fundDetails.find((fd) => (fd.sedol === sedol)),
+  gMtplDataSet: (state) => (dsName) => state.mtplDataSets.findIndex((d) => (d.ds === dsName))
 }
 
 
@@ -57,7 +58,7 @@ const mutations = {
 */
 
 const mutations = {
-  SET_MTPL_DATA: (state, payload) => state.mtplData.push(payload),
+  SET_MTPL_DATA: (state, payload) => state.mtplDataSets.push(payload),
 
   SET_FUND_DETAILS: (state, payload) => state.fundDetails.push(payload),
 
@@ -99,11 +100,13 @@ async function genericGet(subPath,service,init,{commit}) {
 
 const actions = {
   async getMtplData({ commit },{ ds }) {
-    const index = state.mtplData.findIndex(obj => obj[ds] === ds);
+    const index = state.mtplDataSets.findIndex(obj => obj[ds] === ds);
 
     if(index == -1) {
       axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/mtpl/dataset?ds=${ds}`, { headers: HEADERS })
-        .then(response => { commit("SET_MTPL_DATA", response.data) })
+        .then(response => { 
+          console.log(response.data)
+          commit("SET_MTPL_DATA", response.data) })
     }
   },
   async getFundDetail({ commit }, { fund }) {
