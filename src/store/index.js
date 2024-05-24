@@ -17,6 +17,9 @@ import crypto from "./modules/crypto/crypto"
 import stockwatch from "./modules/stockwatch/stockwatch"
 import pb from "./modules/pb/pb"
 import fedinfo from "./modules/fedinfo/fedinfo"
+import nt from "./modules/nt/nt"
+import divd from "./modules/divd/divd"
+import mtpl from "./modules/mtpl/mtpl"
 
 Vue.use(Vuex);
 
@@ -25,7 +28,11 @@ export default new Vuex.Store({
     app, auth,
     funds, markets, quote,
     trends, indicators, newsfeed,
-    sa, tradeview, wscrape,
+    sa, tradeview, 
+    wscrape,
+    nt,
+    divd,
+    mtpl,
     crypto, stockwatch, pb,
     fedinfo
   }

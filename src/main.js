@@ -12,12 +12,6 @@ import './scss/app.scss';
 
 Vue.use(Antd);
 
-import VueFusionCharts from 'vue-fusioncharts';
-import FusionCharts from 'fusioncharts';
-import Charts from 'fusioncharts/fusioncharts.charts'
-Vue.use(VueFusionCharts, FusionCharts, Charts);
-
-
 import VueApexCharts from 'vue-apexcharts'
 Vue.use(VueApexCharts)
 Vue.component('apexchart', VueApexCharts)

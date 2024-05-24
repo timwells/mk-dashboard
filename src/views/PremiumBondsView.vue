@@ -46,8 +46,7 @@ const cols = [
 export default ({
 	components: {},
 	computed: {
-    	...mapState("pb", ["holders"]),
-		...mapState("wscrape", ["premiumBondsData"]),
+    	...mapState("pb", ["holders","premiumBondsData"]),
 		...mapGetters("pb", ['getHoldersQry','getHolderValue','getHolderWinRate']),
 	},
 	watch: {
@@ -58,7 +57,7 @@ export default ({
 			}
 		},
 		holders(nn,prv) {
-			this.$store.dispatch("wscrape/getPremiumBondsData",{ holders: this.getHoldersQry });
+			this.$store.dispatch("pb/getPremiumBondsData",{ holders: this.getHoldersQry });
 		}
 	},
 	data() {
@@ -84,5 +83,5 @@ export default ({
 </script>
 
 <style>
-.ant-table-thead > tr > th, .ant-table-tbody > tr > td { padding: 8px 8px; }
+	.ant-table-thead > tr > th, .ant-table-tbody > tr > td { padding: 8px 8px; }
 </style>

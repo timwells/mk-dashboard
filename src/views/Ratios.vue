@@ -1,13 +1,6 @@
 <template>
 	<div>
 		<a-row :gutter="24" type="flex">
-			<fusioncharts
-				type="pie2d"
-				width="500"
-				height="300"
-				dataFormat='json'
-				:dataSource="dataSource">
-			</fusioncharts>
 			<!--div ref="shillerPE" :style="{ width: '100%', height: '450px' }"></div-->
 		</a-row>
 		<a-row :gutter="24" type="flex">
@@ -70,15 +63,12 @@ import {
 	EWatermarkPosition
 } from 'scichart';
 
-
-
-
 export default ({
 	components: {
 	},
 	computed: {
-    	...mapState("wscrape", ["mtplDataSets"]),
-		...mapGetters("wscrape",["gMtplDataSetExists"]),
+    	...mapState("mtpl", ["mtplDataSets"]),
+		...mapGetters("mtpl",["gMtplDataSetExists"]),
 	},
 	watch: {
 		mtplDataSets(o,n) {
@@ -125,24 +115,6 @@ export default ({
     },
 	data() {
 		return {
-        	dataSource: [
-				{
-					"label": "Equity",
-					"value": "300000"
-				}, {
-					"label": "Debt",
-					"value": "230000"
-				}, {
-					"label": "Bullion",
-					"value": "180000"
-				}, {
-					"label": "Real-estate",
-					"value": "270000"
-				}, {
-					"label": "Insurance",
-					"value": "20000"
-				}],
-
 			xValues:[],
 			yValues: [],			
 			sciCSObj: null, // Initialize the SciChartSurface variable,
@@ -252,7 +224,7 @@ export default ({
 	},
 	async mounted() {
 		// this.initSciChart();
-		this.$store.dispatch("wscrape/getMtplData",{ds: DS_SHILLER_PE});
+		this.$store.dispatch("mtpl/getMtplData",{ds: DS_SHILLER_PE});
 		//this.$store.dispatch("wscrape/getMtplData",{ds: DS_SP500_PE})
 		//this.$store.dispatch("wscrape/getMtplData",{ds: DS_1YR_TREASURY_RATE})
 		//this.$store.dispatch("wscrape/getMtplData",{ds: DS_10YR_TREASURY_RATE})

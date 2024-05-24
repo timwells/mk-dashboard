@@ -102,8 +102,8 @@
 </template>
 
 <script>
-import CardChartInfoIframe from '@/components/Cards/CardChartInfoIframe';
 import { mapState } from "vuex";
+import CardChartInfoIframe from '@/components/Cards/CardChartInfoIframe';
 
 export default ({
 	props: {
@@ -121,11 +121,10 @@ export default ({
 		}
 	},
 	components: {
-		// CardChartInfo,
 		CardChartInfoIframe
 	},
 	computed: {
-		...mapState("wscrape", ["fundDetail"])
+		...mapState("funds", ["fundDetail"])
 	},
 	data() {
 		return {
@@ -161,7 +160,6 @@ export default ({
       		clearFilters();
       		this.searchText = "";
     	},
-		// rowSelection() {}
   	}
 })
 

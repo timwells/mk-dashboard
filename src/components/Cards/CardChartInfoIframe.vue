@@ -34,6 +34,7 @@
 									<template slot="weight" slot-scope="weight">
 										<p class="m-0 font-regular text-muted">{{ weight }}</p>
 									</template>
+
 								</a-table>
 							</div>
 						</a-card>
@@ -121,7 +122,8 @@ const hCols = [{
 ]
 
 // "performance":[{"period":"26/02/19 to 26/02/20","retn":"4.66%"},
-const pCols = [{
+const pCols = [
+	{
 		title: 'Period',
 		dataIndex: 'period',
 		width: 140, 
@@ -162,16 +164,16 @@ const cCols = [{
 
 export default ({
 	props: {
-		title: { type: String, default: "" },
-		fund: { type: String, default: "" },
-		sedol: { type: String, default: "" },
-		citicode: { type: String, default: ""},
-		holdings: {type: Array},
+		title:       { type: String, default: "" },
+		fund:        { type: String, default: "" },
+		sedol:       { type: String, default: "" },
+		citicode:    { type: String, default: ""},
+		holdings:    {type: Array},
 		performance: {type: Array}
 	},
 	computed: {
-    	...mapState("wscrape", ["fundDetails"]),
-		...mapGetters("wscrape",["gfundDetail"]),
+    	...mapState("funds", ["fundDetails"]),
+		...mapGetters("funds",["gfundDetail"]),
 	},
 	watch: {
 		fundDetails(o,n) {
@@ -195,12 +197,11 @@ export default ({
 
 	},
 	mounted() {
-		this.$store.dispatch("wscrape/getFundDetail",{fund: this.fund });
+		this.$store.dispatch("funds/getFundDetail",{fund: this.fund });
 	}
 })
 
 // https://webfund6.financialexpress.net/clients/Hargreaves/chartbuilder.aspx?codes=FKSFU&color=f65d1a&hide=&span=M60&plotSingleAsPrice=true&totalReturn=false&yAxisLabel=_
-
 /*
 	data() {
 		return {

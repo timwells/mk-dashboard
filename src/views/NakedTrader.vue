@@ -220,7 +220,7 @@ export default ({
 		CardPriceInfo
 	},
 	computed: {
-		...mapState("wscrape", ["nakedTrades","nakedArchives","nakedArchiveContent"]),
+		...mapState("nt", ["nakedTrades","nakedArchives","nakedArchiveContent"]),
 		...mapState("app", ["secrets"])
 	},
 	watch: {
@@ -265,13 +265,13 @@ export default ({
 			this.expandedIdList.push(id)
 		},
 		getArchiveContent(href){
-			this.$store.dispatch("wscrape/getNakedArchiveContent",{content:href});
+			this.$store.dispatch("nt/getNakedArchiveContent",{content:href});
 		}
 	},	
 	mounted() {
 		this.loading = true;
-		this.$store.dispatch("wscrape/getNakedTrades");
-		this.$store.dispatch("wscrape/getNakedArchives");
+		this.$store.dispatch("nt/getNakedTrades");
+		this.$store.dispatch("nt/getNakedArchives");
 	}
 })
 </script>

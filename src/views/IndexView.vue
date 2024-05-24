@@ -6,7 +6,7 @@
 					<a-table
 						:loading="loading"
 						:columns="cols"
-						:data-source="hlIndexData" 
+						:data-source="indexData" 
 						:pagination="pagination"
 						:rowKey="(record,index) => index"
 						@expand="onExpand"
@@ -73,11 +73,11 @@ const cols = [
 export default ({
 	components: {},
 	computed: {
-		...mapState("wscrape", ["hlIndexData"]),
+		...mapState("funds", ["indexData"]),
 		...mapState("app", ["secrets"])
 	},
 	watch: {
-        hlIndexData(nn, prv) {
+        indexData(nn, prv) {
 			if(nn.length > 0) this.loading = false;
 		},
 	},
@@ -257,7 +257,7 @@ export default ({
 		}
 	},
 	mounted() {
-        this.$store.dispatch("wscrape/getHLIndexData")
+        this.$store.dispatch("funds/getIndexData")
 	},
 	methods: {
 		fullSymbol(epic) {

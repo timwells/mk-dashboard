@@ -116,7 +116,7 @@ export default ({
 		WidgetIntrinsicCalculator
 	},
 	computed: {
-    	...mapState("wscrape", ["dividendData"])	
+    	...mapState("divd", ["dividendData"])	
 	},
 	watch: {
         dividendData(o,n) {
@@ -158,7 +158,7 @@ export default ({
 	},	
 	mounted() {
 		this.loading = true
-		this.$store.dispatch("wscrape/getDividendData")
+		this.$store.dispatch("divd/getDividendData")
 	}
 })
 </script>
