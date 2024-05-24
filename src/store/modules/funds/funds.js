@@ -1,11 +1,17 @@
 import axios from "axios";
-import { genericGet } from "../common/c.js"
+import {
+  APP_CLOUD_FUNCTION_URL, 
+  APP_FINTECH_HEADERS,
+
+  genericGet
+} from "../common/c.js"
+
 const FILTER_ACCUMULATION = "Accumulation"
 
 const state = {
   funds: null,
   details: null,
-
+  fundDetails: [],
   indexData: []
 }
 
@@ -15,7 +21,8 @@ const getters = {
 
 const mutations = {
     SET_FUNDS: (state, payload) => (state.funds = payload),
-    SET_INDEX_MODELS: (state,payload) => (state.indexData = payload)
+    SET_INDEX_MODELS: (state,payload) => (state.indexData = payload),
+    SET_FUND_DETAILS: (state, payload) => state.fundDetails.push(payload),
 };
 
 const actions = {
@@ -34,6 +41,11 @@ const actions = {
   async getIndexData({ commit }) {
     await genericGet(`/fintech/v1/scrape/hlindex/indexes`,"SET_INDEX_MODELS",[],{ commit })
   },
+  async getFundDetail({ commit }, { fund }) {
+    axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/hlfund/details?fund=${fund}`, { headers: APP_FINTECH_HEADERS })
+      .then(response => { commit("SET_FUND_DETAILS", response.data) })
+  },
+
 }
 
 export default {

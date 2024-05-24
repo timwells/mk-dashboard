@@ -7,7 +7,7 @@ import {
 } from "../common/c.js"
 
 const state = {
-  fundDetails: [],
+  // fundDetails: [],
 
   dataroma: [],
   dataromaHoldingsMap: [],
@@ -66,10 +66,12 @@ const mutations = {
 };
 
 const actions = {
+/*
   async getFundDetail({ commit }, { fund }) {
     axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/hlfund/details?fund=${fund}`, { headers: APP_FINTECH_HEADERS })
       .then(response => { commit("SET_FUND_DETAILS", response.data) })
   },
+*/
   async getDataroma({ commit }) {
     await genericGet(`/fintech/v1/scrape/dataroma`,"SET_DATAROMA",[],{commit})
   },
