@@ -5,11 +5,18 @@ import App from './App.vue'
 import DefaultLayout from './layouts/Default.vue'
 import DashboardLayout from './layouts/Dashboard.vue'
 import DashboardRTLLayout from './layouts/DashboardRTL.vue'
+
 import router from './router'
 import store from "@/store";
 import './scss/app.scss';
 
 Vue.use(Antd);
+
+import VueFusionCharts from 'vue-fusioncharts';
+import FusionCharts from 'fusioncharts';
+import Charts from 'fusioncharts/fusioncharts.charts'
+Vue.use(VueFusionCharts, FusionCharts, Charts);
+
 
 import VueApexCharts from 'vue-apexcharts'
 Vue.use(VueApexCharts)

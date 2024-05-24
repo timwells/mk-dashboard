@@ -100,14 +100,18 @@ async function genericGet(subPath,service,init,{commit}) {
 
 const actions = {
   async getMtplData({ commit },{ ds }) {
-    const index = state.mtplDataSets.findIndex(obj => obj[ds] === ds);
+    // const index = state.mtplDataSets.findIndex(obj => {
+    //    console.log(obj.ds);
+    //    return (obj.ds === ds);
+    //});
 
-    if(index == -1) {
+    // console.log('getMtplData',ds,index)
+    // if(index === -1) {
       axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/mtpl/dataset?ds=${ds}`, { headers: HEADERS })
         .then(response => { 
           console.log(response.data)
           commit("SET_MTPL_DATA", response.data) })
-    }
+    //}
   },
   async getFundDetail({ commit }, { fund }) {
     axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/hlfund/details?fund=${fund}`, { headers: HEADERS })

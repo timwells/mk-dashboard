@@ -48,7 +48,13 @@ async function scanTest2 () {
         cols.each((j, col) => {
             let entity = $(col).text().replace(/[\n|\t]/gm, '').trimStart().trimEnd()
             switch(j) {
-                case 0: obj.date = moment(entity, 'MMM DD, YYYY').format('YYYY-MM-DD'); break;
+
+                case 0: {
+                    obj.dts = moment(entity, 'MMM DD, YYYY').format('YYYY-MM-DD'); 
+                    obj.dto = Date.parse(obj.dts);
+                    console.
+                    break;
+                }
                 case 1: obj.value = parseFloat(entity.replace("%","").replace("†","")); break;
                 default: break;
             }
