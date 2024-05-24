@@ -44,7 +44,7 @@ const state = {
 const getters = {
   holdings: (state) => (key) => state.dataromaHoldingsMap.find((holding) => (holding.key === key)),
   gfundDetail: (state) => (sedol) => state.fundDetails.find((fd) => (fd.sedol === sedol)),
-  gMtplDataSet: (state) => (dsName) => state.mtplDataSets.findIndex((d) => (d.ds === dsName))
+  gMtplDataSetExists: (state) => (dsName) => state.mtplDataSets.findIndex((d) => (d.ds === dsName)),
 }
 
 
