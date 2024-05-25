@@ -18,21 +18,28 @@ let routes = [
 		path: '/dashboard',
 		name: 'Dashboard',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue'),
+		component: () => import('../views/Dashboard.vue'),
+		meta: { requiresAuth: true }
+	},
+	{
+		path: '/dcf',
+		name: 'DCF',
+		layout: "dashboard",
+		component: () => import('../views/DCFNoteView.vue'),
 		meta: { requiresAuth: true }
 	},
 	{
 		path: '/market-ratios',
 		name: 'Ratios',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "dashboard" */ '../views/Ratios.vue'),
+		component: () => import('../views/Ratios.vue'),
 		meta: { requiresAuth: true }
 	},	
 	{
 		path: '/hl-index',
 		name: 'HLi',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "funds" */'../views/IndexView.vue'),
+		component: () => import('../views/IndexView.vue'),
 		meta: { requiresAuth: true }
 	},/*{
 		path: '/layout',
@@ -44,37 +51,37 @@ let routes = [
 		path: '/premium-bonds',
 		name: 'P.Bonds',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "funds" */'../views/PremiumBondsView.vue'),
+		component: () => import('../views/PremiumBondsView.vue'),
 		meta: { requiresAuth: true }
 	},{
 		path: '/fed-insights',
 		name: 'FEDi',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "funds" */'../views/FedInsightsView.vue'),
+		component: () => import('../views/FedInsightsView.vue'),
 		meta: { requiresAuth: true }
 	},{
 		path: '/models',
 		name: 'Models',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "funds" */'../views/Models.vue'),
+		component: () => import('../views/Models.vue'),
 		meta: { requiresAuth: true }
 	},{
 		path: '/stock-watch',
 		name: 'Stock Watch',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "funds" */'../views/StockWatch.vue'),
+		component: () => import('../views/StockWatch.vue'),
 		meta: { requiresAuth: true }
 	},{
 		path: '/dividend-data',
 		name: 'Dividends',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "funds" */'../views/DividendData.vue'),
+		component: () => import('../views/DividendData.vue'),
 		meta: { requiresAuth: true }
 	},{
 		path: '/boe-irates',
 		name: 'BoE-IRates',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "funds" */'../views/BoE.vue'),
+		component: () => import('../views/BoE.vue'),
 		meta: { requiresAuth: true }
 	},
 	/*{
@@ -118,7 +125,7 @@ let routes = [
 		path: '/trades',
 		name: 'Trades',
 		layout: "dashboard",
-		component: () => import(/* webpackChunkName: "naked-trades" */ '../views/NakedTrader.vue'),
+		component: () => import('../views/NakedTrader.vue'),
 		meta: { requiresAuth: true }
 	},{
 		path: '/dataroma',

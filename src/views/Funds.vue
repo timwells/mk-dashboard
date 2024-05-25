@@ -2,7 +2,7 @@
 	<div>
 		<!-- Funds Table -->
 		<!--pre>{{ funds }}</pre-->
-		<a-row :gutter="24" type="flex">
+		<a-row :gutter="24" type="stretch">
 			<a-col :span="24" class="mb-24">
 				<!--pre style="color:blue">{{funds}}</pre-->
 				<CardFundsTable 

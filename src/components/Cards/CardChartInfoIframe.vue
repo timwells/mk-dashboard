@@ -1,19 +1,19 @@
 <template>
 	<div>
 		<a-row :gutter="24" type="flex" align="stretch">
-			<a-col :span="12" :xl="12">
+			<a-col :span="24" :xl="24">
 				<a-tabs default-active-key="0">
 					<a-tab-pane key="0" tab="Chart">
 						<div v-if="details(sedol) !=null" class="card-content" >
-							<a :href="details(sedol).href" target="_blank">{{details(sedol).name }}</a>
+							<h5><a :href="details(sedol).href" target="_blank">{{details(sedol).name }}</a></h5>
 							<div>
 								<span class="price-divide">Bid:{{details(sedol).bidPrice}}</span>
 								<span class="price-divide">Ask:{{details(sedol).askPrice}}</span>
 								<span class="price-divide"><img :src="details(sedol).changeArrow"/></span>
 								<span class="price-divide">{{details(sedol).changeAmount}}</span>
 								<span class="price-divide">Type:{{details(sedol).type }}</span>
-								<span class="price-divide">netIC:{{details(sedol).netIC}}</span>							
-								<span class="price-divide">netAC:{{details(sedol).netAC}}</span>
+								<span class="price-divide">netIC:{{details(sedol).netIC}}%</span>							
+								<span class="price-divide">netAC:{{details(sedol).netAC}}%</span>
 							</div>
 							<img :src="chart" height="300" width="100%">
 						</div>

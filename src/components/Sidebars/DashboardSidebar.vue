@@ -38,6 +38,7 @@
 const sidebarItems= [
 
 	{title: "Markets", linkTo: "/dashboard"},
+	{title: "DCF Notes", linkTo: "/dcf"},
 	{title: "Ratios",linkTo: "/market-ratios"},
 
 	{title: "Funds",linkTo: "/funds"},
