@@ -6,6 +6,7 @@ const axios = require('axios');
 const express = require('express');
 const cors = require('cors');
 const app = express();
+
 const { config } = require("./config");
 
 const VERSION = "1.0.18";
@@ -21,6 +22,7 @@ const isApiKeyValid = (request,keyName,apiKeys) => {
 
 // Automatically allow cross-origin requests
 app.use(cors({ origin: true }));
+app.use(express.json());
 
 app.get('/version', (request, response) => { response.send(VERSION) })
 
@@ -46,6 +48,14 @@ app.get('/v1/scrape/:site/:service', (request, response) => {
         siteServices[service](request,response)
         
     } else unauthorized(response)
+})
+
+app.post('/v1/dcf/:model', (request, response) => {
+    if(isApiKeyValid(request,API_KEY_NAME,config.apiKeys)) {
+        let model = request.params.model;
+        let modelServices = require(`./dcf/dcf.js`)
+        modelServices[model](request,response)
+    }
 })
 
 // Expose Express API as a single Cloud Function:
