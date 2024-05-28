@@ -49,6 +49,11 @@
         <pre v-if="dcf">{{dcf}}</pre>
       </a-col> 
     </a-row>
+    <a-row>
+      <a-col :span="24" class="mb-24">
+        <pre v-if="financials">{{financials}}</pre>
+      </a-col>
+    </a-row> 
   </div>
 </template>
 
@@ -69,6 +74,7 @@ export default ({
 	components: {},
   computed: {
     ...mapState("dcf", ["dcf"]),
+    ...mapState("san", ["financials"]),
   },
   data() { 
     return {
@@ -91,9 +97,12 @@ export default ({
     this.form.validateFields((err, values) => {
       if (!err) { console.log('Received values of form: ', values)}
   	    this.$store.dispatch("dcf/postDCF",{dcf:values});
-    })
+      })
+    },
   },
-  }    
+	mounted() {
+    this.$store.dispatch("san/getFinancials",{exchange:"LON", symbol:"I3E"});
+  }
 })
 </script>
 
