@@ -55,7 +55,7 @@ const holdingsCols = [
 	{ title: 'Week High', dataIndex: 'weekHigh', scopedSlots: { customRender: 'weekHigh' }}
 ];
 
-import { mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 
 export default ({
 	props: {

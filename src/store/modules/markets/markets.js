@@ -18,7 +18,7 @@ const actions = {
     get(child(ref(getDatabase()), `root/fundinfo`))
       .then((snapshot) => {
         commit("SET_MARKETS", null);
-        if (snapshot.exists()) { console.log(snapshot.val()); commit("SET_MARKETS", snapshot.val());}
+        if (snapshot.exists()) { commit("SET_MARKETS", snapshot.val());}
       })
       .catch((error) => { console.error(error); });
   }

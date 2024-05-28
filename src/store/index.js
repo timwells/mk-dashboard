@@ -20,6 +20,7 @@ import fedinfo from "./modules/fedinfo/fedinfo"
 import nt from "./modules/nt/nt"
 import divd from "./modules/divd/divd"
 import mtpl from "./modules/mtpl/mtpl"
+import dcf from "./modules/dcf/dcf"
 
 Vue.use(Vuex);
 
@@ -34,6 +35,7 @@ export default new Vuex.Store({
     divd,
     mtpl,
     crypto, stockwatch, pb,
-    fedinfo
+    fedinfo,
+    dcf
   }
 });
