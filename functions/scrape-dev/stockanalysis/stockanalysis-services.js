@@ -3,9 +3,12 @@ const axios = require('axios')
 const c = require('../common/c');
 
 const I3E = "https://stockanalysis.com/quote/lon/I3E/financials/"
+const I3E_CASHFLOW = "https://stockanalysis.com/quote/lon/I3E/financials/cash-flow-statement/"
+
 const PRU = "https://stockanalysis.com/quote/lon/PRU/financials/"
 
-const STOCK = PRU
+const STOCK = I3E_CASHFLOW
+
 // const STOCK = I3E
 async function scanStock2() {
     let path = STOCK
@@ -80,6 +83,9 @@ async function scanStock2() {
                 let parsedData;
                 try {
                     parsedData = JSON.parse(stage6);
+                    if(parsedData.length === 3) {
+                    console.log(parsedData[2])
+                    }
                     // console.log(parsedData)
                     await c.writeFileAsync(`./parsedData.json`,JSON.stringify(parsedData));
                 }
@@ -118,7 +124,8 @@ async function scanStock3() {
                 dmMatch = dataRegex.exec(scripts[i])
                 let stage1 = dmMatch[1]
                 // Remove  'theme: void 0,'
-                let stage2 = stage1.replace(/theme:void 0,/g, '');
+                // let stage2 = stage1.replace(/theme:void 0,/g, '');
+                let stage2 = stage1.replace(/void 0/g, 'null');
                 // Quote Attributes
                 let stage3 = stage2.replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)(\s*:)/g, 
                     (match, p1, p2, p3) => {
@@ -129,18 +136,25 @@ async function scanStock3() {
                     });
                 // Resolve .Number and -.Number
                 // let stage4 = stage3.replace(/(?<=\[|,)(-?)(\.\d+)/g, '$10$2');
-                let stage4 = stage3.replace(/(\.\d+)/g, 
-                    (match, p1) => { 
-                        // console.log(`${p1} => 0${p1}`)
-                        return `0${p1}` 
-                    }
-                )
-
+                let stage4 = stage3.replace(/(\d+\.\d+)|(-\.\d+)|(\.\d+)/g, (match, p1,p2, p3) => {
+                    // (\d+\.\d+) - Do not change
+                    if(typeof p1 !== 'undefined') return p1;
+                    
+                    // (-\.\d+) resolve -.nnn
+                    if(typeof p2 !== 'undefined') return `-0.${p2.split(".")[1]}`
+        
+                    // (\.\d+) resolve .nnn
+                    if(typeof p3 !== 'undefined') return `0.${p3.split(".")[1]}`
+                })   
+                
+            
                 // Parse JSON Obj
                 let parsedData;
                 try {
                     parsedData = JSON.parse(stage4);
-                    console.log(parsedData)
+                    if(parsedData.length === 3) {
+                        console.log(parsedData[2])
+                    }
                 }
                 catch(error) {console.log(error.message)}                
             }
@@ -148,6 +162,67 @@ async function scanStock3() {
     }
     catch (error) { console.log(error.message) }
 }
+
+async function scanFinancialRecords(path,name) {
+    try {
+        let { data } = await axios.get(path)
+        // Match script tags and their content
+        const scriptRegex = /<script\b[^>]*>([\s\S]*?)<\/script>/gi;
+        // Match data and content
+        const dataRegex = /const data =([\s\S]*?);/
+
+        let match;
+        let scripts = []
+        while ((match = scriptRegex.exec(data)) !== null) {
+            const scriptContent = match[1];
+            scripts.push(scriptContent.trimStart().trimEnd())
+        }
+
+        let dmMatch;
+        for(let i = 0; i < scripts.length; i++) {
+            let bR = dataRegex.test(scripts[i]);
+            if(bR) { // If matches data regex
+                dmMatch = dataRegex.exec(scripts[i])
+                let stage1 = dmMatch[1]
+                // Remove  'theme: void 0,'
+                // let stage2 = stage1.replace(/theme:void 0,/g, '');
+                let stage2 = stage1.replace(/void 0/g, 'null');
+                // Quote Attributes
+                let stage3 = stage2.replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)(\s*:)/g, 
+                    (match, p1, p2, p3) => {
+                        // Add quotes around the key if it doesn't start with a digit
+                        if (!/^\d/.test(p2)) { return `${p1}"${p2}"${p3}`; }
+                            // Return the original match if the key starts with a digit                        
+                        return match; 
+                    });
+                // Resolve .Number and -.Number
+                let stage4 = stage3.replace(/(\d+\.\d+)|(-\.\d+)|(\.\d+)/g, (match, p1,p2, p3) => {
+                    // (\d+\.\d+) - Do not change
+                    if(typeof p1 !== 'undefined') return p1;
+                    
+                    // (-\.\d+) resolve -.nnn
+                    if(typeof p2 !== 'undefined') return `-0.${p2.split(".")[1]}`
+        
+                    // (\.\d+) resolve .nnn
+                    if(typeof p3 !== 'undefined') return `0.${p3.split(".")[1]}`
+                })   
+                       
+                // Parse JSON Obj
+                let parsedData;
+                try {
+                    parsedData = JSON.parse(stage4);
+                    if(parsedData.length === 3) {
+                        console.log(parsedData[2])
+                        await c.writeFileAsync(`./${name}.json`,JSON.stringify(parsedData[2]));
+                    }
+                }
+                catch(error) {console.log(error.message)}                
+            }
+        }
+    }
+    catch (error) { console.log(error.message) }
+}
+
 
 async function scanStock4() {
     let jsonData = `{
@@ -224,9 +299,30 @@ async function scanStock4() {
         console.log(e.message);
     }
 }
+
+
+async function scanFinancials(){
+    let fd = 
+    [
+        { path:"https://stockanalysis.com/quote/lon/I3E/financials/",
+            name:"income" },
+        { path:"https://stockanalysis.com/quote/lon/I3E/financials/cash-flow-statement/",
+            name:"cash-flow-statement" },
+        { path:"https://stockanalysis.com/quote/lon/I3E/financials/balance-sheet/",
+            name:"balance-sheet" },
+        { path:"https://stockanalysis.com/quote/lon/I3E/financials/ratios/",
+            name:"ratios" }
+    ]
+
+    for(i=0; i<fd.length; i++){
+        await scanFinancialRecords(fd[i].path, fd[i].name)
+    }
+}
+
 module.exports = {
     scanStock2,
     scanStock3,
-    scanStock4
+    scanStock4,
+    scanFinancials
 }
 

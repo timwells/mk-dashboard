@@ -1,0 +1,626 @@
+{
+    "type": "data",
+    "data": {
+        "info": {
+            "type": "any",
+            "subtype": "stock",
+            "state": "normal",
+            "symbol": "I3E",
+            "db_symbol": "LON-I3E",
+            "baseurl": "/quote/lon/I3E",
+            "list_slug": "london-stock-exchange",
+            "exchange": "LON",
+            "exchange_code": "LON",
+            "nameFull": "i3 Energy Plc",
+            "name": "i3 Energy",
+            "exchange_full": "London Stock Exchange",
+            "exchange_symbol": "LON: I3E",
+            "country": "London",
+            "country_short": "UK",
+            "quote": {
+                "c": 0.38,
+                "cdr": 1,
+                "cl": 10.92,
+                "cp": 3.48,
+                "days": 0,
+                "e": false,
+                "ec": null,
+                "ecp": null,
+                "ep": null,
+                "epd": null,
+                "es": null,
+                "eu": null,
+                "ex": "LON",
+                "exp": null,
+                "h": 11.44,
+                "h52": 19.9,
+                "l": 10.6,
+                "l52": 8.25,
+                "mc": 135876850,
+                "ms": "open",
+                "o": 11.06,
+                "p": 11.3,
+                "pd": 11.3,
+                "symbol": "lon-i3e",
+                "td": "2024-05-29",
+                "ts": 1716997760000,
+                "u": "May 29, 2024, 4:49 PM GMT+1",
+                "uid": "symbols/LON-I3E",
+                "v": 4189682
+            },
+            "archived": false,
+            "market_time": {
+                "time_zone_full": "Europe/London",
+                "open_hour": 8,
+                "open_minute": 0,
+                "close_hour": 16,
+                "close_minute": 30
+            },
+            "apiext": ".L",
+            "curr": {
+                "dividend": "GBP",
+                "financial": "GBP",
+                "main": "GBP",
+                "price": "GBp"
+            },
+            "uid": "symbols/LON-I3E",
+            "symbol_news": "ITEEF",
+            "features": {
+                "chart": true,
+                "dividend": true,
+                "financials": true,
+                "market_cap": true,
+                "revenue": true
+            }
+        },
+        "statement": "income-statement",
+        "period": "annual",
+        "heading": "Income Statement",
+        "title": "i3 Energy (LON: I3E) Financials - Income Statement",
+        "description": "Detailed annual and quarterly income statement for i3 Energy (LON: I3E). See many years of revenue, expenses and profits or losses.",
+        "url": "/quote/lon/I3E/financials/",
+        "map": [
+            {
+                "id": "revenue",
+                "title": "Revenue",
+                "class": "font-semibold",
+                "url": "revenue"
+            },
+            {
+                "id": "revenueGrowth",
+                "title": "Revenue Growth (YoY)",
+                "format": "growth",
+                "class": "border-b border-gray-300 dark:border-gray-600 text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "cor",
+                "title": "Cost of Revenue",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "gp",
+                "title": "Gross Profit",
+                "class": "font-semibold border-b border-gray-300 dark:border-gray-600"
+            },
+            {
+                "id": "selling",
+                "title": "Selling & Marketing",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "gna",
+                "title": "General & Administrative",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "sgna",
+                "title": "Selling, General & Admin",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "rnd",
+                "title": "Research & Development",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "otheropex",
+                "title": "Other Operating Expenses",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "opex",
+                "title": "Operating Expenses"
+            },
+            {
+                "id": "opinc",
+                "title": "Operating Income",
+                "class": "font-semibold border-b border-gray-300 dark:border-gray-600"
+            },
+            {
+                "id": "intexp",
+                "title": "Interest Expense / Income"
+            },
+            {
+                "id": "interestIncome",
+                "title": "Interest Income"
+            },
+            {
+                "id": "interestExpense",
+                "title": "Interest Expense"
+            },
+            {
+                "id": "otherincome",
+                "title": "Other Expense / Income",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "pretax",
+                "title": "Pretax Income",
+                "class": "font-semibold"
+            },
+            {
+                "id": "taxexp",
+                "title": "Income Tax",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "netinc",
+                "title": "Net Income",
+                "class": "bolded"
+            },
+            {
+                "id": "prefdivis",
+                "title": "Preferred Dividends",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "netinccmn",
+                "title": "Net Income Common",
+                "class": "font-semibold"
+            },
+            {
+                "id": "netIncomeGrowth",
+                "title": "Net Income Growth",
+                "format": "growth",
+                "class": "border-b border-gray-300 dark:border-gray-600 text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "shareswa",
+                "title": "Shares Outstanding (Basic)",
+                "format": "reduce_precision"
+            },
+            {
+                "id": "shareswadil",
+                "title": "Shares Outstanding (Diluted)",
+                "format": "reduce_precision",
+                "class": "font-semibold"
+            },
+            {
+                "id": "sharesYoY",
+                "title": "Shares Change",
+                "format": "inverted-growth",
+                "class": "border-b border-gray-300 dark:border-gray-600 text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "eps",
+                "title": "EPS (Basic)",
+                "format": "pershare"
+            },
+            {
+                "id": "epsdil",
+                "title": "EPS (Diluted)",
+                "format": "pershare",
+                "class": "font-semibold"
+            },
+            {
+                "id": "epsGrowth",
+                "title": "EPS Growth",
+                "format": "growth",
+                "class": "border-b border-gray-300 dark:border-gray-600 text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "ncfo",
+                "title": "Operating Cash Flow"
+            },
+            {
+                "id": "fcf",
+                "title": "Free Cash Flow",
+                "class": "font-semibold"
+            },
+            {
+                "id": "fcfGrowth",
+                "title": "Free Cash Flow Growth",
+                "format": "growth",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "fcfps",
+                "title": "Free Cash Flow Per Share",
+                "format": "pershare",
+                "class": "border-b"
+            },
+            {
+                "id": "dps",
+                "title": "Dividend Per Share",
+                "format": "divpershare",
+                "class": "font-semibold"
+            },
+            {
+                "id": "dividendGrowth",
+                "title": "Dividend Growth",
+                "format": "growth",
+                "class": "border-b border-gray-300 dark:border-gray-600 text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "grossMargin",
+                "title": "Gross Margin",
+                "format": "percentage"
+            },
+            {
+                "id": "operatingMargin",
+                "title": "Operating Margin",
+                "format": "percentage"
+            },
+            {
+                "id": "profitMargin",
+                "title": "Profit Margin",
+                "format": "percentage"
+            },
+            {
+                "id": "fcfMargin",
+                "title": "Free Cash Flow Margin",
+                "format": "percentage"
+            },
+            {
+                "id": "taxrate",
+                "title": "Effective Tax Rate",
+                "format": "percentage",
+                "class": "border-b border-gray-300 dark:border-gray-600"
+            },
+            {
+                "id": "ebitda",
+                "title": "EBITDA",
+                "class": "font-semibold"
+            },
+            {
+                "id": "ebitdaMargin",
+                "title": "EBITDA Margin",
+                "format": "percentage",
+                "class": "border-b border-gray-300 dark:border-gray-600 text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "depamor",
+                "title": "Depreciation & Amortization",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "ebit",
+                "title": "EBIT",
+                "class": "font-semibold"
+            },
+            {
+                "id": "ebitMargin",
+                "title": "EBIT Margin",
+                "format": "percentage",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            }
+        ],
+        "financialData": {
+            "datekey": [
+                "TTM",
+                "2023-12-31",
+                "2022-12-31",
+                "2021-12-31",
+                "2020-12-31",
+                "2019-12-31"
+            ],
+            "revenue": [
+                221174000,
+                146314000,
+                208436000,
+                86763000,
+                12991000,
+                0
+            ],
+            "revenueGrowth": [
+                null,
+                -0.29803872651557317,
+                1.402360453188571,
+                5.678700638903856,
+                null,
+                null
+            ],
+            "cor": [
+                166620000,
+                110303000,
+                113424000,
+                61127000,
+                13143000,
+                8742
+            ],
+            "gp": [
+                54554000,
+                36011000,
+                95012000,
+                25636000,
+                -152000,
+                -8742
+            ],
+            "sgna": [
+                15044000,
+                9975000,
+                14420000,
+                12979000,
+                5703000,
+                7459727
+            ],
+            "rnd": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "otheropex": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "opex": [
+                15044000,
+                9975000,
+                14420000,
+                12979000,
+                5703000,
+                7459727
+            ],
+            "opinc": [
+                39510000,
+                26036000,
+                80592000,
+                12657000,
+                -5855000,
+                -7468470
+            ],
+            "interestIncome": [
+                856000,
+                640000,
+                5695000,
+                5968000,
+                4842000,
+                3623000
+            ],
+            "interestExpense": [
+                8979000,
+                7595000,
+                5716000,
+                6342000,
+                4956000,
+                3622508
+            ],
+            "otherincome": [
+                1750000,
+                -1817000,
+                24794000,
+                -13461000,
+                -16577000,
+                3383201
+            ],
+            "pretax": [
+                29637000,
+                20898000,
+                55777000,
+                25744000,
+                10608000,
+                -10851177
+            ],
+            "taxexp": [
+                10368000,
+                5751000,
+                13826000,
+                661000,
+                -1110000,
+                -2
+            ],
+            "netinc": [
+                19269000,
+                15147000,
+                41951000,
+                25083000,
+                11718000,
+                -10851177
+            ],
+            "netIncomeGrowth": [
+                null,
+                -0.6389359014087864,
+                0.6724873420244788,
+                1.140552995391705,
+                null,
+                null
+            ],
+            "shareswa": [
+                1202447663,
+                1199155654,
+                1164210976,
+                883664352,
+                309889077,
+                80869438
+            ],
+            "shareswadil": [
+                1202447663,
+                1217252496,
+                1224348162,
+                965792812,
+                338989694,
+                80869438
+            ],
+            "sharesYoY": [
+                null,
+                -0.005795464248020021,
+                0.26771306100795456,
+                1.849032962046333,
+                3.191814638306254,
+                1.1249677882652351
+            ],
+            "eps": [
+                0.0161,
+                0.0126,
+                0.036,
+                0.0284,
+                0.0378,
+                -0.13
+            ],
+            "epsdil": [
+                0.0157,
+                0.0124,
+                0.0343,
+                0.026,
+                0.0346,
+                -0.13
+            ],
+            "epsGrowth": [
+                null,
+                -0.6384839650145773,
+                0.3192307692307692,
+                -0.24855491329479773,
+                null,
+                null
+            ],
+            "fcfps": [
+                0.03387423939797703,
+                0.017793350246701815,
+                0.016781174373176378,
+                0.011606008929376873,
+                -0.06498132654144936,
+                -0.324208967545935
+            ],
+            "fcf": [
+                40732000,
+                21659000,
+                20546000,
+                11209000,
+                -22028000,
+                -26218597
+            ],
+            "grossMargin": [
+                0.2466564786096015,
+                0.24612135544103778,
+                0.4558329655145944,
+                0.29547157198344914,
+                -0.011700407974751751,
+                null
+            ],
+            "operatingMargin": [
+                0.17863763371824898,
+                0.17794606121082057,
+                0.38665105835844094,
+                0.14588015628781853,
+                -0.4506966361327073,
+                null
+            ],
+            "profitMargin": [
+                0.08712145188855833,
+                0.10352392799048621,
+                0.20126561630428524,
+                0.2890978873482936,
+                0.9020090832114541,
+                null
+            ],
+            "fcfMargin": [
+                0.1841626954343639,
+                0.14803094714108014,
+                0.09857222360820588,
+                0.12919101460299898,
+                -1.6956354399199445,
+                null
+            ],
+            "taxrate": [
+                0.3498329790464622,
+                0.2751937984496124,
+                0.2478799505172383,
+                0.02567588564325668,
+                -0.10463800904977376,
+                null
+            ],
+            "ebitda": [
+                100587000,
+                67039000,
+                117598000,
+                35839000,
+                -787000,
+                -7459730
+            ],
+            "ebitdaMargin": [
+                0.4547867290006963,
+                0.4581858195388001,
+                0.5641923660020342,
+                0.41306778234961905,
+                -0.06058040181664229,
+                null
+            ],
+            "depamor": [
+                60948000,
+                41003000,
+                37006000,
+                23182000,
+                5068000,
+                8742
+            ],
+            "ebit": [
+                39639000,
+                26036000,
+                80592000,
+                12657000,
+                -5855000,
+                -7468472
+            ],
+            "ebitMargin": [
+                0.17922088491414,
+                0.17794606121082057,
+                0.38665105835844094,
+                0.14588015628781853,
+                -0.4506966361327073,
+                null
+            ]
+        },
+        "full_count": 9,
+        "details": {
+            "source": "fmp",
+            "fiscalYear": "January - December",
+            "fiscalYearShort": "Jan - Dec"
+        }
+    },
+    "uses": {
+        "search_params": [
+            "p"
+        ],
+        "params": [
+            "exchange",
+            "symbol",
+            "routes"
+        ],
+        "parent": 1
+    }
+}

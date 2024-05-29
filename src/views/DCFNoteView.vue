@@ -1,7 +1,34 @@
 <template>
     <div>
+      <a-tabs v-if="financials.length>0" default-active-key="1">
+        <a-tab-pane key="1" tab="income-statement">
+          <a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
+            <pre>{{ financials[0].data.statement }}</pre>
+            <pre>{{ financials[0].data.map }}</pre>
+          </a-card>
+        </a-tab-pane>
+        <a-tab-pane key="2" tab="cash-flow-statement">
+          <a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
+            <pre>{{ financials[1].data.statement }}</pre>
+            <pre>{{ financials[1].data.map }}</pre>
+          </a-card>
+        </a-tab-pane>
+        <a-tab-pane key="3" tab="balance-sheet">
+          <a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
+            <pre>{{ financials[2].data.statement }}</pre>
+            <pre>{{ financials[2].data.map }}</pre>
+          </a-card>
+        </a-tab-pane>
+        <a-tab-pane key="4" tab="ratios">
+          <a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
+            <pre>{{ financials[3].data.statement }}</pre>
+            <pre>{{ financials[3].data.map }}</pre>
+          </a-card>
+        </a-tab-pane>
+      </a-tabs>
 
-      <a-row :gutter="24" type="flex">
+
+      <!--a-row :gutter="24" type="flex">
 		    <a-col :span="24" class="mb-24">
           <a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
             <a-table
@@ -11,7 +38,7 @@
             </a-table>
           </a-card>
         </a-col>  
-        </a-row>
+      </a-row-->
       
       <a-row :gutter="24" type="flex">
 		    <a-col :span="12" class="mb-12">
@@ -65,20 +92,23 @@
         </a-card>
       </a-col> 
     </a-row>
-    <a-row>
+
+    <!--a-row>
       <a-col :span="12" class="mb-12">
-        <!--pre v-if="financials">{{financials[2].info.statement}}</pre-->
         <a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
           <pre v-if="financials">{{financials[2].data.info.quote}}</pre>
         </a-card>
       </a-col>
       <a-col :span="12" class="mb-12">
-        <!--pre v-if="financials">{{financials[2].info.statement}}</pre-->
         <a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
-          <pre v-if="financials">{{financials[2].data.financialData}}</pre>
+          <pre v-if="financials">{{financials.length}}</pre>
+          <pre v-if="financials">{{financials[0].data.statement}}</pre>
+          <pre v-if="financials">{{financials[1].data.statement}}</pre>
+          <pre v-if="financials">{{financials[2].data.statement}}</pre>
+          <pre v-if="financials">{{financials[3].data.statement}}</pre>
         </a-card>
       </a-col>
-    </a-row> 
+    </a-row--> 
   </div>
 </template>
 
@@ -153,9 +183,7 @@ const balanceSheetData = [
     y23: 1.7,
     y22: 22
   },
-
 ]
-
 
 export default ({
 	components: {},
@@ -167,6 +195,7 @@ export default ({
     return {
         formLayout: 'horizontal',
         form: this.$form.createForm(this),
+
         labelCol: { span: 8 },
         wrapperCol: { span: 4 },
 
