@@ -38,8 +38,16 @@ const financials = async (req, res) => {
                     })
 
                 // Resolve .Number and -.Number need leading '0'
-                let stage4 = stage3.replace(/(\.\d+)/g, 
-                    (match, p1) => { return `0${p1}`})
+                // let stage4 = stage3.replace(/(\.\d+)/g, (match, p1) => { return `0${p1}`})
+                let stage4 = stage3.replace(/(\d+\.\d+)|(-\.\d+)|(\.\d+)/g, (match, p1,p2, p3) => {
+                        // (\d+\.\d+) - Do not change
+                        if(typeof p1 !== 'undefined') return p1;
+                        // (-\.\d+) resolve -.nnn
+                        if(typeof p2 !== 'undefined') return `-0.${p2.split(".")[1]}`
+                        // (\.\d+) resolve .nnn
+                        if(typeof p3 !== 'undefined') return `0.${p3.split(".")[1]}`
+                })
+
                 // Parse / send JSON Obj
                 try {
                     res.status(200).json(JSON.parse(stage4))

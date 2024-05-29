@@ -1,57 +1,82 @@
 <template>
     <div>
+
+      <a-row :gutter="24" type="flex">
+		    <a-col :span="24" class="mb-24">
+          <a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
+            <a-table
+              :columns="balanceSheetCols"
+              :data-source="balanceSheetData"
+              class='table table-small' style="margin: 6;">
+            </a-table>
+          </a-card>
+        </a-col>  
+        </a-row>
+      
       <a-row :gutter="24" type="flex">
 		    <a-col :span="12" class="mb-12">
-          <a-form :form="form" @submit="handleSubmit">
-            <a-form-item label='Discount Rate' :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number
-                  v-decorator="[ 'discountRate', { initialValue: 0.1, 
-                    rules: [{ required: true, message: 'Error!'}]}]"/>
-            </a-form-item>
+          <a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
+            <a-form :form="form" @submit="handleSubmit">
+              <a-form-item label='Discount Rate' :labelCol="labelCol" :wrapperCol="wrapperCol">
+                <a-input-number
+                    v-decorator="[ 'discountRate', { initialValue: 0.1, 
+                      rules: [{ required: true, message: 'Error!'}]}]"/>
+              </a-form-item>
 
-            <a-form-item label='Growth Rate' :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number 
+              <a-form-item label='Growth Rate' :labelCol="labelCol" :wrapperCol="wrapperCol">
+                <a-input-number 
                   v-decorator="[ 'growthRate', { initialValue: 0.04, 
                     rules: [{ required: true, message: 'Error!'}]} ]"/>
-            </a-form-item>
-            
-            <a-form-item label='Term Growth Rate' :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number 
+              </a-form-item>
+              
+              <a-form-item label='Term Growth Rate' :labelCol="labelCol" :wrapperCol="wrapperCol">
+                <a-input-number 
                   v-decorator="[ 'terminalGrowthRate', { initialValue: 0.02, 
                     rules: [{ required: true, message: 'Error!'}]} ]"/>        
-            </a-form-item>
+              </a-form-item>
 
-            <a-form-item label='Shares Outstanding' :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number 
+              <a-form-item label='Shares Outstanding' :labelCol="labelCol" :wrapperCol="wrapperCol">
+                <a-input-number 
                   v-decorator="[ 'sharesOutstanding', { initialValue: 1200000000, 
                     rules: [{ required: true, message: 'Error!'}]} ]"/>      
-            </a-form-item>
+              </a-form-item>
 
-            <a-form-item label='Net Debt' :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number 
+              <a-form-item label='Net Debt' :labelCol="labelCol" :wrapperCol="wrapperCol">
+                <a-input-number 
                   v-decorator="[ 'netDebt', { initialValue: 10961000,
-                      rules: [{ required: true, message: 'Error!'}]} ]"/>     
-            </a-form-item>
+                    rules: [{ required: true, message: 'Error!'}]} ]"/>     
+              </a-form-item>
 
-            <a-form-item
-              label='Free Cash Flow' :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-input-number 
-                  v-decorator="[ 'fcf', 
-                    { initialValue: 28841000, rules: [{ required: true, message: 'Error!'}]} ]"/>   
-            </a-form-item>      
-        
-            <a-form-item>
-              <a-button htmlType="submit">Submit</a-button>
-            </a-form-item>        
-          </a-form>
+              <a-form-item label='Free Cash Flow' :labelCol="labelCol" :wrapperCol="wrapperCol">
+                <a-input-number 
+                  v-decorator="[ 'fcf', { initialValue: 28841000, 
+                    rules: [{ required: true, message: 'Error!'}]} ]"/>   
+              </a-form-item>      
+          
+              <a-form-item>
+                <a-button htmlType="submit">Submit</a-button>
+              </a-form-item>        
+            </a-form>
+        </a-card>
       </a-col>
       <a-col :span="12" class="mb-12">
-        <pre v-if="dcf">{{dcf}}</pre>
+        <a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
+          <pre v-if="dcf">{{dcf}}</pre>
+        </a-card>
       </a-col> 
     </a-row>
     <a-row>
-      <a-col :span="24" class="mb-24">
-        <pre v-if="financials">{{financials}}</pre>
+      <a-col :span="12" class="mb-12">
+        <!--pre v-if="financials">{{financials[2].info.statement}}</pre-->
+        <a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
+          <pre v-if="financials">{{financials[2].data.info.quote}}</pre>
+        </a-card>
+      </a-col>
+      <a-col :span="12" class="mb-12">
+        <!--pre v-if="financials">{{financials[2].info.statement}}</pre-->
+        <a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
+          <pre v-if="financials">{{financials[2].data.financialData}}</pre>
+        </a-card>
       </a-col>
     </a-row> 
   </div>
@@ -70,6 +95,68 @@
 */
 import { mapState } from "vuex";
 
+const balanceSheetCols = [
+{
+	title: 'Year',
+	dataIndex: 'entity',
+},
+{
+	title: '2023',
+	dataIndex: 'y23',
+},
+{
+	title: '2022',
+	dataIndex: 'y22',
+},
+{
+	title: '2021',
+	dataIndex: 'y21',
+},
+{
+	title: '2020',
+	dataIndex: 'y20',
+},
+{
+	title: '2019',
+	dataIndex: 'y19',
+}
+];
+
+const balanceSheetData = [
+  {
+    entity:"Cash & Equivalents",
+    y23: 23.51,
+    y22: 22
+  },
+  {
+    entity:"*Cash & Cash Equivalents*",
+    y23: 23.51,
+    y22: 22
+  },
+  {
+    entity:"Cash Growth",
+    y23: "41.95%",
+    y22: 22
+  },
+  {
+    entity:"Receivables",
+    y23: 20.74,
+    y22: 22
+  },
+  {
+    entity:"Inventory",
+    y23: 1.85,
+    y22: 22
+  },
+  {
+    entity:"Other Current Assets",
+    y23: 1.7,
+    y22: 22
+  },
+
+]
+
+
 export default ({
 	components: {},
   computed: {
@@ -81,10 +168,11 @@ export default ({
         formLayout: 'horizontal',
         form: this.$form.createForm(this),
         labelCol: { span: 8 },
-        wrapperCol: { span: 4 }
+        wrapperCol: { span: 4 },
 
-        // labelCol: "{}",
-        //wrapperCol: "{}"   
+        balanceSheetCols,
+        balanceSheetData
+
     }
   },
   beforeCreate() {

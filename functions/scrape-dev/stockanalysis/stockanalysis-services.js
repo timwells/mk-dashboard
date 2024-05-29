@@ -154,11 +154,12 @@ async function scanStock4() {
         "quote": {
             "a": -.1,
             "b": .2,
+            "cl": 10.9,
             "ebitMargin": [-.1827898148859018, .10876847786131996, null, -.0960055996226415, .025764262787326568, -.003190064116241359]
         }
     }`;
     
-    let test = 2
+    let test = 4
     let modifiedData = ""
     if(test === 1) { 
         // Define the regular expression
@@ -168,13 +169,52 @@ async function scanStock4() {
     } else if(test === 2) {
         // Resolve .Number and -.Number
         // modifiedData = jsonData.replace(/(?<=\[|,)(-?)(\.\d+)/g, '$10$2');
-        modifiedData = jsonData.replace(/(\.\d+)/g, (match, p1) => `0${p1}`)
+        modifiedData = jsonData.replace(/(\.\d+)/g, (match, p1) =>
+            {
+                console.log(match,p1)
+                return `0${p1}`
+            })   
+    }
+    else if(test === 3) {
+        // Resolve .Number and -.Number
+        // modifiedData = jsonData.replace(/(?<=\[|,)(-?)(\.\d+)/g, '$10$2');
+        modifiedData = jsonData.replace(/(\d+\.\d+)|(-\.\d+)|(\.\d+)/g, (match, p1,p2, p3) =>
+        {
+            // Do not change
+            if(typeof p1 !== 'undefined') {
+                console.log("p1",p1, "=>", p1); return p1;
+            }
+            
+            // split  -0.${p2}`)
+            if(typeof p2 !== 'undefined') {
+                let _p2 =p2.split(".");
+                console.log("p2",_p2,p2, "=>", `-0.${_p2[1]}`); return `-0.${_p2[1]}`;}
+
+            // 
+            if(typeof p3 !== 'undefined') {
+                let _p3 =p3.split(".");
+                console.log("p3",p3.split("."),p3, "=>", `0.${_p3[1]}`); return `0.${_p3[1]}`;}
+        })   
+    }
+    else if(test === 4) {
+        modifiedData = jsonData.replace(/(\d+\.\d+)|(-\.\d+)|(\.\d+)/g, (match, p1,p2, p3) => {
+            // (\d+\.\d+) - Do not change
+            if(typeof p1 !== 'undefined') return p1;
+            
+            // (-\.\d+) resolve -.nnn
+            if(typeof p2 !== 'undefined') return `-0.${p2.split(".")[1]}`
+
+            // (\.\d+) resolve .nnn
+            if(typeof p3 !== 'undefined') return `0.${p3.split(".")[1]}`
+        })   
     }
 
-    console.log(jsonData);
+    
+    console.log("jsonData",jsonData);    
     console.log("================================================");
-    console.log(modifiedData);
+    console.log("modifiedData",modifiedData);
     console.log("================================================");
+
 
     // Parse the modified JSON
     try {

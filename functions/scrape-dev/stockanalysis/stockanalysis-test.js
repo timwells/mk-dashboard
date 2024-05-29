@@ -1,5 +1,5 @@
 const StockAnalysisServices = require('./stockanalysis-services.js')
-StockAnalysisServices['scanStock3']().then((d) => {
+StockAnalysisServices['scanStock4']().then((d) => {
     console.log("done...",d) 
 })
 
