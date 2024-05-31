@@ -3,14 +3,24 @@
       <a-tabs v-if="financials.length>0" default-active-key="1">
         <a-tab-pane key="1" tab="income-statement">
           <a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
-            <pre>{{ financials[0].data.statement }}</pre>
-            <pre>{{ financials[0].data.map }}</pre>
+
+            <!--pre v-if="financials">{{ incomeStatement() }}</pre-->
+            <!--pre v-if="financials">{{ incomeStatement() }}</pre-->           
+            <!--pre v-if="financials">{{ incomeStatementTable() }}</pre-->
+
+            <a-table
+              :columns="incomeStatementTable().columns"
+              :data-source="incomeStatementTable().data"
+              :pagination="pagination"
+              class='table table-small' style="margin: 6;">
+            </a-table>
           </a-card>
         </a-tab-pane>
         <a-tab-pane key="2" tab="cash-flow-statement">
           <a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
             <pre>{{ financials[1].data.statement }}</pre>
             <pre>{{ financials[1].data.map }}</pre>
+
           </a-card>
         </a-tab-pane>
         <a-tab-pane key="3" tab="balance-sheet">
@@ -113,6 +123,9 @@
 </template>
 
 <script>
+// https://charts.ag-grid.com/vue/quick-start/
+
+
 /* 
 {
   "discountRate": 0.1,
@@ -123,7 +136,7 @@
   "fcf": 28841000
 }
 */
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 const balanceSheetCols = [
 {
@@ -190,6 +203,7 @@ export default ({
   computed: {
     ...mapState("dcf", ["dcf"]),
     ...mapState("san", ["financials"]),
+    ...mapGetters("san",["incomeStatement","incomeStatementTable"])
   },
   data() { 
     return {
@@ -200,7 +214,9 @@ export default ({
         wrapperCol: { span: 4 },
 
         balanceSheetCols,
-        balanceSheetData
+        balanceSheetData,
+
+        pagination: { pageSize: 300 },
 
     }
   },
