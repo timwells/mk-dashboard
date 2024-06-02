@@ -1,1 +1,427 @@
-{"type":"data","data":{"info":{"type":"any","subtype":"stock","state":"normal","symbol":"I3E","db_symbol":"LON-I3E","baseurl":"/quote/lon/I3E","list_slug":"london-stock-exchange","exchange":"LON","exchange_code":"LON","nameFull":"i3 Energy Plc","name":"i3 Energy","exchange_full":"London Stock Exchange","exchange_symbol":"LON: I3E","country":"London","country_short":"UK","quote":{"c":0.38,"cdr":1,"cl":10.92,"cp":3.48,"days":0,"e":false,"ec":null,"ecp":null,"ep":null,"epd":null,"es":null,"eu":null,"ex":"LON","exp":null,"h":11.44,"h52":19.9,"l":10.6,"l52":8.25,"mc":135876850,"ms":"open","o":11.06,"p":11.3,"pd":11.3,"symbol":"lon-i3e","td":"2024-05-29","ts":1716997760000,"u":"May 29, 2024, 4:49 PM GMT+1","uid":"symbols/LON-I3E","v":4189682},"archived":false,"market_time":{"time_zone_full":"Europe/London","open_hour":8,"open_minute":0,"close_hour":16,"close_minute":30},"apiext":".L","curr":{"dividend":"GBP","financial":"GBP","main":"GBP","price":"GBp"},"uid":"symbols/LON-I3E","symbol_news":"ITEEF","features":{"chart":true,"dividend":true,"financials":true,"market_cap":true,"revenue":true}},"statement":"cash-flow-statement","period":"annual","heading":"Cash Flow Statement","title":"i3 Energy (LON: I3E) Cash Flow Statement","description":"Detailed cash flow statements for i3 Energy (LON: I3E), including operating cash flow, capex and free cash flow.","url":"/quote/lon/I3E/financials/cash-flow-statement/","map":[{"id":"netinc","title":"Net Income","class":"bolded"},{"id":"depamor","title":"Depreciation & Amortization","class":"text-[0.85rem] sm:text-[0.95rem]","indented":true},{"id":"sbcomp","title":"Share-Based Compensation","class":"text-[0.85rem] sm:text-[0.95rem]","indented":true},{"id":"otheroperating","title":"Other Operating Activities","class":"text-[0.85rem] sm:text-[0.95rem]","indented":true},{"id":"ncfo","title":"Operating Cash Flow","class":"font-semibold"},{"id":"ocfGrowth","title":"Operating Cash Flow Growth","format":"growth","class":"border-b border-gray-300"},{"id":"capex","title":"Capital Expenditures","class":"text-[0.85rem] sm:text-[0.95rem]","indented":true},{"id":"ncfbus","title":"Acquisitions","class":"text-[0.85rem] sm:text-[0.95rem]","indented":true},{"id":"ncfinv","title":"Change in Investments","class":"text-[0.85rem] sm:text-[0.95rem]","indented":true},{"id":"otherinvesting","title":"Other Investing Activities","class":"text-[0.85rem] sm:text-[0.95rem]","indented":true},{"id":"ncfi","title":"Investing Cash Flow","class":"font-semibold border-b border-gray-300"},{"id":"ncfdiv","title":"Dividends Paid","class":"text-[0.85rem] sm:text-[0.95rem]","indented":true},{"id":"commonStockIssued","title":"Common Stock Issued"},{"id":"commonStockRepurchased","title":"Share Repurchases"},{"id":"ncfcommon","title":"Share Issuance / Repurchase","class":"text-[0.85rem] sm:text-[0.95rem]","indented":true},{"id":"ncfdebt","title":"Debt Issued / Paid","class":"text-[0.85rem] sm:text-[0.95rem]","indented":true},{"id":"otherfinancing","title":"Other Financing Activities","class":"text-[0.85rem] sm:text-[0.95rem]","indented":true},{"id":"ncff","title":"Financing Cash Flow","class":"font-semibold border-b border-gray-300"},{"id":"ncfx","title":"Exchange Rate Effect","class":"text-[0.85rem] sm:text-[0.95rem]","indented":true},{"id":"ncf","title":"Net Cash Flow","class":"font-semibold"},{"id":"fcf","title":"Free Cash Flow"},{"id":"fcfGrowth","title":"Free Cash Flow Growth","format":"growth","class":"text-[0.85rem] sm:text-[0.95rem] indented border-b border-gray-300"},{"id":"fcfMargin","title":"Free Cash Flow Margin","format":"percentage"},{"id":"fcfps","title":"Free Cash Flow Per Share","format":"pershare"}],"financialData":{"datekey":["TTM","2023-12-31","2022-12-31","2021-12-31","2020-12-31","2019-12-31"],"netinc":[19269000,15147000,41951000,25083000,11718000,-10851177],"depamor":[60948000,41003000,37006000,23182000,5068000,8742],"sbcomp":[772000,581000,1092000,3668000,336000,3116995],"otheroperating":[-1126000,-10636000,18713000,-27942000,-21387000,2542102],"ncfo":[79863000,46095000,98762000,23991000,-4265000,-5183338],"ocfGrowth":[null,-0.5332719061987404,3.116627068484015,null,null,null],"capex":[-39131000,-24436000,-78216000,-12782000,-17763000,-21035259],"ncfbus":[235000,248000,89999,-36550000,-18212000,0],"ncfinv":[null,null,null,null,null,null],"otherinvesting":[-15815000,-5048000,-436999,-161000,383000,null],"ncfi":[-54711000,-29236000,-78563000,-49493000,-35592000,-21035259],"purchasesOfInvestments":[0,0,0,0,0,0],"salesOfInvestments":[0,0,0,0,0,0],"ncfdiv":[-28636000,-13298000,-17393000,-3417000,0,0],"commonStockIssued":[55000,42000,635000,38125000,27253000,45363050],"commonStockRepurchased":[-11085000,0,-6432000,-34230000,0,0],"otherfinancing":[-26892000,3192000,-10898000,-34260000,-10000,-433153],"ncff":[-44388000,-10064000,-21224000,34678000,27243000,44929897],"ncf":[-19500999,6947001,1224999,9157000,-12891541,18471502],"fcf":[40732000,21659000,20546000,11209000,-22028000,-26218597],"fcfGrowth":[null,0.054171128200136254,0.8329913462396288,null,null,null],"fcfMargin":[0.1841626954343639,0.14803094714108014,0.09857222360820588,0.12919101460299898,-1.6956354399199445,null],"fcfps":[0.03387423939797703,0.017793350246701815,0.016781174373176378,0.011606008929376873,-0.06498132654144936,-0.324208967545935]},"full_count":8,"details":{"source":"fmp","fiscalYear":"January - December","fiscalYearShort":"Jan - Dec"}},"uses":{"search_params":["p"],"params":["exchange","symbol","routes"],"parent":1}}
+{
+    "type": "data",
+    "data": {
+        "info": {
+            "type": "any",
+            "subtype": "stock",
+            "state": "normal",
+            "symbol": "I3E",
+            "db_symbol": "LON-I3E",
+            "baseurl": "/quote/lon/I3E",
+            "list_slug": "london-stock-exchange",
+            "exchange": "LON",
+            "exchange_code": "LON",
+            "nameFull": "i3 Energy Plc",
+            "name": "i3 Energy",
+            "exchange_full": "London Stock Exchange",
+            "exchange_symbol": "LON: I3E",
+            "country": "London",
+            "country_short": "UK",
+            "quote": {
+                "c": 0.38,
+                "cdr": 1,
+                "cl": 10.92,
+                "cp": 3.48,
+                "days": 0,
+                "e": false,
+                "ec": null,
+                "ecp": null,
+                "ep": null,
+                "epd": null,
+                "es": null,
+                "eu": null,
+                "ex": "LON",
+                "exp": null,
+                "h": 11.44,
+                "h52": 19.9,
+                "l": 10.6,
+                "l52": 8.25,
+                "mc": 135876850,
+                "ms": "open",
+                "o": 11.06,
+                "p": 11.3,
+                "pd": 11.3,
+                "symbol": "lon-i3e",
+                "td": "2024-05-29",
+                "ts": 1716997760000,
+                "u": "May 29, 2024, 4:49 PM GMT+1",
+                "uid": "symbols/LON-I3E",
+                "v": 4189682
+            },
+            "archived": false,
+            "market_time": {
+                "time_zone_full": "Europe/London",
+                "open_hour": 8,
+                "open_minute": 0,
+                "close_hour": 16,
+                "close_minute": 30
+            },
+            "apiext": ".L",
+            "curr": {
+                "dividend": "GBP",
+                "financial": "GBP",
+                "main": "GBP",
+                "price": "GBp"
+            },
+            "uid": "symbols/LON-I3E",
+            "symbol_news": "ITEEF",
+            "features": {
+                "chart": true,
+                "dividend": true,
+                "financials": true,
+                "market_cap": true,
+                "revenue": true
+            }
+        },
+        "statement": "cash-flow-statement",
+        "period": "annual",
+        "heading": "Cash Flow Statement",
+        "title": "i3 Energy (LON: I3E) Cash Flow Statement",
+        "description": "Detailed cash flow statements for i3 Energy (LON: I3E), including operating cash flow, capex and free cash flow.",
+        "url": "/quote/lon/I3E/financials/cash-flow-statement/",
+        "map": [
+            {
+                "id": "netinc",
+                "title": "Net Income",
+                "class": "bolded"
+            },
+            {
+                "id": "depamor",
+                "title": "Depreciation & Amortization",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "sbcomp",
+                "title": "Share-Based Compensation",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "otheroperating",
+                "title": "Other Operating Activities",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "ncfo",
+                "title": "Operating Cash Flow",
+                "class": "font-semibold"
+            },
+            {
+                "id": "ocfGrowth",
+                "title": "Operating Cash Flow Growth",
+                "format": "growth",
+                "class": "border-b border-gray-300"
+            },
+            {
+                "id": "capex",
+                "title": "Capital Expenditures",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "ncfbus",
+                "title": "Acquisitions",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "ncfinv",
+                "title": "Change in Investments",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "otherinvesting",
+                "title": "Other Investing Activities",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "ncfi",
+                "title": "Investing Cash Flow",
+                "class": "font-semibold border-b border-gray-300"
+            },
+            {
+                "id": "ncfdiv",
+                "title": "Dividends Paid",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "commonStockIssued",
+                "title": "Common Stock Issued"
+            },
+            {
+                "id": "commonStockRepurchased",
+                "title": "Share Repurchases"
+            },
+            {
+                "id": "ncfcommon",
+                "title": "Share Issuance / Repurchase",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "ncfdebt",
+                "title": "Debt Issued / Paid",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "otherfinancing",
+                "title": "Other Financing Activities",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "ncff",
+                "title": "Financing Cash Flow",
+                "class": "font-semibold border-b border-gray-300"
+            },
+            {
+                "id": "ncfx",
+                "title": "Exchange Rate Effect",
+                "class": "text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "ncf",
+                "title": "Net Cash Flow",
+                "class": "font-semibold"
+            },
+            {
+                "id": "fcf",
+                "title": "Free Cash Flow"
+            },
+            {
+                "id": "fcfGrowth",
+                "title": "Free Cash Flow Growth",
+                "format": "growth",
+                "class": "text-[0.85rem] sm:text-[0.95rem] indented border-b border-gray-300"
+            },
+            {
+                "id": "fcfMargin",
+                "title": "Free Cash Flow Margin",
+                "format": "percentage"
+            },
+            {
+                "id": "fcfps",
+                "title": "Free Cash Flow Per Share",
+                "format": "pershare"
+            }
+        ],
+        "financialData": {
+            "datekey": [
+                "TTM",
+                "2023-12-31",
+                "2022-12-31",
+                "2021-12-31",
+                "2020-12-31",
+                "2019-12-31"
+            ],
+            "netinc": [
+                19269000,
+                15147000,
+                41951000,
+                25083000,
+                11718000,
+                -10851177
+            ],
+            "depamor": [
+                60948000,
+                41003000,
+                37006000,
+                23182000,
+                5068000,
+                8742
+            ],
+            "sbcomp": [
+                772000,
+                581000,
+                1092000,
+                3668000,
+                336000,
+                3116995
+            ],
+            "otheroperating": [
+                -1126000,
+                -10636000,
+                18713000,
+                -27942000,
+                -21387000,
+                2542102
+            ],
+            "ncfo": [
+                79863000,
+                46095000,
+                98762000,
+                23991000,
+                -4265000,
+                -5183338
+            ],
+            "ocfGrowth": [
+                null,
+                -0.5332719061987404,
+                3.116627068484015,
+                null,
+                null,
+                null
+            ],
+            "capex": [
+                -39131000,
+                -24436000,
+                -78216000,
+                -12782000,
+                -17763000,
+                -21035259
+            ],
+            "ncfbus": [
+                235000,
+                248000,
+                89999,
+                -36550000,
+                -18212000,
+                0
+            ],
+            "ncfinv": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            ],
+            "otherinvesting": [
+                -15815000,
+                -5048000,
+                -436999,
+                -161000,
+                383000,
+                null
+            ],
+            "ncfi": [
+                -54711000,
+                -29236000,
+                -78563000,
+                -49493000,
+                -35592000,
+                -21035259
+            ],
+            "purchasesOfInvestments": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "salesOfInvestments": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "ncfdiv": [
+                -28636000,
+                -13298000,
+                -17393000,
+                -3417000,
+                0,
+                0
+            ],
+            "commonStockIssued": [
+                55000,
+                42000,
+                635000,
+                38125000,
+                27253000,
+                45363050
+            ],
+            "commonStockRepurchased": [
+                -11085000,
+                0,
+                -6432000,
+                -34230000,
+                0,
+                0
+            ],
+            "otherfinancing": [
+                -26892000,
+                3192000,
+                -10898000,
+                -34260000,
+                -10000,
+                -433153
+            ],
+            "ncff": [
+                -44388000,
+                -10064000,
+                -21224000,
+                34678000,
+                27243000,
+                44929897
+            ],
+            "ncf": [
+                -19500999,
+                6947001,
+                1224999,
+                9157000,
+                -12891541,
+                18471502
+            ],
+            "fcf": [
+                40732000,
+                21659000,
+                20546000,
+                11209000,
+                -22028000,
+                -26218597
+            ],
+            "fcfGrowth": [
+                null,
+                0.054171128200136254,
+                0.8329913462396288,
+                null,
+                null,
+                null
+            ],
+            "fcfMargin": [
+                0.1841626954343639,
+                0.14803094714108014,
+                0.09857222360820588,
+                0.12919101460299898,
+                -1.6956354399199445,
+                null
+            ],
+            "fcfps": [
+                0.03387423939797703,
+                0.017793350246701815,
+                0.016781174373176378,
+                0.011606008929376873,
+                -0.06498132654144936,
+                -0.324208967545935
+            ]
+        },
+        "full_count": 8,
+        "details": {
+            "source": "fmp",
+            "fiscalYear": "January - December",
+            "fiscalYearShort": "Jan - Dec"
+        }
+    },
+    "uses": {
+        "search_params": [
+            "p"
+        ],
+        "params": [
+            "exchange",
+            "symbol",
+            "routes"
+        ],
+        "parent": 1
+    }
+}

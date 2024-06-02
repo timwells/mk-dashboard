@@ -11,14 +11,13 @@ import {
   }
   
   const mutations = {
-    SET_DCF_RESULT: (state, payload) => { console.log(payload); return (state.dcf = payload)},
+    SET_DCF_RESULT: (state, payload) => (state.dcf = payload),
   };
   
   const actions = {
     async postDCF({ commit }, {dcf}) {
-
-        console.log(dcf)
-        await genPOST(`/fintech/v1/dcf/model3`,"SET_DCF_RESULT",null,{payload: dcf},{commit})
+        // console.log(dcf)
+        await genPOST(`/fintech/v1/dcf/model3`,"SET_DCF_RESULT",null,{payload: dcf}, {commit })
     },
   }
   

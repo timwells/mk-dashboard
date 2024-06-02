@@ -11,8 +11,7 @@
 					:form="form"
 					class="login-form"
 					@submit="handleSubmit"
-					:hideRequiredMark="true"
-				>
+					:hideRequiredMark="true">
 					<a-form-item class="mb-10" label="Email" :colon="false">
 						<a-input 
 						v-decorator="[
@@ -76,7 +75,6 @@ export default ({
 	methods: {
 		// Handles input validation after submission.
 		handleSubmit(e) {
-			console.log("Sign-In.handleSubmit")
 			e.preventDefault();
 			this.form.validateFields((err, values) => {
 				if ( !err ) {

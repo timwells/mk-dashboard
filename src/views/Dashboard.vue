@@ -1,5 +1,5 @@
 <template>
-	<a-tabs v-if="markets.length>0" default-active-key="1">
+	<a-tabs v-if="markets" default-active-key="1">
 		<a-tab-pane key="1" tab="Funds">
 			<a-row type="flex" align="stretch">
 				<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(e, i) in getGroup(1)" :key="i">			

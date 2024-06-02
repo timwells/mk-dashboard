@@ -223,6 +223,30 @@ async function scanFinancialRecords(path,name) {
     catch (error) { console.log(error.message) }
 }
 
+async function scanFinancialRecords2(path,name) {
+    try {
+        let { data } = await axios.get(path)
+        const $ = await cheerio.load(data)
+        // const dataTable = $('table[data-test="financials"] tbody');
+        
+        const dataTable = $('table[data-test="financials"] tbody tr td div[id]');
+        dataTable.each((i,e) => {
+            console.log(e.attribs["id"]);
+        })
+
+        /*
+        dataTable.find('tr').each((i, row) => {
+            $(row).find('td').each((j, td) => {
+                console.log(td.data())
+            })
+        })
+        */
+    } catch (e) {
+        console.error(e.message);
+    }
+}
+
+
 
 async function scanStock4() {
     let jsonData = `{
@@ -319,10 +343,31 @@ async function scanFinancials(){
     }
 }
 
+async function scanFinancials2(){
+    let fd = 
+    [
+        { path:"https://stockanalysis.com/quote/lon/I3E/financials/",
+            name:"income" },
+        /*
+        { path:"https://stockanalysis.com/quote/lon/I3E/financials/cash-flow-statement/",
+            name:"cash-flow-statement" },
+        { path:"https://stockanalysis.com/quote/lon/I3E/financials/balance-sheet/",
+            name:"balance-sheet" },
+        { path:"https://stockanalysis.com/quote/lon/I3E/financials/ratios/",
+            name:"ratios" }
+        */
+    ]
+
+    for(i=0; i<fd.length; i++){
+        await scanFinancialRecords2(fd[i].path, fd[i].name)
+    }
+}
+
 module.exports = {
     scanStock2,
     scanStock3,
     scanStock4,
-    scanFinancials
+    scanFinancials,
+    scanFinancials2
 }
 

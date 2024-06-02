@@ -1,1 +1,575 @@
-{"type":"data","data":{"info":{"type":"any","subtype":"stock","state":"normal","symbol":"I3E","db_symbol":"LON-I3E","baseurl":"/quote/lon/I3E","list_slug":"london-stock-exchange","exchange":"LON","exchange_code":"LON","nameFull":"i3 Energy Plc","name":"i3 Energy","exchange_full":"London Stock Exchange","exchange_symbol":"LON: I3E","country":"London","country_short":"UK","quote":{"c":0.38,"cdr":1,"cl":10.92,"cp":3.48,"days":0,"e":false,"ec":null,"ecp":null,"ep":null,"epd":null,"es":null,"eu":null,"ex":"LON","exp":null,"h":11.44,"h52":19.9,"l":10.6,"l52":8.25,"mc":135876850,"ms":"open","o":11.06,"p":11.3,"pd":11.3,"symbol":"lon-i3e","td":"2024-05-29","ts":1716997760000,"u":"May 29, 2024, 4:49 PM GMT+1","uid":"symbols/LON-I3E","v":4189682},"archived":false,"market_time":{"time_zone_full":"Europe/London","open_hour":8,"open_minute":0,"close_hour":16,"close_minute":30},"apiext":".L","curr":{"dividend":"GBP","financial":"GBP","main":"GBP","price":"GBp"},"uid":"symbols/LON-I3E","symbol_news":"ITEEF","features":{"chart":true,"dividend":true,"financials":true,"market_cap":true,"revenue":true}},"statement":"balance-sheet","period":"annual","heading":"Balance Sheet","title":"i3 Energy (LON: I3E) Balance Sheet","description":"Detailed balance sheet for i3 Energy (LON: I3E), including cash, debt, assets, liabilities, and book value.","url":"/quote/lon/I3E/financials/balance-sheet/","map":[{"id":"cashneq","title":"Cash & Equivalents"},{"id":"investmentsc","title":"Short-Term Investments"},{"id":"totalcash","title":"Cash & Cash Equivalents","class":"font-semibold"},{"id":"cashGrowth","title":"Cash Growth","format":"growth","class":"border-b border-gray-300 text-[0.85rem] sm:text-[0.95rem]","indented":true},{"id":"receivables","title":"Receivables"},{"id":"inventory","title":"Inventory"},{"id":"prepaid","title":"Prepaid Assets"},{"id":"othercurrent","title":"Other Current Assets"},{"id":"assetsc","title":"Total Current Assets","class":"font-semibold border-b border-gray-300"},{"id":"ppnenet","title":"Property, Plant & Equipment"},{"id":"investmentsnc","title":"Long-Term Investments"},{"id":"goodwill","title":"Goodwill"},{"id":"intangibleAssets","title":"Intangible Assets"},{"id":"intangibles","title":"Goodwill and Intangibles"},{"id":"othernoncurrent","title":"Other Long-Term Assets"},{"id":"assetsnc","title":"Total Long-Term Assets","class":"font-semibold"},{"id":"assets","title":"Total Assets","class":"font-bold border-b border-gray-300"},{"id":"payables","title":"Accounts Payable"},{"id":"deferredrev","title":"Deferred Revenue"},{"id":"debtc","title":"Current Debt"},{"id":"taxpayablec","title":"Income Taxes Payable"},{"id":"otherliabilitiescurrent","title":"Other Current Liabilities"},{"id":"liabilitiesc","title":"Total Current Liabilities","class":"font-semibold border-b border-gray-300"},{"id":"debtnc","title":"Long-Term Debt"},{"id":"otherliabilitiesnoncurrent","title":"Other Long-Term Liabilities"},{"id":"liabilitiesnc","title":"Total Long-Term Liabilities","class":"font-semibold"},{"id":"liabilities","title":"Total Liabilities","class":"font-bold border-b border-gray-300"},{"id":"debt","title":"Total Debt","class":"font-semibold"},{"id":"debtGrowth","title":"Debt Growth","format":"inverted-growth","class":"text-[0.85rem] sm:text-[0.95rem] indented border-b border-gray-300"},{"id":"commonstocknet","title":"Common Stock"},{"id":"retearn","title":"Retained Earnings"},{"id":"accoci","title":"Comprehensive Income"},{"id":"equity","title":"Shareholders' Equity","class":"font-bold border-b border-gray-300"},{"id":"liabilitiesequity","title":"Total Liabilities and Equity","class":"font-semibold"},{"id":"netcash","title":"Net Cash / Debt"},{"id":"netCashGrowth","title":"Net Cash / Debt Growth","format":"growth","class":"text-[0.85rem] sm:text-[0.95rem] indented border-b border-gray-300"},{"id":"netcashpershare","title":"Net Cash Per Share","format":"pershare"},{"id":"workingcapital","title":"Working Capital"},{"id":"bvps","title":"Book Value Per Share","format":"pershare"}],"financialData":{"datekey":["TTM","2023-12-31","2022-12-31","2021-12-31","2020-12-31","2019-12-31"],"cashneq":[1022000,23507000,16559999,15335000,6178000,19069541],"investmentsc":[0,0,0,0,0,0],"totalcash":[1022000,23507000,16559999,15335000,6178000,19069541],"cashGrowth":[null,0.41950491663677036,0.07988255624388652,1.4821948850760762,-0.6760278603454588,30.886784975561795],"receivables":[21177000,20739000,34843000,25503000,8731000,305438],"inventory":[1857000,1847000,2099000,665000,164000,-304999],"othercurrent":[1048000,1701000,1111001,814000,0,304999],"assetsc":[25104000,47794000,54613000,42317000,15073000,19374979],"ppnenet":[190577000,205667000,236465000,224080000,108509000,7602],"investmentsnc":[0,0,0,0,-48809000,0],"goodwill":[0,0,0,0,0,0],"intangibleAssets":[188229000,63133000,62060000,49819000,48809000,46528000],"othernoncurrent":[63309000,0,74000,74000,50539000,-367],"assetsnc":[253886000,268800000,298599000,273973000,159048000,46535235],"assets":[278990000,316594000,353212000,316290000,174121000,65910214],"payables":[5299000,5736000,15383000,5169000,7780000,12024000],"deferredrev":[0,0,11913000,0,-7780000,0],"debtc":[113000,14001000,27241000,69000,28000,0],"liabilitiesc":[34240000,45021000,86658000,23071000,14418000,18204752],"otherliabilitiescurrent":[28828000,25284000,32121000,17833000,14390000,6180752],"debtnc":[10755000,20568000,0,23855000,17887000,13046184],"liabilitiesnc":[93211999,108577999,101808000,155053000,86507000,16046184],"otherliabilitiesnoncurrent":[82456999,88009999,101808000,131198000,68620000,3000000],"liabilities":[127452000,153599000,188466000,178124000,100925000,34250936],"debt":[10956000,34569000,27241000,23924000,17986000,13046184],"debtGrowth":[null,0.2690062773025954,0.1386473833807056,0.3301456688535527,0.378640681443708,21.05378979718102],"commonstocknet":[170000,170000,169000,163000,120000,60772],"retearn":[142925000,152103000,99523000,81289000,-4433000,-16151505],"accoci":[8443000,10722000,16408000,12511000,15903999,15178033],"equity":[151538000,162995000,164746000,138166000,73196000,31659278],"liabilitiesequity":[278990000,316594000,353212000,316290000,174121000,65910214],"netcash":[-9934000,-11062000,-10681001,-8589000,-11808000,6023357],"netCashGrowth":[null,null,null,null,null,928.9609387061911],"netcashpershare":[-0.00826148222968437,-0.009087679044693452,-0.008723826548285372,-0.008893211766831829,-0.03483291736886845,0.07448248867514079],"workingcapital":[-9136000,2773000,-32045000,19246000,655000,1170227],"bvps":[0.12602461185040367,0.13592480630542064,0.14150871568487944,0.15635574716495976,0.23620064543288177,0.39148631155319763]},"full_count":9,"details":{"source":"fmp","fiscalYear":"January - December","fiscalYearShort":"Jan - Dec"}},"uses":{"search_params":["p"],"params":["exchange","symbol","routes"],"parent":1}}
+{
+    "type": "data",
+    "data": {
+        "info": {
+            "type": "any",
+            "subtype": "stock",
+            "state": "normal",
+            "symbol": "I3E",
+            "db_symbol": "LON-I3E",
+            "baseurl": "/quote/lon/I3E",
+            "list_slug": "london-stock-exchange",
+            "exchange": "LON",
+            "exchange_code": "LON",
+            "nameFull": "i3 Energy Plc",
+            "name": "i3 Energy",
+            "exchange_full": "London Stock Exchange",
+            "exchange_symbol": "LON: I3E",
+            "country": "London",
+            "country_short": "UK",
+            "quote": {
+                "c": 0.38,
+                "cdr": 1,
+                "cl": 10.92,
+                "cp": 3.48,
+                "days": 0,
+                "e": false,
+                "ec": null,
+                "ecp": null,
+                "ep": null,
+                "epd": null,
+                "es": null,
+                "eu": null,
+                "ex": "LON",
+                "exp": null,
+                "h": 11.44,
+                "h52": 19.9,
+                "l": 10.6,
+                "l52": 8.25,
+                "mc": 135876850,
+                "ms": "open",
+                "o": 11.06,
+                "p": 11.3,
+                "pd": 11.3,
+                "symbol": "lon-i3e",
+                "td": "2024-05-29",
+                "ts": 1716997760000,
+                "u": "May 29, 2024, 4:49 PM GMT+1",
+                "uid": "symbols/LON-I3E",
+                "v": 4189682
+            },
+            "archived": false,
+            "market_time": {
+                "time_zone_full": "Europe/London",
+                "open_hour": 8,
+                "open_minute": 0,
+                "close_hour": 16,
+                "close_minute": 30
+            },
+            "apiext": ".L",
+            "curr": {
+                "dividend": "GBP",
+                "financial": "GBP",
+                "main": "GBP",
+                "price": "GBp"
+            },
+            "uid": "symbols/LON-I3E",
+            "symbol_news": "ITEEF",
+            "features": {
+                "chart": true,
+                "dividend": true,
+                "financials": true,
+                "market_cap": true,
+                "revenue": true
+            }
+        },
+        "statement": "balance-sheet",
+        "period": "annual",
+        "heading": "Balance Sheet",
+        "title": "i3 Energy (LON: I3E) Balance Sheet",
+        "description": "Detailed balance sheet for i3 Energy (LON: I3E), including cash, debt, assets, liabilities, and book value.",
+        "url": "/quote/lon/I3E/financials/balance-sheet/",
+        "map": [
+            {
+                "id": "cashneq",
+                "title": "Cash & Equivalents"
+            },
+            {
+                "id": "investmentsc",
+                "title": "Short-Term Investments"
+            },
+            {
+                "id": "totalcash",
+                "title": "Cash & Cash Equivalents",
+                "class": "font-semibold"
+            },
+            {
+                "id": "cashGrowth",
+                "title": "Cash Growth",
+                "format": "growth",
+                "class": "border-b border-gray-300 text-[0.85rem] sm:text-[0.95rem]",
+                "indented": true
+            },
+            {
+                "id": "receivables",
+                "title": "Receivables"
+            },
+            {
+                "id": "inventory",
+                "title": "Inventory"
+            },
+            {
+                "id": "prepaid",
+                "title": "Prepaid Assets"
+            },
+            {
+                "id": "othercurrent",
+                "title": "Other Current Assets"
+            },
+            {
+                "id": "assetsc",
+                "title": "Total Current Assets",
+                "class": "font-semibold border-b border-gray-300"
+            },
+            {
+                "id": "ppnenet",
+                "title": "Property, Plant & Equipment"
+            },
+            {
+                "id": "investmentsnc",
+                "title": "Long-Term Investments"
+            },
+            {
+                "id": "goodwill",
+                "title": "Goodwill"
+            },
+            {
+                "id": "intangibleAssets",
+                "title": "Intangible Assets"
+            },
+            {
+                "id": "intangibles",
+                "title": "Goodwill and Intangibles"
+            },
+            {
+                "id": "othernoncurrent",
+                "title": "Other Long-Term Assets"
+            },
+            {
+                "id": "assetsnc",
+                "title": "Total Long-Term Assets",
+                "class": "font-semibold"
+            },
+            {
+                "id": "assets",
+                "title": "Total Assets",
+                "class": "font-bold border-b border-gray-300"
+            },
+            {
+                "id": "payables",
+                "title": "Accounts Payable"
+            },
+            {
+                "id": "deferredrev",
+                "title": "Deferred Revenue"
+            },
+            {
+                "id": "debtc",
+                "title": "Current Debt"
+            },
+            {
+                "id": "taxpayablec",
+                "title": "Income Taxes Payable"
+            },
+            {
+                "id": "otherliabilitiescurrent",
+                "title": "Other Current Liabilities"
+            },
+            {
+                "id": "liabilitiesc",
+                "title": "Total Current Liabilities",
+                "class": "font-semibold border-b border-gray-300"
+            },
+            {
+                "id": "debtnc",
+                "title": "Long-Term Debt"
+            },
+            {
+                "id": "otherliabilitiesnoncurrent",
+                "title": "Other Long-Term Liabilities"
+            },
+            {
+                "id": "liabilitiesnc",
+                "title": "Total Long-Term Liabilities",
+                "class": "font-semibold"
+            },
+            {
+                "id": "liabilities",
+                "title": "Total Liabilities",
+                "class": "font-bold border-b border-gray-300"
+            },
+            {
+                "id": "debt",
+                "title": "Total Debt",
+                "class": "font-semibold"
+            },
+            {
+                "id": "debtGrowth",
+                "title": "Debt Growth",
+                "format": "inverted-growth",
+                "class": "text-[0.85rem] sm:text-[0.95rem] indented border-b border-gray-300"
+            },
+            {
+                "id": "commonstocknet",
+                "title": "Common Stock"
+            },
+            {
+                "id": "retearn",
+                "title": "Retained Earnings"
+            },
+            {
+                "id": "accoci",
+                "title": "Comprehensive Income"
+            },
+            {
+                "id": "equity",
+                "title": "Shareholders' Equity",
+                "class": "font-bold border-b border-gray-300"
+            },
+            {
+                "id": "liabilitiesequity",
+                "title": "Total Liabilities and Equity",
+                "class": "font-semibold"
+            },
+            {
+                "id": "netcash",
+                "title": "Net Cash / Debt"
+            },
+            {
+                "id": "netCashGrowth",
+                "title": "Net Cash / Debt Growth",
+                "format": "growth",
+                "class": "text-[0.85rem] sm:text-[0.95rem] indented border-b border-gray-300"
+            },
+            {
+                "id": "netcashpershare",
+                "title": "Net Cash Per Share",
+                "format": "pershare"
+            },
+            {
+                "id": "workingcapital",
+                "title": "Working Capital"
+            },
+            {
+                "id": "bvps",
+                "title": "Book Value Per Share",
+                "format": "pershare"
+            }
+        ],
+        "financialData": {
+            "datekey": [
+                "TTM",
+                "2023-12-31",
+                "2022-12-31",
+                "2021-12-31",
+                "2020-12-31",
+                "2019-12-31"
+            ],
+            "cashneq": [
+                1022000,
+                23507000,
+                16559999,
+                15335000,
+                6178000,
+                19069541
+            ],
+            "investmentsc": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "totalcash": [
+                1022000,
+                23507000,
+                16559999,
+                15335000,
+                6178000,
+                19069541
+            ],
+            "cashGrowth": [
+                null,
+                0.41950491663677036,
+                0.07988255624388652,
+                1.4821948850760762,
+                -0.6760278603454588,
+                30.886784975561795
+            ],
+            "receivables": [
+                21177000,
+                20739000,
+                34843000,
+                25503000,
+                8731000,
+                305438
+            ],
+            "inventory": [
+                1857000,
+                1847000,
+                2099000,
+                665000,
+                164000,
+                -304999
+            ],
+            "othercurrent": [
+                1048000,
+                1701000,
+                1111001,
+                814000,
+                0,
+                304999
+            ],
+            "assetsc": [
+                25104000,
+                47794000,
+                54613000,
+                42317000,
+                15073000,
+                19374979
+            ],
+            "ppnenet": [
+                190577000,
+                205667000,
+                236465000,
+                224080000,
+                108509000,
+                7602
+            ],
+            "investmentsnc": [
+                0,
+                0,
+                0,
+                0,
+                -48809000,
+                0
+            ],
+            "goodwill": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "intangibleAssets": [
+                188229000,
+                63133000,
+                62060000,
+                49819000,
+                48809000,
+                46528000
+            ],
+            "othernoncurrent": [
+                63309000,
+                0,
+                74000,
+                74000,
+                50539000,
+                -367
+            ],
+            "assetsnc": [
+                253886000,
+                268800000,
+                298599000,
+                273973000,
+                159048000,
+                46535235
+            ],
+            "assets": [
+                278990000,
+                316594000,
+                353212000,
+                316290000,
+                174121000,
+                65910214
+            ],
+            "payables": [
+                5299000,
+                5736000,
+                15383000,
+                5169000,
+                7780000,
+                12024000
+            ],
+            "deferredrev": [
+                0,
+                0,
+                11913000,
+                0,
+                -7780000,
+                0
+            ],
+            "debtc": [
+                113000,
+                14001000,
+                27241000,
+                69000,
+                28000,
+                0
+            ],
+            "liabilitiesc": [
+                34240000,
+                45021000,
+                86658000,
+                23071000,
+                14418000,
+                18204752
+            ],
+            "otherliabilitiescurrent": [
+                28828000,
+                25284000,
+                32121000,
+                17833000,
+                14390000,
+                6180752
+            ],
+            "debtnc": [
+                10755000,
+                20568000,
+                0,
+                23855000,
+                17887000,
+                13046184
+            ],
+            "liabilitiesnc": [
+                93211999,
+                108577999,
+                101808000,
+                155053000,
+                86507000,
+                16046184
+            ],
+            "otherliabilitiesnoncurrent": [
+                82456999,
+                88009999,
+                101808000,
+                131198000,
+                68620000,
+                3000000
+            ],
+            "liabilities": [
+                127452000,
+                153599000,
+                188466000,
+                178124000,
+                100925000,
+                34250936
+            ],
+            "debt": [
+                10956000,
+                34569000,
+                27241000,
+                23924000,
+                17986000,
+                13046184
+            ],
+            "debtGrowth": [
+                null,
+                0.2690062773025954,
+                0.1386473833807056,
+                0.3301456688535527,
+                0.378640681443708,
+                21.05378979718102
+            ],
+            "commonstocknet": [
+                170000,
+                170000,
+                169000,
+                163000,
+                120000,
+                60772
+            ],
+            "retearn": [
+                142925000,
+                152103000,
+                99523000,
+                81289000,
+                -4433000,
+                -16151505
+            ],
+            "accoci": [
+                8443000,
+                10722000,
+                16408000,
+                12511000,
+                15903999,
+                15178033
+            ],
+            "equity": [
+                151538000,
+                162995000,
+                164746000,
+                138166000,
+                73196000,
+                31659278
+            ],
+            "liabilitiesequity": [
+                278990000,
+                316594000,
+                353212000,
+                316290000,
+                174121000,
+                65910214
+            ],
+            "netcash": [
+                -9934000,
+                -11062000,
+                -10681001,
+                -8589000,
+                -11808000,
+                6023357
+            ],
+            "netCashGrowth": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                928.9609387061911
+            ],
+            "netcashpershare": [
+                -0.00826148222968437,
+                -0.009087679044693452,
+                -0.008723826548285372,
+                -0.008893211766831829,
+                -0.03483291736886845,
+                0.07448248867514079
+            ],
+            "workingcapital": [
+                -9136000,
+                2773000,
+                -32045000,
+                19246000,
+                655000,
+                1170227
+            ],
+            "bvps": [
+                0.12602461185040367,
+                0.13592480630542064,
+                0.14150871568487944,
+                0.15635574716495976,
+                0.23620064543288177,
+                0.39148631155319763
+            ]
+        },
+        "full_count": 9,
+        "details": {
+            "source": "fmp",
+            "fiscalYear": "January - December",
+            "fiscalYearShort": "Jan - Dec"
+        }
+    },
+    "uses": {
+        "search_params": [
+            "p"
+        ],
+        "params": [
+            "exchange",
+            "symbol",
+            "routes"
+        ],
+        "parent": 1
+    }
+}

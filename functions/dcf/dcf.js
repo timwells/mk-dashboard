@@ -39,13 +39,13 @@ const model3 = async (req, res) => {
         },
         output: {
             projectedFCFs: projectedFCFs,
-            terminalValue: terminalValue,
+            terminalValue: terminalValue.toFixed(2),
             discountedFCFs: discountedFCFs,
-            discountedTerminalValue: discountedTerminalValue,
+            discountedTerminalValue: discountedTerminalValue.toFixed(2),
             
-            enterpriseValue: enterpriseValue,
-            equityValue: equityValue,
-            intrinsicValuePerShare:intrinsicValuePerShare
+            enterpriseValue: enterpriseValue.toFixed(2),
+            equityValue: equityValue.toFixed(2),
+            intrinsicValuePerShare: intrinsicValuePerShare.toFixed(2),
         }
     }
     res.status(200).send(result); 

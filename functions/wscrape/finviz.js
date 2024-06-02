@@ -25,18 +25,3 @@ const news = async (req, res) => {
 module.exports = {
     news
 }
-
-
-
-
-// const tableRows = $("body > section:nth-child(1) > div:nth-child(3) > div > div.table-responsive > table > tbody > tr"); 
-    
-    /*
-    const $ = cheerio.load(response.data)
-    const tableRows = $(".news_time-table > tbody > tr");
-    console.log(tableRows.length)
-    */
-    //tableRows.each((idx, el) => {
-    //    const rowCols = $(el).children("td")
-    //    console.log(rowCols)
-    //})
