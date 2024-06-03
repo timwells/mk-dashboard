@@ -73,8 +73,8 @@ export default ({
         this.$store.dispatch("pb/getHolders")
 	},
 	methods: {
-		getHolder(name) { return " "+name},
-		getHolderValue2(name) { return this.getHolderValue(name)},
+		getHolder(name) { return name !== undefined ? " "+name: ''},
+		getHolderValue2(name) { return name !== undefined ? this.getHolderValue(name) : "-"},
 		getHolderWinRate2(name,winnings) { return this.getHolderWinRate(name,winnings) + "%"},
 	}
 
