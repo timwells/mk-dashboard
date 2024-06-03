@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<!-- Funds Table -->
-		<a-row :gutter="24" type="stretch">
+		<a-row :gutter="24" type="flex">
 			<a-col :span="24" class="mb-24">
 				<!--pre style="color:blue">{{funds}}</pre-->
 				<CardFundsTable 
@@ -52,25 +52,6 @@ const fundsColumns = [
 		scopedSlots: { customRender: 'citicode' },
 		width: 80, 
 	},
-/*	
-	{
-		title: 'Bid',
-		dataIndex: 'bidPrice',
-		scopedSlots: { customRender: 'bidPrice' },
-	},
-	{
-		title: 'Ask',
-		dataIndex: 'askPrice',
-		scopedSlots: { customRender: 'askPrice' },
-	},	
-	{
-		title: 'Init Charge',
-		dataIndex: 'netIC',
-		sorter: (a, b) => a.netIC - b.netIC,
-    	sortDirections: ["descend", "ascend"],
-		scopedSlots: { customRender: 'netIC' },
-	},
-*/
 	{
 		title: 'Annual Charge',
 		dataIndex: 'netAC',

@@ -26,6 +26,8 @@
 </template>
 
 <script>
+
+
 import { mapState, mapGetters } from "vuex";
 
 import CardChartFundInfo from '../components/Cards/CardChartFundInfo' ;
