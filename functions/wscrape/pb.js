@@ -23,8 +23,9 @@ async function lookUpResults(url,nh) {
     // Make a POST request using Axios
     const lastSixMonth = await axios.post(url, fD2);
     let results = []
-    thisMonth.data.history.forEach(e => { if(e.prize !="0") results.push(e) });
-    lastSixMonth.data.history.forEach(e => { results.push(e) });
+    thisMonth.data.history.forEach(e => { if(e.prize !== "0") results.push(e) });
+    
+    lastSixMonth.data.history.forEach(e => { if(e.prize !=="0") results.push(e) });
 
     return results
   } catch (error) {

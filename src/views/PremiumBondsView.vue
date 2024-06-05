@@ -5,7 +5,6 @@
 				<h5>{{premiumBondsData.nextDrawDate}}</h5>
 				<a-tabs v-if="holders.length" v-model="activeTab">
 					<a-tab-pane v-for="(holder,index) in premiumBondsData.results" :key="index" :tab="holder.name">
-					
 						<a-row>
 							<a-col :span="4"><a-statistic title="Holder" :value="getHolder(holder.holder)" /></a-col>
 							<a-col :span="4"><a-statistic title="Prizes" :value="holder.results.length" /></a-col>
@@ -13,7 +12,6 @@
 							<a-col :span="4"><a-statistic title="Holdings" :value="getHolderValue2(holder.name)" /></a-col>
 							<a-col :span="4"><a-statistic title="6MWR" :value="getHolderWinRate2(holder.name,holder.sum)" /></a-col>
 						</a-row>
-
 						<a-table
 							:loading="loading"
 							:columns="cols"
