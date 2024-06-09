@@ -8,7 +8,7 @@
 						<a-row>
 							<a-col :span="4"><a-statistic title="Holder" :value="getHolder(holder.holder)" /></a-col>
 							<a-col :span="4"><a-statistic title="Prizes" :value="holder.results.length" /></a-col>
-							<a-col :span="4"><a-statistic title="Sum" :value="holder.sum" /></a-col>
+							<a-col :span="4"><a-statistic title="Total" :value="holder.sum" /></a-col>
 							<a-col :span="4"><a-statistic title="Holdings" :value="getHolderValue2(holder.name)" /></a-col>
 							<a-col :span="4"><a-statistic title="6MWR" :value="getHolderWinRate2(holder.name,holder.sum)" /></a-col>
 						</a-row>

@@ -12,6 +12,39 @@
 				size="small"
 				class='table table-small' style="margin: 0; background-color: white;">
 
+				<div slot="filterDropdown"
+                	slot-scope="{setSelectedKeys,selectedKeys,confirm,clearFilters,column}"
+                  	style="padding:8px">
+                  	<a-input
+                    	v-ant-ref="c => (searchInput = c)"
+                    	:placeholder="`Search ${column.dataIndex}`"
+                    	:value="selectedKeys[0]"
+                    	style="width: 188px; margin-bottom: 8px; display: block"
+                    	@change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+                    	@pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"/>
+                  	<a-button
+                    	type="primary"
+                    	icon="search"
+                    	size="small"
+                    	style="width: 90px; margin-right: 8px"
+                    	@click="() =>handleSearch(selectedKeys, confirm, column.dataIndex)">
+						Search</a-button>
+                  	<a-button
+                    	size="small"
+                    	style="width: 90px"
+                    	@click="() => handleReset(clearFilters)">
+						Reset
+					</a-button>
+                </div>
+                <a-icon
+                  slot="filterIcon"
+                  slot-scope="filtered"
+                  type="search"
+                  :style="{ color: filtered ? '#108ee9' : undefined }"
+                />
+
+
+
 				<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
 					<a-tabs default-active-key="1">
     					<a-tab-pane key="1" tab="Trade View">
@@ -70,9 +103,16 @@ const dividendColumns = [
 	{ title: 'Epic', dataIndex: 'epic', scopedSlots: { customRender: 'epic' }},
 	{ title: 'Name', dataIndex: 'name', 
 		sorter: (a, b) => a.name.localeCompare(b.name),
+	    onFilter: (value, record) =>
+    	  record.name
+        	.toString()
+        	.toLowerCase()
+        	.includes(value.toLowerCase()),
 		scopedSlots: { 
-			customRender: 'name'
-		}
+			customRender: 'name', 
+	      	filterDropdown: 'filterDropdown',
+ 	     	filterIcon: 'filterIcon'
+		},
 	},
 	{ 
 		title: 'Market', 
@@ -82,7 +122,13 @@ const dividendColumns = [
 		scopedSlots: { customRender: 'market' }
 	},
 	{ title: 'Price(p)', dataIndex: 'price', scopedSlots: { customRender: 'price' }},
-	{ title: 'Impact(%)', dataIndex: 'impact', scopedSlots: { customRender: 'impact' }},
+	{ 
+		title: 'Impact(%)', 
+		dataIndex: 'impact', 
+		sortDirections: ["descend", "ascend"],
+    	sorter: (a, b) => a.impact.localeCompare(b.impact),		
+		scopedSlots: { customRender: 'impact' }
+	},
 	{ title: 'Declaration', dataIndex: 'declarationDate', scopedSlots: { customRender: 'declarationDate' }},
 	{ 
 		title: 'Dividend (p)', 
@@ -138,7 +184,11 @@ export default ({
 				},
 			},
 			expandedIdList: [],
-			expandedRowKeys: []
+			expandedRowKeys: [],
+
+			searchText: "",
+	    	searchInput: null,
+    		searchedColumn: "",
 		}
 	},
 	methods: {
@@ -155,6 +205,17 @@ export default ({
 		},
 		onExpand(exp,r) { 
 		},
+
+		handleSearch(selectedKeys, confirm, dataIndex) {
+      		confirm();
+      		this.searchText = selectedKeys[0];
+      		this.searchedColumn = dataIndex;
+    	},
+
+		handleReset(clearFilters) {
+      		clearFilters();
+      		this.searchText = "";
+    	},
 	},	
 	mounted() {
 		this.loading = true

@@ -13,7 +13,7 @@
                     	v-ant-ref="c => (searchInput = c)"
                     	:placeholder="`Search ${column.dataIndex}`"
                     	:value="selectedKeys[0]"
-                    	style="width: 188px; margin-bottom: 8px; display: block"
+                    	style="width:188px; margin-bottom:8px; display: block"
                     	@change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
                     	@pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"/>
                   	<a-button
@@ -36,7 +36,6 @@
                   type="search"
                   :style="{ color: filtered ? '#108ee9' : undefined }"
                 />
-
 			<a-button icon="plus" type="primary" slot="action" slot-scope="record" @click="onExpand(record.key)"></a-button>
 
 			<div slot="expandedRowRender" slot-scope="record" style="margin: 0">

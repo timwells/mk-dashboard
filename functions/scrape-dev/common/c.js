@@ -54,7 +54,23 @@ async function getFilesByPattern(directory, pattern) {
     return pf;
 }
 
+
+async function sText(text, maxLength) {
+  // Check if the text needs to be shortened
+  if (text.length > maxLength) {
+      // Return the shortened text with ellipsis
+      return text.substring(0, maxLength - 3) + '...';
+  } else {
+      // Return the original text if it's within the limit
+      return text;
+  }
+}
+function version() {
+  return "1.0"
+}
 module.exports = {
+    sText,
+    version,
     getPuppetInstance,
     sleep,
     initStopWatch,
@@ -63,5 +79,5 @@ module.exports = {
     readFileAsync,
     toCSV,
     randomInt,
-    getFilesByPattern
+    getFilesByPattern,
 }

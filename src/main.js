@@ -3,8 +3,6 @@ import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 import App from './App.vue'
 
-
-
 import DefaultLayout from './layouts/Default.vue'
 import DashboardLayout from './layouts/Dashboard.vue'
 import DashboardRTLLayout from './layouts/DashboardRTL.vue'

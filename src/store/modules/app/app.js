@@ -20,16 +20,11 @@ const mutations = {
 };
 
 const actions = {
-  setSecrets({commit}, {secrets}) {
-    // commit("SET_SECRETS", secrets);
-    // console.log("setSecrets");
-  },
   async getSecrets({commit}) {
     if(state.secrets == null) {
       const snapshot = await get(child(ref(getDatabase()), `root/secrets`))
       if (snapshot.exists()) {
         commit("SET_SECRETS", snapshot.val());
-        // console.log("getSecrets",snapshot.val())
       }
     }
   },

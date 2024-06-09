@@ -1,7 +1,7 @@
 <template>
 	<a-card hoverable style="padding: 2px;">
     	<a-card-meta :title='title'>
-      		<template #description>Citi Code: {{ticker}}</template>
+      		<template #description>Sedol: {{sedol}}</template>
     	</a-card-meta>
     	<template #cover>
 			<img v-if="ticker.length>0" :src="url" alt="Performance Chart" />
@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from "vuex";
+
 export default ({
 	props: {
 		title: {
@@ -19,11 +21,15 @@ export default ({
 		ticker: {
 			type: String,
 			default: "",
+		},
+		sedol: {
+			type: String,
+			default: "",
 		}
 	},
 	computed: {
-		chartUrl() {
-		}
+    	...mapState("funds", ["fundDetails"]),
+		...mapGetters("funds",["gfundDetail"]),
 	},
 	data() {
 		return {
@@ -31,7 +37,14 @@ export default ({
 		}
 	},
 	methods: {
-	}		
+		details(key) {
+			return this.gfundDetail(key)
+		}
+	},
+	mounted() {
+		// this.details(this.ticker)
+    	console.log(`CardChartFundInfo:${this.title} - ${this.sedol}`);
+	},
 })
 </script>
 
@@ -39,4 +52,13 @@ export default ({
 img {
   transform: scale(0.95);
 }
+
+.price-divide {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-right: 0.4em;
+    padding-right: 0.4em;
+    border-right: 0.13em solid #1e1d56;
+}
+
 </style>
