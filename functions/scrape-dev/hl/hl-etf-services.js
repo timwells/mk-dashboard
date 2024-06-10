@@ -470,25 +470,36 @@ Has Funds: Ark Investment Management (051)
 */
 // document.querySelector("#mainContent > div > div > div:nth-child(3) > div.table-overflow-wrapper > table > tbody > tr:nth-child(1) > td > table > tbody > tr")
 
+
+async function getProviderFundListing(url) {
+    console.log(url)
+
+    try {
+      const { data } = await axios.get(url)    
+      const $ = await cheerio.load(data)
+      return $
+    }
+    catch(e) {
+        console.log("getProviderFundListing:",e.message)
+    }
+}
+
+async function processProviderFundListing($) {
+    const tableRows = $(`table[summary="ETF search results"] tbody tr`);
+    console.log("processProviderFundListing - Rows:",tableRows.length)
+}
+
 async function getProviderFundPages($) {
-    // const pages = $(`table[summary="ETF search results"] > tbody > tr > td > table > tbody`);
+    // Has more than 1 page
+    const additionalPages = $(`table[summary="ETF search results"] > tbody > tr:nth-child(1) > td > table > tbody > tr`)
+    let aTags = $(additionalPages).find('a')
 
-    const pages = $(`table[summary="ETF search results"] > tbody > tr:nth-child(1) > td > table > tbody > tr`)
-
-    console.log(pages.length);
-    let aTags = $(pages).find('a')
-
+    let pageQueries = []
     aTags.each((i,e) => {
-        console.log("=>",i,$(e).attr("href"));
+        pageQueries.push($(e).attr("href"))
     })
-    //pages.each((i,e) => {
-    //    let hrefs = $(e).find('a)
-    //    console.log("=>",i,$(e).attr("href"));
-    //})
-    //if(tableRows.length > 0) {
-    //    console.log(tableRows.length);
-    // Iterate Pages
 
+    return pageQueries;
 }
 
 
@@ -497,27 +508,29 @@ async function listProviderFunds(providers) {
     let offset = 0
     for(let i=0; i < providers.length; i++) {
         const path = `${ETF_PROVIDER_FUNDS_PATH}?offset=${offset}&etf_search_input=&companyid=${providers[i].id}&sectorid=`     
-        let { data } = await axios.get(path)    
-        const $ = await cheerio.load(data)
+
+        // Query First Fund Listing Page
+        let $ = await getProviderFundListing(path)
 
         // Check results exist
         if($(`#no_results`).html() !== null) {
             console.log(`no_results for: ${providers[i].name} (${providers[i].id})`)
         } else {
-            console.log(path)
             console.log(`Has Funds: ${providers[i].name} (${providers[i].id})`)
-            await getProviderFundPages($)
+
+            // Determine futher Pages from first query.
+            let pageQueries = await getProviderFundPages($)
+
+            // Process current and next page
+            for(let pidx = 0; pidx < pageQueries.length; pidx++) {
+                processProviderFundListing($)
+                $ = await getProviderFundListing(pageQueries[pidx])
+            }
         }
 
-        // console.log(providers[i])
-        //for(let p = 0; p < nPages && pCont; p++) {
-        //    const path = `${ETF_PROVIDER_FUNDS_PATH}?offset=${offset}&etf_search_input=&companyid=${managers[i]}&sectorid&tab=prices`     
-        //    console.log(path)
-            
-            // let { data } = await axios.get(path)    
-            // const $ = await cheerio.load(data)
-        }
+        console.log("===========================")
     }
+}
 
 
 // https://www.hl.co.uk/shares/exchange-traded-funds-etfs/list-of-etfs?offset=50&;etf_search_input=&;companyid=043&sectorid=
