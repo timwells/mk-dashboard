@@ -469,8 +469,6 @@ Has Funds: Ark Investment Management (051)
 5
 */
 // document.querySelector("#mainContent > div > div > div:nth-child(3) > div.table-overflow-wrapper > table > tbody > tr:nth-child(1) > td > table > tbody > tr")
-
-
 async function getProviderFundListing(url) {
     console.log(url)
 
@@ -486,7 +484,36 @@ async function getProviderFundListing(url) {
 
 async function processProviderFundListing($) {
     const tableRows = $(`table[summary="ETF search results"] tbody tr`);
+    
     console.log("processProviderFundListing - Rows:",tableRows.length)
+
+
+/*
+const pets = ['cat', 'dog', 'bat'];
+console.log(pets.includes('cat'));
+// Expected output: true
+console.log(pets.includes('at'));
+// Expected output: false
+*/
+
+    tableRows.each((i,row) => {
+        let c = $(row).find('td');                        
+        const skipEntities = ["&nbsp;", "Page:"," ",""];
+        c.each((j, col) => {
+            let html = $(col).html()
+            let bSkip = html.includes("&nbsp;") || html.includes("Page") // || html.includes("");
+
+            if(!bSkip) {
+                let entity = $(col).text().replace(/[\n|\t]/gm, '')
+                if((entity.length !== 0)) {
+                    console.log(i," Process:",entity.length,sText(entity,28))
+                    if(entity.length === 1) {
+                        // console.log($(col).html())
+                    }
+                }
+            }
+        })
+    })
 }
 
 async function getProviderFundPages($) {
@@ -501,7 +528,6 @@ async function getProviderFundPages($) {
 
     return pageQueries;
 }
-
 
 async function listProviderFunds(providers) {
     console.log("listProviderFunds:")
@@ -518,10 +544,10 @@ async function listProviderFunds(providers) {
         } else {
             console.log(`Has Funds: ${providers[i].name} (${providers[i].id})`)
 
-            // Determine futher Pages from first query.
+            // Determine further Pages from first query.
             let pageQueries = await getProviderFundPages($)
 
-            // Process current and next page
+            // Process current, then query next page till done.
             for(let pidx = 0; pidx < pageQueries.length; pidx++) {
                 processProviderFundListing($)
                 $ = await getProviderFundListing(pageQueries[pidx])
