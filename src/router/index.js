@@ -104,6 +104,12 @@ let routes = [
 		component: () => import('../views/Funds.vue'),
 		meta: { requiresAuth: true }
 	},{
+		path: '/etfs',
+		name: 'ETFs',
+		layout: "dashboard",
+		component: () => import('../views/EtfsView.vue'),
+		meta: { requiresAuth: true }
+	},{
 		path: '/market-indicators',
 		name: 'Market Indicators',
 		layout: "dashboard",

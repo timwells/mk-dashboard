@@ -36,6 +36,7 @@
                   type="search"
                   :style="{ color: filtered ? '#108ee9' : undefined }"
                 />
+
 			<a-button icon="plus" type="primary" slot="action" slot-scope="record" @click="onExpand(record.key)"></a-button>
 
 			<div slot="expandedRowRender" slot-scope="record" style="margin: 0">
@@ -48,6 +49,7 @@
 					:performance="record.performance">
 				</CardChartInfoIframe>
 			</div>
+			
 			<!-- Fund Name -->
 			<template slot="name" slot-scope="text, record, index, column">
 				<span v-if="searchText && searchedColumn === column.dataIndex">

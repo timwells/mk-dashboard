@@ -35,13 +35,14 @@
 </template>
 
 <script>
-const sidebarItems= [
+const sidebarItems = [
 
 	{title: "Markets", linkTo: "/dashboard"},
 	{title: "DCF Notes", linkTo: "/dcf"},
 	{title: "Ratios",linkTo: "/market-ratios"},
 
 	{title: "Funds",linkTo: "/funds"},
+	{title: "ETFs",linkTo: "/etfs"},
 	{title: "NakedTrades",linkTo: "/trades"},
 	{title: "Dividends",linkTo: "/dividend-data"},
 

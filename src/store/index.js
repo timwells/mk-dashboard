@@ -6,6 +6,7 @@ import app from "./modules/app/app";
 import auth from "./modules/auth/auth";
 import markets from "./modules/markets/markets";
 import funds from "./modules/funds/funds";
+import etfs from "./modules/etfs/etfs";
 import quote from "./modules/quote/quote";
 import trends from "./modules/trends/trends";
 import indicators from "./modules/indicators/indicators";
@@ -28,7 +29,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   modules: {
     app, auth,
-    funds, markets, quote,
+    funds, etfs, markets, quote,
     trends, indicators, newsfeed,
     sa, tradeview, 
     wscrape,

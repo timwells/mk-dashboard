@@ -153,12 +153,22 @@ async function listProviders() {
     await listProviderFunds(providers)
 }
 
-async function testDetail() {
-    await getProviderFundDetails()
+async function mergeProviders() {
+    console.log("mergeProviders")
+
+    let AggreatedEtfs = []
+    let files = await c.getFilesByPattern("./ETFs","*")
+
+    for(let f in files) {
+        let etfs = JSON.parse(await c.readFileAsync(files[f]))
+        if(etfs.length > 0) { 
+            AggreatedEtfs.push(...etfs);
+        }
+    }
+    await c.writeFileAsync(`./allETFs.json`,JSON.stringify(AggreatedEtfs));
 }
 
 module.exports = {
-
     listProviders,
-    testDetail,
+    mergeProviders
 }

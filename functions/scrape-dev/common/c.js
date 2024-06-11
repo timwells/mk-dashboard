@@ -6,6 +6,8 @@ const writeFileAsync = promisify(fs.writeFile)
 const readFileAsync = promisify(fs.readFile)
 const puppeteer = require('puppeteer');
 
+function version() { return "1.0" }
+
 let gPuppetInstance = null
 async function getPuppetInstance() {
     if(!gPuppetInstance) {
@@ -65,9 +67,7 @@ async function sText(text, maxLength) {
       return text;
   }
 }
-function version() {
-  return "1.0"
-}
+
 module.exports = {
     sText,
     version,
