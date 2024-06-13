@@ -3,7 +3,8 @@
 		<a-table 
 			:columns="columns" 
 			:data-source="etfs" 
-			:pagination="pagination" 
+			:pagination="pagination"
+			@expand="onExpand"
 			:rowKey="record => record.key"
 			class='table table-small' style="margin:6">
 
@@ -42,6 +43,16 @@
 					<a-tab-pane key="0" tab="Chart">
 						<h6><a :href="record.href" target="_blank">{{ record.name }}</a></h6>
 						<img  :src="getChart(record.sedol)" alt="Performance Chart" />
+					</a-tab-pane>
+
+					<a-tab-pane key="1" tab="Holdings">
+						<
+					</a-tab-pane>
+					<a-tab-pane key="2" tab="Performance">
+					</a-tab-pane>
+					<a-tab-pane key="3" tab="Sectors">
+					</a-tab-pane>
+					<a-tab-pane key="4" tab="Countries">
 					</a-tab-pane>
 				</a-tabs>
 			</div>
@@ -148,7 +159,20 @@ export default ({
     	},
 		getChart(sedol) {
 			return `https://chart.hl.co.uk/charts/chart.jsproto_large.chart?ID_SEDOL=${sedol}&amp;WIDTH=511&amp;HEIGHT=239&amp;TIME_SPAN=10Y&amp;SUBSAMPLINGGRANULARITY=MONTH&amp;XAXISCLOSECOL=0&amp;LINE_WIDTH=2&amp;MOUNTAIN_COLOR1=ffffff&amp;MOUNTAIN_COLOR2=ffffff&amp;MOUNTAIN_COLOR3=ffffff&amp;MOUNTAIN_COLOR4=ffffff&amp;ID_NOTATION_COLOR1=0000FF`
-		}
+		},
+		getEtfDetail(etf) {
+			this.$store.dispatch("etf/getetfDetail",{etf: etf });
+		},
+		getEtfDetail2() {
+			console.log("getEtfDetail2")
+		},
+		//expandedRowRender(record) {
+      	//	return `<p>${record.name}'s details</p>`;
+    	//}
+		//,
+    	onExpand(expanded, record) {
+      		console.log('Expander button clicked', { expanded, record });
+    	},
 	},
 	mounted() {
 		this.$store.dispatch("etfs/getETFs");

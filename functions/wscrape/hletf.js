@@ -14,7 +14,6 @@ async function _fundDetail(path) {
         let { data } = await axios.get(path)
         const $ = await cheerio.load(data)
 
-
         details.name = $("head meta[name='Fund_Title']").attr("content");
         details.href = path;
 
@@ -186,7 +185,6 @@ const _testdetails2 = async (path) => {
         details.tradeable = $("head meta[name='Share_Tradeable']").attr("content");
 
         // top-holdings
-
         let holdings = [];
         let HoldingsTable = $('#top_10_exposures_data .factsheet-table');
         
