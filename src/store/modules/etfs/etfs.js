@@ -9,17 +9,17 @@ import {
 
 const state = {
   etfs: null,  
-  etfDetails: [],
+  etfsDetails: [],
 }
 
 const getters = {
-  getEtfDetail: (state) => (sedol) => state.etfDetails.find((fd) => (fd.sedol === sedol)),
+  gEtfDetail: (state) => (sedol) => state.etfsDetails.find((fd) => (fd.sedol === sedol)),
 }
 
 
 const mutations = {
     SET_ETFS: (state, payload) => (state.etfs = payload),
-    SET_ETF_DETAILS: (state, payload) => state.etfDetails.push(payload),
+    SET_ETF_DETAILS: (state, payload) => state.etfsDetails.push(payload),
 };
 
 const actions = {
@@ -29,9 +29,14 @@ const actions = {
     commit("SET_ETFS",  data)
   },
 
-  async getEtfDetail({ commit }, { etf }) {
-    const { data } = axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/hletf/testdetails2?etf=${etf}`, { headers: APP_FINTECH_HEADERS })
-    commit(" SET_ETF_DETAILS", data)
+  async getEtfDetail({ commit }, { sedol }) {  
+    if(state.etfsDetails.find((fd) => (fd.sedol === sedol)) === undefined) {
+        const { data } = await 
+          axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/hletf/testdetails2?etf=shares/shares-search-results/${sedol}`, 
+                                    { headers: APP_FINTECH_HEADERS })
+      console.log(data)
+      commit("SET_ETF_DETAILS", data)
+    }
   },
 }
 

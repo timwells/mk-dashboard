@@ -5,7 +5,7 @@
 			:data-source="etfs" 
 			:pagination="pagination"
 			@expand="onExpand"
-			:rowKey="record => record.key"
+			:rowKey="(record,i) => i"
 			class='table table-small' style="margin:6">
 
 			<div slot="filterDropdown"
@@ -46,7 +46,7 @@
 					</a-tab-pane>
 
 					<a-tab-pane key="1" tab="Holdings">
-						<
+						
 					</a-tab-pane>
 					<a-tab-pane key="2" tab="Performance">
 					</a-tab-pane>
@@ -54,6 +54,10 @@
 					</a-tab-pane>
 					<a-tab-pane key="4" tab="Countries">
 					</a-tab-pane>
+					<a-tab-pane key="5" tab="RawData">
+						<pre>{{ gEtfDetail(record.sedol) }}</pre>
+					</a-tab-pane>
+
 				</a-tabs>
 			</div>
 
@@ -126,7 +130,7 @@ const columns = [
 	}
 ];
 
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default ({
 	components: {
@@ -134,6 +138,8 @@ export default ({
 	},
 	computed: {
     	...mapState("etfs", ["etfs"]),
+		...mapGetters("etfs",["gEtfDetail"]),
+
 	},
 	data() {
 		return {
@@ -161,7 +167,7 @@ export default ({
 			return `https://chart.hl.co.uk/charts/chart.jsproto_large.chart?ID_SEDOL=${sedol}&amp;WIDTH=511&amp;HEIGHT=239&amp;TIME_SPAN=10Y&amp;SUBSAMPLINGGRANULARITY=MONTH&amp;XAXISCLOSECOL=0&amp;LINE_WIDTH=2&amp;MOUNTAIN_COLOR1=ffffff&amp;MOUNTAIN_COLOR2=ffffff&amp;MOUNTAIN_COLOR3=ffffff&amp;MOUNTAIN_COLOR4=ffffff&amp;ID_NOTATION_COLOR1=0000FF`
 		},
 		getEtfDetail(etf) {
-			this.$store.dispatch("etf/getetfDetail",{etf: etf });
+			this.$store.dispatch("etfs/getetfDetail",{etf: etf });
 		},
 		getEtfDetail2() {
 			console.log("getEtfDetail2")
@@ -171,7 +177,7 @@ export default ({
     	//}
 		//,
     	onExpand(expanded, record) {
-      		console.log('Expander button clicked', { expanded, record });
+			this.$store.dispatch("etfs/getEtfDetail",{sedol: record.sedol });
     	},
 	},
 	mounted() {
