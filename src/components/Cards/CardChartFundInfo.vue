@@ -43,7 +43,7 @@ export default ({
 	},
 	mounted() {
 		// this.details(this.ticker)
-    	console.log(`CardChartFundInfo:${this.title} - ${this.sedol}`);
+    	// console.log(`CardChartFundInfo:${this.title} - ${this.sedol}`);
 	},
 })
 </script>

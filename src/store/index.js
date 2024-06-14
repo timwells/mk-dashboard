@@ -23,6 +23,7 @@ import divd from "./modules/divd/divd"
 import mtpl from "./modules/mtpl/mtpl"
 import dcf from "./modules/dcf/dcf"
 import san from "./modules/san/san"
+import cnn from "./modules/cnn/cnn"
 
 Vue.use(Vuex);
 
@@ -33,7 +34,7 @@ export default new Vuex.Store({
     trends, indicators, newsfeed,
     sa, tradeview, 
     wscrape,
-    nt,
+    nt,cnn,
     divd,
     mtpl,
     crypto, stockwatch, pb,

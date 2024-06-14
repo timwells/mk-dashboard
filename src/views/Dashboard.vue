@@ -22,7 +22,11 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-	</a-tabs>
+		<a-tab-pane key="4" tab="Sentiment">
+			<pre>{{ sentiment }}</pre>
+			<!--a-row :gutter="24" type="flex" align="stretch"></a-row-->
+		</a-tab-pane>
+		</a-tabs>
 </template>
 
 <script>
@@ -45,7 +49,8 @@ export default ({
     	...mapState("markets", ["markets"]),
 		...mapGetters("markets",["getGroup"]),
 
-    	...mapState("wscrape", ["qqData"]),
+    	//...mapState("wscrape", ["qqData"]),
+    	...mapState("cnn", ["sentiment"]),
 	},
 	data() {
 		return {
@@ -53,6 +58,7 @@ export default ({
 	},
 	mounted() {
 	    this.$store.dispatch("markets/getMarkets");
+	    this.$store.dispatch("cnn/getSentiment");
 	    //this.$store.dispatch("wscrape/getQQData");
 	}
 })
