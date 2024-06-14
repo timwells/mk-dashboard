@@ -30,11 +30,11 @@ const actions = {
   },
 
   async getEtfDetail({ commit }, { sedol }) {  
+    // Check if Cached
     if(state.etfsDetails.find((fd) => (fd.sedol === sedol)) === undefined) {
         const { data } = await 
           axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/hletf/testdetails2?etf=shares/shares-search-results/${sedol}`, 
                                     { headers: APP_FINTECH_HEADERS })
-      console.log(data)
       commit("SET_ETF_DETAILS", data)
     }
   },

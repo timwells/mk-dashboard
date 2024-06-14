@@ -1,7 +1,7 @@
 <template>
 	<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
 		<a-table 
-			:columns="columns" 
+			:columns="COLUMNS" 
 			:data-source="etfs" 
 			:pagination="pagination"
 			@expand="onExpand"
@@ -41,23 +41,80 @@
 			<div slot="expandedRowRender" slot-scope="record" style="margin: 0">
 				<a-tabs default-active-key="0">
 					<a-tab-pane key="0" tab="Chart">
-						<h6><a :href="record.href" target="_blank">{{ record.name }}</a></h6>
-						<img  :src="getChart(record.sedol)" alt="Performance Chart" />
+						<a-card class="card-content">					
+							<h6><a :href="record.href" target="_blank">{{ record.name }}</a></h6>
+							<img :src="getChart(record.sedol)" alt="Performance Chart" />
+							<p v-if="gEtfDetail(record.sedol)">{{gEtfDetail(record.sedol).aim}}</p>
+							<!--a-row :gutter="24" type="flex" align="stretch">
+								<a-col :span="18" :lg="18" :xl="18" class="mb-18">			
+									<img :src="getChart(record.sedol)" alt="Performance Chart" />
+								</a-col>
+								<a-col :span="8" :lg="8" :xl="8" class="mb-">			
+									<p>{{gEtfDetail(record.sedol).aim}} </p>
+								</a-col>
+							</a-row-->
+						</a-card>
 					</a-tab-pane>
-
 					<a-tab-pane key="1" tab="Holdings">
-						
+						<a-card class="card-content">						
+
+							<a-table v-if="gEtfDetail(record.sedol)"
+								:columns="HOLDINGColumns"
+								:data-source="gEtfDetail(record.sedol).holdings"
+								:pagination="false"
+								:rowKey="(record,i) => i"
+								class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
+								<template slot="security" slot-scope="security">
+									<p class="m-0 font-regular text-muted">{{ security }}</p>
+								</template>
+								<template slot="weight" slot-scope="weight">
+									<p class="m-0 font-regular text-muted">{{ weight }}</p>
+								</template>
+							</a-table>
+						</a-card>					
 					</a-tab-pane>
 					<a-tab-pane key="2" tab="Performance">
 					</a-tab-pane>
 					<a-tab-pane key="3" tab="Sectors">
+						<a-card class="card-content">
+							<a-table v-if="gEtfDetail(record.sedol)"
+								:columns="SECTORColumns"
+								:data-source="gEtfDetail(record.sedol).sectors"
+								:pagination="false"
+								:rowKey="(record,i) => i"
+								class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
+								<template slot="sector" slot-scope="sector">
+									<p class="m-0 font-regular text-muted">{{ sector }}</p>
+								</template>
+								<template slot="weight" slot-scope="weight">
+									<p class="m-0 font-regular text-muted">{{ weight }}</p>
+								</template>
+							</a-table>						
+						</a-card>						
 					</a-tab-pane>
 					<a-tab-pane key="4" tab="Countries">
+						<a-card class="card-content">
+							<a-table v-if="gEtfDetail(record.sedol)"
+								:columns="COUNTRYColumns"
+								:data-source="gEtfDetail(record.sedol).countries"
+								:pagination="false"
+								:rowKey="(record,i) => i"
+								class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
+								<template slot="country" slot-scope="country">
+									<p class="m-0 font-regular text-muted">{{ country }}</p>
+								</template>
+								<template slot="weight" slot-scope="weight">
+									<p class="m-0 font-regular text-muted">{{ weight }}</p>
+								</template>
+							</a-table>						
+						</a-card>
 					</a-tab-pane>
-					<a-tab-pane key="5" tab="RawData">
-						<pre>{{ gEtfDetail(record.sedol) }}</pre>
-					</a-tab-pane>
+					<!--a-tab-pane key="5" tab="RawData">
+						<a-card class="card-content">						
 
+							<pre>{{ gEtfDetail(record.sedol) }}</pre>
+						</a-card>						
+					</a-tab-pane-->
 				</a-tabs>
 			</div>
 
@@ -83,8 +140,15 @@
 
 <script>
 import CardChartInfoIframe from '@/components/Cards/CardChartInfoIframe';
+import { 
+	HOLDINGColumns,
+    PERIODColumns,
+    SECTORColumns,
+    COUNTRYColumns
+} from '@/common/table'
 
-const columns = [
+
+const COLUMNS = [
 	{
 		title: 'Name',
 		dataIndex: 'name',
@@ -139,11 +203,10 @@ export default ({
 	computed: {
     	...mapState("etfs", ["etfs"]),
 		...mapGetters("etfs",["gEtfDetail"]),
-
 	},
 	data() {
 		return {
-			columns,
+			COLUMNS,
 			pagination: { pageSize: 1000 },
 
 			curExpandedRowKeys: [],
@@ -151,6 +214,11 @@ export default ({
 			searchText: "",
 	    	searchInput: null,
     		searchedColumn: "",
+
+
+			HOLDINGColumns,
+			SECTORColumns,
+			COUNTRYColumns
 		}
 	},
 	methods: {

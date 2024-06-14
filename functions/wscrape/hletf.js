@@ -6,7 +6,7 @@ const HL_HOST = 'https://www.hl.co.uk'
 
 // https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/
 // search-results/j/jupiter-india-select-class-d-gbp-accumulation
-
+const VERSION = 0.5
 async function _fundDetail(path) {
     let details = null
     try {
@@ -165,45 +165,100 @@ const testdetails = async (req, res) => {
 const _testdetails2 = async (path) => {
     let details = null
     try {
-        details = {}        
+        details = {}
+        details.version = VERSION
+
         let { data } = await axios.get(path)
         const $ = await cheerio.load(data)
-
-        /*
-        <meta content="Fidelity" name="Share_Title">
-        <meta content="Sustainable Research Enhanced US Equity UCITS ETF" name="Share_Description">
-        <meta content="BLH8ZK8" name="Share_Sedol">
-        <meta content="FUSS" name="Share_EPIC">
-        <meta content="FUSS" name="Share_Identifier">
-        <meta content="yes" name="Share_Tradeable">
-        */
 
         details.provider = $("head meta[name='Share_Title']").attr("content");
         details.name = $("head meta[name='Share_Description']").attr("content");
         details.sedol = $("head meta[name='Share_Sedol']").attr("content");
         details.epic = $("head meta[name='Share_EPIC']").attr("content");
         details.tradeable = $("head meta[name='Share_Tradeable']").attr("content");
+        details.url = $("head meta[property='og:url']").attr("content");
 
-        // top-holdings
+        // Costs
+        //details.onc = $("span #ongoing_charge_rate")
+        // console.log($("th #managementFee span"))
+
+        details.aim = $("#etf-aim-full div").text().trimEnd().trimStart();
+
+
+        // top-top_10_exposures_data
         let holdings = [];
-        let HoldingsTable = $('#top_10_exposures_data .factsheet-table');
+        let holdingsTable = $('#top_10_exposures_data .factsheet-table tbody');
         
-        HoldingsTable.find('tr').each((i, row) => {
-            let colsD = $(row).find('td');          
+        holdingsTable.find('tr').each((i, row) => {
+            let cD = $(row).find('td');          
             
-            colsD.each((j, col) => {
+            let holding = {}
+            cD.each((j, col) => {
                 let entity = $(col).text().replace(/[\n|\t]/gm, '').trimEnd().trimStart();
-                if(j === 0) {
-                    let holding = {}
-                    holding.security = entity.
-                    holding.weight = ""
-                    holdings.push(holding)
-                } else {
-                    holdings[i-1].weight = entity
-                }
+                switch(j) {
+                    case 0: { holding.security = entity;} break;
+                    case 1: { holding.weight = entity; holdings.push(holding);} break;
+                }                
             });
         })
         details.holdings = holdings
+
+        // top_10_sectors_data
+        let sectors = [];
+        let sectorsTable = $('#top_10_sectors_data .factsheet-table tbody');
+        
+        sectorsTable.find('tr').each((i, row) => {
+            let cD = $(row).find('td');          
+            
+            let sector = {}
+            cD.each((j, col) => {
+                let entity = $(col).text().replace(/[\n|\t]/gm, '').trimEnd().trimStart();
+                switch(j) {
+                    case 0: { sector.sector = entity;} break;
+                    case 1: { sector.weight = entity; sectors.push(sector);} break;
+                }                
+            });
+        })
+        details.sectors = sectors
+
+        // top_10_countries_data
+        let countries = [];
+        let countriesTable = $('#top_10_countries_data .factsheet-table tbody');
+        
+        countriesTable.find('tr').each((i, row) => {
+            let cD = $(row).find('td');          
+            
+            let country = {}
+            cD.each((j, col) => {
+                let entity = $(col).text().replace(/[\n|\t]/gm, '').trimEnd().trimStart();
+                switch(j) {
+                    case 0: { country.country = entity;} break;
+                    case 1: { country.weight = entity; countries.push(country);} break;
+                }                
+            });
+        })
+        details.countries = countries
+
+        // About
+        let abouts = [];
+        const h2Element = $("h2[itemprop='about']");
+        let aboutsTable = h2Element.parent().find(".factsheet-table tbody")
+        aboutsTable.find('tr').each((i, row) => {
+            let about = {}
+            let cH = $(row).find('th');
+            cH.each((j, col) => {
+                about.category = $(col).text().replace(/[\n|\t]/gm, '').replace(":",'').trimEnd().trimStart()
+            });
+
+            let cD = $(row).find('td');
+            cD.each((j, col) => {
+                about.value = $(col).text().replace(/[\n|\t]/gm, '').trimEnd().trimStart();; 
+            });
+            abouts.push(about);
+        })
+
+        details.abouts = abouts
+
     } catch (e) {
         
     }
@@ -215,7 +270,6 @@ const testdetails2 = async (req, res) => {
     let details = await _testdetails2(path)
     res.status(200).send(details)
 }
-
 
 const details = async (req, res) => {
     let fd = await _fundDetail(`${HL_HOST}/${req.query.fund}`)
