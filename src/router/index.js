@@ -15,6 +15,13 @@ let routes = [
 		meta: { requiresAuth: true }
 	},
 	{
+		path: '/dashboard-bk',
+		name: 'Dashboard-bk',
+		layout: "dashboard",
+		component: () => import('../views/Dashboard-bk.vue'),
+		meta: { requiresAuth: true }
+	},
+	{
 		path: '/dashboard',
 		name: 'Dashboard',
 		layout: "dashboard",

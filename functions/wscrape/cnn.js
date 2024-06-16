@@ -12,6 +12,31 @@ const HEADERS = {
 const marketsentiment = async (req, res) => {   
     try {
         const { data } = await axios.get(CNN_FEAR_AND_GREED, { headers: HEADERS});
+
+        // Combine F&G date-time and values
+        data.fear_and_greed_historical.data = data.fear_and_greed_historical.data.map(e => [e.x, e.y.toFixed(1)]);
+
+        // Combine Vix date-time and values
+        data.market_volatility_vix.data = data.market_volatility_vix.data.map(e => [e.x, e.y.toFixed(1)]);
+
+        return res.status(200).json(data)
+    }catch(e) {
+        console.log(e.message)
+    }
+    return res.status(500).send("error")
+}
+
+const marketsentiment2 = async (req, res) => {   
+    try {
+        const { data } = await axios.get(CNN_FEAR_AND_GREED, { headers: HEADERS});
+
+        /*
+        data: [
+            [1327359600000,30.95],
+            [1327446000000,31.34],
+        */
+        // Combine F&G date-time and value
+        data.fear_and_greed_historical.data = data.fear_and_greed_historical.data.map(e => [e.x, e.y]);
         return res.status(200).json(data)
     }catch(e) {
         console.log(e.message)
@@ -20,5 +45,6 @@ const marketsentiment = async (req, res) => {
 }
 
 module.exports = {
-    marketsentiment
+    marketsentiment,
+    marketsentiment2
 }

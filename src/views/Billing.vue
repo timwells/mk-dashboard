@@ -1,8 +1,3 @@
-<!-- 
-	This is the billing page, it uses the dashboard layout in: 
-	"./layouts/Dashboard.vue" .
- -->
-
 <template>
 	<div>
 		<a-row type="flex" :gutter="24">
@@ -10,14 +5,11 @@
 			<a-col :span="24" :md="16">
 				<a-row type="flex" :gutter="24">
 					<a-col :span="24" :xl="12" class="mb-24">
-
 						<!-- Master Card -->
 						<CardCredit></CardCredit>
 						<!-- / Master Card -->
-
 					</a-col>
 					<a-col :span="12" :xl="6" class="mb-24" v-for="(salary, index) in salaries" :key="index">
-
 						<!-- Salary Card -->
 						<WidgetSalary
 							:value="salary.value"
@@ -27,7 +19,6 @@
 							:content="salary.content"
 						></WidgetSalary>
 						<!-- / Salary Card -->
-
 					</a-col>
 					<a-col :span="24" class="mb-24">
 

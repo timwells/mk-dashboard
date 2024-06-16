@@ -17,38 +17,43 @@
 </template>
 
 <script>
-
-	export default ({
-		props: {
-			title: {
-				type: String,
-				default: "",
-			},
-			value: {
-				type: Number,
-				default: 0,
-			},
-			prefix: {
-				type: String,
-				default: "",
-			},
-			suffix: {
-				type: String,
-				default: "",
-			},
-			icon: {
-				type: String,
-				default: "",
-			},
-			status: {
-				type: String,
-				default: "success",
-			},
+export default ({
+	props: {
+		title: {
+			type: String,
+			default: "",
 		},
-		data() {
-			return {
-			}
+		value: {
+			type: Number,
+			default: 0,
 		},
-	})
+		prefix: {
+			type: String,
+			default: "",
+		},
+		suffix: {
+			type: String,
+			default: "",
+		},
+		icon: {
+			type: String,
+			default: "",
+		},
+		status: {
+			type: String,
+			default: "success",
+		},
+	},
+	data() {
+		return {
+		}
+	},
+})
 
 </script>
+<style lang="scss">
+/* .widget-1 > .ant-statistic-content-suffix { */
+.widget-1 {
+    font-size: 28px;
+}
+</style>

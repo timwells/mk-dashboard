@@ -1,30 +1,37 @@
 import {
-    genericGet
-  } from "../common/c.js"
+  genericGet
+} from "../common/c.js"
   
-  const state = {
-    sentiment: null,
-  };
+const state = {
+  sentiment: null,
+};
   
-  const getters = {
-  }
+const getters = {
+  gFearAndGreedHistorical: (state) => () => state.sentiment.fear_and_greed_historical,
+  gFearAndGreedHistoricalData: (state) => 
+    () => state.sentiment.fear_and_greed_historical.data.map((e) =>  e.y),
+  gFearAndGreedHistoricalDataLabel: (state) => 
+    () => state.sentiment.fear_and_greed_historical.data.map((e) =>  (new Date(e.x )).toDateString()),
+}
   
-  const mutations = {
-    SET_SENTIMENT_DATA: (state, payload) => (state.sentiment = payload),
-  };
+const mutations = {
+  SET_SENTIMENT_DATA: (state, payload) => { 
+    console.log(payload); 
+    return (state.sentiment = payload) 
+  },
+};
   
-  const actions = {
-    async getSentiment({ commit }) {
-      await genericGet(`/fintech/v1/scrape/cnn/marketsentiment`,"SET_SENTIMENT_DATA",null,{commit})
-    },
-    // https://us-central1-mk-d-b59f2.cloudfunctions.net/fintech/v1/scrape/cnn/marketsentiment
-  }
+const actions = {
+  async getSentiment({ commit }) {
+    await genericGet(`/fintech/v1/scrape/cnn/marketsentiment`,"SET_SENTIMENT_DATA",null,{commit})
+  },
+}
   
-  export default {
-    namespaced: true,
-    state,
-    getters,
-    mutations,
-    actions
-  }
+export default {
+  namespaced: true,
+  state,
+  getters,
+  mutations,
+  actions
+}
   

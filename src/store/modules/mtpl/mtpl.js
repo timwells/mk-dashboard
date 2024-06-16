@@ -28,13 +28,6 @@ const mutations = {
 
 const actions = {
   async getMtplData({ commit },{ ds }) {
-    // const index = state.mtplDataSets.findIndex(obj => {
-    //    console.log(obj.ds);
-    //    return (obj.ds === ds);
-    //});
-
-    // console.log('getMtplData',ds,index)
-    // if(index === -1) {
       axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/mtpl/dataset?ds=${ds}`, { headers: HEADERS })
         .then(response => { 
           console.log(response.data)

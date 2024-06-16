@@ -17,3 +17,4 @@ https://1x.antdv.com/components/tabs
 Global Strategic Value Fund Sterling Class A Income Shares
 https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/m/m-and-g-global-strategic-value-class-i-income/charts
 
+https://www.ukdividendstocks.com/top-stocks

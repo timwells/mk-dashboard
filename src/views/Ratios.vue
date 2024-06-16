@@ -47,21 +47,21 @@ const DS_10YR_TREASURY_RATE = "10-year-treasury-rate/table/by-month"
 
 const _CHART = { type: 'line', zoom: { enabled: false } }
 const _DATALABLES = { enabled: false }
-const _STROKE = { curve: 'straight',  width: 3 }
+const _STROKE = { curve: 'straight',  width: 2 }
 const _TITLE = { text: '', align: 'left' }
 const _GRID = { row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5}}
 const _XAXIS = { categories: null, tickAmount: 25 }
 
 import { mapState, mapGetters } from "vuex";
-import { 
-	SciChartSurface, 
-	NumericAxis, 
-	XyDataSeries, 
-	FastLineRenderableSeries, 
-	EAutoRange,
-	RolloverModifier,
-	EWatermarkPosition
-} from 'scichart';
+//import { 
+//	SciChartSurface, 
+//	NumericAxis, 
+//	XyDataSeries, 
+//	FastLineRenderableSeries, 
+//	EAutoRange,
+//	RolloverModifier,
+//	EWatermarkPosition
+//} from 'scichart';
 
 export default ({
 	components: {
@@ -74,10 +74,13 @@ export default ({
 		mtplDataSets(o,n) {
 			let index
 			index = this.gMtplDataSetExists(DS_SHILLER_PE)
+			
 			if(index > -1) {
 				this.shillerPESeries = [{ name: n[index].ds, data: n[index].rows.map(e => e.v)}]
 				this.shillerPEChartOpts.xaxis.categories = n[index].rows.map((v,i) => v.dts);
 				this.shillerPEChartOpts.title.text = n[index].ds
+
+				/*
 
 				const yValues = n[index].rows.map(e => e.v)
 				const xValues = n[index].rows.map((v,i) => v.dto)
@@ -92,6 +95,7 @@ export default ({
 				lineSeries.dataSeries.appendRange(xValues, yValues);
 
 				this.sciCSObj.sciChartSurface.renderableSeries.add(lineSeries);
+				*/
 			}
 			index = this.gMtplDataSetExists(DS_SP500_PE)
 			if(index > -1) {
