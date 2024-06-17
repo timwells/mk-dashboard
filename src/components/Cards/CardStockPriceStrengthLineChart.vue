@@ -8,11 +8,7 @@
 				<button id="ytd" @click="updateData('ytd')" :class="{active: selection==='ytd'}">YTD</button>          
           		<button id="all" @click="updateData('all')" :class="{active: selection==='all'}">ALL</button>
         	</div-->
-
-			<div class="toolbar">
-				<h6>{{ score.toFixed(2) }} / {{ rating }}</h6>
-			</div>	
-            <div id="fandg-chart-timeline">
+            <div id="vix-chart-timeline">
         		<apexchart type="line" height="300" ref="chart" :options="chartOptions" :series="series"></apexchart>
       		</div>
 		</div>
@@ -20,12 +16,14 @@
 </template>
 
 <script>
-// https://apexcharts.com/javascript-chart-demos/area-charts/datetime-x-axis/
+
 export default ({
 	props: {
-		historicalData: { type: Array, default: () => [], },
-		score: { type: String, default: "" },
-		rating: { type: String, default: ""}
+		historicalData: {
+			type: Array,
+			default: () => [],
+		},
+		
 	},
 	components: {
 	},
@@ -33,7 +31,7 @@ export default ({
 	},
 	data() {
 		return {
-			series: [{name: "F&G", data: this.historicalData}],
+			series: [{data: this.historicalData}],
 			chartOptions: { 
 				chart: { 
 					id: 'area-datetime', 
@@ -43,41 +41,37 @@ export default ({
 				},
 				annotations: {
 					yaxis: [{
-						y: 15,
-						borderColor: '#FF0000',
-						label: {
-							borderColor: '#FF0000', borderWidth: 4,
-							style: { color: '#fff', background: '#FF0000' },
-							text: 'Extreme Fear'
-						}
-					},{
-						y: 85,
+						y: -8,
 						borderColor: '#00AF00',
 						label: {
 							borderColor: '#00AF00', borderWidth: 4,
 							style: { color: '#fff', background: '#00AF00' },
 							text: 'Extreme Greed'
 						}
-					}
-				]
-			},
-			title:{ text: "CNN Fear & Greed"},
-			stroke: { curve: 'smooth',  width: 2, colors:['#36454F', '#E91E63', '#9C27B0']},// colors: undefined }, // Allow colors to be defined in gradient
-            dataLabels: { enabled: false },
-            markers: { size: 0, style: 'hollow' },
-            xaxis: {
-              type: 'datetime',
-              min: new Date(this.historicalData[0][0]).getTime(),
-              tickAmount: 4,
-            },
-			yaxis: {
-          		min: 0,
-          		max: 100
-        	},
-            tooltip: { x: { format: 'dd MMM yyyy' }},
-			grid: { row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5}}
-          },
-          selection: 'one_year',
+					  },{
+						  y: 8,
+						  borderColor: '#FF0000',
+						  label: {
+							  borderColor: '#FF0000', borderWidth: 4,
+							  style: { color: '#fff', background: '#FF0000' },
+							  text: 'Extreme Fear'
+						  }
+					}]
+			  	},
+        		title:{ text: "CNN Stock Price Strength"},
+			  	stroke: { curve: 'smooth',  width: 2, colors:['#36454F', '#E91E63', '#9C27B0']},// colors: undefined }, // Allow colors to be defined in gradient
+            	dataLabels: { enabled: false },
+            	markers: { size: 0, style: 'hollow' },
+            	xaxis: {
+              		type: 'datetime',
+              		min: new Date(this.historicalData[0][0]).getTime(),
+              		tickAmount: 4,
+            	},
+			    yaxis: { min: -10, max: 10 },
+            	tooltip: { x: { format: 'dd MMM yyyy' }},
+			  	grid: { row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5}}
+      		},
+      		selection: 'one_year',
     	}
 	},
     methods: {

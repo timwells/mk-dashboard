@@ -1,6 +1,7 @@
 <template>
 	<a-tabs v-if="markets" default-active-key="1">
 		<a-tab-pane key="1" tab="Sentiment">
+			<a href="https://edition.cnn.com/markets/fear-and-greed" target="_blank">Click for: 'CNN Market Insights'</a>
 			<a-row v-if="sentiment!=null" :gutter="24">
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
 					<WidgetCounter 
@@ -40,15 +41,25 @@
 				</a-col>
 			</a-row>
 			<a-row>
-				<a-col v-if="sentiment!=null" :span="24" :lg="24" class="mb-24">
-					<CardFearAndGreedLineChart :historicalData="sentiment.fear_and_greed_historical.data"/>
+				<a-col v-if="sentiment!=null" :span="12" :lg="12" class="mb-12">
+					<CardFearAndGreedLineChart 
+						:historicalData="sentiment.fear_and_greed_historical.data" 
+						:score="sentiment.fear_and_greed_historical.score" 
+						:rating="sentiment.fear_and_greed_historical.rating"/>
 				</a-col>
-			</a-row>
-			<a-row>
-				<a-col v-if="sentiment!=null" :span="24" :lg="24" class="mb-24">
+				<a-col v-if="sentiment!=null" :span="12" :lg="12" class="mb-12">
 					<CardVixLineChart :historicalData="sentiment.market_volatility_vix.data"/>
 				</a-col>
 			</a-row>
+			<a-row>
+				<a-col v-if="sentiment!=null" :span="12" :lg="12" class="mb-12">
+					<CardSP500MomentumLineChart :historicalData="sentiment.market_momentum_sp500.data"/>
+				</a-col>
+				<a-col v-if="sentiment!=null" :span="12" :lg="12" class="mb-12">
+					<CardStockPriceStrengthLineChart :historicalData="sentiment.stock_price_strength.data"/>
+				</a-col>
+			</a-row>
+
 		</a-tab-pane>
 		<a-tab-pane key="2" tab="Funds">
 			<a-row type="flex" align="stretch">
@@ -86,7 +97,8 @@ import CardChartBondInfo from '../components/Cards/CardChartBondInfo';
 
 import CardFearAndGreedLineChart from '../components/Cards/CardFearAndGreedLineChart';
 import CardVixLineChart from '../components/Cards/CardVixLineChart';
-
+import CardSP500MomentumLineChart from '../components/Cards/CardSP500MomentumLineChart';
+import CardStockPriceStrengthLineChart from '../components/Cards/CardStockPriceStrengthLineChart';
 
 import WidgetCounter from '../components/Widgets/WidgetCounter' ;
 
@@ -188,6 +200,8 @@ export default ({
 
 		CardFearAndGreedLineChart,
 		CardVixLineChart,
+		CardSP500MomentumLineChart,
+		CardStockPriceStrengthLineChart,
 
 		WidgetCounter
 	},

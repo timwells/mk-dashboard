@@ -14,10 +14,16 @@ const marketsentiment = async (req, res) => {
         const { data } = await axios.get(CNN_FEAR_AND_GREED, { headers: HEADERS});
 
         // Combine F&G date-time and values
-        data.fear_and_greed_historical.data = data.fear_and_greed_historical.data.map(e => [e.x, e.y.toFixed(1)]);
+        data.fear_and_greed_historical.data = data.fear_and_greed_historical.data.map(e => [e.x, parseFloat(e.y.toFixed(1))]);
 
         // Combine Vix date-time and values
-        data.market_volatility_vix.data = data.market_volatility_vix.data.map(e => [e.x, e.y.toFixed(1)]);
+        data.market_volatility_vix.data = data.market_volatility_vix.data.map(e => [e.x, parseFloat(e.y.toFixed(1))]);
+
+        // Combine momentum_sp500 date-time and values
+        data.market_momentum_sp500.data =  data.market_momentum_sp500.data.map(e => [e.x, parseFloat(e.y.toFixed(1))]);
+
+        // Combine stock_price_strength date-time and values
+        data.stock_price_strength.data = data.stock_price_strength.data.map(e => [e.x, parseFloat(e.y.toFixed(2))]);
 
         return res.status(200).json(data)
     }catch(e) {
