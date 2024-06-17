@@ -9,7 +9,7 @@
           		<button id="all" @click="updateData('all')" :class="{active: selection==='all'}">ALL</button>
         	</div-->
             <div id="vix-chart-timeline">
-        		<apexchart type="area" height="350" ref="chart" :options="chartOptions" :series="series"></apexchart>
+        		<apexchart type="line" height="300" ref="chart" :options="chartOptions" :series="series"></apexchart>
       		</div>
 		</div>
 	</a-card>
@@ -38,56 +38,46 @@ export default ({
 		return {
 			series: [{data: this.historicalData}],
 			chartOptions: { 
-				chart: { id: 'area-datetime', type: 'area', height: 350, zoom: { autoScaleYaxis: true } },
-            /* annotations: {
-              yaxis: [{
-                y: 30,
-                borderColor: '#999',
-                label: {
-                  show: true,
-                  text: 'Support',
-                  style: {
-                    color: "#fff",
-                    background: '#00E396'
-                  }
-                }
-              }],
-              xaxis: [{
-                x: new Date('14 Nov 2012').getTime(),
-                borderColor: '#999',
-                yAxisIndex: 0,
-                label: {
-                  show: true,
-                  text: 'Rally',
-                  style: {
-                    color: "#fff",
-                    background: '#775DD0'
-                  }
-                }
-              }]
-            },*/
+				chart: { 
+					id: 'area-datetime', 
+					type: 'line', 
+					height: 300, 
+					zoom: { autoScaleYaxis: true } 
+				},
+				annotations: {
+					yaxis: [{
+						y: 15,
+						borderColor: '#00AF00',
+						label: {
+							borderColor: '#00AF00', borderWidth: 4,
+							style: { color: '#fff', background: '#00AF00' },
+							text: 'Low Volitilty'
+						}
+					  },{
+						  y: 75,
+						  borderColor: '#FF0000',
+						  label: {
+							  borderColor: '#FF0000', borderWidth: 4,
+							  style: { color: '#fff', background: '#FF0000' },
+							  text: 'Extreme Volitilty'
+						  }
+					}]
+			  },
+        title:{ text: "CNN Vix"},
+			  stroke: { curve: 'smooth',  width: 2, colors:['#36454F', '#E91E63', '#9C27B0']},// colors: undefined }, // Allow colors to be defined in gradient
             dataLabels: { enabled: false },
             markers: { size: 0, style: 'hollow' },
             xaxis: {
               type: 'datetime',
-              // min: new Date('01 Jun 2023').getTime(),
               min: new Date(this.historicalData[0][0]).getTime(),
-              tickAmount: 6,
+              tickAmount: 4,
             },
+			      yaxis: { min: 10, max: 80 },
             tooltip: { x: { format: 'dd MMM yyyy' }},
-            fill: {
-              type: 'gradient',
-              gradient: {
-                shadeIntensity: 1,
-                opacityFrom: 0.7,
-                opacityTo: 0.8,
-                stops: [0, 100]
-              }
-            },
-			
-          },
-          selection: 'one_year',
-    	}
+			  grid: { row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5}}
+      },
+      selection: 'one_year',
+    }
 	},
     methods: {
     	updateData: function(timeline) {
@@ -130,7 +120,7 @@ export default ({
         }
 	},
 	mounted() {
-		console.log("mounted:",this.historicalData)
+		// console.log("mounted:",this.historicalData)
 		//this.$store.dispatch("cnn/getSentiment");
 	}
 })

@@ -9,13 +9,15 @@
           		<button id="all" @click="updateData('all')" :class="{active: selection==='all'}">ALL</button>
         	</div-->
             <div id="fandg-chart-timeline">
-        		<apexchart type="line" height="350" ref="chart" :options="chartOptions" :series="series"></apexchart>
+        		<apexchart type="line" height="300" ref="chart" :options="chartOptions" :series="series"></apexchart>
       		</div>
 		</div>
 	</a-card>
 </template>
 
 <script>
+
+// https://apexcharts.com/javascript-chart-demos/area-charts/datetime-x-axis/
 import { mapState, mapGetters } from "vuex";
 
 export default ({
@@ -36,83 +38,49 @@ export default ({
 	},
 	data() {
 		return {
-			series: [{data: this.historicalData}],
+			series: [{name: "F&G", data: this.historicalData}],
 			chartOptions: { 
 				chart: { 
 					id: 'area-datetime', 
 					type: 'line', 
-					height: 350, 
+					height: 300, 
 					zoom: { autoScaleYaxis: true } 
 				},
 				annotations: {
 					yaxis: [{
-						y: 20,
+						y: 15,
 						borderColor: '#FF0000',
 						label: {
-							borderColor: '#FF0000',
-							borderWidth: 4,
-							style: {
-								color: '#fff',
-								background: '#FF0000'
-							},
+							borderColor: '#FF0000', borderWidth: 4,
+							style: { color: '#fff', background: '#FF0000' },
 							text: 'Extreme Fear'
 						}
 					},{
-						y: 80,
+						y: 85,
 						borderColor: '#00AF00',
 						label: {
-							borderColor: '#00AF00',
-							borderWidth: 4,
-							style: {
-								color: '#fff',
-								background: '#00AF00'
-							},
+							borderColor: '#00AF00', borderWidth: 4,
+							style: { color: '#fff', background: '#00AF00' },
 							text: 'Extreme Greed'
 						}
 					}
-				]},
-
-			/* annotations: {
-              yaxis: [{
-                y: 30,
-                borderColor: '#999',
-                label: {
-                  show: true,
-                  text: 'Support',
-                  style: {
-                    color: "#fff",
-                    background: '#00E396'
-                  }
-                }
-              }],
-              xaxis: [{
-                x: new Date('14 Nov 2012').getTime(),
-                borderColor: '#999',
-                yAxisIndex: 0,
-                label: {
-                  show: true,
-                  text: 'Rally',
-                  style: {
-                    color: "#fff",
-                    background: '#775DD0'
-                  }
-                }
-              }]
-            },*/
-			stroke: { curve: 'smooth',  width: 3, colors: undefined }, // Allow colors to be defined in gradient
+				]
+			},
+			title:{ text: "CNN Fear & Greed"},
+			stroke: { curve: 'smooth',  width: 2, colors:['#36454F', '#E91E63', '#9C27B0']},// colors: undefined }, // Allow colors to be defined in gradient
             dataLabels: { enabled: false },
             markers: { size: 0, style: 'hollow' },
             xaxis: {
               type: 'datetime',
-              // min: new Date('01 Jun 2023').getTime(),
               min: new Date(this.historicalData[0][0]).getTime(),
-              tickAmount: 6,
+              tickAmount: 4,
             },
 			yaxis: {
           		min: 0,
           		max: 100
         	},
             tooltip: { x: { format: 'dd MMM yyyy' }},
+			grid: { row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5}}
           },
           selection: 'one_year',
     	}
