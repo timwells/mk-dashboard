@@ -1,8 +1,8 @@
 const cheerio = require('cheerio');
 const axios = require('axios')
 const c = require('../common/c.js');
-const LTIME = 1080
-const HTIME = 60200
+const LTIME = 2080
+const HTIME = 8000
 const ETF_PROVIDERS_PATH = "https://www.hl.co.uk/shares/exchange-traded-funds-etfs"
 const ETF_PROVIDER_FUNDS_PATH = "https://www.hl.co.uk/shares/exchange-traded-funds-etfs/list-of-etfs"
 
@@ -125,7 +125,7 @@ async function listProviderFunds(providers) {
             for(let m=0; m < MasterProviderFundList.length; m++) {
                 let d = c.randomInt(LTIME,HTIME); 
                 console.log("Delay:",d); 
-                c.sleep(d) 
+                await c.sleep(d) 
                 
                 MasterProviderFundList[m].mfee = await getProviderFundDetails(MasterProviderFundList[m].href)
             }

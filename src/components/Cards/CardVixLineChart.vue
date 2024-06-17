@@ -8,7 +8,7 @@
 				<button id="ytd" @click="updateData('ytd')" :class="{active: selection==='ytd'}">YTD</button>          
           		<button id="all" @click="updateData('all')" :class="{active: selection==='all'}">ALL</button>
         	</div-->
-            <div id="vix-chart-timeline">
+            <div v-if="historicalData!=null" id="vix-chart-timeline">
         		<apexchart type="line" height="300" ref="chart" :options="chartOptions" :series="series"></apexchart>
       		</div>
 		</div>
@@ -24,7 +24,8 @@ export default ({
 			type: Array,
 			default: () => [],
 		},
-	},
+		score: { type: Number, default: 0.0 },
+		rating: { type: String, default: ""} },
 	components: {
 	},
 	computed : {
@@ -62,22 +63,22 @@ export default ({
 							  text: 'Extreme Volitilty'
 						  }
 					}]
-			  },
-        title:{ text: "CNN Vix"},
-			  stroke: { curve: 'smooth',  width: 2, colors:['#36454F', '#E91E63', '#9C27B0']},// colors: undefined }, // Allow colors to be defined in gradient
-            dataLabels: { enabled: false },
-            markers: { size: 0, style: 'hollow' },
-            xaxis: {
-              type: 'datetime',
-              min: new Date(this.historicalData[0][0]).getTime(),
-              tickAmount: 4,
-            },
-			      yaxis: { min: 10, max: 80 },
-            tooltip: { x: { format: 'dd MMM yyyy' }},
-			  grid: { row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5}}
-      },
-      selection: 'one_year',
-    }
+			  	},
+        		title:{ text: `CNN Vix - ${this.score.toFixed(2)} / ${this.rating}`},
+			  	stroke: { curve: 'smooth',  width: 2, colors:['#36454F', '#E91E63', '#9C27B0']},// colors: undefined }, // Allow colors to be defined in gradient
+            	dataLabels: { enabled: false },
+            	markers: { size: 0, style: 'hollow' },
+            	xaxis: {
+              		type: 'datetime',
+              		min: new Date(this.historicalData[0][0]).getTime(),
+              		tickAmount: 4,
+            	},
+			    yaxis: { min: 10, max: (Math.max(...this.historicalData.map((o) => o[1])))+5}, 
+            	tooltip: { x: { format: 'dd MMM yyyy' }},
+			  	grid: { row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5}}
+      		},
+      		selection: 'one_year',
+    	}
 	},
     methods: {
     	updateData: function(timeline) {
@@ -120,8 +121,7 @@ export default ({
         }
 	},
 	mounted() {
-		// console.log("mounted:",this.historicalData)
-		//this.$store.dispatch("cnn/getSentiment");
+		// console.log("vix-max",Math.max(...this.historicalData.map((o) => o[1])))
 	}
 })
 </script>

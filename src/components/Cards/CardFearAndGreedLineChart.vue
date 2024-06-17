@@ -9,12 +9,15 @@
           		<button id="all" @click="updateData('all')" :class="{active: selection==='all'}">ALL</button>
         	</div-->
 
-			<div class="toolbar">
-				<h6>{{ score.toFixed(2) }} / {{ rating }}</h6>
-			</div>	
-            <div id="fandg-chart-timeline">
+			<div class="toolbar"></div>	
+            <div v-if="historicalData!=null" id="fandg-chart-timeline">
         		<apexchart type="line" height="300" ref="chart" :options="chartOptions" :series="series"></apexchart>
       		</div>
+			<!--p>
+				<small>
+				It’s useful to look at stock market levels compared to where they’ve been over the past few months. When the S&P 500 is above its moving or rolling average of the prior 125 trading days, that’s a sign of positive momentum. But if the index is below this average, it shows investors are getting skittish. The Fear & Greed Index uses slowing momentum as a signal for Fear and a growing momentum for Greed.
+				</small>
+			</p-->
 		</div>
 	</a-card>
 </template>
@@ -24,7 +27,7 @@
 export default ({
 	props: {
 		historicalData: { type: Array, default: () => [], },
-		score: { type: String, default: "" },
+		score: { type: Number, default: 0.0 },
 		rating: { type: String, default: ""}
 	},
 	components: {
@@ -41,6 +44,14 @@ export default ({
 					height: 300, 
 					zoom: { autoScaleYaxis: true } 
 				},
+				tools: {
+					download: true,
+					selection: true,
+					zoom: true,
+					zoomin: true,
+					zoomout: true,
+					pan: false,
+		        },
 				annotations: {
 					yaxis: [{
 						y: 15,
@@ -61,7 +72,7 @@ export default ({
 					}
 				]
 			},
-			title:{ text: "CNN Fear & Greed"},
+			title:{ text: `CNN Fear & Greed - ${this.score.toFixed(2)} / ${this.rating}`},
 			stroke: { curve: 'smooth',  width: 2, colors:['#36454F', '#E91E63', '#9C27B0']},// colors: undefined }, // Allow colors to be defined in gradient
             dataLabels: { enabled: false },
             markers: { size: 0, style: 'hollow' },

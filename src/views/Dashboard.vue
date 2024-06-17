@@ -48,15 +48,21 @@
 						:rating="sentiment.fear_and_greed_historical.rating"/>
 				</a-col>
 				<a-col v-if="sentiment!=null" :span="12" :lg="12" class="mb-12">
-					<CardVixLineChart :historicalData="sentiment.market_volatility_vix.data"/>
+					<CardVixLineChart :historicalData="sentiment.market_volatility_vix.data"
+						:score="sentiment.market_volatility_vix.score" 
+						:rating="sentiment.market_volatility_vix.rating"/>
 				</a-col>
 			</a-row>
 			<a-row>
 				<a-col v-if="sentiment!=null" :span="12" :lg="12" class="mb-12">
-					<CardSP500MomentumLineChart :historicalData="sentiment.market_momentum_sp500.data"/>
+					<CardSP500MomentumLineChart :historicalData="sentiment.market_momentum_sp500.data"
+						:score="sentiment.market_momentum_sp500.score" 
+						:rating="sentiment.market_momentum_sp500.rating"/>
 				</a-col>
 				<a-col v-if="sentiment!=null" :span="12" :lg="12" class="mb-12">
-					<CardStockPriceStrengthLineChart :historicalData="sentiment.stock_price_strength.data"/>
+					<CardStockPriceStrengthLineChart :historicalData="sentiment.stock_price_strength.data"
+						:score="sentiment.stock_price_strength.score" 
+						:rating="sentiment.stock_price_strength.rating"/>
 				</a-col>
 			</a-row>
 
