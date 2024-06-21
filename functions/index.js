@@ -9,7 +9,7 @@ const app = express();
 
 const { config } = require("./config");
 
-const VERSION = "1.0.32";
+const VERSION = "1.0.35";
 const API_KEY_NAME = "x-api-key"
 
 const unauthorized = (res) => res.status(401).send('unauthorised');
@@ -48,6 +48,7 @@ app.get('/v1/scrape/:site/:service', (request, response) => {
             let site = request.params.site;
             let service = request.params.service;
             let siteServices = require(`./wscrape/${site}.js`)
+            
             siteServices[service](request,response)    
         } else unauthorized(response)
     } catch(e) { unprocessible(response) }

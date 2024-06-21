@@ -15,9 +15,16 @@ const COUNTRYColumns = [
     {title: 'Weight',dataIndex: 'weight',width: 80, scopedSlots: { customRender: 'weight' }}
 ]
 
+const SECTOR_PERFORMANCEColumns = [
+    {title: 'Name',dataIndex: 'name',width: 140, scopedSlots: { customRender: 'name' }},
+    {title: 'Change (p)',dataIndex: 'changeValue',width: 80, scopedSlots: { customRender: 'changeValue' }},
+    {title: 'Change (%)',dataIndex: 'changePercent',width: 80, scopedSlots: { customRender: 'changePercent' }}
+]
+
 module.exports = {
     HOLDINGColumns,
     PERIODColumns,
     SECTORColumns,
-    COUNTRYColumns
+    COUNTRYColumns,
+    SECTOR_PERFORMANCEColumns
 }
