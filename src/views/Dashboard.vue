@@ -2,15 +2,22 @@
 	<a-tabs v-if="markets" default-active-key="1">
 		<a-tab-pane key="1" tab="Sentiment">
 			<a href="https://edition.cnn.com/markets/fear-and-greed" target="_blank">Click for: 'CNN Market Insights'</a>
+			<pre v-if="sentiment">{{sentiment.fear_and_greed.score}}</pre>
+			<pre v-if="sentiment">ABC - {{rating(sentiment.fear_and_greed.score)}}</pre>
+
+			<!--pre v-if="sentiment">{{ sentiment.fear_and_greed.previous_1_week}} {{rating(sentiment.fear_and_greed.previous_1_week)}}</pre>
+			<pre v-if="sentiment">{{ sentiment.fear_and_greed.previous_1_month - rating(sentiment.fear_and_greed.previous_1_month)}}</pre>
+			<pre v-if="sentiment">{{ sentiment.fear_and_greed.previous_1_year -rating(sentiment.fear_and_greed.previous_1_year)}}</pre-->
+
 			<a-row v-if="sentiment!=null" :gutter="24">
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
 					<WidgetCounter 
-						title="Fear & Greed Today" 
+						title='Fear & Greed Today'
 						:value="sentiment.fear_and_greed.score" 
 						prefix="" 
-						suffix="%" 
+						:suffix="rating(sentiment.fear_and_greed.score)" 
 						:icon="icon1" 
-						:status="rating(sentiment.fear_and_greed.score)"/>
+						:status="rating(sentiment.fear_and_greed.score)"></WidgetCounter>
 				</a-col>
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
 					<WidgetCounter 
@@ -19,7 +26,7 @@
 						prefix="" 
 						suffix="%" 
 						:icon="icon1" 
-						:status="rating(sentiment.fear_and_greed.previous_1_week)"/>
+						:status="rating(sentiment.fear_and_greed.previous_1_week)"></WidgetCounter>
 				</a-col>
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
 					<WidgetCounter 
@@ -28,7 +35,7 @@
 						prefix="" 
 						suffix="%" 
 						:icon="icon1" 
-						:status="rating(sentiment.fear_and_greed.previous_1_month)"/>
+						:status="rating(sentiment.fear_and_greed.previous_1_month)"></WidgetCounter>
 				</a-col>
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
 					<WidgetCounter 
@@ -37,7 +44,7 @@
 						prefix="" 
 						suffix="%" 
 						:icon="icon1" 
-						:status="rating(sentiment.fear_and_greed.previous_1_year)"/>				
+						:status="rating(sentiment.fear_and_greed.previous_1_year)"></WidgetCounter>"			
 				</a-col>
 			</a-row>
 			<a-row>
@@ -68,21 +75,26 @@
 
 		</a-tab-pane>
 		<a-tab-pane key="2" tab="Performance">
-			<a href="https://www.lse.co.uk/share-prices/sectors/" target="_blank">Click for: lse sector performance</a>"
+			<a href="https://www.lse.co.uk/share-prices/sectors/" target="_blank">Click for: lse sector performance</a>
 			<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
 				<a-table v-if="sectorPerformance"
 					:loading="loading"
-
 					:columns="SECTOR_PERFORMANCEColumns"
 					:data-source="sectorPerformance"
 					:pagination="false"
 					:rowKey="(record,i) => i"
-					class='table table-small' style="margin:6">			
+					class='table table-small' style="margin: 6">							
+					<div slot="expandedRowRender" slot-scope="record" style="margin:0">
+						{{ record.href }}
+					</div>
 					<template slot="name" slot-scope="name">
 						<p class="m-0 font-regular text-muted">{{ name }}</p>
 					</template>
-					<template slot="changeValue" slot-scope="changeValue">
-						<p class="m-0 font-regular text-muted">{{ changeValue }}</p>
+					<template slot="value" slot-scope="value">
+						<p class="m-0 font-regular text-muted">{{ value }}</p>
+					</template>
+					<template slot="changePrice" slot-scope="changePrice">
+						<p class="m-0 font-regular text-muted">{{ changePrice }}</p>
 					</template>
 					<template slot="changePercent" slot-scope="changePercent">
 						<p class="m-0 font-regular text-muted">{{ changePercent }}</p>
@@ -172,7 +184,7 @@ export default ({
 	},
 	watch: {
         sectorPerformance(nn, prv) {
-			if(nn) this.loading = false;
+			if(nn || prv) { this.loading = false; }
 		}
 	},
 	data() {
@@ -184,19 +196,21 @@ export default ({
 	},
 	methods: {
 		rating(fg) {
-			if((fg >= 0) && (fg <= 40)) {
+			if((fg >= 0.0) && (fg <= 40.0)) {
 				//console.log(fg,"danger"	)
 				return "danger"	
 			} 
-			if((fg >= 41) && (fg <= 60)) {
+			if((fg >= 41.0) && (fg <= 60.0)) {
 				//console.log(fg,"warning")
 				return "warning"	
 			} 
-			if((fg >= 61) && (fg <= 100)) {
+			if((fg >= 61.0) && (fg <= 100.0)) {
 				//console.log(fg,"success")
 				return "success"	
 			} 
-		}
+		},
+		onExpand(record) {
+    	},		
 	},
 	mounted() {
 	    this.$store.dispatch("markets/getMarkets");

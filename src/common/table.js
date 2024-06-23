@@ -17,7 +17,8 @@ const COUNTRYColumns = [
 
 const SECTOR_PERFORMANCEColumns = [
     {title: 'Name',dataIndex: 'name',width: 140, scopedSlots: { customRender: 'name' }},
-    {title: 'Change (p)',dataIndex: 'changeValue',width: 80, scopedSlots: { customRender: 'changeValue' }},
+    {title: 'Value',dataIndex: 'value',width: 80, scopedSlots: { customRender: 'value' }},
+    {title: 'Change (p)',dataIndex: 'changePrice',width: 80, scopedSlots: { customRender: 'changeValue' }},
     {title: 'Change (%)',dataIndex: 'changePercent',width: 80, scopedSlots: { customRender: 'changePercent' }}
 ]
 

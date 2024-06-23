@@ -115,7 +115,6 @@ export default ({
 			searchText: "",
 	    	searchInput: null,
     		searchedColumn: "",
-
     	}
   	},
 	methods: {
