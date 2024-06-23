@@ -130,13 +130,31 @@ const sectorpeformance2 = async (req, res) => {
     } else {
         // Get Page
         const htmlContent = await getPageContent()
+
         // Process Page
         let sectorPeformanceList = await getSectorPeformance(htmlContent)
 
         // Upload
-
-        // Send Request
-        res.status(200).send('Re Cache Required');
+        if(sectorPeformanceList.length > 0) {
+            // Convert the JSON object to a string
+            const jsonString = JSON.stringify(sectorPeformanceList);
+            // Create a readable stream from the JSON string
+            const jsonStream = new Readable();
+            jsonStream.push(jsonString);
+            jsonStream.push(null); // No more data
+            
+            // Create a writable stream to the file
+            const writeStream = file.createWriteStream({ metadata: { contentType: 'application/json'} });
+            
+            // Pipe the JSON stream to the file write stream
+            jsonStream.pipe(writeStream).on('finish', async () => {       
+                let payload = { cacheTime : new Date().toISOString(), data: sectorPeformanceList}
+                res.status(200).json(payload);
+            })
+            .on('error', (error) => {
+                console.error('Error uploading JSON file:', error);
+                res.status(500).send('Error uploading JSON file');
+            });
     }
 }
 
