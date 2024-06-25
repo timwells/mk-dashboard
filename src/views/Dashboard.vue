@@ -1,23 +1,17 @@
 <template>
 	<a-tabs v-if="markets" default-active-key="1">
 		<a-tab-pane key="1" tab="Sentiment">
-			<a href="https://edition.cnn.com/markets/fear-and-greed" target="_blank">Click for: 'CNN Market Insights'</a>
-			<pre v-if="sentiment">{{sentiment.fear_and_greed.score}}</pre>
-			<pre v-if="sentiment">ABC - {{rating(sentiment.fear_and_greed.score)}}</pre>
-
-			<!--pre v-if="sentiment">{{ sentiment.fear_and_greed.previous_1_week}} {{rating(sentiment.fear_and_greed.previous_1_week)}}</pre>
-			<pre v-if="sentiment">{{ sentiment.fear_and_greed.previous_1_month - rating(sentiment.fear_and_greed.previous_1_month)}}</pre>
-			<pre v-if="sentiment">{{ sentiment.fear_and_greed.previous_1_year -rating(sentiment.fear_and_greed.previous_1_year)}}</pre-->
-
-			<a-row v-if="sentiment!=null" :gutter="24">
+			<a href="https://edition.cnn.com/markets/fear-and-greed" target="_blank">Click for: 'CNN Market Insights' - <span v-if="sentiment">{{ sentiment.fear_and_greed.timestamp }}</span></a>
+			<!--pre v-if="sentiment">{{ sentiment.fear_and_greed }}</pre-->
+			<a-row v-if="sentiment" :gutter="24">
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
 					<WidgetCounter 
 						title='Fear & Greed Today'
-						:value="sentiment.fear_and_greed.score" 
+						:value="sentiment.fear_and_greed.previous_close" 
 						prefix="" 
-						:suffix="rating(sentiment.fear_and_greed.score)" 
+						suffix="%"
 						:icon="icon1" 
-						:status="rating(sentiment.fear_and_greed.score)"></WidgetCounter>
+						:status="rating(sentiment.fear_and_greed.previous_close)"></WidgetCounter>
 				</a-col>
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
 					<WidgetCounter 
@@ -75,30 +69,26 @@
 
 		</a-tab-pane>
 		<a-tab-pane key="2" tab="Performance">
-			<a href="https://www.lse.co.uk/share-prices/sectors/" target="_blank">Click for: lse sector performance</a>
+			<a href="https://www.lse.co.uk/share-prices/sectors/" target="_blank">Click for: lse sector performance - 
+				<span v-if="sectorPerformance">({{sectorPerformance.source }}</span>
+				<span v-if="sectorPerformance"> / {{sectorPerformance.created}})</span>
+			</a>
 			<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
 				<a-table v-if="sectorPerformance"
 					:loading="loading"
 					:columns="SECTOR_PERFORMANCEColumns"
-					:data-source="sectorPerformance"
+					:data-source="sectorPerformance.data"
 					:pagination="false"
 					:rowKey="(record,i) => i"
-					class='table table-small' style="margin: 6">							
+					class='table table-small' style="margin: 6"
+					:row-class-name="setRowClassName">							
 					<div slot="expandedRowRender" slot-scope="record" style="margin:0">
-						{{ record.href }}
+						<iframe src="https://www.lse.co.uk/share-prices/sectors/automotive/constituents.html" title="constituents"></iframe>
 					</div>
-					<template slot="name" slot-scope="name">
-						<p class="m-0 font-regular text-muted">{{ name }}</p>
-					</template>
-					<template slot="value" slot-scope="value">
-						<p class="m-0 font-regular text-muted">{{ value }}</p>
-					</template>
-					<template slot="changePrice" slot-scope="changePrice">
-						<p class="m-0 font-regular text-muted">{{ changePrice }}</p>
-					</template>
-					<template slot="changePercent" slot-scope="changePercent">
-						<p class="m-0 font-regular text-muted">{{ changePercent }}</p>
-					</template>
+					<template slot="name" slot-scope="name">{{ name }}</template>
+					<template slot="value" slot-scope="value">{{ value }}</template>
+					<template slot="changePrice" slot-scope="changePrice">{{ changePrice }}</template>
+					<template slot="changePercent" slot-scope="changePercent">{{ changePercent }}</template>
 				</a-table>
 			</a-card>
 		</a-tab-pane>
@@ -191,24 +181,35 @@ export default ({
 		return {
 			icon1: ICON1,
 			SECTOR_PERFORMANCEColumns,
-			loading: true
+			loading: true,
+			rangeBands: [
+				// { min: 1.0, className: 'green-bold-font' },
+				{ min: 0.2, className: 'green-font' },
+				//{ min: -1.0, className: 'red-bold-font' },
+				{ min: -0.2, className: 'red-font' }
+		      ]
 		}
 	},
 	methods: {
 		rating(fg) {
-			if((fg >= 0.0) && (fg <= 40.0)) {
-				//console.log(fg,"danger"	)
-				return "danger"	
-			} 
-			if((fg >= 41.0) && (fg <= 60.0)) {
-				//console.log(fg,"warning")
-				return "warning"	
-			} 
-			if((fg >= 61.0) && (fg <= 100.0)) {
-				//console.log(fg,"success")
-				return "success"	
-			} 
+			if((fg >= 0.0) && (fg <= 40.0)) { return "danger"} 
+			if((fg >= 41.0) && (fg <= 60.0)) { return "warning"	} 
+			if((fg >= 61.0) && (fg <= 100.0)) { return ""}
+			return ""
 		},
+		setRowClassName(record) {
+ 			console.log(record.changePercent,this.getClassName(record.changePercent))
+ 			return this.getClassName(record.changePercent);
+    	},
+    	getClassName(changePercent) {
+      		switch (true) {
+        		case changePercent > 2.0: return 'green-bold-font';
+        		case changePercent > 0.5: return 'green-font';
+        		case changePercent < -2.0: return 'red-bold-font';
+        		case changePercent < -0.5: return 'red-font';
+        		default: return 'blue-font';
+      		}
+    	},
 		onExpand(record) {
     	},		
 	},
@@ -224,5 +225,28 @@ export default ({
 .ant-table-thead > tr > th, .ant-table-tbody > tr > td {
     padding: 9px 25px;
 }
+
+.red-font {
+  color: red !important;
+}
+.red-bold-font {
+  color: red !important;
+  font-weight: bold !important;
+}
+
+.green-font {
+  color: green !important;
+}
+
+.green-bold-font {
+  color: green !important;
+  font-weight: bold !important;
+}
+
+.blue-font {
+  color: blue !important;
+}
+
+
 </style>
 

@@ -16,10 +16,17 @@ const COUNTRYColumns = [
 ]
 
 const SECTOR_PERFORMANCEColumns = [
-    {title: 'Name',dataIndex: 'name',width: 140, scopedSlots: { customRender: 'name' }},
-    {title: 'Value',dataIndex: 'value',width: 80, scopedSlots: { customRender: 'value' }},
-    {title: 'Change (p)',dataIndex: 'changePrice',width: 80, scopedSlots: { customRender: 'changeValue' }},
-    {title: 'Change (%)',dataIndex: 'changePercent',width: 80, scopedSlots: { customRender: 'changePercent' }}
+    {title: 'Name',dataIndex: 'name',scopedSlots: { customRender: 'name' }},
+    {title: 'Value',dataIndex: 'value',sortDirections: ["descend", "ascend"],
+		sorter: (a, b) => a.value - b.value, scopedSlots: { customRender: 'value' }},
+    {title: 'Change (p)',dataIndex: 'changePrice', sortDirections: ["descend", "ascend"],
+		sorter: (a, b) => a.changePrice - b.changePrice, scopedSlots: { customRender: 'changePrice' }},
+    
+    {title: 'Change (%)',dataIndex: 'changePercent', sortDirections: ["descend", "ascend"], 
+        sorter: (a, b) => a.changePercent - b.changePercent, scopedSlots: { customRender: 'changePercent' }},
+    
+    {title: 'Direction',dataIndex: 'direction', sortDirections: ["descend", "ascend"], 
+        sorter: (a, b) => a.direction.localeCompare(b.direction), scopedSlots: { customRender: 'direction' }}
 ]
 
 module.exports = {
