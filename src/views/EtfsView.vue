@@ -7,7 +7,6 @@
 			@expand="onExpand"
 			:rowKey="(record,i) => i"
 			class='table table-small' style="margin:6">
-
 			<div slot="filterDropdown"
 				slot-scope="{setSelectedKeys,selectedKeys,confirm,clearFilters,column}"
 				style="padding: 8px">

@@ -93,7 +93,8 @@ async function updateResource(
     processContent,
     cacheBucket,
     cacheResource,
-    cacheAge
+    cacheAge,
+    cacheTag
 ) {
     // Get and process page
     try {
@@ -102,7 +103,7 @@ async function updateResource(
             const storage = new Storage();
             const file = storage.bucket(cacheBucket).file(cacheResource);
             const writeStream = file.createWriteStream({ metadata: { contentType: 'application/json', cacheControl: `public,max-age=${cacheAge}`} });
-            return { status: STORAGE_SUCCESS, created: new Date().toISOString(), data: await uploadJsonStream(writeStream,constituentPeformanceList) }
+            return { status: STORAGE_SUCCESS, tag:cacheTag, created: new Date().toISOString(), data: await uploadJsonStream(writeStream,constituentPeformanceList) }
         }
         return {data: []}
      }catch(e) {
@@ -150,6 +151,7 @@ async function ProcessConstituentPeformance(
                 case 0: {
                     constituentPerformance.name = $(e).find('a').text();
                     constituentPerformance.direction = $(e).closest('tr').attr('class');
+                    constituentPerformance.epic = $(e).find('a').attr('data-item')
                 } break;
                 case 1: { constituentPerformance.price = parseFloat($(e).text().replace(",",""));} break;
                 case 2: { constituentPerformance.volume = parseFloat($(e).text());} break;
@@ -173,7 +175,7 @@ async function sectorpeformance(
     const cacheBucket = BUCKET_NAME
     const cacheResource = SECTOR_PERFORMANCE_RESOURCE
     const cacheAge = CACHE_AGE
-
+    const cacheTag = "sector-performance"
     try {        
         const cacheResponse = await queryResourceCacheStatus(cacheBucket,cacheResource);
         switch(cacheResponse.status) {
@@ -181,18 +183,21 @@ async function sectorpeformance(
                 if(!cacheResponse.expired) { // Get Resource if not expired
                     let p1 = await getResourceFromCache(cacheBucket,cacheResource)
                     p1.source = "cache"
+                    p1.tag = cacheTag
                     p1.created =  cacheResponse.metadata.timeCreated
                     res.status(200).json(p1)
                 }
                 else {
-                    let p2 = await updateResource(webResource,webResourceTimeout,ProcessSectorPeformance,cacheBucket,cacheResource,cacheAge)
+                    let p2 = await updateResource(webResource,webResourceTimeout,ProcessSectorPeformance,cacheBucket,cacheResource,cacheAge,cacheTag)
                     p2.source = "re-cache"
+                    p2.tag = cacheTag
                     res.status(200).json(p2)
                 }
             } break;
             case STORAGE_NOT_FOUND: {
-                let p3 = await updateResource(webResource,webResourceTimeout,ProcessSectorPeformance,cacheBucket,cacheResource,cacheAge)
+                let p3 = await updateResource(webResource,webResourceTimeout,ProcessSectorPeformance,cacheBucket,cacheResource,cacheAge,cacheTag)
                 p3.source = "initialised-cache"
+                p3.tag = cacheTag
                 res.status(200).json(p3)
             } break;
             default: {
@@ -214,6 +219,7 @@ async function constituentperformance(
     const cacheBucket = BUCKET_NAME
     const cacheResource = `${CONSTITUENT_PERFORMANCE_FOLDER}${req.query.constituents}.json`
     const cacheAge = CACHE_AGE
+    const cacheTag = req.query.constituents
 
     try {        
         const cacheResponse = await queryResourceCacheStatus(cacheBucket,cacheResource);
@@ -222,18 +228,24 @@ async function constituentperformance(
                 if(!cacheResponse.expired) { // Get Resource if not expired
                     let p1 = await getResourceFromCache(cacheBucket,cacheResource)
                     p1.source = "cache"
+                    p1.webSource = webResource
+                    p1.tag = cacheTag
                     p1.created =  cacheResponse.metadata.timeCreated
                     res.status(200).json(p1)
                 }
                 else {
-                    let p2 = await updateResource(webResource,webResourceTimeout,ProcessConstituentPeformance,cacheBucket,cacheResource,cacheAge)
+                    let p2 = await updateResource(webResource,webResourceTimeout,ProcessConstituentPeformance,cacheBucket,cacheResource,cacheAge,cacheTag)
                     p2.source = "re-cache"
+                    p2.webSource = webResource
+                    p2.tag = cacheTag
                     res.status(200).json(p2)
                 }
             } break;
             case STORAGE_NOT_FOUND: {
-                let p3 = await updateResource(webResource,webResourceTimeout,ProcessConstituentPeformance,cacheBucket,cacheResource,cacheAge)
+                let p3 = await updateResource(webResource,webResourceTimeout,ProcessConstituentPeformance,cacheBucket,cacheResource,cacheAge,cacheTag)
                 p3.source = "initialised-cache"
+                p3.webSource = webResource
+                p3.tag = cacheTag
                 res.status(200).json(p3)
             } break;
             default: {

@@ -9,7 +9,7 @@ const app = express();
 
 const { config } = require("./config");
 
-const VERSION = "1.0.37";
+const VERSION = "1.0.38";
 const API_KEY_NAME = "x-api-key"
 
 const unauthorized = (res) => res.status(401).send('unauthorised');
@@ -68,7 +68,7 @@ app.post('/v1/dcf/:model', (request, response) => {
 
 // Expose Express API as a single Cloud Function:
 // exports.fintech = functions.https.onRequest(app);
-const gOpts = {memory: '1GB', timeoutSeconds: 60};
+const gOpts = {memory: '4GB', timeoutSeconds: 120};
 exports.fintech = functions.runWith(gOpts).https.onRequest(app);
 
 const { scheduledFunction, jobadmin } = require("./jobs/job")

@@ -81,9 +81,9 @@
 					:pagination="false"
 					:rowKey="(record,i) => i"
 					class='table table-small' style="margin: 6"
-					:row-class-name="setRowClassName">							
+					:row-class-name="setRowClassName">
 					<div slot="expandedRowRender" slot-scope="record" style="margin:0">
-						<iframe src="https://www.lse.co.uk/share-prices/sectors/automotive/constituents.html" title="constituents"></iframe>
+						<CardLseConstituentsTable :constituents="record.constituents"></CardLseConstituentsTable>
 					</div>
 					<template slot="name" slot-scope="name">{{ name }}</template>
 					<template slot="value" slot-scope="value">{{ value }}</template>
@@ -131,12 +131,10 @@ import CardVixLineChart from '../components/Cards/CardVixLineChart';
 import CardSP500MomentumLineChart from '../components/Cards/CardSP500MomentumLineChart';
 import CardStockPriceStrengthLineChart from '../components/Cards/CardStockPriceStrengthLineChart';
 
+import CardLseConstituentsTable from '../components/Cards/CardLseConstituentsTable';
 import WidgetCounter from '../components/Widgets/WidgetCounter' ;
 
-import { 
-	SECTOR_PERFORMANCEColumns,
-} from '@/common/table'
-
+import { SECTOR_PERFORMANCEColumns } from '@/common/table'
 
 /*
 text-danger: Red color.
@@ -164,7 +162,8 @@ export default ({
 		CardSP500MomentumLineChart,
 		CardStockPriceStrengthLineChart,
 
-		WidgetCounter
+		WidgetCounter,
+		CardLseConstituentsTable
 	},
 	computed: {
     	...mapState("markets", ["markets"]),
@@ -182,12 +181,6 @@ export default ({
 			icon1: ICON1,
 			SECTOR_PERFORMANCEColumns,
 			loading: true,
-			rangeBands: [
-				// { min: 1.0, className: 'green-bold-font' },
-				{ min: 0.2, className: 'green-font' },
-				//{ min: -1.0, className: 'red-bold-font' },
-				{ min: -0.2, className: 'red-font' }
-		      ]
 		}
 	},
 	methods: {
@@ -198,20 +191,19 @@ export default ({
 			return ""
 		},
 		setRowClassName(record) {
- 			console.log(record.changePercent,this.getClassName(record.changePercent))
  			return this.getClassName(record.changePercent);
     	},
     	getClassName(changePercent) {
       		switch (true) {
         		case changePercent > 2.0: return 'green-bold-font';
         		case changePercent > 0.5: return 'green-font';
-        		case changePercent < -2.0: return 'red-bold-font';
+
+				case changePercent < -2.0: return 'red-bold-font';
         		case changePercent < -0.5: return 'red-font';
-        		default: return 'blue-font';
+
+				default: return 'blue-font';
       		}
     	},
-		onExpand(record) {
-    	},		
 	},
 	mounted() {
 	    this.$store.dispatch("markets/getMarkets");
@@ -246,7 +238,5 @@ export default ({
 .blue-font {
   color: blue !important;
 }
-
-
 </style>
 
