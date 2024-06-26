@@ -5,6 +5,7 @@
 			<span>{{gConstituents(constituents).source }} / {{gConstituents(constituents).created}}</span>
 		</a>
 		<a-table
+			:loading="loading"
 			:columns="CONSTITUENT_PERFORMANCE_Columns" 
 			:data-source="gConstituents(constituents).data" 
 			:pagination="false" 
@@ -42,7 +43,8 @@ export default ({
 	},
 	data() {
 		return {
-			CONSTITUENT_PERFORMANCE_Columns
+			CONSTITUENT_PERFORMANCE_Columns,
+			loading:false
 		}
 	},
 	methods: {

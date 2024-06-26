@@ -8,8 +8,8 @@
   "private": true,
   "scripts": {
     "copyWasm": "copy-files-from-to --config copy-files-from-to.json",
-    "serve": "set NODE_OPTIONS=--openssl-legacy-provider && npm run copyWasm && vue-cli-service serve --open",
-    "build": "set NODE_OPTIONS=--openssl-legacy-provider && npm run copyWasm && vue-cli-service build",
+    "serve": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service serve --open",
+    "build": "set NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
     "dev": "npm run serve",
     "deploy-hosting": "firebase deploy --only hosting",
     "deploy-functions": "firebase deploy --only functions"

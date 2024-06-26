@@ -19,6 +19,9 @@ const database = getDatabase(app)
 let UserSecrets = null
 
 const getUserSecrets = async (user) => {  
+
+  console.log("getUserSecrets")
+
   if(UserSecrets == null) { 
     const snapshot = await get(child(ref(getDatabase()), `root/secrets`))
     if (snapshot.exists()) UserSecrets = snapshot.val();

@@ -13,7 +13,6 @@ import './scss/app.scss';
 
 Vue.use(Antd);
 
-
 //import { AgCharts } from "ag-charts-community";
 //import { AgChartsVue } from "ag-charts-vue";
 

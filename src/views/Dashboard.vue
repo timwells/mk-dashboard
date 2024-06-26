@@ -206,6 +206,8 @@ export default ({
     	},
 	},
 	mounted() {
+
+		console.log("Dashboard is mounted")
 	    this.$store.dispatch("markets/getMarkets");
 	    this.$store.dispatch("cnn/getSentiment");
 	    this.$store.dispatch("lse/getSectorPeformance");

@@ -23,7 +23,6 @@ const mutations = {
     SET_SECTOR_PERFORMANCE: (state, payload) => (state.sectorPerformance = payload),
     SET_CONSTITUENT_PERFORMANCE: (state, payload) => (state.constituentsPerformance.push(payload)),
 };
-
 const actions = {
   async getSectorPeformance({ commit }) {
     commit("SET_SECTOR_PERFORMANCE", null);
