@@ -1,5 +1,6 @@
 const cheerio = require('cheerio');
 const cModule = require('./common/c.js');
+const axios = require('axios');
 
 const LSE_SECTOR_HOST = "https://www.lse.co.uk"
 const LSE_SECTOR_PERFORMANCE = LSE_SECTOR_HOST + "/share-prices/sectors/"
@@ -15,8 +16,39 @@ const CACHE_AGE =  43200  // seconds
 const STORAGE_SUCCESS = 200
 const STORAGE_NOT_FOUND = 404
 
+
+// "https://api.londonstockexchange.com/api/gw/lse/search/autocomplete?q=BARC
+const LSE_SEARCH_HOST = "https://api.londonstockexchange.com"
+const LSE_EPIC_SEARCH = LSE_SEARCH_HOST + "/api/gw/lse/search/autocomplete"
+
 const { Storage } = require('@google-cloud/storage');
 const { Readable } = require('stream');
+
+function extractAndParseEscapedJson(input) {
+    // Regular expression to match the escaped JSON part
+    const regex = /({.*})/;
+  
+    // Find the JSON part in the input string
+    const match = input.match(regex);
+  
+    if (match && match[1]) {
+      // Extracted JSON string (still escaped)
+      const escapedJson = match[1];
+  
+      try {
+        // Parse the escaped JSON string
+        const parsedJson = JSON.parse(escapedJson);
+        return parsedJson;
+      } catch (error) {
+            console.error('Error parsing JSON:', error);
+            return null;
+      }
+    } else {
+        console.error('No JSON found in the input string');
+        return null;
+    }
+}
+    
 
 /* Page Struction
 <tr class="down">
@@ -269,7 +301,69 @@ async function constituentperformance(
     }
 }
 
+async function epicdetails(
+    req, 
+    res
+) {
+    const { data } = await axios.get("https://api.londonstockexchange.com/api/gw/lse/search/autocomplete?q=BARC")
+    res.status(200).json(data)
+}
+
+// https://online.hl.co.uk/ajaxx/stocks.php?pid=1719513888018&sq=PRU&filters=funds,&offset=0&instance=&format=jsonp
+async function epicdetails2(
+    req, 
+    res
+) {
+    const epic = req.query.epic
+    const { data } = await axios.get(`https://api.londonstockexchange.com/api/gw/lse/search/autocomplete?q=${epic}`);
+    res.status(200).json(data)
+}
+
+// https://online.hl.co.uk/ajaxx/stocks.php?pid=1719513888018&sq=PRU&filters=funds,&offset=0&instance=&format=jsonp
+
+const HL_HOST = "https://online.hl.co.uk"
+const HL_PATH ="/ajaxx/stocks.php"
+
+async function epicdetails3(
+    req, 
+    res
+) {
+    const epic = req.query.epic
+
+    let URL = `${HL_HOST}${HL_PATH}?pid=1719514259627&sq=${epic}&filters=funds,&offset=0&instance=&format=jsonp`
+
+    // axios.get(NT_SITE_TRADES,{ headers: { Cookie: "nt=1;" } })
+    const HEADERS = { headers: { Cookie: "HLWEBsession=1efde538284dd28a3ff892cf321c5b8f;wwwServer=!Ih4GpalN9n1RCNz+2McMypaDwpw0KfyifrUay7nsGK3zr6njEgWfQHaQFhkhjE/nb+TYJhLHeg==" } }
+    const { data } = 
+        await axios.get(URL,HEADERS)
+ 
+        console.log(data)
+
+    // const parsedJson = extractAndParseEscapedJson(data);
+    res.status(200).send("OK")
+    // res.status(200).json(data)
+}
+
+// https://online.hl.co.uk/ajaxx/stocks.php?pid=1719513888018&sq=PRU&filters=funds,&offset=0&instance=&format=jsonp
+async function epicdetails4(
+    req, 
+    res
+) {
+    const epic = req.query.epic
+
+    const { data } = await 
+        axios.get(`https://online.hl.co.uk/ajaxx/stocks.php?pid=1719514259633&sq=${epic}&filters=funds,&offset=0&instance=&format=jsonp`)
+    const parsedJson = extractAndParseEscapedJson(data);
+
+    res.status(200).json(parsedJson)
+}
+
+
 module.exports = {
     sectorpeformance,
     constituentperformance,
+    epicdetails,
+    epicdetails2,
+    epicdetails3,
+    epicdetails4
 }

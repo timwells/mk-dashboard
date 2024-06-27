@@ -69,7 +69,6 @@
 
 		</a-tab-pane>
 		<a-tab-pane key="2" tab="Performance">
-			<!--a-button type="primary" style="margin-top: 6px;" @click="cacheReset">C.Reset</a-button-->
 			<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
 				<div>
 				<a href="https://www.lse.co.uk/share-prices/sectors/" target="_blank">Click for: lse sector performance - 
@@ -77,7 +76,7 @@
 					<span v-if="sectorPerformance"> / {{sectorPerformance.created}}) </span>
 				</a>
 				<span style="float:right;">
-					Live <a-switch size="small" v-model:checked="live" @click="liveToggle" />			
+					Live <a-switch size="small" v-model="live" @click="liveToggle" />			
 				</span>
 			</div>
 				<a-table v-if="sectorPerformance"

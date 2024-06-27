@@ -197,8 +197,6 @@ import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingV
 import WidgetTradingViewFinancials from "@/components/Widgets/WidgetTradingViewFinancials";
 import CardPriceInfo from "@/components/Cards/CardPriceInfo";
 
-
-
 const epicCorrections = [
 	{in:"T17",out:"TM17"},
 	{in:"BAE",out:"BA."}
