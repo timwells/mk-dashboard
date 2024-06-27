@@ -28,6 +28,9 @@ const { Readable } = require('stream');
 </tr>
 */
 
+function validateBoolParameter(param, validValues) {
+    return validValues.includes(param);
+}
 async function getPageContent(
     url,
     timeout
@@ -176,11 +179,15 @@ async function sectorpeformance(
     const cacheResource = SECTOR_PERFORMANCE_RESOURCE
     const cacheAge = CACHE_AGE
     const cacheTag = "sector-performance"
-    try {        
+    const live = validateBoolParameter(req.query.live, ['true', 'false']) && req.query.live === 'true';
+
+    try {
         const cacheResponse = await queryResourceCacheStatus(cacheBucket,cacheResource);
+        const hotRequest = (cacheResponse.expired || live)
+
         switch(cacheResponse.status) {
             case STORAGE_SUCCESS: {
-                if(!cacheResponse.expired) { // Get Resource if not expired
+                if(!hotRequest) { // Get Resource from cache if not hotRequest
                     let p1 = await getResourceFromCache(cacheBucket,cacheResource)
                     p1.source = "cache"
                     p1.tag = cacheTag
@@ -220,12 +227,15 @@ async function constituentperformance(
     const cacheResource = `${CONSTITUENT_PERFORMANCE_FOLDER}${req.query.constituents}.json`
     const cacheAge = CACHE_AGE
     const cacheTag = req.query.constituents
+    const live = validateBoolParameter(req.query.live, ['true', 'false']) && req.query.live === 'true';
 
     try {        
         const cacheResponse = await queryResourceCacheStatus(cacheBucket,cacheResource);
+        const hotRequest = (cacheResponse.expired || live)
+
         switch(cacheResponse.status) {
             case STORAGE_SUCCESS: {
-                if(!cacheResponse.expired) { // Get Resource if not expired
+                if(!hotRequest) { // Get Resource from cache if not hotRequest
                     let p1 = await getResourceFromCache(cacheBucket,cacheResource)
                     p1.source = "cache"
                     p1.webSource = webResource

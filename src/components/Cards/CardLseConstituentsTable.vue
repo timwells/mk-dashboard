@@ -1,9 +1,12 @@
 <template>
 	<!--a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}"-->
 	<div v-if="gConstituents(constituents) != undefined">
-		<a :href="gConstituents(constituents).webSource" target="_blank">Click for: lse constituents performance - 
-			<span>{{gConstituents(constituents).source }} / {{gConstituents(constituents).created}}</span>
-		</a>
+		<div>
+			<a :href="gConstituents(constituents).webSource" target="_blank">Click for: lse constituents performance - 
+				<span>{{gConstituents(constituents).source }} / {{gConstituents(constituents).created}}</span>
+			</a>
+			<!--span style="float:right;">Live <a-switch size="small" v-model:checked="live" @click="liveToggle" /></span-->
+		</div>
 		<a-table
 			:loading="loading"
 			:columns="CONSTITUENT_PERFORMANCE_Columns" 

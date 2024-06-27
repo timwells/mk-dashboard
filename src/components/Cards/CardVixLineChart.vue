@@ -37,7 +37,7 @@ export default ({
 	},
 	data() {
 		return {
-			series: [{data: this.historicalData}],
+			series: [{name: "VIX", data: this.historicalData}],
 			chartOptions: { 
 				chart: { 
 					id: 'area-datetime', 

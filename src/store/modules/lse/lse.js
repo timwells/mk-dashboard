@@ -24,10 +24,12 @@ const mutations = {
     SET_CONSTITUENT_PERFORMANCE: (state, payload) => (state.constituentsPerformance.push(payload)),
 };
 const actions = {
-  async getSectorPeformance({ commit }) {
+  async getSectorPeformance({ commit },{live}) {
+
+    console.log("getSectorPeformance:",live)
     commit("SET_SECTOR_PERFORMANCE", null);
     const {data} = await 
-        axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/lse/sectorpeformance`, { headers: APP_FINTECH_HEADERS })
+        axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/lse/sectorpeformance?live=${live}`, { headers: APP_FINTECH_HEADERS })
     commit("SET_SECTOR_PERFORMANCE", data)
   },
   async getConstituentsPeformance({ commit },{ constituents }) {

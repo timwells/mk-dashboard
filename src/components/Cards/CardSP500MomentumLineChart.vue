@@ -32,7 +32,7 @@ export default ({
 	},
 	data() {
 		return {
-			series: [{data: this.historicalData}],
+			series: [{name: "MM", data: this.historicalData}],
 			chartOptions: { 
 				chart: { 
 					id: 'area-datetime', 

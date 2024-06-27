@@ -69,13 +69,18 @@
 
 		</a-tab-pane>
 		<a-tab-pane key="2" tab="Performance">
-			<a href="https://www.lse.co.uk/share-prices/sectors/" target="_blank">Click for: lse sector performance - 
-				<span v-if="sectorPerformance">({{sectorPerformance.source }}</span>
-				<span v-if="sectorPerformance"> / {{sectorPerformance.created}})</span>
-			</a>
+			<!--a-button type="primary" style="margin-top: 6px;" @click="cacheReset">C.Reset</a-button-->
 			<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
+				<div>
+				<a href="https://www.lse.co.uk/share-prices/sectors/" target="_blank">Click for: lse sector performance - 
+					<span v-if="sectorPerformance">({{sectorPerformance.source }}</span>
+					<span v-if="sectorPerformance"> / {{sectorPerformance.created}}) </span>
+				</a>
+				<span style="float:right;">
+					Live <a-switch size="small" v-model:checked="live" @click="liveToggle" />			
+				</span>
+			</div>
 				<a-table v-if="sectorPerformance"
-					:loading="loading"
 					:columns="SECTOR_PERFORMANCEColumns"
 					:data-source="sectorPerformance.data"
 					:pagination="false"
@@ -173,7 +178,8 @@ export default ({
 	},
 	watch: {
         sectorPerformance(nn, prv) {
-			if(nn || prv) { this.loading = false; }
+			// console.log(nn,nn)
+			// if(nn || prv) { this.loading = false; }
 		}
 	},
 	data() {
@@ -181,6 +187,7 @@ export default ({
 			icon1: ICON1,
 			SECTOR_PERFORMANCEColumns,
 			loading: true,
+			live: false
 		}
 	},
 	methods: {
@@ -204,11 +211,17 @@ export default ({
 				default: return 'blue-font';
       		}
     	},
+		liveToggle() {
+			if(this.live) {
+				this.$store.dispatch("lse/getSectorPeformance",{live:this.live});
+				this.live = false;
+			}
+		}
 	},
 	mounted() {
 	    this.$store.dispatch("markets/getMarkets");
 	    this.$store.dispatch("cnn/getSentiment");
-	    this.$store.dispatch("lse/getSectorPeformance");
+	    this.$store.dispatch("lse/getSectorPeformance",{live:this.cacheState});
 	}
 })
 </script>
