@@ -13,10 +13,7 @@ const mutations = {
 };
 
 const actions = {
-  getMarkets({ commit }) {
-    
-    console.log("getMarkets")
-
+  getMarkets({ commit }) {    
     commit("SET_MARKETS", null);
     get(child(ref(getDatabase()), `root/fundinfo`))
       .then((snapshot) => {
