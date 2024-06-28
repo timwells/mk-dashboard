@@ -71,14 +71,14 @@
 		<a-tab-pane key="2" tab="Performance">
 			<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
 				<div>
-				<a href="https://www.lse.co.uk/share-prices/sectors/" target="_blank">Click for: lse sector performance - 
+					<a href="https://www.lse.co.uk/share-prices/sectors/" target="_blank">Click for: lse sector performance - 
 					<span v-if="sectorPerformance">({{sectorPerformance.source }}</span>
 					<span v-if="sectorPerformance"> / {{sectorPerformance.created}}) </span>
-				</a>
-				<span style="float:right;">
-					Live <a-switch size="small" v-model="live" @click="liveToggle" />			
-				</span>
-			</div>
+					</a>
+					<span style="float:right;">
+						Live <a-switch size="small" v-model="live" @click="liveToggle" />			
+					</span>
+				</div>
 				<a-table v-if="sectorPerformance"
 					:columns="SECTOR_PERFORMANCEColumns"
 					:data-source="sectorPerformance.data"

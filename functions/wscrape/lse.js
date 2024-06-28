@@ -16,10 +16,8 @@ const CACHE_AGE =  43200  // seconds
 const STORAGE_SUCCESS = 200
 const STORAGE_NOT_FOUND = 404
 
-
-// "https://api.londonstockexchange.com/api/gw/lse/search/autocomplete?q=BARC
-const LSE_SEARCH_HOST = "https://api.londonstockexchange.com"
-const LSE_EPIC_SEARCH = LSE_SEARCH_HOST + "/api/gw/lse/search/autocomplete"
+const LSE_EXC_HOST = "https://api.londonstockexchange.com"
+const LSE_EXC_LOOKUP = "/api/gw/lse/instruments/alldata/"
 
 const { Storage } = require('@google-cloud/storage');
 const { Readable } = require('stream');
@@ -186,7 +184,7 @@ async function ProcessConstituentPeformance(
                 case 0: {
                     constituentPerformance.name = $(e).find('a').text();
                     constituentPerformance.direction = $(e).closest('tr').attr('class');
-                    constituentPerformance.epic = $(e).find('a').attr('data-item')
+                    constituentPerformance.epic = $(e).find('a').attr('data-item').split(".")[0]
                 } break;
                 case 1: { constituentPerformance.price = parseFloat($(e).text().replace(",",""));} break;
                 case 2: { constituentPerformance.volume = parseFloat($(e).text());} break;
@@ -301,69 +299,34 @@ async function constituentperformance(
     }
 }
 
-async function epicdetails(
-    req, 
-    res
-) {
-    const { data } = await axios.get("https://api.londonstockexchange.com/api/gw/lse/search/autocomplete?q=BARC")
-    res.status(200).json(data)
-}
-
-// https://online.hl.co.uk/ajaxx/stocks.php?pid=1719513888018&sq=PRU&filters=funds,&offset=0&instance=&format=jsonp
-async function epicdetails2(
+// `https://api.londonstockexchange.com/api/gw/lse/instruments/alldata/${epic}`
+async function constituentdetails(
     req, 
     res
 ) {
     const epic = req.query.epic
-    const { data } = await axios.get(`https://api.londonstockexchange.com/api/gw/lse/search/autocomplete?q=${epic}`);
-    res.status(200).json(data)
+    const LSE_EXC_API = `${LSE_EXC_HOST}${LSE_EXC_LOOKUP}${epic}`
+    try {
+        const { data } = await axios.get(LSE_EXC_API)
+            
+        const payload = {
+            description: data.description,
+            bid: data.bid,
+            offer: data.offer,
+            volume: data.volume,
+            turnover: data.turnover,
+            epic: epic,
+            sedol: data.sedol,
+            chartUrl : `https://chart.hl.co.uk/charts/chart.jsproto_large.chart?ID_SEDOL=${data.sedol}&WIDTH=800&HEIGHT=400&TIME_SPAN=10Y&SUBSAMPLINGGRANULARITY=MONTH&XAXISCLOSECOL=0&LINE_WIDTH=1&MOUNTAIN_COLOR1=a5b9d8&MOUNTAIN_COLOR2=c1cfe5&MOUNTAIN_COLOR3=c1cfe5&MOUNTAIN_COLOR4=ffffff&ID_NOTATION_COLOR1=25456b`
+        }
+        res.status(200).json(payload)
+    }
+    catch(e) {
+        res.status(500).json({})
+    }
 }
-
-// https://online.hl.co.uk/ajaxx/stocks.php?pid=1719513888018&sq=PRU&filters=funds,&offset=0&instance=&format=jsonp
-
-const HL_HOST = "https://online.hl.co.uk"
-const HL_PATH ="/ajaxx/stocks.php"
-
-async function epicdetails3(
-    req, 
-    res
-) {
-    const epic = req.query.epic
-
-    let URL = `${HL_HOST}${HL_PATH}?pid=1719514259627&sq=${epic}&filters=funds,&offset=0&instance=&format=jsonp`
-
-    // axios.get(NT_SITE_TRADES,{ headers: { Cookie: "nt=1;" } })
-    const HEADERS = { headers: { Cookie: "HLWEBsession=1efde538284dd28a3ff892cf321c5b8f;wwwServer=!Ih4GpalN9n1RCNz+2McMypaDwpw0KfyifrUay7nsGK3zr6njEgWfQHaQFhkhjE/nb+TYJhLHeg==" } }
-    const { data } = 
-        await axios.get(URL,HEADERS)
- 
-        console.log(data)
-
-    // const parsedJson = extractAndParseEscapedJson(data);
-    res.status(200).send("OK")
-    // res.status(200).json(data)
-}
-
-// https://online.hl.co.uk/ajaxx/stocks.php?pid=1719513888018&sq=PRU&filters=funds,&offset=0&instance=&format=jsonp
-async function epicdetails4(
-    req, 
-    res
-) {
-    const epic = req.query.epic
-
-    const { data } = await 
-        axios.get(`https://online.hl.co.uk/ajaxx/stocks.php?pid=1719514259633&sq=${epic}&filters=funds,&offset=0&instance=&format=jsonp`)
-    const parsedJson = extractAndParseEscapedJson(data);
-
-    res.status(200).json(parsedJson)
-}
-
-
 module.exports = {
     sectorpeformance,
     constituentperformance,
-    epicdetails,
-    epicdetails2,
-    epicdetails3,
-    epicdetails4
+    constituentdetails,
 }

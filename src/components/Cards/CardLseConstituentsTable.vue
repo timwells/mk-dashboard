@@ -1,11 +1,13 @@
 <template>
 	<!--a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}"-->
 	<div v-if="gConstituents(constituents) != undefined">
-		<div>
+		<div v-if="gConstituents(constituents) !== null">
 			<a :href="gConstituents(constituents).webSource" target="_blank">Click for: lse constituents performance - 
 				<span>{{gConstituents(constituents).source }} / {{gConstituents(constituents).created}}</span>
 			</a>
-			<!--span style="float:right;">Live <a-switch size="small" v-model:checked="live" @click="liveToggle" /></span-->
+			<span style="float:right;">
+				Live <a-switch size="small" v-model="live" @click="liveToggle" />			
+			</span>
 		</div>
 		<a-table
 			:loading="loading"
@@ -16,21 +18,23 @@
 			:row-class-name="setRowClassName">
 
 			<template slot="expandedRowRender" slot-scope="record">
+				<CardLseConstituentDetails :epic="record.epic"></CardLseConstituentDetails>
+
 				<!--iframe :src="epic(record)" style="width: 100%; height: 600px; border: 0"></iframe-->
-				<a-tabs default-active-key="1">
-					<a-tab-pane key="1" tab="TradeView">
+				<!--a-tabs default-active-key="1">
+					<a-tab-pane key="1" tab="Summary">
+						<pre>{{ gConstituentDetails(epic(record)) }}</pre>
+					</a-tab-pane>
+					<a-tab-pane key="2" tab="Tradeview">
 						<a :href="tradeView(record.epic)" target="_blank">{{record.epic}}</a>
 					</a-tab-pane>
-					<a-tab-pane key="2" tab="Broker View">
+					<a-tab-pane key="3" tab="Broker View">
 						<WidgetTradingViewBrokerAnalysis :symbol="fullSymbol(record.epic)"/>
 					</a-tab-pane>
-					<a-tab-pane key="3" tab="Financials">
+					<a-tab-pane key="4" tab="Financials">
 						<WidgetTradingViewFinancials :symbol="fullSymbol(record.epic)"/>
 					</a-tab-pane>
-					<!--a-tab-pane key="4" tab="Price">
-						<card-price-info :epic="lseSymbol(record.epic)"></card-price-info>
-					</a-tab-pane-->
-				</a-tabs>
+				</a-tabs-->
 			</template>
 		</a-table>
 	<!--/a-card-->
@@ -48,10 +52,11 @@ const epicCorrections = [
 
 import {mapState, mapGetters } from "vuex";
 
-import WidgetTradingViewTechAnalysis from "@/components/Widgets/WidgetTradingViewTechAnalysis";
-import WidgetTradingViewTechAnalysisTest from "@/components/Widgets/WidgetTradingViewTechAnalysisTest";
-import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
-import WidgetTradingViewFinancials from "@/components/Widgets/WidgetTradingViewFinancials";
+//import WidgetTradingViewTechAnalysis from "@/components/Widgets/WidgetTradingViewTechAnalysis";
+//mport WidgetTradingViewTechAnalysisTest from "@/components/Widgets/WidgetTradingViewTechAnalysisTest";
+//import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
+//import WidgetTradingViewFinancials from "@/components/Widgets/WidgetTradingViewFinancials";
+import CardLseConstituentDetails from "@/components/Cards/CardLseConstituentDetails"
 
 import { 
 	CONSTITUENT_PERFORMANCE_Columns
@@ -65,20 +70,22 @@ export default ({
 		}
 	},
 	components: {
-		WidgetTradingViewTechAnalysisTest,	
-		WidgetTradingViewTechAnalysis,
-		WidgetTradingViewBrokerAnalysis,
-		WidgetTradingViewFinancials,
+		//WidgetTradingViewTechAnalysisTest,	
+		//WidgetTradingViewTechAnalysis,
+		//WidgetTradingViewBrokerAnalysis,
+		//WidgetTradingViewFinancials,
+		CardLseConstituentDetails
 	},
 	computed: {
 		...mapState("lse",["constituentsPerformance"]),
-		...mapGetters("lse",["gConstituents","gConstituents2"]),
+		...mapGetters("lse",["gConstituents"]),
 		...mapState("app", ["secrets"])
 	},
 	data() {
 		return {
 			CONSTITUENT_PERFORMANCE_Columns,
-			loading:false
+			loading: false,
+			live: false
 		}
 	},
 	methods: {
@@ -108,10 +115,15 @@ export default ({
 			if(nEpic) return "LSE:" + nEpic.out; 
 			return "LSE:" + epic.split(".")[0]; 
 		},
-
+		liveToggle() {
+			if(this.live) {
+				this.$store.dispatch("lse/getConstituentsPeformance",{constituents: this.constituents, live: this.live})
+				this.live = false;
+			}
+		}
 	},
 	mounted() {
-	  this.$store.dispatch("lse/getConstituentsPeformance",{constituents: this.constituents});
+	  this.$store.dispatch("lse/getConstituentsPeformance",{constituents: this.constituents, live: this.live})
 	}
 })
 
