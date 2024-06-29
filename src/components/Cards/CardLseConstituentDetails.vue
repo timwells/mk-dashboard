@@ -1,5 +1,5 @@
 <template>
-	<div v-if="loaded==true">
+	<div v-if="viewReady">
 		<a-tabs default-active-key="1">
 			<a-tab-pane key="1" tab="Summary">
 				<p>Bid: {{gConstituentDetails(epic).bid}}, Offer: {{gConstituentDetails(epic).offer}}, Vol: {{gConstituentDetails(epic).volume}}</p>
@@ -15,6 +15,7 @@
 			<a-tab-pane key="4" tab="Broker Ratings">
 				<div v-if="gBrokerRatings(epic) !== undefined">
 					<a-table
+						:loading="brokerRatingsUpdated"
 						:columns="BROKER_RATINGS_Columns" 
 						:data-source="gBrokerRatings(epic).data" 
 						:pagination="false" 
@@ -43,10 +44,14 @@ export default ({
 		}
 	},
 	components: {
+		
 	},
 	watch: {
 		constituentsDetails(o,n) {
-			this.loaded = true;
+			this.viewReady = this.constituentsDetailsUpdate = true
+		},
+		brokerRatings(o,n) {
+			this.brokerRatingsUpdated = true
 		}
 	},
 	computed: {
@@ -56,7 +61,9 @@ export default ({
 	},
 	data() {
 		return { 
-			loaded: false,
+			viewReady: false,
+			constituentsDetailsUpdate:false,
+			brokerRatingsUpdated: false,
 			BROKER_RATINGS_Columns
 		}
 	},
