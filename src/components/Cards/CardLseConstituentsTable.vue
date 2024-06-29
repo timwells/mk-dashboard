@@ -1,5 +1,4 @@
 <template>
-	<!--a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}"-->
 	<div v-if="gConstituents(constituents) != undefined">
 		<div v-if="gConstituents(constituents) !== null">
 			<a :href="gConstituents(constituents).webSource" target="_blank">Click for: lse constituents performance - 
@@ -19,43 +18,13 @@
 
 			<template slot="expandedRowRender" slot-scope="record">
 				<CardLseConstituentDetails :epic="record.epic"></CardLseConstituentDetails>
-
-				<!--iframe :src="epic(record)" style="width: 100%; height: 600px; border: 0"></iframe-->
-				<!--a-tabs default-active-key="1">
-					<a-tab-pane key="1" tab="Summary">
-						<pre>{{ gConstituentDetails(epic(record)) }}</pre>
-					</a-tab-pane>
-					<a-tab-pane key="2" tab="Tradeview">
-						<a :href="tradeView(record.epic)" target="_blank">{{record.epic}}</a>
-					</a-tab-pane>
-					<a-tab-pane key="3" tab="Broker View">
-						<WidgetTradingViewBrokerAnalysis :symbol="fullSymbol(record.epic)"/>
-					</a-tab-pane>
-					<a-tab-pane key="4" tab="Financials">
-						<WidgetTradingViewFinancials :symbol="fullSymbol(record.epic)"/>
-					</a-tab-pane>
-				</a-tabs-->
 			</template>
 		</a-table>
-	<!--/a-card-->
 	</div>
 </template>
 
 <script>
-
-// https://www.dividenddata.co.uk/dividend-history.py?epic=SVT
-
-const epicCorrections = [
-	{in:"T17",out:"TM17"},
-	{in:"BAE",out:"BA."}
-]
-
 import {mapState, mapGetters } from "vuex";
-
-//import WidgetTradingViewTechAnalysis from "@/components/Widgets/WidgetTradingViewTechAnalysis";
-//mport WidgetTradingViewTechAnalysisTest from "@/components/Widgets/WidgetTradingViewTechAnalysisTest";
-//import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
-//import WidgetTradingViewFinancials from "@/components/Widgets/WidgetTradingViewFinancials";
 import CardLseConstituentDetails from "@/components/Cards/CardLseConstituentDetails"
 
 import { 
@@ -70,16 +39,11 @@ export default ({
 		}
 	},
 	components: {
-		//WidgetTradingViewTechAnalysisTest,	
-		//WidgetTradingViewTechAnalysis,
-		//WidgetTradingViewBrokerAnalysis,
-		//WidgetTradingViewFinancials,
 		CardLseConstituentDetails
 	},
 	computed: {
 		...mapState("lse",["constituentsPerformance"]),
 		...mapGetters("lse",["gConstituents"]),
-		...mapState("app", ["secrets"])
 	},
 	data() {
 		return {
@@ -88,7 +52,7 @@ export default ({
 			live: false
 		}
 	},
-	methods: {
+	methods: {		
 		setRowClassName(record) {
  			return this.getClassName(record.changePercent);
     	},
@@ -103,18 +67,6 @@ export default ({
 				default: return 'blue-font';
       		}
     	},
-		epic(record) {
-			return `https://www.dividenddata.co.uk/dividend-history.py?epic=${record.epic.split('.')[0]}` 
-		},
-		tradeView(epic) {
-			return `https://www.tradingview.com/chart/${this.secrets.tradingviewid}?symbol=${this.fullSymbol(epic)}&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=${this.fullSymbol(epic)}`
-		},
-		fullSymbol(epic) {
-			// fix epics
-			const nEpic = epicCorrections.find(e => (epic == e.in))		
-			if(nEpic) return "LSE:" + nEpic.out; 
-			return "LSE:" + epic.split(".")[0]; 
-		},
 		liveToggle() {
 			if(this.live) {
 				this.$store.dispatch("lse/getConstituentsPeformance",{constituents: this.constituents, live: this.live})

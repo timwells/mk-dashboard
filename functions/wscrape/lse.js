@@ -9,6 +9,7 @@ const USER_AGENT = "'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.3
 const BUCKET_NAME = 'mk-d-b59f2.appspot.com';
 const SECTOR_PERFORMANCE_RESOURCE = 'lse-cache/sector-peformance.json';
 const CONSTITUENT_PERFORMANCE_FOLDER = 'lse-cache/constituents/'
+const BROKER_RATINGS_FOLDER = 'lse-cache/broker-ratings/'
 
 const PAGE_REQUEST_TIMEOUT = 80000
 const CACHE_AGE =  43200  // seconds
@@ -47,7 +48,6 @@ function extractAndParseEscapedJson(input) {
     }
 }
     
-
 /* Page Struction
 <tr class="down">
     <td><a href="https://www.lse.co.uk/share-prices/sectors/aerospace/" 
@@ -170,6 +170,31 @@ async function ProcessSectorPeformance(
     }) 
     return sectorPerformanceList
 }
+async function ProcessBrokerRatings(
+    htmlContent
+){
+    const $ = cheerio.load(htmlContent);
+    const tableRows = $('.sp-broker-ratings__table > tbody > tr');
+    let brokerRatingsList = []
+    $(tableRows).each((i,row) => {
+        let brokerRating = {}
+        $(row).find('td').each((j,e) => {   
+            // console.log(j,$(e).text());
+            switch(j) {
+                case 0: { brokerRating.date = $(e).text(); } break;
+                case 1: { brokerRating.broker = $(e).text();} break;
+                case 2: { brokerRating.recommendation = $(e).text();} break;
+                case 3: { brokerRating.oldTarget = $(e).text();} break;
+                case 4: { brokerRating.newTarget = $(e).text();} break;
+                case 5: { brokerRating.ratingType = $(e).text();} break;
+            }
+        })
+        // Skip header.
+        if(i>0) brokerRatingsList.push(brokerRating)
+    }) 
+    return brokerRatingsList
+}
+
 async function ProcessConstituentPeformance(
     htmlContent
 ) {
@@ -247,6 +272,58 @@ async function sectorpeformance(
         res.status(500).json({})
     }
 }
+async function brokerratings(
+    req, 
+    res
+) {
+    const webResource = `https://www.lse.co.uk/ShareBrokerTips.html?shareprice=${req.query.epic}`
+    const webResourceTimeout = PAGE_REQUEST_TIMEOUT
+    const cacheBucket = BUCKET_NAME
+    const cacheResource = BROKER_RATINGS_FOLDER + req.query.epic + ".json"
+    const cacheAge = CACHE_AGE
+    const cacheTag = req.query.epic
+    const live = validateBoolParameter(req.query.live, ['true', 'false']) && req.query.live === 'true';
+
+    //console.log(webResource,webResourceTimeout)
+    //console.log(cacheBucket,cacheResource)
+    //console.log(cacheAge,cacheTag,live)
+
+    try {
+        const cacheResponse = await queryResourceCacheStatus(cacheBucket,cacheResource);
+        const hotRequest = (cacheResponse.expired || live)
+
+        switch(cacheResponse.status) {
+            case STORAGE_SUCCESS: {
+                if(!hotRequest) { // Get Resource from cache if not hotRequest
+                    let p1 = await getResourceFromCache(cacheBucket,cacheResource)
+                    p1.source = "cache"
+                    p1.tag = cacheTag
+                    p1.created =  cacheResponse.metadata.timeCreated
+                    res.status(200).json(p1)
+                }
+                else {
+                    let p2 = await updateResource(webResource,webResourceTimeout,ProcessBrokerRatings,cacheBucket,cacheResource,cacheAge,cacheTag)
+                    p2.source = "re-cache"
+                    p2.tag = cacheTag
+                    res.status(200).json(p2)
+                }
+            } break;
+            case STORAGE_NOT_FOUND: {
+                let p3 = await updateResource(webResource,webResourceTimeout,ProcessBrokerRatings,cacheBucket,cacheResource,cacheAge,cacheTag)
+                p3.source = "initialised-cache"
+                p3.tag = cacheTag
+                res.status(200).json(p3)
+            } break;
+            default: {
+                console.log("ERROR - ",cacheResponse.status)
+                res.status(500).json({})
+            }
+        }
+    } catch(e) {
+        console.log("brokeratings",e)    
+        res.status(500).json({})
+    }
+}
 async function constituentperformance(
     req, 
     res
@@ -298,7 +375,6 @@ async function constituentperformance(
         res.status(500).json({})
     }
 }
-
 // `https://api.londonstockexchange.com/api/gw/lse/instruments/alldata/${epic}`
 async function constituentdetails(
     req, 
@@ -325,8 +401,10 @@ async function constituentdetails(
         res.status(500).json({})
     }
 }
+
 module.exports = {
     sectorpeformance,
     constituentperformance,
     constituentdetails,
+    brokerratings,
 }

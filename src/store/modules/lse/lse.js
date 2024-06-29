@@ -9,12 +9,14 @@ import {
 const state = {
   sectorPerformance: null,
   constituentsPerformance : [],
-  constituentsDetails: []
+  constituentsDetails: [],
+  brokerRatings: []
 }
 
 const getters = {
   gConstituents: (state) => (tag) => state.constituentsPerformance.find((e) => (e.tag === tag)),
   gConstituentDetails: (state) => (epic) => state.constituentsDetails.find((e) => (e.epic === epic)),
+  gBrokerRatings: (state) => (epic) => state.brokerRatings.find((e) => (e.tag === epic)) 
 
   /*
   gConstituents2: (state) => (tag) => {
@@ -32,7 +34,10 @@ const mutations = {
       if (index !== -1) { state.constituentsPerformance[index] =  {tag: "DELETED"}; }
       return state.constituentsPerformance
     },
+
     SET_CONSTITUENT_DETAILS: (state, payload) => (state.constituentsDetails.push(payload)),
+
+    SET_BROKER_RATINGS: (state, payload) => (state.brokerRatings.push(payload)),
 };
 const actions = {
   async getSectorPeformance({ commit },{ live }) {
@@ -51,6 +56,11 @@ const actions = {
     const {data} = await 
       axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/lse/constituentdetails?epic=${epic}`, { headers: APP_FINTECH_HEADERS })
       commit("SET_CONSTITUENT_DETAILS", data)
+  },
+  async getBrokerRatings({ commit },{ epic }) {
+    const {data} = await 
+      axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/lse/brokerratings?epic=${epic}`, { headers: APP_FINTECH_HEADERS })
+      commit("SET_BROKER_RATINGS", data)
   },
 }
 

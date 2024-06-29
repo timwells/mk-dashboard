@@ -45,11 +45,28 @@ const CONSTITUENT_PERFORMANCE_Columns = [
     {title: 'Direction',dataIndex: 'direction', sortDirections: ["descend", "ascend"], 
         sorter: (a, b) => a.direction.localeCompare(b.direction), scopedSlots: { customRender: 'direction' }}
 ]
+const BROKER_RATINGS_Columns = [
+    {title: 'Date',dataIndex: 'date', scopedSlots: { customRender: 'date' }},
+    {title: 'Broker',dataIndex: 'broker', 
+        sortDirections: ["descend", "ascend"], 
+        sorter: (a, b) => a.broker.localeCompare(b.broker),scopedSlots: { customRender: 'broker' }},
+    {title: 'Recommendation',dataIndex: 'recommendation', 
+        sortDirections: ["descend", "ascend"],
+		sorter: (a, b) => a.recommendation.localeCompare(b.recommendation),scopedSlots: { customRender: 'recommendation' }},
+    {title: 'Old Target', dataIndex: 'oldTarget',scopedSlots: { customRender: 'oldTarget' }},
+    {title: 'New Target', dataIndex: 'newTarget',scopedSlots: { customRender: 'newTarget' }},
+    {title: 'Rating',dataIndex: 'ratingType', 
+        sortDirections: ["descend", "ascend"], 
+        sorter: (a, b) => a.ratingType.localeCompare(b.ratingType),scopedSlots: { customRender: 'ratingType' }}
+]
+
+
 module.exports = {
     HOLDINGColumns,
     PERIODColumns,
     SECTORColumns,
     COUNTRYColumns,
     SECTOR_PERFORMANCEColumns,
-    CONSTITUENT_PERFORMANCE_Columns
+    CONSTITUENT_PERFORMANCE_Columns,
+    BROKER_RATINGS_Columns
 }
