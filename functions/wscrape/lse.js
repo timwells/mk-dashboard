@@ -10,6 +10,7 @@ const BUCKET_NAME = 'mk-d-b59f2.appspot.com';
 const SECTOR_PERFORMANCE_RESOURCE = 'lse-cache/sector-peformance.json';
 const CONSTITUENT_PERFORMANCE_FOLDER = 'lse-cache/constituents/'
 const BROKER_RATINGS_FOLDER = 'lse-cache/broker-ratings/'
+const BROKER_RATINGS_STATS_FOLDER = 'lse-cache/broker-ratings/stats/'
 
 const PAGE_REQUEST_TIMEOUT = 80000
 const CACHE_AGE =  43200  // seconds
@@ -47,17 +48,6 @@ function extractAndParseEscapedJson(input) {
         return null;
     }
 }
-    
-/* Page Struction
-<tr class="down">
-    <td><a href="https://www.lse.co.uk/share-prices/sectors/aerospace/" 
-        title="Aerospace Sector Value">Aerospace</a></td>
-    <td class="hidden-xs">11,345.84</td>
-    <td class="hidden-tiny">-162.82</td>
-    <td>-1.41%</td>
-</tr>
-*/
-
 function validateBoolParameter(param, validValues) {
     return validValues.includes(param);
 }
@@ -131,12 +121,12 @@ async function updateResource(
 ) {
     // Get and process page
     try {
-        const constituentPeformanceList = await processContent(await getPageContent(webResource,webResourceTimeout))
-        if(constituentPeformanceList.length > 0) {
+        const contentList = await processContent(await getPageContent(webResource,webResourceTimeout))
+        if(contentList.length > 0) {
             const storage = new Storage();
             const file = storage.bucket(cacheBucket).file(cacheResource);
             const writeStream = file.createWriteStream({ metadata: { contentType: 'application/json', cacheControl: `public,max-age=${cacheAge}`} });
-            return { status: STORAGE_SUCCESS, tag:cacheTag, created: new Date().toISOString(), data: await uploadJsonStream(writeStream,constituentPeformanceList) }
+            return { status: STORAGE_SUCCESS, tag:cacheTag, created: new Date().toISOString(), data: await uploadJsonStream(writeStream,contentList) }
         }
         return {data: []}
      }catch(e) {
@@ -172,7 +162,7 @@ async function ProcessSectorPeformance(
 }
 async function ProcessBrokerRatings(
     htmlContent
-){
+) {
     const $ = cheerio.load(htmlContent);
     const tableRows = $('.sp-broker-ratings__table > tbody > tr');
     let brokerRatingsList = []
@@ -194,7 +184,41 @@ async function ProcessBrokerRatings(
     }) 
     return brokerRatingsList
 }
+async function ProcessBrokerRatingsStats(
+    htmlContent
+) {
+    const $ = cheerio.load(htmlContent);
+    const tableRows = $('.sp-broker-ratings__table > tbody > tr');
 
+    let brokerRatingsStatsMap = new Map()
+    let brokerRatingsStatsList = []
+    $(tableRows).each((i,row) => {
+        let brokerRating = {}
+        $(row).find('td').each((j,e) => {
+            switch(j) {
+                case 0: { brokerRating.date = $(e).text(); } break;
+                case 2: { brokerRating.recommendation = $(e).text(); } break;
+            }
+        })
+        // Skip header
+        if(i>0) {
+            const brokerDate = new Date(brokerRating.date);
+            const currentDate = new Date();
+            let backDate = new Date();
+            backDate.setMonth(currentDate.getMonth() - 6);
+            if(backDate < brokerDate) {
+                if(!brokerRatingsStatsMap.has(brokerRating.recommendation)) 
+                    brokerRatingsStatsMap.set(brokerRating.recommendation,{count:0});        
+                let o = brokerRatingsStatsMap.get(brokerRating.recommendation)
+                o.count++
+                brokerRatingsStatsMap.set(brokerRating.recommendation,o)
+            }
+        }
+    })
+
+    brokerRatingsStatsList = Array.from(brokerRatingsStatsMap, ([key, value]) => ({ rating: key, count: value.count }))    
+    return brokerRatingsStatsList
+}
 async function ProcessConstituentPeformance(
     htmlContent
 ) {
@@ -284,10 +308,6 @@ async function brokerratings(
     const cacheTag = req.query.epic
     const live = validateBoolParameter(req.query.live, ['true', 'false']) && req.query.live === 'true';
 
-    //console.log(webResource,webResourceTimeout)
-    //console.log(cacheBucket,cacheResource)
-    //console.log(cacheAge,cacheTag,live)
-
     try {
         const cacheResponse = await queryResourceCacheStatus(cacheBucket,cacheResource);
         const hotRequest = (cacheResponse.expired || live)
@@ -310,6 +330,54 @@ async function brokerratings(
             } break;
             case STORAGE_NOT_FOUND: {
                 let p3 = await updateResource(webResource,webResourceTimeout,ProcessBrokerRatings,cacheBucket,cacheResource,cacheAge,cacheTag)
+                p3.source = "initialised-cache"
+                p3.tag = cacheTag
+                res.status(200).json(p3)
+            } break;
+            default: {
+                console.log("ERROR - ",cacheResponse.status)
+                res.status(500).json({})
+            }
+        }
+    } catch(e) {
+        console.log("brokeratings",e)    
+        res.status(500).json({})
+    }
+}
+async function brokerratingsstats(
+    req, 
+    res
+) {
+    const webResource = `https://www.lse.co.uk/ShareBrokerTips.html?shareprice=${req.query.epic}`
+    const webResourceTimeout = PAGE_REQUEST_TIMEOUT
+    const cacheBucket = BUCKET_NAME
+    const cacheResource = BROKER_RATINGS_STATS_FOLDER + req.query.epic + ".json"
+    const cacheAge = CACHE_AGE
+    const cacheTag = req.query.epic
+    const live = validateBoolParameter(req.query.live, ['true', 'false']) && req.query.live === 'true';
+
+    try {
+        const cacheResponse = await queryResourceCacheStatus(cacheBucket,cacheResource);
+        const hotRequest = (cacheResponse.expired || live)
+
+        switch(cacheResponse.status) {
+            case STORAGE_SUCCESS: {
+                if(!hotRequest) { // Get Resource from cache if not hotRequest
+                    let p1 = await getResourceFromCache(cacheBucket,cacheResource)
+                    p1.source = "cache"
+                    p1.tag = cacheTag
+                    p1.created =  cacheResponse.metadata.timeCreated
+                    res.status(200).json(p1)
+                }
+                else {
+                    let p2 = await updateResource(webResource,webResourceTimeout,ProcessBrokerRatingsStats,cacheBucket,cacheResource,cacheAge,cacheTag)
+                    p2.source = "re-cache"
+                    p2.tag = cacheTag
+                    res.status(200).json(p2)
+                }
+            } break;
+            case STORAGE_NOT_FOUND: {
+                let p3 = await updateResource(webResource,webResourceTimeout,ProcessBrokerRatingsStats,cacheBucket,cacheResource,cacheAge,cacheTag)
                 p3.source = "initialised-cache"
                 p3.tag = cacheTag
                 res.status(200).json(p3)
@@ -407,4 +475,5 @@ module.exports = {
     constituentperformance,
     constituentdetails,
     brokerratings,
+    brokerratingsstats
 }

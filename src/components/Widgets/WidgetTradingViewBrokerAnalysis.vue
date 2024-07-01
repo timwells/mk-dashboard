@@ -46,7 +46,7 @@ export default {
       script.async = true;
       script.src = scriptSrc;
       const options = {
-        "interval": "1D",
+        "interval": "1M",
         "width": "100%",
         "isTransparent": false,
         "height": 480,

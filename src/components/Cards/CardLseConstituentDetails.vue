@@ -12,7 +12,20 @@
 				<p>Bid: {{gConstituentDetails(epic).bid}}, Offer: {{gConstituentDetails(epic).offer}}, Vol: {{gConstituentDetails(epic).volume}}</p>
 				<a :href="tradeView()" target="_blank">{{gConstituentDetails(epic).description}}</a>
 			</a-tab-pane>
-			<a-tab-pane key="4" tab="Broker Ratings">
+			<a-tab-pane key="4" tab="Tradeview Rating">
+				<WidgetTradingViewBrokerAnalysis :symbol="fullSymbol(epic)" interval="1M"></WidgetTradingViewBrokerAnalysis>
+			</a-tab-pane>
+			<a-tab-pane key="5" tab="Broker Ratings">
+				<div v-if="gBrokerRatings(epic) !== undefined">
+					<a-table
+						:loading="brokerRatingsUpdated"
+						:columns="BROKER_RATINGS_Columns" 
+						:data-source="gBrokerRatings(epic).data" 
+						:pagination="false" 
+						:rowKey="(record,i) => i">
+					</a-table>
+				</div>
+				<a-tab-pane key="6" tab="Rating Stats">
 				<div v-if="gBrokerRatings(epic) !== undefined">
 					<a-table
 						:loading="brokerRatingsUpdated"
@@ -23,6 +36,9 @@
 					</a-table>
 				</div>
 			</a-tab-pane>
+
+
+			
 			<!--a-tab-pane key="5" tab="Financials">
 				<WidgetTradingViewFinancials :symbol="fullSymbol(record.epic)"/>
 			</a-tab-pane-->
@@ -32,9 +48,8 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
-import { 
-	BROKER_RATINGS_Columns
-} from '@/common/table'
+import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
+import { BROKER_RATINGS_Columns } from '@/common/table'
 
 export default ({
 	props: {
@@ -44,7 +59,7 @@ export default ({
 		}
 	},
 	components: {
-		
+		WidgetTradingViewBrokerAnalysis
 	},
 	watch: {
 		constituentsDetails(o,n) {
@@ -72,10 +87,6 @@ export default ({
 			return `https://www.dividenddata.co.uk/dividend-history.py?epic=${this.epic}` 
 		},
 		fullSymbol() {
-			// fix epics
-			//const nEpic = epicCorrections.find(e => (epic == e.in))		
-			//if(nEpic) return "LSE:" + nEpic.out;
-
 			return "LSE:" + this.epic; 
 		},
 		tradeView() {
