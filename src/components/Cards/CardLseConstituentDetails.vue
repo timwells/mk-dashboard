@@ -25,7 +25,8 @@
 						:rowKey="(record,i) => i">
 					</a-table>
 				</div>
-				<a-tab-pane key="6" tab="Rating Stats">
+			</a-tab-pane>
+			<!--a-tab-pane key="6" tab="Rating Stats">
 				<div v-if="gBrokerRatings(epic) !== undefined">
 					<a-table
 						:loading="brokerRatingsUpdated"
@@ -35,10 +36,7 @@
 						:rowKey="(record,i) => i">
 					</a-table>
 				</div>
-			</a-tab-pane>
-
-
-			
+			</a-tab-pane-->
 			<!--a-tab-pane key="5" tab="Financials">
 				<WidgetTradingViewFinancials :symbol="fullSymbol(record.epic)"/>
 			</a-tab-pane-->
