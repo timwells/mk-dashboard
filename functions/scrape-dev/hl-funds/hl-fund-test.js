@@ -1,5 +1,5 @@
 const hlServices = require('./hl-fund-services.js')
-const hlIndexServices = require('./hl-index-services.js')
+//const hlIndexServices = require('./hl-index-services.js')
 
 //let result = hlServices['cleanFunds']()
 // let result = hlServices['mergeFunds']()
@@ -15,8 +15,8 @@ const hlIndexServices = require('./hl-index-services.js')
 
 
 // Process HL Funds: Names, prices, composition
-// let result = hlServices['scanFunds'](1)
-let result = hlServices['getFundDetailsTest']()
+let result = hlServices['scanFunds'](0)
+//let result = hlServices['getFundDetailsTest']()
 //let result = hlServices['mergeFunds']()
 // let result = hlServices['reformatFunds']()
 result.then((d) => { 

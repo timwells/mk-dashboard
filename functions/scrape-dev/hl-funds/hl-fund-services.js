@@ -6,19 +6,20 @@
 
 const cheerio = require('cheerio');
 const axios = require('axios')
-const c = require('./common/c');
-const LTIME = 280
-const HTIME = 400
+const c = require('../common/c');
+const LTIME = 100
+const HTIME = 160
 
 const FUNDS_DIR = [
-    "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/a",
-    "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/b",
-    "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/c",
+    //"https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/a",
+    //"https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/b",
+    /*"https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/c",
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/d",
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/e",
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/f",
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/g",
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/h",
+    */
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/i",
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/j",
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/k",
@@ -46,7 +47,7 @@ function fundSearchGroup(fundSearch) {
     let fsr = fundSearch.split("/")
     return `${fsr[fsr.length - 1]}-fund`
 }
-
+/*
 async function GetFundList(fundsDirectory) {
     // for(let fd = 0; fd < fundDir.length; fd++ ) {
     let fundList = [];
@@ -72,7 +73,7 @@ async function GetFundList(fundsDirectory) {
     }
     return fundList
 }
-
+*/
 async function GetFundList2(fundsDirectory) {
     console.log(`GetFundList2:${fundsDirectory}`);
 
@@ -91,7 +92,7 @@ async function GetFundList2(fundsDirectory) {
             fund.name = $(el).children("a").text();
             fund.link = $(el).children("a").attr("href");
             fundList.push(fund);
-            console.log(fund);
+            // console.log(fund);
         })
     } catch (e) {
         console.log("ERROR GetFundList",e.message,fundsDirectory);
@@ -103,15 +104,14 @@ async function GetFundDetails(fundList) {
     let fundDetails = [];
     console.log("GetFundDetails:",fundList.length);
     for(let i=0; i < fundList.length; i++) {
-        let fundDetail = await GetFundDetail(i,fundList[i].name,fundList[i].link)
+        let fundDetail = await GetFundDetail2(i,fundList[i].name,fundList[i].link)
         if(fundDetail) {
             fundDetails.push(fundDetail)
             let d = c.randomInt(LTIME,HTIME)
             console.log(`${i} of ${fundList.length} | ${fundDetail.name} - ${fundDetail.type} / delay ${d} ms`)   
-            c.sleep(d) 
+            await c.sleep(d) 
         }
     }
-
     return fundDetails
 }
 
@@ -268,10 +268,76 @@ async function GetFundDetail(i,name,path) {
     return details
 }
 
+async function GetFundDetail2(i,name,path) {
+    let details = null
+
+/*
+    {
+        "name": "7IM Real Return (Class C)",
+        "href": "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/7/7im-real-return-class-c-accumulation/",
+        "type": "Accumulation",
+        "sedol": "B75MS61",
+        "citicode": "0HF3",
+        "netIC": 0,
+        "netAC": 0.94,
+        "fund": "funds/fund-discounts,-prices--and--factsheets/search-results/7/7im-real-return-class-c-accumulation/"
+    },
+
+*/
+    try {
+        details = {}        
+        let { data } = await axios.get(path)
+        const $ = await cheerio.load(data)
+        details.name = $("head meta[name='Fund_Title']").attr("content");
+        
+        details.href = path;
+        details.fund = path.replace("https://www.hl.co.uk/","")
+
+        // Fund Type
+        details.type = $("head meta[name='Fund_Unit_Type']").attr("content");
+
+        // SEDOL
+        details.sedol = $("head meta[name='Fund_Sedol']").attr("content");
+
+        // Fund_Citicode
+        details.citicode = $("head meta[name='Fund_Citicode']").attr("content");
+
+        // Charges
+        details.netIC = null
+        details.netAC = null
+
+        // Initial Charges
+        const chargeTables = $(".factsheet-table");
+        let icRows = $(chargeTables[0]).children("tbody").children("tr")
+        for(let r = 0; r < icRows.length; r++) {
+            let rH = $(icRows[r]).children("th").text().trimStart().trimEnd();
+            let rD = $(icRows[r]).children("td").text().trimStart().trimEnd();
+            
+            if(rH.localeCompare("Net initial charge:") == 0) {
+                details.netIC = (rD != null) ? parseFloat(rD.replace("%","")) : null;;
+            }
+        }
+
+        // Annual Charges
+        let acRows = $(chargeTables[1]).children("tbody").children("tr")
+        for(let r = 0; r < acRows.length; r++) {
+            let rH = $(acRows[r]).children("th").text().trimStart().trimEnd();
+            let rD = $(acRows[r]).children("td").text().trimStart().trimEnd();
+            if(rH.localeCompare("Net ongoing charge:") == 0) {                
+                details.netAC = (rD != null) ? parseFloat(rD.replace("%","")) : null;
+            }
+        }
+    }
+    catch (e) {
+        console.log("ERROR GetFundDetail",e.message,i,name,path);
+        details = null
+    }
+    return details
+}
+
 async function SaveFundDetails(funds) {
     await c.writeFileAsync(`./fundSummary2.json`,JSON.stringify(funds));
 }
-
 async function convertFundDetailsToJson() {
     //await writeFileAsync(`./fundSummary.csv`,convertToCSV(fundSummary,","));
     const csvFilePath='./fundSummary.csv'
@@ -299,7 +365,6 @@ async function fundsQuery(url,qry,timeout) {
 
     return cheerio.load(htmlContent, { xmlMode: true });
 }
-
 // https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results?start=0&rpp=1000&lo=0&sort=fd.full_description&sort_dir=asc
 // https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results
 // ?start=0&rpp=1000&lo=0&sort=fd.full_description&sort_dir=asc
@@ -315,9 +380,16 @@ async function scanFunds(count) {
     for(let i = 0; i < l; i++) {
         console.log("Scan: " + FUNDS_DIR[i])
         let fundsList = await GetFundList2(FUNDS_DIR[i]);
+
+        // console.log(fundsList)
+        // let fundGrp = FUNDS_DIR[i].split("/").pop()
+        // await c.writeFileAsync(`./funds/${fundGrp}-funds.json`,JSON.stringify(fundsList));
+
         let fundsDetails = await GetFundDetails(fundsList)
-        let fsg = fundSearchGroup(FUNDS_DIR[i])
-        await c.writeFileAsync(`./funds/${fsg}.json`,JSON.stringify(fundsDetails));
+        //let fsg = fundSearchGroup(FUNDS_DIR[i])
+        let fundGrp = FUNDS_DIR[i].split("/").pop()
+
+        await c.writeFileAsync(`./funds/${fundGrp}.json`,JSON.stringify(fundsDetails));
     }
 }
 
@@ -333,7 +405,6 @@ async function mergeFunds() {
 
     console.log("allFunds",allFunds.length)
 }
-
 async function reformatFunds() {
     let fObj = JSON.parse(await c.readFileAsync(`./allFunds.json`));
     for(let i = 0; i < fObj.length; i++) {
