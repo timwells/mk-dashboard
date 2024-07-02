@@ -17,7 +17,7 @@
 							:columns="cols"
 							:data-source="holder.results" 
 							:pagination="pagination"
-							:rowKey="(record,index) => index"
+							:rowKey="(record,i) => i"
 							class='table table-small' style="margin: 0; background-color: white;">	
 							
 							<template slot="date" slot-scope="date"><p class="m-0 font-regular text-muted">{{ date }}</p></template>

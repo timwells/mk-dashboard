@@ -25,16 +25,9 @@
 								<a-table 
 									:columns="hCols"
 									:data-source="details(sedol).holdings"
-									:pagination="pagination"
-									class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
-									<template slot="security" slot-scope="security">
-										<p class="m-0 font-regular text-muted">{{ security }}</p>
-									</template>
-
-									<template slot="weight" slot-scope="weight">
-										<p class="m-0 font-regular text-muted">{{ weight }}</p>
-									</template>
-
+									:pagination="false"
+									:rowKey="(record,i) => i"
+									class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">
 								</a-table>
 							</div>
 						</a-card>
@@ -44,17 +37,11 @@
 							<div class="card-content">
 								<!-- Returns Table -->
 								<a-table 
-									:columns="pCols"
+									:columns="PERIOD_Columns"
 									:data-source="details(sedol).performance"
-									:pagination="pagination"
+									:pagination="false"
+									:rowKey="(record,i) => i"
 									class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
-									<template slot="period" slot-scope="period">
-										<p class="m-0 font-regular text-muted">{{ period }}</p>
-									</template>
-
-									<template slot="retn" slot-scope="retn">
-										<p class="m-0 font-regular text-muted">{{ retn }}</p>
-									</template>
 								</a-table>
 							</div>
 						</a-card>
@@ -64,17 +51,11 @@
 							<div class="card-content">
 								<!-- Weights Table -->
 								<a-table 
-									:columns="sCols"
+									:columns="SECTOR_Columns"
 									:data-source="details(sedol).sectors"
 									:pagination="pagination"
+									:rowKey="(record,i) => i"
 									class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
-									<template slot="security" slot-scope="sector">
-										<p class="m-0 font-regular text-muted">{{ sector }}</p>
-									</template>
-
-									<template slot="weight" slot-scope="weight">
-										<p class="m-0 font-regular text-muted">{{ weight }}</p>
-									</template>
 								</a-table>
 							</div>
 						</a-card>
@@ -84,17 +65,11 @@
 							<div class="card-content">
 								<!-- Weights Table -->
 								<a-table 
-									:columns="cCols"
+									:columns="COUNTRY_Columns"
 									:data-source="details(sedol).countries"
-									:pagination="pagination"
+									:pagination="false"
+									:rowKey="(record,i) => i"
 									class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
-									<template slot="security" slot-scope="country">
-										<p class="m-0 font-regular text-muted">{{ country }}</p>
-									</template>
-
-									<template slot="weight" slot-scope="weight">
-										<p class="m-0 font-regular text-muted">{{ weight }}</p>
-									</template>
 								</a-table>
 							</div>
 						</a-card>
@@ -108,10 +83,17 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 
+import { 
+	HOLDING_Columns, 
+	PERIOD_Columns, 
+	SECTOR_Columns, 
+	COUNTRY_Columns } from '@/common/table'
+
+
 const hCols = [{
 		title: 'Security',
 		dataIndex: 'security',
-		width: 140, 
+		width: 130, 
 		scopedSlots: { customRender: 'security' }
 	},{
 		title: 'Weight',
@@ -121,46 +103,9 @@ const hCols = [{
 	}
 ]
 
-// "performance":[{"period":"26/02/19 to 26/02/20","retn":"4.66%"},
-const pCols = [
-	{
-		title: 'Period',
-		dataIndex: 'period',
-		width: 140, 
-		scopedSlots: { customRender: 'period' }
-	},{
-		title: 'Return',
-		dataIndex: 'retn',
-		width: 80, 
-		scopedSlots: { customRender: 'retn' }
-	}
-]
+//console.log(HOLDING_Columns)
 
-const sCols = [{
-		title: 'Sector',
-		dataIndex: 'sector',
-		width: 140, 
-		scopedSlots: { customRender: 'sector' }
-	},{
-		title: 'Weight',
-		dataIndex: 'weight',
-		width: 80, 
-		scopedSlots: { customRender: 'weight' }
-	}
-]
 
-const cCols = [{
-		title: 'Country',
-		dataIndex: 'country',
-		width: 140, 
-		scopedSlots: { customRender: 'country' }
-	},{
-		title: 'Weight',
-		dataIndex: 'weight',
-		width: 80, 
-		scopedSlots: { customRender: 'weight' }
-	}
-]
 
 export default ({
 	props: {
@@ -168,8 +113,6 @@ export default ({
 		fund:        { type: String, default: "" },
 		sedol:       { type: String, default: "" },
 		citicode:    { type: String, default: ""},
-		holdings:    {type: Array},
-		performance: {type: Array}
 	},
 	computed: {
     	...mapState("funds", ["fundDetails"]),
@@ -184,24 +127,25 @@ export default ({
 		return {
 			chart: `https://webfund6.financialexpress.net/clients/Hargreaves/chartbuilder.aspx?codes=F${this.citicode}&color=f65d1a&hide=&span=M120&plotSingleAsPrice=true&totalReturn=false&yAxisLabel=_`,				
 			hCols,
-			pCols,
-			sCols,
-			cCols,
-			pagination: false
+			//pCols,
+			//sCols,
+			//cCols,
+			pagination: false.
+			HOLDING_Columns, 
+			PERIOD_Columns, 
+			SECTOR_Columns, 
+			COUNTRY_Columns
 		}
 	},
 	methods: {
 		details(key) {
-			console.log("details:",key)
 			return this.gfundDetail(key)
 		}
 	},
 	mounted() {
-		console.log("mounted:",this.fund);
 		this.$store.dispatch("funds/getFundDetail",{fund: this.fund });
 	}
 })
-
 </script>
 
 <style lang="scss">

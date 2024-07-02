@@ -1,20 +1,20 @@
-const HOLDINGColumns = [
+const HOLDING_Columns = [
     {title: 'Security', dataIndex: 'security', width: 140, scopedSlots: { customRender: 'security' }},
     {title: 'Weight', dataIndex: 'weight', width: 80, scopedSlots: { customRender: 'weight' }}
 ]
-const PERIODColumns = [
-    {title: 'Period',dataIndex: 'period',width: 140, scopedSlots: { customRender: 'period' }},
+const PERIOD_Columns = [
+    {title: 'Period',dataIndex: 'period',width: 120, scopedSlots: { customRender: 'period' }},
     {title: 'Return',dataIndex: 'retn',width: 80, scopedSlots: { customRender: 'retn' }}
 ]
-const SECTORColumns = [
-    {title: 'Sector',dataIndex: 'sector',width: 140, scopedSlots: { customRender: 'sector' }},
+const SECTOR_Columns = [
+    {title: 'Sector',dataIndex: 'sector',width: 120, scopedSlots: { customRender: 'sector' }},
     {title: 'Weight',dataIndex: 'weight',width: 80, scopedSlots: { customRender: 'weight' }}
 ]
-const COUNTRYColumns = [
-    {title: 'Country',dataIndex: 'country',width: 140, scopedSlots: { customRender: 'country' }},
+const COUNTRY_Columns = [
+    {title: 'Country',dataIndex: 'country',width: 100, scopedSlots: { customRender: 'country' }},
     {title: 'Weight',dataIndex: 'weight',width: 80, scopedSlots: { customRender: 'weight' }}
 ]
-const SECTOR_PERFORMANCEColumns = [
+const SECTOR_PERFORMANCE_Columns = [
     {title: 'Name',dataIndex: 'name',scopedSlots: { customRender: 'name' }},
     {title: 'Value',dataIndex: 'value',sortDirections: ["descend", "ascend"],
 		sorter: (a, b) => a.value - b.value, scopedSlots: { customRender: 'value' }},
@@ -66,54 +66,21 @@ const FUNDS_Columns = [
 		dataIndex: 'name',
 	    sortDirections: ["descend", "ascend"],
     	sorter: (a, b) => a.name.localeCompare(b.name),
-	    onFilter: (value, record) =>
-    	  record.name
-        	.toString()
-        	.toLowerCase()
-        	.includes(value.toLowerCase()),
-		scopedSlots: { 
-			customRender: 'name', 
-	      	filterDropdown: 'filterDropdown',
- 	     	filterIcon: 'filterIcon'
-		},
-		width: 400, 
-	},{
-		title: 'Type',
-		dataIndex: 'type',
-		scopedSlots: { customRender: 'type' },
-		width: 160, 
-	},
-	{
-		title: 'Sedol',
-		dataIndex: 'sedol',
-		scopedSlots: { customRender: 'sedol' },
-		width: 120, 
-	},
-	{
-		title: 'Citi Code',
-		dataIndex: 'citicode',
-		scopedSlots: { customRender: 'citicode' },
-		width: 80, 
-	},
-	{
-		title: 'Annual Charge',
-		dataIndex: 'netAC',
-		sorter: (a, b) => a.netAC - b.netAC,
-        defaultSortOrder: "ascend",
-    	sortDirections: ["descend", "ascend"],
-		scopedSlots: { customRender: 'netAC' },
-	}
+	    onFilter: (value, record) => record.name.toString().toLowerCase().includes(value.toLowerCase()),
+		scopedSlots: { customRender: 'name', filterDropdown: 'filterDropdown', filterIcon: 'filterIcon' },width: 400, },
+    { title: 'Type', dataIndex: 'type', scopedSlots: { customRender: 'type' }, width: 160, },
+	{ title: 'Sedol', dataIndex: 'sedol', scopedSlots: { customRender: 'sedol' }, width: 120, },
+	{ title: 'Citi Code', dataIndex: 'citicode', scopedSlots: { customRender: 'citicode' }, width: 80 },
+	{ title: 'Annual Charge', defaultSortOrder: "ascend",dataIndex: 'netAC', sorter: (a, b) => a.netAC - b.netAC, sortDirections: ["descend", "ascend"],scopedSlots: { customRender: 'netAC' }}
 ];
 
-
-
 module.exports = {
-    HOLDINGColumns,
-    PERIODColumns,
-    SECTORColumns,
-    COUNTRYColumns,
-    SECTOR_PERFORMANCEColumns,
+    PERIOD_Columns,
+    SECTOR_Columns,
+    COUNTRY_Columns,
+    SECTOR_PERFORMANCE_Columns,
     CONSTITUENT_PERFORMANCE_Columns,
     BROKER_RATINGS_Columns,
-    FUNDS_Columns
+    FUNDS_Columns,
+    HOLDING_Columns,
 }

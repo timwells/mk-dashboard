@@ -14,7 +14,7 @@
 					:columns="stockWatchColumns" 
 					:data-source="stockWatches"
 					:pagination="pagination"
-					:rowKey="(record,index) => index"
+					:rowKey="(record,i) => i"
 					@expand="onExpand"
 					:rowClassName="rowColor"
 					@expandedRowsChange="expandedRowsChange"

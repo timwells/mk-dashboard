@@ -8,7 +8,7 @@
 						:columns="cols"
 						:data-source="indexData" 
 						:pagination="pagination"
-						:rowKey="(record,index) => index"
+						:rowKey="(record,i) => i"
 						@expand="onExpand"
 						@expandedRowsChange="expandedRowsChange"
 						class='table table-small' style="margin: 0; background-color: white;">	

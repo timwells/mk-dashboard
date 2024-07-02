@@ -58,7 +58,7 @@
 						<a-card class="card-content">						
 
 							<a-table v-if="gEtfDetail(record.sedol)"
-								:columns="HOLDINGColumns"
+								:columns="HOLDING_Columns"
 								:data-source="gEtfDetail(record.sedol).holdings"
 								:pagination="false"
 								:rowKey="(record,i) => i"
@@ -77,7 +77,7 @@
 					<a-tab-pane key="3" tab="Sectors">
 						<a-card class="card-content">
 							<a-table v-if="gEtfDetail(record.sedol)"
-								:columns="SECTORColumns"
+								:columns="SECTOR_Columns"
 								:data-source="gEtfDetail(record.sedol).sectors"
 								:pagination="false"
 								:rowKey="(record,i) => i"
@@ -94,7 +94,7 @@
 					<a-tab-pane key="4" tab="Countries">
 						<a-card class="card-content">
 							<a-table v-if="gEtfDetail(record.sedol)"
-								:columns="COUNTRYColumns"
+								:columns="COUNTRY_Columns"
 								:data-source="gEtfDetail(record.sedol).countries"
 								:pagination="false"
 								:rowKey="(record,i) => i"
@@ -140,10 +140,10 @@
 <script>
 import CardChartInfoIframe from '@/components/Cards/CardChartInfoIframe';
 import { 
-	HOLDINGColumns,
-    PERIODColumns,
-    SECTORColumns,
-    COUNTRYColumns
+	HOLDING_Columns,
+    PERIOD_Columns,
+    SECTOR_Columns,
+    COUNTRY_Columns
 } from '@/common/table'
 
 
@@ -215,9 +215,9 @@ export default ({
     		searchedColumn: "",
 
 
-			HOLDINGColumns,
-			SECTORColumns,
-			COUNTRYColumns
+			HOLDING_Columns,
+			SECTOR_Columns,
+			COUNTRY_Columns
 		}
 	},
 	methods: {

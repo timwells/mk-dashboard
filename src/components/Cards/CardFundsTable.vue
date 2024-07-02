@@ -4,7 +4,7 @@
 			:columns="columns" 
 			:data-source="data" 
 			:pagination="pagination" 
-			:rowKey="record => record.key"
+			:rowKey="(record,i) => i"
 			class='table table-small' style="margin: 6">
                 <div slot="filterDropdown"
                 	slot-scope="{setSelectedKeys,selectedKeys,confirm,clearFilters,column}"
@@ -44,9 +44,7 @@
 					:title="record.name" 
 					:fund="record.fund"
 					:sedol="record.sedol" 
-					:citicode="record.citicode"
-					:holdings="record.holdings"
-					:performance="record.performance">
+					:citicode="record.citicode">
 				</CardChartInfoIframe>
 			</div>
 			
@@ -82,22 +80,6 @@
 			<template slot="netAC" slot-scope="netAC">
 				<p class="m-0 font-regular text-muted">{{ netAC }}</p>
 			</template>
-
-
-			<!-- Fund Bid Price -->
-			<!--template slot="bidPrice" slot-scope="bidPrice">
-				<p class="m-0 font-regular text-muted">{{ bidPrice }}</p>
-			</template-->
-			<!-- Fund Ask Price -->
-			<!--template slot="askPrice" slot-scope="askPrice">
-				<p class="m-0 font-regular text-muted">{{ askPrice }}</p>
-			</template-->
-			<!-- Fund Initial Charge -->
-			<!--template slot="netIC" slot-scope="netIC">
-				<p class="m-0 font-regular text-muted">{{ netIC }}</p>
-			</template-->
-
-
 		</a-table>
 	</a-card>
 </template>

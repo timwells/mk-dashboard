@@ -31,17 +31,10 @@ const actions = {
     axios.get(`./data/allFunds2.json`)
       .then(response => {
         commit("SET_FUNDS", response.data)
-            //(response.data
-            //  .filter(f => ((f.type === FILTER_ACCUMULATION) && (f.netAC > 0)))
-            //    .map((f,i) => { f.key = i; return f}))
-            //      .sort((a,b) => a.netAC - b.netAC)                
-            response.data
-              // .filter(f => ((f.type === FILTER_ACCUMULATION) && (f.netAC > 0)))
-                //.map((f,i) => { f.key = i; return f}))
-                //  .sort((a,b) => a.netAC - b.netAC)                
-      
-
-                //)
+          //(response.data
+          //  .filter(f => ((f.type === FILTER_ACCUMULATION) && (f.netAC > 0)))
+          //    .map((f,i) => { f.key = i; return f}))
+          //      .sort((a,b) => a.netAC - b.netAC)                
       })
   },
   async getIndexData({ commit }) {
@@ -49,7 +42,10 @@ const actions = {
   },
   async getFundDetail({ commit }, { fund }) {
     axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/hlfund/details?fund=${fund}`, { headers: APP_FINTECH_HEADERS })
-      .then(response => { commit("SET_FUND_DETAILS", response.data) })
+      .then(response => { 
+        console.log(response.data)  
+        commit("SET_FUND_DETAILS", response.data)  
+      })
   },
 
 }
