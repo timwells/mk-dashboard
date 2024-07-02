@@ -28,14 +28,20 @@ const mutations = {
 const actions = {
   getFunds({ commit }) {
     commit("SET_FUNDS", null);
-    axios.get(`./data/allFunds.json`)
+    axios.get(`./data/allFunds2.json`)
       .then(response => {
-        commit("SET_FUNDS", 
-            (response.data
-              .filter(f => ((f.type === FILTER_ACCUMULATION) && (f.netAC > 0)))
-                .map((f,i) => { f.key = i; return f}))
-                  .sort((a,b) => a.netAC - b.netAC)                
-        )
+        commit("SET_FUNDS", response.data)
+            //(response.data
+            //  .filter(f => ((f.type === FILTER_ACCUMULATION) && (f.netAC > 0)))
+            //    .map((f,i) => { f.key = i; return f}))
+            //      .sort((a,b) => a.netAC - b.netAC)                
+            response.data
+              // .filter(f => ((f.type === FILTER_ACCUMULATION) && (f.netAC > 0)))
+                //.map((f,i) => { f.key = i; return f}))
+                //  .sort((a,b) => a.netAC - b.netAC)                
+      
+
+                //)
       })
   },
   async getIndexData({ commit }) {

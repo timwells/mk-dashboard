@@ -401,7 +401,7 @@ async function mergeFunds() {
         let obj = JSON.parse(await c.readFileAsync(files[f]))
         allFunds.push(...obj)
     }
-    await c.writeFileAsync(`./allFunds.json`,JSON.stringify(allFunds));
+    await c.writeFileAsync(`./allFunds2.json`,JSON.stringify(allFunds));
 
     console.log("allFunds",allFunds.length)
 }
