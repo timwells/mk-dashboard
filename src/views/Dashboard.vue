@@ -80,7 +80,7 @@
 					</span>
 				</div>
 				<a-table v-if="sectorPerformance"
-					:columns="SECTOR_PERFORMANCEColumns"
+					:columns="SECTOR_PERFORMANCE_Columns"
 					:data-source="sectorPerformance.data"
 					:pagination="false"
 					:rowKey="(record,i) => i"
@@ -138,7 +138,7 @@ import CardStockPriceStrengthLineChart from '../components/Cards/CardStockPriceS
 import CardLseConstituentsTable from '../components/Cards/CardLseConstituentsTable';
 import WidgetCounter from '../components/Widgets/WidgetCounter' ;
 
-import { SECTOR_PERFORMANCEColumns } from '@/common/table'
+import { SECTOR_PERFORMANCE_Columns } from '@/common/table'
 
 /*
 text-danger: Red color.
@@ -184,7 +184,7 @@ export default ({
 	data() {
 		return {
 			icon1: ICON1,
-			SECTOR_PERFORMANCEColumns,
+			SECTOR_PERFORMANCE_Columns,
 			loading: true,
 			live: false
 		}

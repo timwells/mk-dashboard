@@ -28,7 +28,7 @@ const mutations = {
 const actions = {
   getFunds({ commit }) {
     commit("SET_FUNDS", null);
-    axios.get(`./data/allFunds2.json`)
+    axios.get(`./data/allFunds3.json`)
       .then(response => {
         commit("SET_FUNDS", response.data)
           //(response.data

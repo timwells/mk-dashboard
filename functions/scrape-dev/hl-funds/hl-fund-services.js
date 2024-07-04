@@ -13,7 +13,8 @@ const HTIME = 160
 const FUNDS_DIR = [
     //"https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/a",
     //"https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/b",
-    /*"https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/c",
+    /*
+    "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/c",
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/d",
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/e",
     "https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/f",
@@ -401,7 +402,7 @@ async function mergeFunds() {
         let obj = JSON.parse(await c.readFileAsync(files[f]))
         allFunds.push(...obj)
     }
-    await c.writeFileAsync(`./allFunds2.json`,JSON.stringify(allFunds));
+    await c.writeFileAsync(`./allFunds.json`,JSON.stringify(allFunds));
 
     console.log("allFunds",allFunds.length)
 }
@@ -419,6 +420,27 @@ async function reformatFunds() {
 
     await c.writeFileAsync(`./allFunds1.json`,JSON.stringify(fObj));
     console.log("allFunds",fObj.length)
+}
+
+
+function removeObjectById(arr, id) {
+    const index = arr.findIndex(obj => obj.id === id);
+    if (index !== -1) {
+        arr.splice(index, 1);
+    }
+}
+async function validateFunds() {
+    let fObj = JSON.parse(await c.readFileAsync(`./allFunds2.json`));
+    const OBJ_COUNT = fObj.length
+    let removedItemCount = 0;
+
+    let reducedObj = fObj.filter((e) => { 
+        if((e.netIC === null) && (e.netAC === null)) return false;
+        if(e.name.length === 0) return false;
+        return true;
+    })
+    console.log(OBJ_COUNT,reducedObj.length);
+    await c.writeFileAsync(`./allFunds3.json`,JSON.stringify(reducedObj));
 }
 async function cleanFunds() {
     let fObj = JSON.parse(await c.readFileAsync(`./allFunds.json`));
@@ -443,6 +465,7 @@ async function getFundDetailsTest() {
 module.exports = {
     scanFunds,
     mergeFunds,
+    validateFunds,
     cleanFunds,
     reformatFunds,
     getFundDetailsTest

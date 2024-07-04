@@ -44,7 +44,8 @@ const actions = {
     commit("SET_SECTOR_PERFORMANCE", null);
     const {data} = await 
         axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/lse/sectorpeformance?live=${live}`, { headers: APP_FINTECH_HEADERS })
-    commit("SET_SECTOR_PERFORMANCE", data)
+
+      commit("SET_SECTOR_PERFORMANCE", data)
   },
   async getConstituentsPeformance({ commit },{ constituents, live }) {
     if(live) commit("SET_CONSTITUENT_PERFORMANCE_ITEM",{constituents}) // Clear exist

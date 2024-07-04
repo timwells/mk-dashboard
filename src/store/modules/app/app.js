@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getDatabase, ref, child, get } from "firebase/database";
 
-const _version = "v62";
+const _version = "v63";
 const state = {
   version: _version,
   cfversion: "",
@@ -9,9 +9,7 @@ const state = {
 };
 
 const getters = {
-  getSecrets: state => {
-    return state.secrets;
-  }
+  getSecrets: (state) => {return state.secrets}
 }
 
 const mutations = {

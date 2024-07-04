@@ -24,6 +24,92 @@ const LSE_EXC_LOOKUP = "/api/gw/lse/instruments/alldata/"
 const { Storage } = require('@google-cloud/storage');
 const { Readable } = require('stream');
 
+/*
+Consumer Staples: Beverages			< Defensive
+Consumer Staples: Food Producers			
+Consumer Staples: Personal Care, Drug and Grocery Stores			
+Consumer Staples: Tobacco			
+Health Care: Health Care Providers			
+Health Care: Medical Equipment and Services			
+Health Care: Pharmaceuticals and Biotechnology			
+Telecoms: Telecommunications Equipment			
+Telecoms: Telecommunications Service Providers			
+Utilities: Electricity			
+Utilities: Gas, Water and Multi-utilities			
+Utilities: Waste and Disposal Services
+
+Consumer Discretionary: Automobiles and Parts			< Cyclical
+Consumer Discretionary: Consumer Services			
+Consumer Discretionary: Household Goods and Home Construction			
+Consumer Discretionary: Leisure Goods			
+Consumer Discretionary: Media			
+Consumer Discretionary: Personal Goods			
+Consumer Discretionary: Retailers			
+Consumer Discretionary: Travel and Leisure			
+Financials: Banks			
+Financials: Finance and Credit Services			
+Financials: Investment Banking and Brokerage			
+Financials: Life Insurance			
+Financials: Non-life Insurance			
+Industrials: Aerospace and Defense			
+Industrials: Construction and Materials			
+Industrials: Electronic and Electrical Equipment			
+Industrials: General Industrials			
+Industrials: Industrial Engineering			
+Industrials: Industrial Support Services			
+Industrials: Industrial Transportation			
+Technology: Software and Computer Services			
+Technology: Technology Hardware and Equipment			
+
+Basic Materials: Chemicals			< Highly Cyclical
+Basic Materials: Industrial Materials			
+Basic Materials: Industrial Metals and Mining			
+Basic Materials: Precious Metals and Mining			
+Energy: Alternative Energy			
+Energy: Oil, Gas and Coal			
+Real Estate: Real Estate Investment and Services			
+
+
+Defensive -> Consumer Services
+Defensive -> Medicine and Biotech
+Highly Cyclical -> Fossil Fuels
+Defensive -> Health Care and Related Services
+Cyclical-> Personal Care
+Defensive -> Food Products
+Cyclical -> Media
+Cyclical -> Closed End Investments
+Cyclical -> Brokerage Services
+Cyclical -> Finance Services
+Cyclical -> Banking
+Cyclical -> Software and Computing
+Cyclical -> Electronic and Electrical Equipment
+Cyclical -> Retailers
+Cyclical -> Insurance
+Cyclical -> Industrial Engineering
+Defensive -> Tobacco
+Telecommunications
+Industrial Services
+Industrial Transportation
+Automotive
+Aerospace
+Industrials
+Medical Services
+Construction
+Beverages
+Real Estate Services
+Household Goods
+Life Insurance
+Travel
+Real Estate Trusts
+Electricity Generation and Distribution
+Gas and Water
+Industrial Chemicals
+Industrial Metals
+Personal Goods
+Precious Metals
+*/
+
+
 function extractAndParseEscapedJson(input) {
     // Regular expression to match the escaped JSON part
     const regex = /({.*})/;
