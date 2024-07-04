@@ -56,7 +56,9 @@
 			</a-row>
 			<a-row>
 				<a-col v-if="sentiment!=null" :span="12" :lg="12" class="mb-12">
-					<CardSP500MomentumLineChart :historicalData="sentiment.market_momentum_sp500.data"
+					<CardSP500MomentumLineChart 
+						:historicalData="sentiment.market_momentum_sp500.data"
+						:historicalMA125Data="sentiment.market_momentum_sp500_MA125.data"
 						:score="sentiment.market_momentum_sp500.score" 
 						:rating="sentiment.market_momentum_sp500.rating"/>
 				</a-col>

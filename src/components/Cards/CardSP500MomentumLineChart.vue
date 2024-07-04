@@ -23,6 +23,10 @@ export default ({
 			type: Array,
 			default: () => [],
 		},
+		historicalMA125Data: {
+			type: Array,
+			default: () => [],
+		},
 		score: { type: Number, default: 0.0 },
 		rating: { type: String, default: ""}
 	},
@@ -32,7 +36,10 @@ export default ({
 	},
 	data() {
 		return {
-			series: [{name: "MM", data: this.historicalData}],
+			series: [
+				{name: "MM", data: this.historicalData},
+				{name: "MA125", data: this.historicalMA125Data}
+			],
 			chartOptions: { 
 				chart: { 
 					id: 'area-datetime', 
@@ -40,6 +47,7 @@ export default ({
 					height: 300, 
 					zoom: { autoScaleYaxis: true } 
 				},
+				/*
 				annotations: {
 					yaxis: [{
 						y: 15,
@@ -58,7 +66,7 @@ export default ({
 							  text: 'Extreme Volitilty'
 						  }
 					}]
-			  	},
+			  	},*/
         		title:{ text: `CNN SP500 Market Momentum - ${this.score.toFixed(2)} / ${this.rating}`},
 			  	stroke: { curve: 'smooth',  width: 2, colors:['#36454F', '#E91E63', '#9C27B0']},// colors: undefined }, // Allow colors to be defined in gradient
             	dataLabels: { enabled: false },
@@ -78,46 +86,9 @@ export default ({
     methods: {
     	updateData: function(timeline) {
             this.selection = timeline
-			/*
-            switch (timeline) {
-              case 'one_month':
-                this.$refs.chart.zoomX(
-                  new Date('28 Jan 2013').getTime(),
-                  new Date('27 Feb 2013').getTime()
-                )
-                break
-              case 'six_months':
-                this.$refs.chart.zoomX(
-                  new Date('27 Sep 2012').getTime(),
-                  new Date('27 Feb 2013').getTime()
-                )
-                break
-              case 'one_year':
-                this.$refs.chart.zoomX(
-                  new Date('27 Feb 2012').getTime(),
-                  new Date('27 Feb 2013').getTime()
-                )
-                break
-              case 'ytd':
-                this.$refs.chart.zoomX(
-                  new Date('01 Jan 2013').getTime(),
-                  new Date('27 Feb 2013').getTime()
-                )
-                break
-              case 'all':
-                this.$refs.chart.zoomX(
-                  new Date('23 Jan 2012').getTime(),
-                  new Date('27 Feb 2013').getTime()
-                )
-                break
-              default:
-            }
-			  */
         }
 	},
 	mounted() {
-		// console.log("mounted:",this.historicalData)
-		//this.$store.dispatch("cnn/getSentiment");
 	}
 })
 </script>

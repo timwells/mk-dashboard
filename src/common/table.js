@@ -3,7 +3,7 @@ const _WEIGHT_COL   = { title: 'Weight', dataIndex: 'weight', width: 80, scopedS
 const _SECTOR_COL   = { title: 'Sector',dataIndex: 'sector',width: 120, scopedSlots: { customRender: 'sector' }}
 const _PERDIOD_COL  = { title: 'Period',dataIndex: 'period',width: 120, scopedSlots: { customRender: 'period' }}
 const _RETURN_COL   = { title: 'Return',dataIndex: 'retn',width: 80, scopedSlots: { customRender: 'retn' }}
-const _COUNTRY_COL  = {title: 'Country',dataIndex: 'country',width: 100, scopedSlots: { customRender: 'country' }}
+const _COUNTRY_COL  = { title: 'Country',dataIndex: 'country',width: 100, scopedSlots: { customRender: 'country' }}
 const _SORT_DIRECTIONS = ["descend", "ascend"]
 
 const HOLDING_Columns = [_SECURITY_COL,_WEIGHT_COL]
@@ -56,7 +56,7 @@ const BROKER_RATINGS_Columns = [
 const FUNDS_Columns = [
 	{ title: 'Name', dataIndex:'name', sortDirections: _SORT_DIRECTIONS, sorter: (a, b) => a.name.localeCompare(b.name),
 	    onFilter: (value, record) => record.name.toString().toLowerCase().includes(value.toLowerCase()),
-		scopedSlots: { customRender: 'name', filterDropdown: 'filterDropdown', filterIcon: 'filterIcon' },width: 400, },
+		scopedSlots: { customRender: 'name', filterDropdown: 'filterDropdown', filterIcon: 'filterIcon' },width: 280, },
     
     genCol('Type','type',160,false,null,""),
     genCol('Sedol','sedol',120,false,null,""),

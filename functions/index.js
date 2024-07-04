@@ -10,7 +10,7 @@ const app = express();
 
 const { config } = require("./config");
 
-const VERSION = "1.0.43";
+const VERSION = "1.0.44";
 const API_KEY_NAME = "x-api-key"
 
 const unauthorized = (res) => res.status(401).send('unauthorised');
@@ -245,6 +245,7 @@ app.post('/v1/nlp/classify', async (request, response) => {
         unprocessible(response)
     }
 })
+*/
 
 // Expose Express API as a single Cloud Function:
 // exports.fintech = functions.https.onRequest(app);
