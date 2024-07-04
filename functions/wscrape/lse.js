@@ -25,6 +25,12 @@ const { Storage } = require('@google-cloud/storage');
 const { Readable } = require('stream');
 
 /*
+
+https://www.ukdividendstocks.com/free-resources
+
+https://docs.google.com/spreadsheets/d/1cBLXEHy4c21pUfyAwRK0ijIUGFYg83L_WPtJI3wAwjU/edit?pli=1&gid=1611331073#gid=1611331073
+
+
 Consumer Staples: Beverages			< Defensive
 Consumer Staples: Food Producers			
 Consumer Staples: Personal Care, Drug and Grocery Stores			
