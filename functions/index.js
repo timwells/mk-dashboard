@@ -6,12 +6,11 @@ const cors = require('cors');
 const app = express();
 
 // const language = require('@google-cloud/language').v2;
-const language = require('@google-cloud/language');
-
+// const language = require('@google-cloud/language');
 
 const { config } = require("./config");
 
-const VERSION = "1.0.42";
+const VERSION = "1.0.43";
 const API_KEY_NAME = "x-api-key"
 
 const unauthorized = (res) => res.status(401).send('unauthorised');
@@ -70,6 +69,7 @@ app.post('/v1/dcf/:model', (request, response) => {
 
 
 // https://console.developers.google.com/apis/api/language.googleapis.com/overview?project=mk-d-b59f2
+/*
 app.post('/v1/nlp/sentiment', async (request, response) => {    
     console.log("/v1/sentiment")
     try {
@@ -111,8 +111,8 @@ app.post('/v1/nlp/sentiment', async (request, response) => {
         unprocessible(response)
     }
 })
-
-
+*/
+/*
 app.post('/v1/nlp/entities', async (request, response) => {    
     console.log("/v1/nlp/entities")
     try {
@@ -153,8 +153,9 @@ app.post('/v1/nlp/entities', async (request, response) => {
         unprocessible(response)
     }
 })
-
+*/
 // Entity Sentiment
+/*
 app.post('/v1/nlp/entity-sentiment', async (request, response) => {    
     console.log("/v1/nlp/entity-sentiment")
     try {
@@ -197,9 +198,10 @@ app.post('/v1/nlp/entity-sentiment', async (request, response) => {
         unprocessible(response)
     }
 })
-
+*/
 
 // classifyText
+/*
 app.post('/v1/nlp/classify', async (request, response) => {    
     console.log("/v1/nlp/classify")
     try {

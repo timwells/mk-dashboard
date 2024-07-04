@@ -25,11 +25,8 @@ const { Storage } = require('@google-cloud/storage');
 const { Readable } = require('stream');
 
 /*
-
 https://www.ukdividendstocks.com/free-resources
-
 https://docs.google.com/spreadsheets/d/1cBLXEHy4c21pUfyAwRK0ijIUGFYg83L_WPtJI3wAwjU/edit?pli=1&gid=1611331073#gid=1611331073
-
 
 Consumer Staples: Beverages			< Defensive
 Consumer Staples: Food Producers			
@@ -93,28 +90,85 @@ Cyclical -> Retailers
 Cyclical -> Insurance
 Cyclical -> Industrial Engineering
 Defensive -> Tobacco
-Telecommunications
-Industrial Services
-Industrial Transportation
-Automotive
-Aerospace
-Industrials
-Medical Services
-Construction
-Beverages
-Real Estate Services
-Household Goods
-Life Insurance
-Travel
-Real Estate Trusts
-Electricity Generation and Distribution
-Gas and Water
-Industrial Chemicals
-Industrial Metals
-Personal Goods
-Precious Metals
+Defensive -> Telecommunications
+Cyclical -> Industrial Services
+Cyclical -> Industrial Transportation
+Cyclical -> Automotive
+Cyclical -> Aerospace
+Cyclical -> Industrials
+Defensive -> Medical Services
+Cyclical -> Construction
+Defensive -> Beverages
+Highly Cyclical -> Real Estate Services
+Cyclical -> Household Goods
+Cyclical -> Life Insurance
+Cyclical -> Travel
+Highly Cyclical -> Real Estate Trusts
+Defensive -> Electricity Generation and Distribution
+Defensive -> Gas and Water
+Highly Cyclical -> Industrial Chemicals
+Highly Cyclical -> Industrial Metals
+Cyclical -> Personal Goods
+Highly Cyclical -> Precious Metals
 */
 
+const MARKET_SENSITIVITY = [
+{ 
+    sensitivity: "Defensive",
+    sectors: [
+        "Consumer Services",
+        "Medicine and Biotech",
+        "Health Care and Related Services",
+        "Food Products",
+        "Tobacco",
+        "Telecommunications",
+        "Medical Services",
+        "Beverages",
+        "Electricity Generation and Distribution",
+        "Gas and Water"
+    ]
+}, {
+    sensitivity:"Cyclical",
+    sectors: [
+        "Personal Care",
+        "Media",
+        "Closed End Investments",
+        "Brokerage Services",
+        "Finance Services",
+        "Banking",
+        "Software and Computing",
+        "Electronic and Electrical Equipment",
+        "Retailers",
+        "Insurance",
+        "Industrial Engineering",
+        "Industrial Services",
+        "Industrial Transportation",
+        "Automotive",
+        "Aerospace",
+        "Industrials",
+        "Construction",
+        "Household Goods",
+        "Life Insurance",
+        "Travel",
+        "Personal Goods"
+    ] 
+}, {
+    sensitivity:"Highly Cyclical",
+    sectors: ["Fossil Fuels","Real Estate Services","Real Estate Trusts","Industrial Chemicals","Industrial Metals","Precious Metals"]
+}]
+
+const Sensitivity = (sector, map) => {
+    console.log("Sensitivity",sector)
+    for(let i=0; i < map.length; i++ ) {
+        for(let j = 0; j < map[i].sectors.length; j++) {
+            if(map[i].sectors[j].includes(sector)) {    
+                console.log(map[i].sensitivity)
+                return map[i].sensitivity
+            }
+        }
+    }
+    return "?"
+}
 
 function extractAndParseEscapedJson(input) {
     // Regular expression to match the escaped JSON part
@@ -241,6 +295,7 @@ async function ProcessSectorPeformance(
                     sectorPeformance.href = $(e).find('a').attr('href');
                     sectorPeformance.direction = $(e).closest('tr').attr('class');
                     sectorPeformance.constituents = sectorPeformance.constituents = sectorPeformance.href.split("/").filter(str => str !== "").pop();
+                    sectorPeformance.sensitivity = Sensitivity(sectorPeformance.name,MARKET_SENSITIVITY)
                 } break;
                 case 1: { sectorPeformance.value = parseFloat($(e).text().replace(",",""));} break;
                 case 2: { sectorPeformance.changePrice = parseFloat($(e).text());} break;
