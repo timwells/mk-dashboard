@@ -13,19 +13,16 @@ const MOVING_AVERAGE = 125
 // Function to calculate 50-day moving average
 function calculateMovingAverage(data, period) {
     const movingAverageData = [];
-    //console.log(data);
     for (let i = 0; i < data.length; i++) {
         if (i < period - 1) {
             // Not enough data points to calculate moving average
             movingAverageData.push([data[i][0], null ]);
-            console.log(movingAverageData)
         } else {
             let sum = 0;
             for (let j = i; j > i - period; j--) { 
                 sum += data[j][1] 
             }
             const average = sum / period;
-            console.log(average,sum,period);
             movingAverageData.push([data[i][0], parseFloat(average.toFixed(2))]);
         }
     }

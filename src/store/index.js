@@ -25,6 +25,7 @@ import dcf from "./modules/dcf/dcf"
 import san from "./modules/san/san"
 import cnn from "./modules/cnn/cnn"
 import lse from "./modules/lse/lse"
+import tge from "./modules/tge/tge"
 
 Vue.use(Vuex);
 
@@ -33,7 +34,7 @@ export default new Vuex.Store({
     app, auth,
     funds, etfs, markets, quote,
     trends, indicators, newsfeed,
-    sa, tradeview, lse,
+    sa, tradeview, lse, tge,
     wscrape,
     nt,cnn,
     divd,

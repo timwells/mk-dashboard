@@ -120,7 +120,28 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		</a-tabs>
+		<a-tab-pane key="6" tab="Commodities">
+			<a-tabs v-model="activeCommoditiesTab">
+				<a-tab-pane v-for="(g, gi) in commodities" :key="gi" :tab="g.commodityGroup">
+					<a-row :gutter="24" type="flex" align="stretch">
+						<a-col :span="8" :lg="8" :xl="8" class="mb-8" v-for="(c, ci) in g.commodities" :key="ci">
+							<!--pre>{{ c }}</pre-->
+							<a-card hoverable style="padding: 10px;">
+								<a-card-meta :title='c.name'>
+									<template #description>
+										<div>{{ c.measure }} | {{ c.period }} | {{ c.lastValue }}</div>
+									</template>
+								</a-card-meta>
+								<template #cover>
+										<img :src="c.chartUrl"/>
+								</template>
+							</a-card>
+						</a-col>
+					</a-row>
+				</a-tab-pane>
+			</a-tabs>
+		</a-tab-pane>
+	</a-tabs>
 </template>
 
 <script>
@@ -176,6 +197,7 @@ export default ({
 		...mapGetters("markets",["getGroup"]),
     	...mapState("cnn", ["sentiment"]),
     	...mapState("lse", ["sectorPerformance"]),
+    	...mapState("tge", ["commodities"]),	
 	},
 	watch: {
         sectorPerformance(nn, prv) {
@@ -188,7 +210,8 @@ export default ({
 			icon1: ICON1,
 			SECTOR_PERFORMANCE_Columns,
 			loading: true,
-			live: false
+			live: false,
+			activeCommoditiesTab: 0
 		}
 	},
 	methods: {
@@ -223,6 +246,7 @@ export default ({
 	    this.$store.dispatch("markets/getMarkets");
 	    this.$store.dispatch("cnn/getSentiment");
 	    this.$store.dispatch("lse/getSectorPeformance",{live:this.cacheState});
+	    this.$store.dispatch("tge/getCommodities",{live:this.cacheState});
 	}
 })
 </script>

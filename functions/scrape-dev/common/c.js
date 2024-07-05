@@ -5,6 +5,8 @@ const { promisify } = require('util')
 const writeFileAsync = promisify(fs.writeFile)
 const readFileAsync = promisify(fs.readFile)
 const puppeteer = require('puppeteer');
+const cheerio = require('cheerio');
+const axios = require('axios')
 
 function version() { return "1.0" }
 
@@ -68,6 +70,22 @@ async function sText(text, maxLength) {
   }
 }
 
+async function getContent(url,) {
+  console.log(url)
+  try {
+      // const { data } = await axios.get(url, { headers: HEADERS});
+      const { data } = await axios.get(url);
+      console.log(data.statusCode)
+      // console.log(data)
+      const $ = await cheerio.load(data)
+      return $
+  }
+  catch(e) {
+      console.log("getContent:",e.message)
+  }
+  return null
+}
+
 module.exports = {
     sText,
     version,
@@ -80,4 +98,5 @@ module.exports = {
     toCSV,
     randomInt,
     getFilesByPattern,
+    getContent
 }
