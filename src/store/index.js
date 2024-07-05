@@ -26,6 +26,7 @@ import san from "./modules/san/san"
 import cnn from "./modules/cnn/cnn"
 import lse from "./modules/lse/lse"
 import tge from "./modules/tge/tge"
+import ltt from "./modules/ltt/ltt"
 
 Vue.use(Vuex);
 
@@ -34,7 +35,7 @@ export default new Vuex.Store({
     app, auth,
     funds, etfs, markets, quote,
     trends, indicators, newsfeed,
-    sa, tradeview, lse, tge,
+    sa, tradeview, lse, tge,ltt,
     wscrape,
     nt,cnn,
     divd,

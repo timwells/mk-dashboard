@@ -1,5 +1,11 @@
 <template>
-	<a-tabs default-active-key="1">
+	<CardLTTLineChart v-if="wilshireGdpRatio"
+		title="Wilshire GDP Ratio"
+		:historicalData="wilshireGdpRatio.data" 
+		:historicalMA125Data="wilshireGdpRatio.ma1000">
+	</CardLTTLineChart>
+
+	<!--a-tabs default-active-key="1">
 		<a-tab-pane key="1" tab="Buffett Indicators">
 			<a-row v-if="cmvBuffettIndicatorModels.length>0" :gutter="24" type="flex" align="stretch">
         		<a-col :span="12" :lg="12" :xl="12" class="mb-12" 
@@ -53,21 +59,21 @@
 		</a-tab-pane>
 	</a-tabs>
 
-		<!--a-row v-if="cmvPriceEarningsModels.length>0" :gutter="24" type="flex" align="stretch">
+		<a-row v-if="cmvPriceEarningsModels.length>0" :gutter="24" type="flex" align="stretch">
         	<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(cmvPriceEarningsModel, index) in cmvPriceEarningsModels" :key="index">
 				<img :src="cmvPriceEarningsModel" width="600">
         	</a-col>
-		</a-row-->
+		</a-row>
 
-		<!--a-row>
+		<a-row>
         	<a-col :span="24" :lg="24" :xl="24" class="mb-24" 
 				v-for="(indicator, index) in indicators" :key="index">
             	<CardIndicatorInfo :title="indicator.title" 
 					:url="indicator.url" :type="indicator.type"
 					:height="indicator.height"/>
         	</a-col>
-		</a-row-->
-		<!--CardIndicatorInfo 
+		</a-row>
+		<CardIndicatorInfo 
 			url="https://www.isabelnet.com/wp-content/uploads/2020/11/Fear-Greed-Index-Investor-Sentiment.png"
 			type="img"
 			height="500"/-->
@@ -75,70 +81,49 @@
 
 <script>
 import { mapState } from "vuex";
-import CardIndicatorInfo from '@/components/Cards/CardIndicatorInfo';
+// import CardIndicatorInfo from '@/components/Cards/CardIndicatorInfo';
+import CardLTTLineChart from '@/components/Cards/CardLTTLineChart';
 
 export default ({
 	components: {
-		CardIndicatorInfo
+		// CardIndicatorInfo,
+		CardLTTLineChart
 	},
 	computed: {
-    	...mapState("wscrape", 
-			[
-				"cmvBuffettIndicatorModels",
-				"cmvPriceEarningsModels",
-				"cmvVixModels",
-				"cmvSp500MeanReversionModels",
-				"cmv10YInterestRatesModels",
-				"cmvYieldCurveModels",
-				"cnnSentimentModels"
-			]
-		)	
+    	//...mapState("wscrape", 
+		//	[
+				//"cmvBuffettIndicatorModels",
+				//"cmvPriceEarningsModels",
+				//"cmvVixModels",
+				//"cmvSp500MeanReversionModels",
+				//"cmv10YInterestRatesModels",
+				//"cmvYieldCurveModels",
+		//	]
+		//),
+		...mapState("ltt", ["wilshireGdpRatio"]),
 	},
 	watch: {
+
     },
 	data() {
 		return {
-			indicators:[
-				{
-					"title":"",
-					"url": `https://fred.stlouisfed.org/graph/graph-landing.php?g=YbPp`,
-					"type":"iframe",
-					"height": "700"
-				},
-				{
-					"title":"BoE Interest Rate Forecast",
-					"url":"./images/Interest-Rate-Forecast.png",
-					"type":"img",
-					"height": "500"
-				},
-				{
-					"title":"Margin Of Safety",
-					"url":"./images/margin-of-safety.png",
-					"type":"img",
-					"height": "500"
-				},
-				{
-					"title":"Market Sturcture",
-					"url":"./images/understanding-market-structure.jpg",
-					"type":"img",
-					"height": "700"
-				},
-			],
-
 		}
 	},
 	methods: {
 	},	
 	mounted() {
 		this.loading = true;
-		this.$store.dispatch("wscrape/getCmvBuffettIndicatorModels");
-		this.$store.dispatch("wscrape/getCmvPriceEarningsModels");
-		this.$store.dispatch("wscrape/getCmvVixModels");
-		this.$store.dispatch("wscrape/getCmvSp500MeanReversionModels");
+		//this.$store.dispatch("wscrape/getCmvBuffettIndicatorModels");
+		//this.$store.dispatch("wscrape/getCmvPriceEarningsModels");
+		//this.$store.dispatch("wscrape/getCmvVixModels");
+		//this.$store.dispatch("wscrape/getCmvSp500MeanReversionModels");
 		//this.$store.dispatch("wscrape/getCmv10YInterestRatesModels");
-		this.$store.dispatch("wscrape/getCmvYieldCurveModels");
+		//this.$store.dispatch("wscrape/getCmvYieldCurveModels");
+		//this.$store.dispatch("wscrape/getCnnSenitmentModels");
 
-		this.$store.dispatch("wscrape/getCnnSenitmentModels");
+		//this.$store.dispatch("wscrape/getCnnSenitmentModels");
+	    this.$store.dispatch("ltt/getWilshireGdpRatio");
+
 	}
 })
 </script>

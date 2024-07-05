@@ -17,13 +17,6 @@ const getters = {
   gConstituents: (state) => (tag) => state.constituentsPerformance.find((e) => (e.tag === tag)),
   gConstituentDetails: (state) => (epic) => state.constituentsDetails.find((e) => (e.epic === epic)),
   gBrokerRatings: (state) => (epic) => state.brokerRatings.find((e) => (e.tag === epic)) 
-
-  /*
-  gConstituents2: (state) => (tag) => {
-    console.log(state.constituentsPerformance.find((e) => (e.tag === tag)))
-    return state.constituentsPerformance.find((e) => (e.tag === tag))
-  },
-  */
 }
 
 const mutations = {
@@ -36,7 +29,6 @@ const mutations = {
     },
 
     SET_CONSTITUENT_DETAILS: (state, payload) => (state.constituentsDetails.push(payload)),
-
     SET_BROKER_RATINGS: (state, payload) => (state.brokerRatings.push(payload)),
 };
 const actions = {
