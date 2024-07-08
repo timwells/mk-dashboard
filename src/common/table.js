@@ -36,7 +36,7 @@ const SECTOR_PERFORMANCE_Columns = [
     genCol('Direction','direction',0,true,SORT_TYPE.STRING,""),
 ]
 const CONSTITUENT_PERFORMANCE_Columns = [
-    genCol('Name','name',100,false,null,""),
+    genCol('Name','name',0,false,null,""),
     genCol('Price','price',0,false,null,""),
     genCol('Vol.','volume',0,false,null,""),
     genCol('Change (%)','changePercent',0,true,SORT_TYPE.NUMBER,"ascend"),

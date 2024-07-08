@@ -63,10 +63,10 @@ const sidebarItems = [
 
 	{title: "Indicators",linkTo: "/market-indicators"},
 	// {title: "News",linkTo: "/news"},
-	{title: "Trading",linkTo: "/trading"},
+	// {title: "Trading",linkTo: "/trading"},
 	{title: "Quotes",linkTo: "/quotes"},
 	{title: "Trends",linkTo: "/trends"},
-	{title: "SeekingAlpha",linkTo: "/seeking-alpha"},
+	// {title: "SeekingAlpha",linkTo: "/seeking-alpha"},
 	{title: "Fear&Greed",linkTo: "/fear-n-greed"}
 ];
 
