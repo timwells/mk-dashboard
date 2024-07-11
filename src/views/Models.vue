@@ -1,10 +1,19 @@
 <template>
-	<CardLTTLineChart v-if="wilshireGdpRatio"
-		title="Wilshire GDP Ratio"
-		:historicalData="wilshireGdpRatio.data" 
-		:historicalMA125Data="wilshireGdpRatio.ma1000">
-	</CardLTTLineChart>
+	<div>
 
+		<CardLTTLineChart v-if="wilshireGdpRatio"
+			title="Wilshire GDP Ratio"
+			id="wilshireGdpRatio"
+			:historicalData="wilshireGdpRatio.data.rwdata" 
+			:historicalMAData="wilshireGdpRatio.data.expMA">
+		</CardLTTLineChart>
+		<CardLTTLineChart v-if="sp500vsBondsRatio"
+			title="SP500 vs Bonds Ratio"
+			id="sp500vsBondsRatio"
+			:historicalData="sp500vsBondsRatio.data.rwdata" 
+			:historicalMAData="sp500vsBondsRatio.data.expMA">
+		</CardLTTLineChart>
+	</div>	
 	<!--a-tabs default-active-key="1">
 		<a-tab-pane key="1" tab="Buffett Indicators">
 			<a-row v-if="cmvBuffettIndicatorModels.length>0" :gutter="24" type="flex" align="stretch">
@@ -81,12 +90,10 @@
 
 <script>
 import { mapState } from "vuex";
-// import CardIndicatorInfo from '@/components/Cards/CardIndicatorInfo';
 import CardLTTLineChart from '@/components/Cards/CardLTTLineChart';
 
 export default ({
 	components: {
-		// CardIndicatorInfo,
 		CardLTTLineChart
 	},
 	computed: {
@@ -100,7 +107,7 @@ export default ({
 				//"cmvYieldCurveModels",
 		//	]
 		//),
-		...mapState("ltt", ["wilshireGdpRatio"]),
+		...mapState("ltt", ["wilshireGdpRatio","sp500vsBondsRatio"]),
 	},
 	watch: {
 
@@ -123,7 +130,7 @@ export default ({
 
 		//this.$store.dispatch("wscrape/getCnnSenitmentModels");
 	    this.$store.dispatch("ltt/getWilshireGdpRatio");
-
+	    this.$store.dispatch("ltt/getSP500VsBondsRatio")
 	}
 })
 </script>

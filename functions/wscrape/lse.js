@@ -72,7 +72,6 @@ Energy: Alternative Energy
 Energy: Oil, Gas and Coal			
 Real Estate: Real Estate Investment and Services			
 
-
 Defensive -> Consumer Services
 Defensive -> Medicine and Biotech
 Highly Cyclical -> Fossil Fuels

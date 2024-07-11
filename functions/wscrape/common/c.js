@@ -10,7 +10,6 @@ async function getPuppetInstance() {
 
 const sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
-
 function isCacheExpired(metadata) {
     try {
       // Extract the cacheControl metadata

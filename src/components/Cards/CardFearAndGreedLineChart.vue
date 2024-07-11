@@ -24,6 +24,8 @@
 
 <script>
 // https://apexcharts.com/javascript-chart-demos/area-charts/datetime-x-axis/
+import { TOOLS_DISABLED } from '@/common/charts'
+
 export default ({
 	props: {
 		historicalData: { type: Array, default: () => [], },
@@ -42,7 +44,8 @@ export default ({
 					id: 'area-datetime', 
 					type: 'line', 
 					height: 300, 
-					zoom: { autoScaleYaxis: true } 
+					zoom: { autoScaleYaxis: true },
+					toolbar: TOOLS_DISABLED,
 				},
 				tools: {
 					download: true,

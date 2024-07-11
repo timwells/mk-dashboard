@@ -47,7 +47,7 @@ const sidebarItems = [
 	{title: "NakedTrades",linkTo: "/trades"},
 	{title: "Dividends",linkTo: "/dividend-data"},
 
-	{title: "HLi", linkTo: "/hl-index"},
+// {title: "HLi", linkTo: "/hl-index"},
 
 	{title: "FED",linkTo: "/fed-insights"},
 	{title: "Models",linkTo: "/models"},

@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { TOOLS_DISABLED } from '@/common/charts'
 
 export default ({
 	props: {
@@ -40,12 +41,13 @@ export default ({
 				{name: "MM", data: this.historicalData},
 				{name: "MA125", data: this.historicalMA125Data}
 			],
-			chartOptions: { 
+			chartOptions: {
 				chart: { 
 					id: 'area-datetime', 
 					type: 'line', 
 					height: 300, 
-					zoom: { autoScaleYaxis: true } 
+					zoom: { autoScaleYaxis: true },
+					toolbar: TOOLS_DISABLED,			
 				},
 				/*
 				annotations: {
@@ -68,7 +70,8 @@ export default ({
 					}]
 			  	},*/
         		title:{ text: `CNN SP500 Market Momentum - ${this.score.toFixed(2)} / ${this.rating}`},
-			  	stroke: { curve: 'smooth',  width: 2, colors:['#36454F', '#E91E63', '#9C27B0']},// colors: undefined }, // Allow colors to be defined in gradient
+			  	// stroke: { curve: 'smooth',  width: 2, colors:['#36454F', '#E91E63', '#9C27B0']},// colors: undefined }, // Allow colors to be defined in gradient
+			  	stroke: { curve: 'smooth',  width: 2},
             	dataLabels: { enabled: false },
             	markers: { size: 0, style: 'hollow' },
             	xaxis: {
@@ -78,8 +81,8 @@ export default ({
             	},
 			    // yaxis: { min: 10, max: 80 },
             	tooltip: { x: { format: 'dd MMM yyyy' }},
-			  	grid: { row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5}}
-      		},
+			  	grid: { row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5}},
+			},
       		selection: 'one_year',
     	}
 	},

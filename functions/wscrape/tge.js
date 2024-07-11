@@ -16,6 +16,20 @@ const COMMODITY_MAP = {
       'natural_gas_europe',
       'natural_gas_japan_prices'
     ],
+    'Base Metals': [
+      'aluminum_prices',
+      'iron_ore_prices',
+      'copper_prices',
+      'lead_prices',
+      'tin_prices',
+      'nickel_prices',
+      'zinc_prices'
+    ],
+    'Precious Metals': [
+      'gold_prices',
+      'platinum_prices',
+      'silver_prices'
+    ],
     'Beverage Commodities': [
       'cocoa_prices',
       'coffee_arabica_prices',
@@ -23,6 +37,13 @@ const COMMODITY_MAP = {
       'tea_prices_colombo',
       'tea_prices_kolkata',
       'tea_prices_mombada'
+    ],
+    'Fertilizers': [
+      'phosphate_rock_prices',
+      'diammonium_phosphate_prices',
+      'triple_superphosphate_prices',
+      'urea_prices',
+      'potassium_chloride_prices'
     ],
     'Oils and Oilseeds': [
       'coconut_oil_prices',
@@ -72,29 +93,8 @@ const COMMODITY_MAP = {
     'Textile Commodities': [
       'cotton_prices',
       'rubber_prices'
-    ],
-    'Fertilizers': [
-      'phosphate_rock_prices',
-      'diammonium_phosphate_prices',
-      'triple_superphosphate_prices',
-      'urea_prices',
-      'potassium_chloride_prices'
-    ],
-    'Base Metals': [
-      'aluminum_prices',
-      'iron_ore_prices',
-      'copper_prices',
-      'lead_prices',
-      'tin_prices',
-      'nickel_prices',
-      'zinc_prices'
-    ],
-    'Precious Metals': [
-      'gold_prices',
-      'platinum_prices',
-      'silver_prices'
     ]
-  };
+};
   
   // Function to create a lookup map for quick access
 const createCommodityMap = (groups) => {

@@ -1,10 +1,5 @@
 [
 {
-  "title": "VIX",
-  "url":"https://d3fy651gv2fhd3.cloudfront.net/embed/?s=vixcls%3afred&lbl=0&v=202210190904V20220312&d1=20210819&type=type=line",
-  "type":"iframe"
-},
-{
   "title": "UK-Inflation",
   "url":"https://d3fy651gv2fhd3.cloudfront.net/embed/?s=ukrpcjyr&v=202210190644V20220312&d1=19971030&type=type=line",
   "type":"iframe"
@@ -38,9 +33,5 @@
   "title": "UK CPI",
   "url": "https://www.statista.com/graphic/1/281724/consumer-price-index-cpi-united-kingdom.jpg",
   "type": "img"
-},{
-  "title":"Fear & Greed",
-  "url":"https://alternative.me/crypto/fear-and-greed-index.png",
-  "type":"img"
 }
 ]

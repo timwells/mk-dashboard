@@ -55,7 +55,6 @@
 				</a-col>
 			</a-row>
 			<a-row>
-				<pre>{{ sentiment }}</pre>
 				<a-col v-if="sentiment!=null" :span="12" :lg="12" class="mb-12">
 					<CardSP500MomentumLineChart 
 						:historicalData="sentiment.market_momentum_sp500.data"
