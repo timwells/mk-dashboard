@@ -68,7 +68,7 @@ export default ({
 		}
 	},
 	computed: {
-		...mapState("app", ["secrets"]),
+		...mapState("auth", ["userSecrets"]),
 		...mapState("lse",["constituentsDetails",]),
 		...mapGetters("lse",["gConstituentDetails","gBrokerRatings"])
 	},
@@ -88,7 +88,7 @@ export default ({
 			return "LSE:" + this.epic; 
 		},
 		tradeView() {
-			return `https://www.tradingview.com/chart/${this.secrets.tradingviewid}?symbol=${this.fullSymbol()}&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=${this.fullSymbol()}`
+			return `https://www.tradingview.com/chart/${this.userSecrets.tradingviewid}?symbol=${this.fullSymbol()}&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=${this.fullSymbol()}`
 		},
 	},
 	mounted() {

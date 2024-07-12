@@ -124,16 +124,18 @@
 </template>
 
 <script>
-
-	export default ({
-		data() {
-			return {
-				// Collapse navigation value.
-				// Binded model property for "Collapsible Navigation Menu" collapsed status .
-				collapseNav: 0,
-			}
-		},
-	})
+export default ({
+	data() {
+		return {
+			// Collapse navigation value.
+			// Binded model property for "Collapsible Navigation Menu" collapsed status .
+			collapseNav: 0,
+		}
+	},
+	created() {
+		// console.log("Deafult Header")
+	}
+})
 
 </script>
 

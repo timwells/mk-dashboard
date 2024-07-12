@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { getCurrentUser } from '@/firebase'
+import store from "@/store";
 
 Vue.use(VueRouter)
 
@@ -14,13 +14,13 @@ let routes = [
 		redirect: '/dashboard',
 		meta: { requiresAuth: true }
 	},
-	{
+	/*{
 		path: '/dashboard-bk',
 		name: 'Dashboard-bk',
 		layout: "dashboard",
 		component: () => import('../views/Dashboard-bk.vue'),
 		meta: { requiresAuth: true }
-	},
+	},*/
 	{
 		path: '/dashboard',
 		name: 'Dashboard',
@@ -59,7 +59,7 @@ let routes = [
 		name: 'P.Bonds',
 		layout: "dashboard",
 		component: () => import('../views/PremiumBondsView.vue'),
-		meta: { requiresAuth: true }
+		meta: { requiresAuth: true, roles: ['admin']}
 	},{
 		path: '/fed-insights',
 		name: 'FEDi',
@@ -71,7 +71,7 @@ let routes = [
 		name: 'Models',
 		layout: "dashboard",
 		component: () => import('../views/Models.vue'),
-		meta: { requiresAuth: true }
+		meta: { requiresAuth: true}
 	},{
 		path: '/stock-watch',
 		name: 'Stock Watch',
@@ -238,12 +238,15 @@ function addLayoutToRoute(
 	route.meta.layout = route.layout || parentLayout ;
 	
 	if(route.children){
-		route.children = route.children.map((childRoute) => addLayoutToRoute(childRoute, route.meta.layout)) ;
+		route.children = route.children.map(
+			(childRoute) => addLayoutToRoute(childRoute, route.meta.layout)
+		);
 	}
 	return route ;
 }
 
 routes = routes.map((route) => addLayoutToRoute(route) ) ;
+
 const router = new VueRouter({
 	mode: 'hash',
 	base: process.env.BASE_URL,
@@ -257,12 +260,27 @@ const router = new VueRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-	const reqAuth = to.matched.some(record => { return record.meta.requiresAuth});	
-	if(reqAuth && !await getCurrentUser()) {
-    	next('sign-in');
-  	} else {
-    	next();
-  	}
+	const { requiresAuth, roles } = to.meta;
+	const isAuthenticated = store.getters['auth/isAuthenticated']
+	const userRole = store.getters['auth/role']
+
+	if (!requiresAuth) {
+		next(); // Route does not require authentication
+		return
+	}
+
+	if (!isAuthenticated) {
+		next('sign-in'); // User is not authenticated
+		return
+	}
+
+	if (roles && !roles.some((role) => userRole.includes(role))) {
+		// User is authenticated but doesn't have any of the required roles
+		// next({ name: 'home' });
+		console.log("Route Blocked - Requires admin")
+	} else {
+		next(); // User is authenticated and has at least one of the required roles
+	}
 })
 
 export default router

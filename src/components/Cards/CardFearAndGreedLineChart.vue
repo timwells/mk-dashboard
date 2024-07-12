@@ -76,7 +76,8 @@ export default ({
 				]
 			},
 			title:{ text: `CNN Fear & Greed - ${this.score.toFixed(2)} / ${this.rating}`},
-			stroke: { curve: 'smooth',  width: 2, colors:['#36454F', '#E91E63', '#9C27B0']},// colors: undefined }, // Allow colors to be defined in gradient
+			// stroke: { curve: 'smooth',  width: 2, colors:['#36454F', '#E91E63', '#9C27B0']},// colors: undefined }, // Allow colors to be defined in gradient
+			stroke: { curve: 'smooth',  width: 2},// colors:['#36454F', '#E91E63', '#9C27B0']},// colors: undefined }, // Allow colors to be defined in gradient
             dataLabels: { enabled: false },
             markers: { size: 0, style: 'hollow' },
             xaxis: {

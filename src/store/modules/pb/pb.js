@@ -1,7 +1,6 @@
-import axios from "axios";
-import { getUserSecrets } from '@/firebase'
 import { getDatabase, ref, child, get} from "firebase/database";
-
+import { genericGet } from "../common/c.js"
+  
 const state = {
   holders: [],
   premiumBondsData: null,
@@ -31,13 +30,6 @@ const mutations = {
   SET_HOLDERS: (state, payload) => (state.holders = payload),
   SET_PREMIUM_BONDS: (state, payload) => (state.premiumBondsData = payload),
 };
-
-async function genericGet(subPath,service,init,{commit}) {
-  let secrets = await getUserSecrets();
-  commit(service, init);
-  let response = await axios.get(`${secrets.fintech_host}${subPath}`,{ headers: { 'x-api-key' : secrets.fintech_apikey} })
-  commit(service, response.data)
-}
 
 const actions = {
   async getHolders({ commit }) {

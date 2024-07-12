@@ -7,11 +7,11 @@
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
 					<WidgetCounter 
 						title='Fear & Greed Today'
-						:value="sentiment.fear_and_greed.previous_close" 
+						:value="sentiment.fear_and_greed.score" 
 						prefix="" 
 						suffix="%"
 						:icon="icon1" 
-						:status="rating(sentiment.fear_and_greed.previous_close)"></WidgetCounter>
+						:status="rating(sentiment.fear_and_greed.score)"></WidgetCounter>
 				</a-col>
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
 					<WidgetCounter 

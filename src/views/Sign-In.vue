@@ -10,7 +10,7 @@
 					id="components-form-demo-normal-login"
 					:form="form"
 					class="login-form"
-					@submit="handleSubmit"
+					@submit="submit"
 					:hideRequiredMark="true">
 					<a-form-item class="mb-10" label="Email" :colon="false">
 						<a-input 
@@ -54,16 +54,20 @@
 import { mapState } from "vuex";
 
 export default ({
-	computed: {
-	    ...mapState("auth", ["user"]),
-	    ...mapState("app", ["secrets"]),
-	},
 	watch: {
-		user(n,o) {
-			if(n) {
-				this.$router.push('/dashboard')
+		user(n,o){
+			if(this.$store.getters['auth/isAuthenticated']) {
+				this.$store.dispatch('auth/fetchUserRole',{uid: this.$store.getters['auth/uid']})
+				this.$store.dispatch('auth/fetchUserSecrets',{uid: this.$store.getters['auth/uid']})
+				this.$store.dispatch('auth/fetchAppSecrets')
 			}
-		}
+		},
+		appSecrets(n,o) {
+			this.$router.push('/dashboard');
+		},
+	},
+	computed: {
+	    ...mapState("auth", ["user","appSecrets"]),
 	},
 	data() {
 		return {}
@@ -74,7 +78,7 @@ export default ({
 	},
 	methods: {
 		// Handles input validation after submission.
-		handleSubmit(e) {
+		submit(e) {
 			e.preventDefault();
 			this.form.validateFields((err, values) => {
 				if ( !err ) {
@@ -83,6 +87,9 @@ export default ({
 			});
 		},
 	},
+	created(){
+		// console.log("Sign-In - Created");
+	}
 })
 
 </script>

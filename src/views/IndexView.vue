@@ -74,7 +74,7 @@ export default ({
 	components: {},
 	computed: {
 		...mapState("funds", ["indexData"]),
-		...mapState("app", ["secrets"])
+		...mapState("auth", ["userSecrets"])
 	},
 	watch: {
         indexData(nn, prv) {
@@ -271,7 +271,7 @@ export default ({
 		},
 		expandedRowsChange(r) {},
 		tradeView(epic) {
-			return `https://www.tradingview.com/chart/${this.secrets.tradingviewid}?symbol=${this.fullSymbol(epic)}&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=${this.fullSymbol(epic)}`
+			return `https://www.tradingview.com/chart/${this.userSecrets.tradingviewid}?symbol=${this.fullSymbol(epic)}&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=${this.fullSymbol(epic)}`
 		},
 	}
 })

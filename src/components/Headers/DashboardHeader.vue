@@ -61,58 +61,58 @@
 </template>
 
 <script>
-import { signOut } from "@firebase/auth";
-	export default ({
-		props: {
-			// Header fixed status.
-			navbarFixed: {
-				type: Boolean,
-				default: false,
-			},
+// import { signOut } from "@firebase/auth";
+export default ({
+	props: {
+		// Header fixed status.
+		navbarFixed: {
+			type: Boolean,
+			default: false,
+		},
 
-			// Sidebar collapsed status.
-			sidebarCollapsed: {
-				type: Boolean,
-				default: true,
-			},
+		// Sidebar collapsed status.
+		sidebarCollapsed: {
+			type: Boolean,
+			default: true,
 		},
-		data() {
-			return {
-				// Fixed header/sidebar-footer ( Affix component ) top offset.
-				top: 0,
+	},
+	data() {
+		return {
+			// Fixed header/sidebar-footer ( Affix component ) top offset.
+			top: 0,
 
-				// Search input loading status.
-				searchLoading: false,
+			// Search input loading status.
+			searchLoading: false,
 
-				// The wrapper element to attach dropdowns to.
-				wrapper: document.body,
-			}
+			// The wrapper element to attach dropdowns to.
+			wrapper: document.body,
+		}
+	},
+	methods: {
+		resizeEventHandler(){
+			this.top = this.top ? 0 : -0.01 ;
+			// To refresh the header if the window size changes.
+			// Reason for the negative value is that it doesn't activate the affix unless
+			// scroller is anywhere but the top of the page.
 		},
-		methods: {
-			resizeEventHandler(){
-				this.top = this.top ? 0 : -0.01 ;
-				// To refresh the header if the window size changes.
-				// Reason for the negative value is that it doesn't activate the affix unless
-				// scroller is anywhere but the top of the page.
-			},
-			onSearch(value){},
-			signOut() {
-				this.$store.dispatch("auth/signOut")
-			}
-		},
-		mounted(){
-			// Set the wrapper to the proper element, layout wrapper.
-			this.wrapper = document.getElementById('layout-dashboard') ;
-		},
-		created() {
-			// Registering window resize event listener to fix affix elements size
-			// error while resizing.
-			window.addEventListener("resize", this.resizeEventHandler);
-		},
-		destroyed() {
-			// Removing window resize event listener.
-			window.removeEventListener("resize", this.resizeEventHandler);
-		},
-	})
+		onSearch(value){},
+		signOut() {
+			this.$store.dispatch("auth/signOut")
+		}
+	},
+	mounted(){
+		// Set the wrapper to the proper element, layout wrapper.
+		this.wrapper = document.getElementById('layout-dashboard') ;
+	},
+	created() {
+		// Registering window resize event listener to fix affix elements size
+		// error while resizing.
+		window.addEventListener("resize", this.resizeEventHandler);
+	},
+	destroyed() {
+		// Removing window resize event listener.
+		window.removeEventListener("resize", this.resizeEventHandler);
+	},
+})
 
 </script>

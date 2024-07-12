@@ -15,7 +15,6 @@ const actions = {
     get(child(ref(getDatabase()), `root/fedinfo`))
       .then((snapshot) => {
         if (snapshot.exists()) { 
-          console.log(snapshot.val())
           commit("SET_FED_INFO", snapshot.val())
         }
       }).catch((error) => { console.error(error); });

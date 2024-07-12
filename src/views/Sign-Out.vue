@@ -9,12 +9,14 @@
 <script>
 
 export default ({
-	computed: {},
+	computed: {
+		
+	},
 	data() {
 		return {}
 	},
 	methods: {},
-  mounted() {
+  	mounted() {
 		this.$store.dispatch("auth/signOut")
 	}
 })

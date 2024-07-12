@@ -29,20 +29,17 @@ import tge from "./modules/tge/tge"
 import ltt from "./modules/ltt/ltt"
 
 Vue.use(Vuex);
-
 export default new Vuex.Store({
   modules: {
-    app, auth,
+    app, 
+    auth,
+    
     funds, etfs, markets, quote,
     trends, indicators, newsfeed,
     sa, tradeview, lse, tge,ltt,
-    wscrape,
-    nt,cnn,
-    divd,
-    mtpl,
+    wscrape, nt,cnn,
+    divd,mtpl,
     crypto, stockwatch, pb,
-    fedinfo,
-    dcf,
-    san 
+    fedinfo,dcf,san 
   }
 });
