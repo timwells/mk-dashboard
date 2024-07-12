@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getDatabase, ref, child, get } from "firebase/database";
 
 const _version = "v66";
 const state = {
