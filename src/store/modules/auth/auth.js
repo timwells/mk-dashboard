@@ -54,8 +54,7 @@ const actions = {
     commit('SET_USER_SECRETS', userSecrets.val());
   },
   async signIn({ commit }, { values }) {
-    commit('SET_USER', null)    
-    console.log('signIn',values);
+    commit('SET_USER', null)
     const res = await signInWithEmailAndPassword(auth,values.email,values.password)
     if (res) {
       commit('SET_USER', res.user)
