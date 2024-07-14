@@ -5,6 +5,7 @@ const LTIME = 2080
 const HTIME = 8000
 const LSE_SECTOR_PERFORMANCE = "https://www.lse.co.uk/share-prices/sectors/"
 // "https://www.lse.co.uk/share-prices/sectors/"
+
 const HEADERS = {
     'Accept-Encoding': 'gzip, compress, deflate, br',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',

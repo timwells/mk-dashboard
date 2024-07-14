@@ -49,6 +49,7 @@
 						:rating="sentiment.fear_and_greed_historical.rating"/>
 				</a-col>
 				<a-col v-if="sentiment!=null" :span="12" :lg="12" class="mb-12">
+					<!--pre>{{ sentiment.market_volatility_vix }}</pre-->
 					<CardVixLineChart :historicalData="sentiment.market_volatility_vix.data"
 						:score="sentiment.market_volatility_vix.score" 
 						:rating="sentiment.market_volatility_vix.rating"/>
@@ -70,7 +71,7 @@
 			</a-row>
 
 		</a-tab-pane>
-		<a-tab-pane key="2" tab="Performance">
+		<a-tab-pane key="2" tab="LSE - Performance">
 			<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
 				<div>
 					<a href="https://www.lse.co.uk/share-prices/sectors/" target="_blank">Click for: lse sector performance - 
@@ -141,13 +142,15 @@
 				</a-tab-pane>
 			</a-tabs>
 		</a-tab-pane>
+		<a-tab-pane key="7" tab="FinViz-Sectors">
+			<img src="https://charts2-node.finviz.com/chart.ashx?cs=l&t=sector_basicmaterials&tf=d&s=percentage&ct=line_chart&in=group&o[0][ot]=sma&o[0][op]=100&o[0][oc]=FF8F33C6">
+		</a-tab-pane>
 	</a-tabs>
 </template>
 
 <script>
 
 import { mapState, mapGetters } from "vuex";
-
 import CardChartFundInfo from '../components/Cards/CardChartFundInfo' ;
 import CardChartEquityInfo from '../components/Cards/CardChartEquityInfo';
 import CardChartIndexInfo from '../components/Cards/CardChartIndexInfo';
@@ -162,6 +165,9 @@ import CardLseConstituentsTable from '../components/Cards/CardLseConstituentsTab
 import WidgetCounter from '../components/Widgets/WidgetCounter' ;
 
 import { SECTOR_PERFORMANCE_Columns } from '@/common/table'
+
+// https://skyandtelescope.org/wp-content/uploads/ises-solar-cycle-sunspot-2-900x515.jpg
+// https://www.researchgate.net/publication/370171428/figure/fig3/AS:11431281152708626@1682119597484/Prediction-of-Solar-Cycle-25.png
 
 /*
 text-danger: Red color.
