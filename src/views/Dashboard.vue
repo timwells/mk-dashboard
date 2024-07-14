@@ -143,7 +143,16 @@
 			</a-tabs>
 		</a-tab-pane>
 		<a-tab-pane key="7" tab="FinViz-Sectors">
-			<img src="https://charts2-node.finviz.com/chart.ashx?cs=l&t=sector_basicmaterials&tf=d&s=percentage&ct=line_chart&in=group&o[0][ot]=sma&o[0][op]=100&o[0][oc]=FF8F33C6">
+			<a-row :gutter="24" type="flex" align="stretch">
+				<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(ifpe, ifv) in industryforwardpe" :key="ifv">
+					<a-card hoverable style="padding: 10px;">
+						<a-card-meta :title='ifpe.name'></a-card-meta>
+						<template #cover>
+							<img :src="ifpe.img"/>
+						</template>
+					</a-card>
+				</a-col>
+			</a-row>
 		</a-tab-pane>
 	</a-tabs>
 </template>
@@ -204,6 +213,7 @@ export default ({
     	...mapState("cnn", ["sentiment"]),
     	...mapState("lse", ["sectorPerformance"]),
     	...mapState("tge", ["commodities"]),
+    	...mapState("fviz", ["industryforwardpe"]),
 	},
 	watch: {
         sectorPerformance(nn, prv) {
@@ -253,6 +263,8 @@ export default ({
 	    this.$store.dispatch("cnn/getSentiment");
 	    this.$store.dispatch("lse/getSectorPeformance",{live:this.cacheState});
 	    this.$store.dispatch("tge/getCommodities",{live:this.cacheState});
+
+		this.$store.dispatch("fviz/getIndustryForwardPE",{live:true});
 	}
 })
 </script>

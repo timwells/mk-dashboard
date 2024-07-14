@@ -5,6 +5,23 @@ const FVZ_SITE_HOST = "https://finviz.com"
 const FVZ_SITE_NEWS = FVZ_SITE_HOST + "/news.ashx"
 const FVZ_SITE_INDUSTRY_FORWARD_PE = FVZ_SITE_HOST + "/groups.ashx?g=industry&v=410&o=forwardpe"
 
+/*
+<img class="charts-gal" 
+src="https://charts2-node.finviz.com/chart.ashx?cs=l&amp;t=industry_pharmaceuticalretailers&amp;tf=d&amp;s=percentage&amp;ct=line_chart&amp;in=group&amp;o[0][ot]=sma&amp;o[0][op]=50&amp;o[0][oc]=FF8F33C6" 
+srcset="https://charts2-node.finviz.com/chart.ashx?cs=l&amp;t=industry_pharmaceuticalretailers&amp;tf=d&amp;s=percentage&amp;ct=line_chart&amp;in=group&amp;o[0][ot]=sma&amp;o[0][op]=50&amp;o[0][oc]=FF8F33C6 1x, https://charts2-node.finviz.com/chart.ashx?cs=l&amp;t=industry_pharmaceuticalretailers&amp;tf=d&amp;s=percentage&amp;ct=line_chart&amp;in=group&amp;o[0][ot]=sma&amp;o[0][op]=50&amp;o[0][oc]=FF8F33C6&amp;sf=2 2x" width="859" height="290" alt="" referrerpolicy="no-referrer-when-downgrade" loading="lazy">
+
+
+FF8F33C6
+FF8F33C6
+
+<img class="charts-gal" 
+    src="
+https://charts2-node.finviz.com/chart.ashx?cs=l&amp;t=industry_pharmaceuticalretailers&amp;tf=d&amp;s=percentage&amp;ct=line_chart&amp;in=group&amp;o[0][ot]=sma&amp;o[0][op]=50&amp;o[0][oc]=FF8F33C6
+    " srcset="https://charts2-node.finviz.com/chart.ashx?cs=l&amp;t=industry_pharmaceuticalretailers&amp;tf=d&amp;s=percentage&amp;ct=line_chart&amp;in=group&amp;o[0][ot]=sma&amp;o[0][op]=50&amp;o[0][oc]=FF8F33C6 1x, https://charts2-node.finviz.com/chart.ashx?cs=l&amp;t=industry_pharmaceuticalretailers&amp;tf=d&amp;s=percentage&amp;ct=line_chart&amp;in=group&amp;o[0][ot]=sma&amp;o[0][op]=50&amp;o[0][oc]=FF8F33C6&amp;sf=2 2x" width="859" height="290" alt="" referrerpolicy="no-referrer-when-downgrade" loading="lazy">
+
+
+*/
+
 const HEADERS = {
     'Accept-Encoding': 'gzip, compress, deflate, br',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',

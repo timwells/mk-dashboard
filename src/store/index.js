@@ -27,6 +27,7 @@ import cnn from "./modules/cnn/cnn"
 import lse from "./modules/lse/lse"
 import tge from "./modules/tge/tge"
 import ltt from "./modules/ltt/ltt"
+import fviz from "./modules/fviz/fviz"
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -40,6 +41,7 @@ export default new Vuex.Store({
     wscrape, nt,cnn,
     divd,mtpl,
     crypto, stockwatch, pb,
-    fedinfo,dcf,san 
+    fedinfo,dcf,san,
+    fviz
   }
 });
