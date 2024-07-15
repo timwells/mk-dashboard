@@ -268,7 +268,7 @@ router.beforeEach(async (to, from, next) => {
 	const isAuthenticated = store.getters['auth/isAuthenticated']
 	const userRole = store.getters['auth/role']
 
-	console.log(`to:${to.path}, from:${from.path} isAuthenticated: ${isAuthenticated}`);
+	console.log(`to:${to.path}, from:${from.path}`);
 	
 	if (to.path == from.path) {
 		next(false); // Cancel the navigation

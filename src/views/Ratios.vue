@@ -1,5 +1,7 @@
 <template>
 	<div>
+		<a href="https://www.multpl.com/" target="_blank">Multpl - Market, financial, and economic data.</a>
+
 		<a-row :gutter="24" type="flex">
 			<!--div ref="shillerPE" :style="{ width: '100%', height: '450px' }"></div-->
 		</a-row>

@@ -25,10 +25,7 @@
 					<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
 						<a-tabs default-active-key="1">
 							<a-tab-pane key="1" tab="Trade View">
-								<WidgetTradingViewTechAnalysis 
-									:symbol="fullSymbol(record)" 
-									@container="container">
-								</WidgetTradingViewTechAnalysis>
+								<a :href="tradeView(record)" target="_blank">{{record.n}}</a>
 							</a-tab-pane>
 							<a-tab-pane key="2" tab="Broker View">
 								<WidgetTradingViewBrokerAnalysis 
@@ -105,11 +102,11 @@ export default ({
 		WidgetTradingViewFinancials
 	},
 	computed: {
-    	...mapState("stockwatch", ["stockWatches"])	
+    	...mapState("stockwatch", ["stockWatches"]),
+		...mapState("auth", ["userSecrets"])
 	},
 	watch: {
         stockWatches(o,n) {
-			console.log(n)
 			this.loading = this.stockWatches.length > 0 ? false: true
 		},
     },
@@ -133,9 +130,11 @@ export default ({
 	},
 	methods: {
 		fullSymbol(r) {
-			// console.log(r)
-			return r.hasOwnProperty('lse') ? 
-				r.lse : "LSE:" + r.n.split(".L")[0]
+			return "LSE:" + r.n.split(".L")[0]
+		},
+		tradeView(epic) {
+			// return ""
+			return `https://www.tradingview.com/chart/${this.userSecrets.tradingviewid}?symbol=${this.fullSymbol(epic)}&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=${this.fullSymbol(epic)}`
 		},
 		expandedRowsChange(r) {},
 		onExpand(exp,r) { },

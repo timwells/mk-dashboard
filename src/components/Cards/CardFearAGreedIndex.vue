@@ -1,5 +1,6 @@
 <template>
 	<a-card :bordered="false" class="card-info">
+        <a href="https://alternative.me/crypto/fear-and-greed-index/" target="_blank">Bitcoin Fear-and-Greed-index</a>
 		<a-row type="flex">
 			<a-col class="col-content" :span="24" :xl="12">
 				<div class="card-content">
@@ -35,7 +36,7 @@ export default ({
             chartOptions: {
                 chart: { height: 'auto', type: 'line', zoom: { enabled: false } },
                 dataLabels: { enabled: false },
-                stroke: { curve: 'straight',  width: 1 },
+                stroke: { curve: 'smooth',  width: 1 },
                 grid: {
                     row: {
                         colors: ['#f3f3f3', 'transparent'], 

@@ -1,12 +1,12 @@
 <template>
-	<div v-if="!isAuthenticated" class="sign-in">	
+	<div class="sign-in">	
 		<a-row type="flex" :gutter="[24,24]" justify="space-around" align="middle">
 			<!-- Sign In Form Column -->
 			<a-col :span="24" :md="12" :lg="{span: 12, offset: 0}" :xl="{span: 6, offset: 2}" class="col-form">
 				<h1 class="mb-15">Sign In</h1>
 				<h5 class="font-regular text-muted">Enter your email and password to sign in</h5>
 				<!-- Sign In Form -->
-				<a-form v-if="!isAuthenticated"
+				<a-form
 					id="components-form-demo-normal-login"
 					:form="form"
 					class="login-form"
@@ -43,7 +43,7 @@
 
 			<!-- Sign In Image Column -->
 			<a-col :span="24" :md="12" :lg="12" :xl="12" class="col-img">
-				<img src="images/img-signin.jpg" alt="">
+				<img src="images/sign-in.png" alt="">
 			</a-col>
 			<!-- Sign In Image Column -->
 		</a-row>
@@ -75,7 +75,6 @@ export default ({
 	},
 	beforeCreate() {
 		// Creates the form and adds to it component's "form" property.
-		console.log(`Sign-In: ${isAuthenticated}`)
 		this.form = this.$form.createForm(this, { name: 'normal_login' });
 	},
 	methods: {

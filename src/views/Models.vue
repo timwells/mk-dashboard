@@ -1,6 +1,6 @@
 <template>
 	<div>
-
+		<a href="https://www.longtermtrends.net/" target="_blank">Longterm Trends</a>
 		<CardLTTLineChart v-if="wilshireGdpRatio"
 			title="Wilshire GDP Ratio"
 			id="wilshireGdpRatio"
