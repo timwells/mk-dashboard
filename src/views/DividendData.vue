@@ -1,97 +1,100 @@
 <template>
-	<a-row :gutter="24" type="flex">
-		<a-col :span="24" class="mb-24">
-			<a-table
-				:loading="loading"
-				:columns="dividendColumns" 
-				:data-source="dividendData" 
-				:pagination="pagination"
-				:rowKey="(record,index) => index"
-				@expand="onExpand"
-				@expandedRowsChange="expandedRowsChange"
-				size="small"
-				class='table table-small' style="margin: 0; background-color: white;">
+	<div>
+		<a href="https://www.dividenddata.co.uk/exdividenddate.py?m=alldividends" target="_blank">Dividend Data</a>
+		<a-row :gutter="24" type="flex">
+			<a-col :span="24" class="mb-24">
+				<a-table
+					:loading="loading"
+					:columns="dividendColumns" 
+					:data-source="dividendData" 
+					:pagination="pagination"
+					:rowKey="(record,index) => index"
+					@expand="onExpand"
+					@expandedRowsChange="expandedRowsChange"
+					size="small"
+					class='table table-small' style="margin: 0; background-color: white;">
 
-				<div slot="filterDropdown"
-                	slot-scope="{setSelectedKeys,selectedKeys,confirm,clearFilters,column}"
-                  	style="padding:8px">
-                  	<a-input
-                    	v-ant-ref="c => (searchInput = c)"
-                    	:placeholder="`Search ${column.dataIndex}`"
-                    	:value="selectedKeys[0]"
-                    	style="width: 188px; margin-bottom: 8px; display: block"
-                    	@change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
-                    	@pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"/>
-                  	<a-button
-                    	type="primary"
-                    	icon="search"
-                    	size="small"
-                    	style="width: 90px; margin-right: 8px"
-                    	@click="() =>handleSearch(selectedKeys, confirm, column.dataIndex)">
-						Search</a-button>
-                  	<a-button
-                    	size="small"
-                    	style="width: 90px"
-                    	@click="() => handleReset(clearFilters)">
-						Reset
-					</a-button>
-                </div>
-                <a-icon
-                  slot="filterIcon"
-                  slot-scope="filtered"
-                  type="search"
-                  :style="{ color: filtered ? '#108ee9' : undefined }"
-                />
+					<div slot="filterDropdown"
+						slot-scope="{setSelectedKeys,selectedKeys,confirm,clearFilters,column}"
+						style="padding:8px">
+						<a-input
+							v-ant-ref="c => (searchInput = c)"
+							:placeholder="`Search ${column.dataIndex}`"
+							:value="selectedKeys[0]"
+							style="width: 188px; margin-bottom: 8px; display: block"
+							@change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+							@pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"/>
+						<a-button
+							type="primary"
+							icon="search"
+							size="small"
+							style="width: 90px; margin-right: 8px"
+							@click="() =>handleSearch(selectedKeys, confirm, column.dataIndex)">
+							Search</a-button>
+						<a-button
+							size="small"
+							style="width: 90px"
+							@click="() => handleReset(clearFilters)">
+							Reset
+						</a-button>
+					</div>
+					<a-icon
+					slot="filterIcon"
+					slot-scope="filtered"
+					type="search"
+					:style="{ color: filtered ? '#108ee9' : undefined }"
+					/>
 
 
 
-				<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
-					<a-tabs default-active-key="1">
-    					<a-tab-pane key="1" tab="Trade View">
-							<a :href="tradeView(record.epic)" target="_blank">{{record.epic}}</a>
-						</a-tab-pane>
-    					<a-tab-pane key="2" tab="Announcement">
-							<a-card :bordered="false" class="card-info">
-								<div class="card-content">
-									<iframe 
-										:src="record.announcementUrl"
-										title="title" 
-										width="100%" 
-										height="800" 
-										style="border:none;">
-									</iframe>
-								</div>
-							</a-card>
-						</a-tab-pane>
-						<a-tab-pane key="3" tab="Broker View">
-							<WidgetTradingViewBrokerAnalysis 
-								:symbol="fullSymbol(record.epic)">
-							</WidgetTradingViewBrokerAnalysis>
-						</a-tab-pane>
+					<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
+						<a-tabs default-active-key="1">
+							<a-tab-pane key="1" tab="Trade View">
+								<a :href="tradeView(record.epic)" target="_blank">{{record.epic}}</a>
+							</a-tab-pane>
+							<a-tab-pane key="2" tab="Announcement">
+								<a-card :bordered="false" class="card-info">
+									<div class="card-content">
+										<iframe 
+											:src="record.announcementUrl"
+											title="title" 
+											width="100%" 
+											height="800" 
+											style="border:none;">
+										</iframe>
+									</div>
+								</a-card>
+							</a-tab-pane>
+							<a-tab-pane key="3" tab="Broker View">
+								<WidgetTradingViewBrokerAnalysis 
+									:symbol="fullSymbol(record.epic)">
+								</WidgetTradingViewBrokerAnalysis>
+							</a-tab-pane>
 
-						<a-tab-pane key="4" tab="Financials">
-							<WidgetTradingViewFinancials 
-								:symbol="fullSymbol(record.epic)">
-							</WidgetTradingViewFinancials>
-						</a-tab-pane>	
+							<a-tab-pane key="4" tab="Financials">
+								<WidgetTradingViewFinancials 
+									:symbol="fullSymbol(record.epic)">
+								</WidgetTradingViewFinancials>
+							</a-tab-pane>	
 
-						<a-tab-pane key="5" tab="Intrinsic">
-							<WidgetIntrinsicCalculator/> 
-						</a-tab-pane>	
-					</a-tabs>
-				</template>
+							<a-tab-pane key="5" tab="Intrinsic">
+								<WidgetIntrinsicCalculator/> 
+							</a-tab-pane>	
+						</a-tabs>
+					</template>
 
-				<template slot="epic" slot-scope="epic"><p class="m-0">{{ epic }}</p></template>
-				<template slot="name" slot-scope="name"><p class="m-0">{{ name }}</p></template>
-				<template slot="market" slot-scope="market"><p class="m-0">{{ market }}</p></template>
-				<template slot="price" slot-scope="price"><p class="m-0">{{ price }}</p></template>
-				<template slot="dividend" slot-scope="dividend"><p class="m-0">{{ dividend }}</p></template>				
-				<template slot="declarationDate" slot-scope="declarationDate"><p class="m-0">{{ declarationDate }}</p></template>						
-				<template slot="exDividendDate" slot-scope="exDividendDate"><p class="m-0">{{ exDividendDate }}</p></template>				
+					<template slot="epic" slot-scope="epic"><p class="m-0">{{ epic }}</p></template>
+					<template slot="name" slot-scope="name"><p class="m-0">{{ name }}</p></template>
+					<template slot="market" slot-scope="market"><p class="m-0">{{ market }}</p></template>
+					<template slot="price" slot-scope="price"><p class="m-0">{{ price }}</p></template>
+					<template slot="dividend" slot-scope="dividend"><p class="m-0">{{ dividend }}</p></template>				
+					<template slot="declarationDate" slot-scope="declarationDate"><p class="m-0">{{ declarationDate }}</p></template>						
+					<template slot="exDividendDate" slot-scope="exDividendDate"><p class="m-0">{{ exDividendDate }}</p></template>				
 
-			</a-table>
-		</a-col>
-	</a-row>
+				</a-table>
+			</a-col>
+		</a-row>
+	</div>
 </template>
 
 <script>

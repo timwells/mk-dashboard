@@ -65,7 +65,7 @@ const sidebarItems = [
 	// {title: "News",linkTo: "/news"},
 	// {title: "Trading",linkTo: "/trading"},
 	{title: "Quotes",linkTo: "/quotes"},
-	{title: "Trends",linkTo: "/trends"},
+	// {title: "Trends",linkTo: "/trends"},
 	// {title: "SeekingAlpha",linkTo: "/seeking-alpha"},
 	{title: "Fear&Greed",linkTo: "/fear-n-greed"}
 ];

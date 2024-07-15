@@ -141,7 +141,7 @@ const commodities = async (req, res) => {
             let indicatorsCoverage = $(row).find('.indicatorsCoverage').text().trimStart().trimEnd()
             
             iObj.name = indicatorName
-            iObj.href = indicatorHref
+            iObj.href = TGE_COMMODITIES_HOST + indicatorHref
             iObj.measure = indicatorsMeasure
             iObj.lastValue = indicatorsLastValue
             iObj.period = indicatorsCoverage

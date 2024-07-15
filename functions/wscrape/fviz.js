@@ -3,7 +3,7 @@ const axios = require('axios');
 
 const FVZ_SITE_HOST = "https://finviz.com"
 const FVZ_SITE_NEWS = FVZ_SITE_HOST + "/news.ashx"
-const FVZ_SITE_INDUSTRY_FORWARD_PE = FVZ_SITE_HOST + "/groups.ashx?g=industry&v=410&o=forwardpe"
+const FVZ_SITE_INDUSTRY_FORWARD_PE = FVZ_SITE_HOST + "/groups.ashx?g=industry&v=410&o=-forwardpe"
 
 /*
 <img class="charts-gal" 
@@ -19,6 +19,7 @@ FF8F33C6
 https://charts2-node.finviz.com/chart.ashx?cs=l&amp;t=industry_pharmaceuticalretailers&amp;tf=d&amp;s=percentage&amp;ct=line_chart&amp;in=group&amp;o[0][ot]=sma&amp;o[0][op]=50&amp;o[0][oc]=FF8F33C6
     " srcset="https://charts2-node.finviz.com/chart.ashx?cs=l&amp;t=industry_pharmaceuticalretailers&amp;tf=d&amp;s=percentage&amp;ct=line_chart&amp;in=group&amp;o[0][ot]=sma&amp;o[0][op]=50&amp;o[0][oc]=FF8F33C6 1x, https://charts2-node.finviz.com/chart.ashx?cs=l&amp;t=industry_pharmaceuticalretailers&amp;tf=d&amp;s=percentage&amp;ct=line_chart&amp;in=group&amp;o[0][ot]=sma&amp;o[0][op]=50&amp;o[0][oc]=FF8F33C6&amp;sf=2 2x" width="859" height="290" alt="" referrerpolicy="no-referrer-when-downgrade" loading="lazy">
 
+https://charts2-node.finviz.com/chart.ashx?cs=l&t=sector_basicmaterials&tf=d&s=percentage&ct=line_chart&tm=d&in=group&o[0][ot]=sma&o[0][op]=50&o[0][oc]=FF8F33C6
 
 */
 
@@ -104,11 +105,10 @@ async function processNews(url,timeout) {
                 //    break;
                 case 1:
                     newsItem.datetime = $(cont).text()
-                    console.log(j,$(cont).text());
                     break;
                 case 2:
-                    newsItem.headline = $(cont).text()
-                    console.log(j,$(cont).text());
+                    newsItem.headline = $(cont).text();
+                    newsItem.href =  $(cont).find('a').attr("href")
                     break;
                 }
         })
@@ -127,7 +127,7 @@ async function processGroupCharts(url,) {
         if(i>1) {
             const dbx = $(e).attr("data-boxover")
             const title = dbx.match(regex)[1];
-            const src = $(e).find("img").attr("src");
+            const src = $(e).find("img").attr("src").replace("=50","=100")
             let jObj = {}
             jObj.title = title
             jObj.img = src

@@ -152,13 +152,17 @@ let routes = [
 		layout: "dashboard",
 		component: () => import('../views/TradingViewQuotes.vue'),
 		meta: { requiresAuth: true }
-	},{
+	},
+	
+	{
 		path: '/trends',
 		name: 'Trends',
 		layout: "dashboard",
 		component: () => import('../views/Trends.vue'),
 		meta: { requiresAuth: true }
-	},{
+	},
+
+	{
 		path: '/seeking-alpha',
 		name: 'Seeking Alpha',
 		layout: "dashboard",
@@ -264,7 +268,7 @@ router.beforeEach(async (to, from, next) => {
 	const isAuthenticated = store.getters['auth/isAuthenticated']
 	const userRole = store.getters['auth/role']
 
-	console.log(`to:${to.path}, from:${from.path}`);
+	console.log(`to:${to.path}, from:${from.path} isAuthenticated: ${isAuthenticated}`);
 	
 	if (to.path == from.path) {
 		next(false); // Cancel the navigation

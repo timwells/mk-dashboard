@@ -1,128 +1,131 @@
 <template>
-	<a-row :gutter="24" type="flex">
-		<a-col :span="24" class="mb-24">
-			<h5 v-if="nakedArchives">Last Updated: {{ nakedArchives[0].archives[0].name}}</h5>
-			<a-tabs default-active-key="1">
-				<a-tab-pane key="1" tab="Open">
-					<a-row v-if="nakedTrades!=null">
-						<a-col :span="6">
-							<a-statistic title="Open Orders" :value="nakedTrades.statistics.openTrades" />
-						</a-col>
-						<a-col :span="6">
-							<a-statistic title="Open Order Cost £" :value="nakedTrades.statistics.openOrderCost" />
-						</a-col>
-					</a-row>
-					<a-table v-if="nakedTrades"
-						:loading="loading"
-						:columns="openColumns"
-						:data-source="nakedTrades.openTrades" 
-						:pagination="pagination"
-						:rowKey="(record,i) => i"
-						@expand="onExpand"
-						@expandedRowsChange="expandedRowsChange"
-						class='table table-small' style="margin: 0; background-color: white;">				
-						<template slot="expandedRowRender" slot-scope="record">
-							<a-tabs default-active-key="1">
-								<a-tab-pane key="1" tab="TradeView">
-									<a :href="tradeView(record.epic)" target="_blank">{{record.epic}}</a>
-								</a-tab-pane>
-								<a-tab-pane key="2" tab="Broker View">
-									<WidgetTradingViewBrokerAnalysis :symbol="fullSymbol(record.epic)"/>
-								</a-tab-pane>
-								<a-tab-pane key="3" tab="Financials">
-									<WidgetTradingViewFinancials :symbol="fullSymbol(record.epic)"/>
-								</a-tab-pane>
-								<a-tab-pane key="4" tab="Price">
-									<card-price-info :epic="lseSymbol(record.epic)"></card-price-info>
-								</a-tab-pane>
-							</a-tabs>
-						</template>
+	<div>
+		<a href="https://www.nakedtrader.co.uk/trades.htm" target="_blank">Naked Trader - Robbie Burns</a>
+		<a-row :gutter="24" type="flex">
+			<a-col :span="24" class="mb-24">
+				<h5 v-if="nakedArchives">Last Updated: {{ nakedArchives[0].archives[0].name}}</h5>
+				<a-tabs default-active-key="1">
+					<a-tab-pane key="1" tab="Open">
+						<a-row v-if="nakedTrades!=null">
+							<a-col :span="6">
+								<a-statistic title="Open Orders" :value="nakedTrades.statistics.openTrades" />
+							</a-col>
+							<a-col :span="6">
+								<a-statistic title="Open Order Cost £" :value="nakedTrades.statistics.openOrderCost" />
+							</a-col>
+						</a-row>
+						<a-table v-if="nakedTrades"
+							:loading="loading"
+							:columns="openColumns"
+							:data-source="nakedTrades.openTrades" 
+							:pagination="pagination"
+							:rowKey="(record,i) => i"
+							@expand="onExpand"
+							@expandedRowsChange="expandedRowsChange"
+							class='table table-small' style="margin: 0; background-color: white;">				
+							<template slot="expandedRowRender" slot-scope="record">
+								<a-tabs default-active-key="1">
+									<a-tab-pane key="1" tab="TradeView">
+										<a :href="tradeView(record.epic)" target="_blank">{{record.epic}}</a>
+									</a-tab-pane>
+									<a-tab-pane key="2" tab="Broker View">
+										<WidgetTradingViewBrokerAnalysis :symbol="fullSymbol(record.epic)"/>
+									</a-tab-pane>
+									<a-tab-pane key="3" tab="Financials">
+										<WidgetTradingViewFinancials :symbol="fullSymbol(record.epic)"/>
+									</a-tab-pane>
+									<a-tab-pane key="4" tab="Price">
+										<card-price-info :epic="lseSymbol(record.epic)"></card-price-info>
+									</a-tab-pane>
+								</a-tabs>
+							</template>
 
-						<template slot="stock" slot-scope="stock"><p class="m-0 font-regular text-muted">{{ stock }}</p></template>
-						<template slot="epic" slot-scope="epic"><p class="m-0 font-regular text-muted">{{ epic }}</p></template>
-						<template slot="dopn" slot-scope="dopn"><p class="m-0 font-regular text-muted">{{ dopn }}</p></template>
-						<template slot="qty" slot-scope="qty"><p class="m-0 font-regular text-muted">{{ qty }}</p></template>
-						<template slot="price" slot-scope="price"><p class="m-0 font-regular text-muted">{{ price }}</p></template>
-						<template slot="target" slot-scope="target"><p class="m-0 font-regular text-muted">{{ target }}</p></template>
-						<template slot="stop" slot-scope="stop"><p class="m-0 font-regular text-muted">{{ stop }}</p></template>
-						<template slot="buydate" slot-scope="buydate"><p class="m-0 font-regular text-muted">{{ buydate }}</p></template>
+							<template slot="stock" slot-scope="stock"><p class="m-0 font-regular text-muted">{{ stock }}</p></template>
+							<template slot="epic" slot-scope="epic"><p class="m-0 font-regular text-muted">{{ epic }}</p></template>
+							<template slot="dopn" slot-scope="dopn"><p class="m-0 font-regular text-muted">{{ dopn }}</p></template>
+							<template slot="qty" slot-scope="qty"><p class="m-0 font-regular text-muted">{{ qty }}</p></template>
+							<template slot="price" slot-scope="price"><p class="m-0 font-regular text-muted">{{ price }}</p></template>
+							<template slot="target" slot-scope="target"><p class="m-0 font-regular text-muted">{{ target }}</p></template>
+							<template slot="stop" slot-scope="stop"><p class="m-0 font-regular text-muted">{{ stop }}</p></template>
+							<template slot="buydate" slot-scope="buydate"><p class="m-0 font-regular text-muted">{{ buydate }}</p></template>
 
-						<template slot="tc" slot-scope="tc"><p class="m-0 font-regular text-muted">{{ tc }}</p></template>
-						<template slot="pd" slot-scope="pd"><p class="m-0 font-regular text-muted">{{ pd }}</p></template>
-						<template slot="cp" slot-scope="cp"><p class="m-0 font-regular text-muted">{{ cp }}</p></template>
-						<template slot="xp" slot-scope="xp"><p class="m-0 font-regular text-muted">{{ xp }}</p></template>
-						<template slot="xpd" slot-scope="xpd"><p class="m-0 font-regular text-muted">{{ xpd }}</p></template>
+							<template slot="tc" slot-scope="tc"><p class="m-0 font-regular text-muted">{{ tc }}</p></template>
+							<template slot="pd" slot-scope="pd"><p class="m-0 font-regular text-muted">{{ pd }}</p></template>
+							<template slot="cp" slot-scope="cp"><p class="m-0 font-regular text-muted">{{ cp }}</p></template>
+							<template slot="xp" slot-scope="xp"><p class="m-0 font-regular text-muted">{{ xp }}</p></template>
+							<template slot="xpd" slot-scope="xpd"><p class="m-0 font-regular text-muted">{{ xpd }}</p></template>
 
-					</a-table>
-				</a-tab-pane>
-				<a-tab-pane key="2" tab="Closed">
-					<a-table v-if="nakedTrades"
-						:loading="loading"
-						:columns="columns"
-						:data-source="nakedTrades.closedTrades" 
-						:pagination="pagination"
-						:rowKey="(record,index) => index"
-						@expand="onExpand"
-						@expandedRowsChange="expandedRowsChange"
-						class='table table-small' style="margin: 0; background-color: white;">				
-						<template slot="stock" slot-scope="stock"><p class="m-0 font-regular text-muted">{{ stock }}</p></template>
-						<template slot="epic" slot-scope="epic"><p class="m-0 font-regular text-muted">{{ epic }}</p></template>
-						<template slot="dopn" slot-scope="dopn"><p class="m-0 font-regular text-muted">{{ dopn }}</p></template>
-						<template slot="qty" slot-scope="qty"><p class="m-0 font-regular text-muted">{{ qty }}</p></template>
-						<template slot="price" slot-scope="price"><p class="m-0 font-regular text-muted">{{ price }}</p></template>
-						<template slot="target" slot-scope="target"><p class="m-0 font-regular text-muted">{{ target }}</p></template>
-						<template slot="stop" slot-scope="stop"><p class="m-0 font-regular text-muted">{{ stop }}</p></template>
-						<template slot="buydate" slot-scope="buydate"><p class="m-0 font-regular text-muted">{{ buydate }}</p></template>
-						<template slot="tc" slot-scope="tc"><p class="m-0 font-regular text-muted">£{{ tc }}</p></template>
-						<template slot="pd" slot-scope="pd"><p class="m-0 font-regular text-muted">{{ pd }}</p></template>
-						<template slot="cp" slot-scope="cp"><p class="m-0 font-regular text-muted">{{ cp }}</p></template>
-					</a-table>
-				</a-tab-pane>
-				<a-tab-pane key="3" tab="Statistics">
-					<a-row v-if="nakedTrades!=null">
-						<a-col :span="6">
-							<a-statistic title="Open Orders" :value="nakedTrades.statistics.openTrades" />
-						</a-col>
-						<a-col :span="6">
-							<a-statistic title="Open Order Cost £" :value="nakedTrades.statistics.openOrderCost" />
-						</a-col>
-						<a-col :span="6">
-							<a-statistic title="Gains %" :value="nakedTrades.statistics.gainPercent" />
-						</a-col>
-						<a-col :span="6">
-							<a-statistic title="Losses %" :value="nakedTrades.statistics.lossPercent" />
-						</a-col>
-					</a-row>
-				</a-tab-pane>	
-				<a-tab-pane key="4" tab="Archive">
-					<a-row v-if="nakedArchives.length>0">
-						<a-col :span="6">
-							<a-card>
-								<a-list
-									item-layout="vertical"
-									:data-source="nakedArchives">
-									<a-list-item slot="renderItem" slot-scope="item">
-										<a-list-item-meta :title="item.yearMonth"/>
-											<div v-if="item">
-												<li v-for="y in item.archives" 
-													:key="y.index"
-													@click="getArchiveContent(y.href)">{{ y.name }}
-												</li>
-											</div>
-									</a-list-item>
-								</a-list>
-							</a-card>
-						</a-col>
-						<a-col :span="18">
-							<a-card v-if="nakedArchiveContent.length>0" :bodyStyle="{paddingTop: 0, paddingBottom: '16px' }">
-								<div v-html="nakedArchiveContent"></div>
-							</a-card>
-						</a-col>
-					</a-row>
-				</a-tab-pane>
-			</a-tabs>
-		</a-col>
-	</a-row>
+						</a-table>
+					</a-tab-pane>
+					<a-tab-pane key="2" tab="Closed">
+						<a-table v-if="nakedTrades"
+							:loading="loading"
+							:columns="columns"
+							:data-source="nakedTrades.closedTrades" 
+							:pagination="pagination"
+							:rowKey="(record,index) => index"
+							@expand="onExpand"
+							@expandedRowsChange="expandedRowsChange"
+							class='table table-small' style="margin: 0; background-color: white;">				
+							<template slot="stock" slot-scope="stock"><p class="m-0 font-regular text-muted">{{ stock }}</p></template>
+							<template slot="epic" slot-scope="epic"><p class="m-0 font-regular text-muted">{{ epic }}</p></template>
+							<template slot="dopn" slot-scope="dopn"><p class="m-0 font-regular text-muted">{{ dopn }}</p></template>
+							<template slot="qty" slot-scope="qty"><p class="m-0 font-regular text-muted">{{ qty }}</p></template>
+							<template slot="price" slot-scope="price"><p class="m-0 font-regular text-muted">{{ price }}</p></template>
+							<template slot="target" slot-scope="target"><p class="m-0 font-regular text-muted">{{ target }}</p></template>
+							<template slot="stop" slot-scope="stop"><p class="m-0 font-regular text-muted">{{ stop }}</p></template>
+							<template slot="buydate" slot-scope="buydate"><p class="m-0 font-regular text-muted">{{ buydate }}</p></template>
+							<template slot="tc" slot-scope="tc"><p class="m-0 font-regular text-muted">£{{ tc }}</p></template>
+							<template slot="pd" slot-scope="pd"><p class="m-0 font-regular text-muted">{{ pd }}</p></template>
+							<template slot="cp" slot-scope="cp"><p class="m-0 font-regular text-muted">{{ cp }}</p></template>
+						</a-table>
+					</a-tab-pane>
+					<a-tab-pane key="3" tab="Statistics">
+						<a-row v-if="nakedTrades!=null">
+							<a-col :span="6">
+								<a-statistic title="Open Orders" :value="nakedTrades.statistics.openTrades" />
+							</a-col>
+							<a-col :span="6">
+								<a-statistic title="Open Order Cost £" :value="nakedTrades.statistics.openOrderCost" />
+							</a-col>
+							<a-col :span="6">
+								<a-statistic title="Gains %" :value="nakedTrades.statistics.gainPercent" />
+							</a-col>
+							<a-col :span="6">
+								<a-statistic title="Losses %" :value="nakedTrades.statistics.lossPercent" />
+							</a-col>
+						</a-row>
+					</a-tab-pane>	
+					<a-tab-pane key="4" tab="Archive">
+						<a-row v-if="nakedArchives.length>0">
+							<a-col :span="6">
+								<a-card>
+									<a-list
+										item-layout="vertical"
+										:data-source="nakedArchives">
+										<a-list-item slot="renderItem" slot-scope="item">
+											<a-list-item-meta :title="item.yearMonth"/>
+												<div v-if="item">
+													<li v-for="y in item.archives" 
+														:key="y.index"
+														@click="getArchiveContent(y.href)">{{ y.name }}
+													</li>
+												</div>
+										</a-list-item>
+									</a-list>
+								</a-card>
+							</a-col>
+							<a-col :span="18">
+								<a-card v-if="nakedArchiveContent.length>0" :bodyStyle="{paddingTop: 0, paddingBottom: '16px' }">
+									<div v-html="nakedArchiveContent"></div>
+								</a-card>
+							</a-col>
+						</a-row>
+					</a-tab-pane>
+				</a-tabs>
+			</a-col>
+		</a-row>
+	</div>
 </template>
 
 <script>
