@@ -152,13 +152,17 @@ let routes = [
 		layout: "dashboard",
 		component: () => import('../views/TradingViewQuotes.vue'),
 		meta: { requiresAuth: true }
-	},{
+	},
+	
+	{
 		path: '/trends',
 		name: 'Trends',
 		layout: "dashboard",
 		component: () => import('../views/Trends.vue'),
 		meta: { requiresAuth: true }
-	},{
+	},
+
+	{
 		path: '/seeking-alpha',
 		name: 'Seeking Alpha',
 		layout: "dashboard",

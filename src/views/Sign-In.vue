@@ -43,7 +43,7 @@
 
 			<!-- Sign In Image Column -->
 			<a-col :span="24" :md="12" :lg="12" :xl="12" class="col-img">
-				<img src="images/img-signin.jpg" alt="">
+				<img src="images/sign-in.png" alt="">
 			</a-col>
 			<!-- Sign In Image Column -->
 		</a-row>
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default ({
 	watch: {
@@ -68,6 +68,7 @@ export default ({
 	},
 	computed: {
 	    ...mapState("auth", ["user","appSecrets"]),
+		...mapGetters('auth',["isAuthenticated"])
 	},
 	data() {
 		return {}
@@ -88,7 +89,7 @@ export default ({
 		},
 	},
 	created(){
-		// console.log("Sign-In - Created");
+		console.log("Sign-In - Created");
 	}
 })
 

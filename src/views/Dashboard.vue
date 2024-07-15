@@ -69,7 +69,6 @@
 						:rating="sentiment.stock_price_strength.rating"/>
 				</a-col>
 			</a-row>
-
 		</a-tab-pane>
 		<a-tab-pane key="2" tab="LSE - Performance">
 			<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
@@ -124,11 +123,15 @@
 		<a-tab-pane key="6" tab="Commodities">
 			<a-tabs v-model="activeCommoditiesTab">
 				<a-tab-pane v-for="(g, gi) in commodities" :key="gi" :tab="g.commodityGroup">
+					<a href="https://www.theglobaleconomy.com/" target="_blank">The Global Economy</a>
 					<a-row :gutter="24" type="flex" align="stretch">
 						<a-col :span="8" :lg="8" :xl="8" class="mb-8" v-for="(c, ci) in g.commodities" :key="ci">
 							<!--pre>{{ c }}</pre-->
 							<a-card hoverable style="padding: 10px;">
-								<a-card-meta :title='c.name'>
+								<a-card-meta>
+									<template #title>
+										<a :href="c.href" target="_blank">{{ c.name }}</a>
+									</template>
 									<template #description>
 										<div>{{ c.measure }} | {{ c.period }} | {{ c.lastValue }}</div>
 									</template>
@@ -143,16 +146,32 @@
 			</a-tabs>
 		</a-tab-pane>
 		<a-tab-pane key="7" tab="FinViz-Sectors">
+			<!--pre>{{ industryforwardpe }}</pre-->
+			<h5>Industry Forward PE - Ascending</h5>
 			<a-row :gutter="24" type="flex" align="stretch">
 				<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(ifpe, ifv) in industryforwardpe" :key="ifv">
-					<a-card hoverable style="padding: 10px;">
-						<a-card-meta :title='ifpe.name'></a-card-meta>
+					<a-card :bordered="true" class="header-solid h-full" :bodyStyle="{padding: 6}">
+						<!--a-card-meta :title='ifpe.title'></a-card-meta-->
 						<template #cover>
 							<img :src="ifpe.img"/>
 						</template>
 					</a-card>
 				</a-col>
 			</a-row>
+		</a-tab-pane>
+		<a-tab-pane key="8" tab="FinViz-News">
+			<a-list  v-if="news.length>0" bordered header='News from https://finviz.com/news.ashx'>
+				<a-list-item v-for="(newsItem, i) in news" :key="i">
+					<a-list-item-meta>
+						<template slot="title">
+							<a :href="newsItem.href" target="_blank">{{ newsItem.headline }}</a>
+						</template>
+						<template slot="description">
+							{{ newsItem.datetime }}
+						</template>
+					</a-list-item-meta>
+				</a-list-item>
+			</a-list>
 		</a-tab-pane>
 	</a-tabs>
 </template>
@@ -213,7 +232,7 @@ export default ({
     	...mapState("cnn", ["sentiment"]),
     	...mapState("lse", ["sectorPerformance"]),
     	...mapState("tge", ["commodities"]),
-    	...mapState("fviz", ["industryforwardpe"]),
+    	...mapState("fviz", ["news","industryforwardpe"]),
 	},
 	watch: {
         sectorPerformance(nn, prv) {
@@ -256,7 +275,7 @@ export default ({
 				this.$store.dispatch("lse/getSectorPeformance",{live:this.live});
 				this.live = false;
 			}
-		}
+		},
 	},
 	mounted() {
 	    this.$store.dispatch("markets/getMarkets");
@@ -265,6 +284,7 @@ export default ({
 	    this.$store.dispatch("tge/getCommodities",{live:this.cacheState});
 
 		this.$store.dispatch("fviz/getIndustryForwardPE",{live:true});
+		this.$store.dispatch("fviz/getNews",{live:true});
 	}
 })
 </script>
