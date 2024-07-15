@@ -19,9 +19,8 @@
 						</div>
 					</a-tab-pane>
 					<a-tab-pane key="1" tab="Holdings">
-						<a-card v-if="details(sedol)">
+						<!--a-card v-if="details(sedol)">
 							<div class="card-content">
-								<!-- Weights Table -->
 								<a-table 
 									:columns="hCols"
 									:data-source="details(sedol).holdings"
@@ -29,7 +28,24 @@
 									:rowKey="(record,i) => i"
 									class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">
 								</a-table>
+								<p>{{ gfundHoldingsSum(sedol) }}</p>
 							</div>
+						</a-card-->
+						<a-card v-if="details(sedol)" hoverable style="padding: 10px;">
+							<template #cover>
+								<a-table 
+									:columns="hCols"
+									:data-source="details(sedol).holdings"
+									:pagination="false"
+									:rowKey="(record,i) => i"
+									class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">
+								</a-table>
+							</template>
+							<a-card-meta>
+								<template #description>
+									<h5>Sum: {{ gfundHoldingsSum(sedol) }}%</h5>
+								</template>
+							</a-card-meta>
 						</a-card>
 					</a-tab-pane>
 					<a-tab-pane key="2" tab="Performance">
@@ -116,7 +132,7 @@ export default ({
 	},
 	computed: {
     	...mapState("funds", ["fundDetails"]),
-		...mapGetters("funds",["gfundDetail"]),
+		...mapGetters("funds",["gfundDetail","gfundHoldingsSum"]),
 	},
 	watch: {
 		fundDetails(o,n) {
@@ -127,9 +143,6 @@ export default ({
 		return {
 			chart: `https://webfund6.financialexpress.net/clients/Hargreaves/chartbuilder.aspx?codes=F${this.citicode}&color=f65d1a&hide=&span=M120&plotSingleAsPrice=true&totalReturn=false&yAxisLabel=_`,				
 			hCols,
-			//pCols,
-			//sCols,
-			//cCols,
 			pagination: false.
 			HOLDING_Columns, 
 			PERIOD_Columns, 

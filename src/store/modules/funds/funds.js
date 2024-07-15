@@ -17,6 +17,15 @@ const state = {
 
 const getters = {
   gfundDetail: (state) => (sedol) => state.fundDetails.find((fd) => (fd.sedol === sedol)),
+  gfundHoldingsSum: (state) => (sedol) => {
+    let fund = state.fundDetails.find((fd) => (fd.sedol === sedol))
+    let sum = 0.0    
+    for(let i = 0; i < fund.holdings.length; i++) {
+      let wgt = parseFloat(fund.holdings[i].weight.replace("%",""))
+      sum += wgt;
+    }
+    return +sum.toFixed(2);
+  }
 }
 
 const mutations = {

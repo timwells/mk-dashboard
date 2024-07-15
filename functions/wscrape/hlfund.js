@@ -103,6 +103,7 @@ async function _fundDetail(path) {
         })
 
         details.holdings = holdings
+        // details.holdingsSumm = 0.0
 
         // top-sectors
         let sectors = [];
