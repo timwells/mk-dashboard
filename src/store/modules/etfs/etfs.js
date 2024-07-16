@@ -14,6 +14,15 @@ const state = {
 
 const getters = {
   gEtfDetail: (state) => (sedol) => state.etfsDetails.find((fd) => (fd.sedol === sedol)),
+  gEtfHoldingsSum: (state) => (sedol) => {
+    let etf = state.etfsDetails.find((fd) => (fd.sedol === sedol))
+    let sum = 0.0    
+    for(let i = 0; i < etf.holdings.length; i++) {
+      let wgt = parseFloat(etf.holdings[i].weight.replace("%",""))
+      sum += wgt;
+    }
+    return +sum.toFixed(2);
+  }
 }
 
 

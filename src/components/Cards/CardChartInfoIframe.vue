@@ -19,18 +19,6 @@
 						</div>
 					</a-tab-pane>
 					<a-tab-pane key="1" tab="Holdings">
-						<!--a-card v-if="details(sedol)">
-							<div class="card-content">
-								<a-table 
-									:columns="hCols"
-									:data-source="details(sedol).holdings"
-									:pagination="false"
-									:rowKey="(record,i) => i"
-									class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">
-								</a-table>
-								<p>{{ gfundHoldingsSum(sedol) }}</p>
-							</div>
-						</a-card-->
 						<a-card v-if="details(sedol)" hoverable style="padding: 10px;">
 							<template #cover>
 								<a-table 

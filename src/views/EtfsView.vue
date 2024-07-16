@@ -55,21 +55,27 @@
 						</a-card>
 					</a-tab-pane>
 					<a-tab-pane key="1" tab="Holdings">
-						<a-card class="card-content">						
-
-							<a-table v-if="gEtfDetail(record.sedol)"
-								:columns="HOLDING_Columns"
-								:data-source="gEtfDetail(record.sedol).holdings"
-								:pagination="false"
-								:rowKey="(record,i) => i"
-								class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
-								<template slot="security" slot-scope="security">
-									<p class="m-0 font-regular text-muted">{{ security }}</p>
+						<a-card v-if="gEtfDetail(record.sedol)" hoverable style="padding: 10px;">
+							<template #cover>
+								<a-table
+									:columns="HOLDING_Columns"
+									:data-source="gEtfDetail(record.sedol).holdings"
+									:pagination="false"
+									:rowKey="(record,i) => i"
+									class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
+									<template slot="security" slot-scope="security">
+										<p class="m-0 font-regular text-muted">{{ security }}</p>
+									</template>
+									<template slot="weight" slot-scope="weight">
+										<p class="m-0 font-regular text-muted">{{ weight }}</p>
+									</template>
+								</a-table>
+							</template>
+							<a-card-meta>
+								<template #description>
+									<h5>Sum: {{ gEtfHoldingsSum(record.sedol) }}%</h5>
 								</template>
-								<template slot="weight" slot-scope="weight">
-									<p class="m-0 font-regular text-muted">{{ weight }}</p>
-								</template>
-							</a-table>
+							</a-card-meta>
 						</a-card>					
 					</a-tab-pane>
 					<a-tab-pane key="2" tab="Performance">
@@ -201,7 +207,7 @@ export default ({
 	},
 	computed: {
     	...mapState("etfs", ["etfs"]),
-		...mapGetters("etfs",["gEtfDetail"]),
+		...mapGetters("etfs",["gEtfDetail","gEtfHoldingsSum"]),
 	},
 	data() {
 		return {
