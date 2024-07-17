@@ -11,6 +11,7 @@ const state = {
 
 const getters = {
   gMtplDataSetExists: (state) => (dsName) => state.mtplDataSets.findIndex((d) => (d.ds === dsName)),
+  Series: (state) => (dsName) => state.mtplDataSets.find((e) => (e.ds === dsName)),
 }
 
 /*

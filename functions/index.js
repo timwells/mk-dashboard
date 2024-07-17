@@ -10,7 +10,7 @@ const app = express();
 
 const { config } = require("./config");
 
-const VERSION = "1.0.58";
+const VERSION = "1.0.59";
 const API_KEY_NAME = "x-api-key"
 
 const unauthorized = (res) => res.status(401).send('unauthorised');

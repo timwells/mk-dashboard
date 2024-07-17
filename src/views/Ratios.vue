@@ -6,20 +6,26 @@
 			<!--div ref="shillerPE" :style="{ width: '100%', height: '450px' }"></div-->
 		</a-row>
 		<a-row :gutter="24" type="flex">
-			<a-col :span="12" class="mb-12">
-				<apexchart v-if="shillerPESeries!=null" 
+			<a-col :span="24" class="mb-24">
+
+				<CardMtplLineChart 
+						:historicalData="sentiment.market_momentum_sp500.data"
+						:historicalMA125Data="sentiment.market_momentum_sp500_MA125.data"
+
+
+				<!--apexchart v-if="shillerPESeries!=null" 
 					:options="shillerPEChartOpts" 
 					:series="shillerPESeries"
 					height="450">
-				</apexchart>
+				</apexchart-->
 			</a-col>
-			<a-col :span="12" class="mb-12">
+			<!--a-col :span="12" class="mb-12">
 				<apexchart v-if="spPESeries!=null" 
 					:options="spPEChartOpts" 
 					:series="spPESeries"
 					height="450">
 				</apexchart>
-			</a-col>
+			</a-col-->
 		</a-row>	
 		<!--a-row :gutter="24" type="flex">
 			<a-col :span="12" class="mb-12">
@@ -43,6 +49,7 @@
 <script>
 // https://www.multpl.com/
 const DS_SHILLER_PE = "shiller-pe/table/by-year"
+const DS_SHILLER_PE_MONTHLY = "shiller-pe/table/by-month"
 const DS_SP500_PE = "s-p-500-pe-ratio/table/by-month"
 const DS_1YR_TREASURY_RATE = "1-year-treasury-rate/table/by-month"
 const DS_10YR_TREASURY_RATE = "10-year-treasury-rate/table/by-month"
@@ -52,21 +59,27 @@ const _DATALABLES = { enabled: false }
 const _STROKE = { curve: 'straight',  width: 2 }
 const _TITLE = { text: '', align: 'left' }
 const _GRID = { row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5}}
-const _XAXIS = { categories: null, tickAmount: 25 }
+//const _XAXIS = { categories: null, tickAmount: 10 }
+
+const _XAXIS = { 
+	type: 'datetime',
+    //min: new Date(this.historicalData[0][0]).getTime(),
+    tickAmount: 2,
+}
+
+/*
+xaxis: {
+    type: 'datetime',
+    min: new Date(this.historicalData[0][0]).getTime(),
+    tickAmount: 4,
+},
+*/
 
 import { mapState, mapGetters } from "vuex";
-//import { 
-//	SciChartSurface, 
-//	NumericAxis, 
-//	XyDataSeries, 
-//	FastLineRenderableSeries, 
-//	EAutoRange,
-//	RolloverModifier,
-//	EWatermarkPosition
-//} from 'scichart';
-
+import { CardMtplLineChart } from "@/cards/CardMtplLineChart";
 export default ({
 	components: {
+		CardMtplLineChart
 	},
 	computed: {
     	...mapState("mtpl", ["mtplDataSets"]),
@@ -78,8 +91,10 @@ export default ({
 			index = this.gMtplDataSetExists(DS_SHILLER_PE)
 			
 			if(index > -1) {
-				this.shillerPESeries = [{ name: n[index].ds, data: n[index].rows.map(e => e.v)}]
-				this.shillerPEChartOpts.xaxis.categories = n[index].rows.map((v,i) => v.dts);
+				this.shillerPESeries = [
+					{ name: n[index].ds, data: n[index].data.rwdata.map(e => e.)}]
+
+				this.shillerPEChartOpts.xaxis.categories = n[index].rows.map((v,i) => v.dto);
 				this.shillerPEChartOpts.title.text = n[index].ds
 
 				/*
@@ -230,8 +245,8 @@ export default ({
 	},
 	async mounted() {
 		// this.initSciChart();
-		this.$store.dispatch("mtpl/getMtplData",{ds: DS_SHILLER_PE});
-		//this.$store.dispatch("wscrape/getMtplData",{ds: DS_SP500_PE})
+		this.$store.dispatch("mtpl/getMtplData",{ds: DS_SHILLER_PE_MONTHLY});
+		// this.$store.dispatch("wscrape/getMtplData",{ds: DS_SP500_PE})
 		//this.$store.dispatch("wscrape/getMtplData",{ds: DS_1YR_TREASURY_RATE})
 		//this.$store.dispatch("wscrape/getMtplData",{ds: DS_10YR_TREASURY_RATE})
 	},
