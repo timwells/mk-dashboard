@@ -28,6 +28,7 @@ import lse from "./modules/lse/lse"
 import tge from "./modules/tge/tge"
 import ltt from "./modules/ltt/ltt"
 import fviz from "./modules/fviz/fviz"
+import curvo from "./modules/curvo/curvo"
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -42,6 +43,7 @@ export default new Vuex.Store({
     divd,mtpl,
     crypto, stockwatch, pb,
     fedinfo,dcf,san,
-    fviz
+    fviz,
+    curvo
   }
 });

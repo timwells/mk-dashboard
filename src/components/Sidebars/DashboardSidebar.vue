@@ -39,6 +39,7 @@ const sidebarItems = [
 
 	// {title: "Markets-Dev", linkTo: "/dashboard-bk"},
 	{title: "Markets", linkTo: "/dashboard"},
+	{title: "Curvo", linkTo: "/curvo"},
 	{title: "DCF Notes", linkTo: "/dcf"},
 	{title: "Ratios",linkTo: "/market-ratios"},
 

@@ -29,6 +29,14 @@ let routes = [
 		meta: { requiresAuth: true }
 	},
 	{
+		path: '/curvo',
+		name: 'Curvo',
+		layout: "dashboard",
+		component: () => import('../views/CurvoView.vue'),
+		meta: { requiresAuth: true }
+	},	
+
+	{
 		path: '/dcf',
 		name: 'DCF',
 		layout: "dashboard",

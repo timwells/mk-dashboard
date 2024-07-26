@@ -8,16 +8,16 @@
 		<a-row :gutter="24" type="flex">
 			<a-col :span="24" class="mb-24">
 
-				<CardMtplLineChart 
+				<!--CardMtplLineChart 
 						:historicalData="sentiment.market_momentum_sp500.data"
-						:historicalMA125Data="sentiment.market_momentum_sp500_MA125.data"
+						:historicalMA125Data="sentiment.market_momentum_sp500_MA125.data"-->
 
 
-				<!--apexchart v-if="shillerPESeries!=null" 
+				<apexchart v-if="shillerPESeries!=null" 
 					:options="shillerPEChartOpts" 
 					:series="shillerPESeries"
 					height="450">
-				</apexchart-->
+				</apexchart>
 			</a-col>
 			<!--a-col :span="12" class="mb-12">
 				<apexchart v-if="spPESeries!=null" 
@@ -76,10 +76,10 @@ xaxis: {
 */
 
 import { mapState, mapGetters } from "vuex";
-import { CardMtplLineChart } from "@/cards/CardMtplLineChart";
+// import { CardMtplLineChart } from "@/cards/CardMtplLineChart";
 export default ({
 	components: {
-		CardMtplLineChart
+		// CardMtplLineChart
 	},
 	computed: {
     	...mapState("mtpl", ["mtplDataSets"]),
@@ -91,11 +91,11 @@ export default ({
 			index = this.gMtplDataSetExists(DS_SHILLER_PE)
 			
 			if(index > -1) {
-				this.shillerPESeries = [
-					{ name: n[index].ds, data: n[index].data.rwdata.map(e => e.)}]
+				//this.shillerPESeries = [
+				//	{ name: n[index].ds, data: n[index].data.rwdata.map(e => e.)}]
 
-				this.shillerPEChartOpts.xaxis.categories = n[index].rows.map((v,i) => v.dto);
-				this.shillerPEChartOpts.title.text = n[index].ds
+				//this.shillerPEChartOpts.xaxis.categories = n[index].rows.map((v,i) => v.dto);
+				//this.shillerPEChartOpts.title.text = n[index].ds
 
 				/*
 
