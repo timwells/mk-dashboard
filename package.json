@@ -25,6 +25,7 @@
     "firebase": "^9.12.1",
     "fusioncharts": "^3.23.0",
     "highcharts": "^11.4.6",
+    "pdf-viewer-vue": "^0.2.7",
     "sass": "^1.69.5",
     "scichart": "^3.3.592",
     "vue": "2.6.14",

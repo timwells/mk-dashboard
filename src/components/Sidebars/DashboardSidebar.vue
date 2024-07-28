@@ -40,7 +40,8 @@ const sidebarItems = [
 	// {title: "Markets-Dev", linkTo: "/dashboard-bk"},
 	{title: "Markets", linkTo: "/dashboard"},
 	{title: "Curvo", linkTo: "/curvo"},
-	{title: "DCF Notes", linkTo: "/dcf"},
+	{title: "Cypress", linkTo: "/cypress-capital"},
+	// {title: "DCF Notes", linkTo: "/dcf"},
 	{title: "Ratios",linkTo: "/market-ratios"},
 
 	{title: "Funds",linkTo: "/funds"},
@@ -60,7 +61,7 @@ const sidebarItems = [
 	{title: "StockWatch",linkTo: "/stock-watch"},
 
 // {title: "Heatmap",linkTo: "/stock-heatmap"},
-	{title: "Screener",linkTo: "/stock-screener"},
+	// {title: "Screener",linkTo: "/stock-screener"},
 
 	{title: "Indicators",linkTo: "/market-indicators"},
 	// {title: "News",linkTo: "/news"},

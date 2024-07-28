@@ -29,6 +29,13 @@ let routes = [
 		meta: { requiresAuth: true }
 	},
 	{
+		path: '/cypress-capital',
+		name: 'Cypress',
+		layout: "dashboard",
+		component: () => import('../views/CypressCapitalView.vue'),
+		meta: { requiresAuth: true }
+	},	
+	{
 		path: '/curvo',
 		name: 'Curvo',
 		layout: "dashboard",

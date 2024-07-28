@@ -54,7 +54,6 @@
 							<template slot="cp" slot-scope="cp"><p class="m-0 font-regular text-muted">{{ cp }}</p></template>
 							<template slot="xp" slot-scope="xp"><p class="m-0 font-regular text-muted">{{ xp }}</p></template>
 							<template slot="xpd" slot-scope="xpd"><p class="m-0 font-regular text-muted">{{ xpd }}</p></template>
-
 						</a-table>
 					</a-tab-pane>
 					<a-tab-pane key="2" tab="Closed">

@@ -93,8 +93,8 @@ async function processNews(url,timeout) {
     const htmlContent = await getResource(url);
     const $ = await cheerio.load(htmlContent);
     let rows = $('#news > div > table > tbody > tr:nth-child(2) > td:nth-child(1) > table > tbody > tr')
-    console.log(rows.length)
     let newsItems = []
+
     $(rows).each((i,row) => {
         let newsItem = {}
         let cols = $(row).find('td');

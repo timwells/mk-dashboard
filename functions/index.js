@@ -7,9 +7,8 @@ const app = express();
 
 const { config } = require("./config");
 
-const VERSION = "1.0.61";
+const VERSION = "1.0.65";
 const API_KEY_NAME = "x-api-key"
-
 
 // https://www.cypresscapital.com/wp-content/uploads/Research/Charts/MarketInternals.pdf
 
