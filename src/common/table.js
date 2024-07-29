@@ -64,6 +64,12 @@ const FUNDS_Columns = [
     genCol('Annual Charge','netAC',0,true,SORT_TYPE.NUMBER,"ascend"),
 ];
 
+const CYPRESS_Columns = [
+    genCol('Name','title',100,true,SORT_TYPE.STRING,""),
+    genCol('Category','category',50,true,SORT_TYPE.STRING,""),
+    genCol('Group','group',0,true,SORT_TYPE.STRING,""),
+]
+
 module.exports = {
     PERIOD_Columns,
     SECTOR_Columns,
@@ -73,4 +79,5 @@ module.exports = {
     BROKER_RATINGS_Columns,
     FUNDS_Columns,
     HOLDING_Columns,
+    CYPRESS_Columns
 }
