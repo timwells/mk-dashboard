@@ -12,8 +12,8 @@
                     <!--iframe :src=getPDFlink(record) style="width:718px; height:700px;" frameborder="0"></iframe-->
                     <!--object class="pdf" :data="record.href" width="1000" height="900"></object-->
 
-                    <object :data=getPDFlink2(record) type="application/pdf" width="100%" height="100%">
-                        <param name="view" value="fitV" />
+                    <object :data=getPDFlink2(record) type="application/pdf" width="1200" height="1000">
+                        <param name="view" value="fitH" />
                     </object>
 
                     <!--PDFViewer
@@ -30,7 +30,7 @@
 <script>
 import { mapState } from "vuex";
 // import PDFViewer from 'pdf-viewer-vue'
-import PDFViewer from 'pdf-viewer-vue/dist/vue2-pdf-viewer'
+// import PDFViewer from 'pdf-viewer-vue/dist/vue2-pdf-viewer'
 
 const columns = [
 	{ title:'Name', dataIndex:'title'},
@@ -40,7 +40,7 @@ const columns = [
 
 export default ({
 	components: {
-        PDFViewer
+        // PDFViewer
 	},
 	computed: {
     	 ...mapState("cyca", ["indicators"]),
