@@ -49,7 +49,7 @@ export default ({
 				},
 				annotations: {
 					yaxis: [{
-						y: 15,
+						y: 13.0,
 						borderColor: '#00AF00',
 						label: {
 							borderColor: '#00AF00', borderWidth: 4,
