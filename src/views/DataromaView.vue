@@ -4,7 +4,7 @@
 			:loading="loading"
 			:columns="sivcols" 
 			:data-source="dataroma" 
-			:pagination="pagination"
+			:pagination="false"
 			:rowKey="record => record.key"
 			class='table table-small' style="margin: 6;">
 				<div slot="filterDropdown"

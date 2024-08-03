@@ -16,7 +16,7 @@
 							:loading="loading"
 							:columns="cols"
 							:data-source="holder.results" 
-							:pagination="pagination"
+							:pagination="false"
 							:rowKey="(record,i) => i"
 							class='table table-small' style="margin: 0; background-color: white;">	
 							
