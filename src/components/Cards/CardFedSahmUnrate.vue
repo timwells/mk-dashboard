@@ -21,10 +21,6 @@ export default ({
 		dataset: {
 			type: Array,
 			default: () => [],
-        },
-        title: {
-            type: String,
-            default: ""
         }
 	},
 	components: {
@@ -42,13 +38,12 @@ export default ({
 					zoom: { autoScaleYaxis: true },
 					toolbar: TOOLS_DISABLED,			
 				},
-        		title:{ text: this.title},
+        		title:{ text: this.title()},
 			  	stroke: { curve: 'smooth',  width: 2},
             	dataLabels: { enabled: false },
             	markers: { size: 0, style: 'hollow' },
             	xaxis: {
               		type: 'datetime',
-              		// min: new Date(this.historicalData[0][0]).getTime(),
               		tickAmount: 6,
             	},
             	tooltip: { x: { format: 'dd MMM yyyy' }},
@@ -57,6 +52,14 @@ export default ({
     	}
 	},
     methods: {
+        title() {
+            let _title = ""
+            for(let i = 0; i < this.dataset.length; i++) {
+                if(_title.length > 0) _title += " / "
+                _title += this.dataset[i].name
+            }
+            return _title
+        }
 	},
 })
 </script>

@@ -71,9 +71,7 @@
 			</a-row>
 		</a-tab-pane>
 		<a-tab-pane key="2" tab="FED">
-			<CardFedSahmUnrate v-if="indicators.length>0" 
-				title="Sahm - Unemployment Rate - T2Y10Y" 
-				:dataset="indicators">
+			<CardFedSahmUnrate v-if="indicators.length>0" :dataset="indicators">
 			</CardFedSahmUnrate>
 		</a-tab-pane>
 		<a-tab-pane key="3" tab="LSE - Performance">

@@ -55,9 +55,7 @@ const actions = {
   async getIndicators({ commit }) {
     commit("SET_INDICATORS", []);
     const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/fed/indicators`, 
-                                                                    { headers: APP_FINTECH_HEADERS })
-                                                                    
-    console.log(data)
+                                                                    { headers: APP_FINTECH_HEADERS })                                                                    
     commit("SET_INDICATORS", data)
   },
 }
