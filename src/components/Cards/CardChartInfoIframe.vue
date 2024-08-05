@@ -131,7 +131,7 @@ export default ({
 		return {
 			chart: `https://webfund6.financialexpress.net/clients/Hargreaves/chartbuilder.aspx?codes=F${this.citicode}&color=f65d1a&hide=&span=M120&plotSingleAsPrice=true&totalReturn=false&yAxisLabel=_`,				
 			hCols,
-			pagination: false.
+			pagination: false,
 			HOLDING_Columns, 
 			PERIOD_Columns, 
 			SECTOR_Columns, 

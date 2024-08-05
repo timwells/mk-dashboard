@@ -70,7 +70,11 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="2" tab="LSE - Performance">
+		<a-tab-pane key="2" tab="FED">
+			<CardFedSahmUnrate v-if="indicators.length>0" :dataset="indicators">
+			</CardFedSahmUnrate>
+		</a-tab-pane>
+		<a-tab-pane key="3" tab="LSE - Performance">
 			<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
 				<div>
 					<a href="https://www.lse.co.uk/share-prices/sectors/" target="_blank">Click for: lse sector performance - 
@@ -98,21 +102,21 @@
 				</a-table>
 			</a-card>
 		</a-tab-pane>
-		<a-tab-pane key="3" tab="Funds">
+		<a-tab-pane key="4" tab="Funds">
 			<a-row type="flex" align="stretch">
 				<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(e, i) in getGroup(1)" :key="i">			
 					<CardChartFundInfo :title="e.title" :ticker="e.ticker" :sedol="e.sedol"/>
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="4" tab="Equities">
+		<a-tab-pane key="5" tab="Equities">
 			<a-row :gutter="24" type="flex" align="stretch">
 				<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(e, i) in getGroup(2)" :key="i">			
 					<CardChartEquityInfo :title="e.title" :ticker="e.ticker"/>
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="5" tab="Index & Bonds">
+		<a-tab-pane key="6" tab="Index & Bonds">
 			<a-row :gutter="24" type="flex" align="stretch">
 				<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(e, i) in getGroup(3)" :key="i">			
 					<CardChartIndexInfo v-if="e.type==='index'" :title="e.title" :ticker="e.ticker"/>
@@ -120,7 +124,7 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="6" tab="Commodities">
+		<a-tab-pane key="7" tab="Commodities">
 			<a-tabs v-model="activeCommoditiesTab">
 				<a-tab-pane v-for="(g, gi) in commodities" :key="gi" :tab="g.commodityGroup">
 					<a href="https://www.theglobaleconomy.com/" target="_blank">The Global Economy</a>
@@ -145,7 +149,7 @@
 				</a-tab-pane>
 			</a-tabs>
 		</a-tab-pane>
-		<a-tab-pane key="7" tab="FinViz-Sectors">
+		<a-tab-pane key="8" tab="FinViz-Sectors">
 			<!--pre>{{ industryforwardpe }}</pre-->
 			<h5>Industry Forward PE - Ascending</h5>
 			<a-row :gutter="24" type="flex" align="stretch">
@@ -159,7 +163,7 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="8" tab="FinViz-News">
+		<a-tab-pane key="9" tab="FinViz-News">
 			<a-list  v-if="news.length>0" bordered header='News from https://finviz.com/news.ashx'>
 				<a-list-item v-for="(newsItem, i) in news" :key="i">
 					<a-list-item-meta>
@@ -190,6 +194,9 @@ import CardSP500MomentumLineChart from '../components/Cards/CardSP500MomentumLin
 import CardStockPriceStrengthLineChart from '../components/Cards/CardStockPriceStrengthLineChart';
 
 import CardLseConstituentsTable from '../components/Cards/CardLseConstituentsTable';
+
+import CardFedSahmUnrate from '@/components/Cards/CardFedSahmUnrate';
+
 import WidgetCounter from '../components/Widgets/WidgetCounter' ;
 
 import { SECTOR_PERFORMANCE_Columns } from '@/common/table'
@@ -222,6 +229,7 @@ export default ({
 		CardVixLineChart,
 		CardSP500MomentumLineChart,
 		CardStockPriceStrengthLineChart,
+		CardFedSahmUnrate,
 
 		WidgetCounter,
 		CardLseConstituentsTable
@@ -233,6 +241,7 @@ export default ({
     	...mapState("lse", ["sectorPerformance"]),
     	...mapState("tge", ["commodities"]),
     	...mapState("fviz", ["news","industryforwardpe"]),
+		...mapState("fedinfo", ["sahmrealtime","unrate","sahmrealtimeunrate","indicators"])
 	},
 	watch: {
         sectorPerformance(nn, prv) {
@@ -285,6 +294,8 @@ export default ({
 
 		this.$store.dispatch("fviz/getIndustryForwardPE",{live:true});
 		this.$store.dispatch("fviz/getNews",{live:true});
+
+		this.$store.dispatch("fedinfo/getIndicators");
 	}
 })
 </script>
