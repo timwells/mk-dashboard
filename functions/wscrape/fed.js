@@ -1,4 +1,5 @@
 const axios = require('axios');
+const fedApi = require('./fed/fed-api.js')
 
 const SAHMREALTIME = "https://fred.stlouisfed.org/graph/fredgraph.csv?bgcolor=%23e1e9f0&chart_type=line&drp=0&fo=open%20sans&graph_bgcolor=%23ffffff&height=450&mode=fred&recession_bars=on&txtcolor=%23444444&ts=12&tts=12&width=720&nt=0&thu=0&trc=0&show_legend=yes&show_axis_titles=yes&show_tooltip=yes&id=SAHMREALTIME&scale=left&cosd=1959-12-01&coed=2024-07-01&line_color=%234572a7&link_values=false&line_style=solid&mark_type=none&mw=3&lw=2&ost=-99999&oet=99999&mma=0&fml=a&fq=Monthly&fam=avg&fgst=lin&fgsnd=2020-02-01&line_index=1&transformation=lin&vintage_date=2024-08-02&revision_date=2024-08-02&nd=1959-12-01"
 const UNRATE = "https://fred.stlouisfed.org/graph/fredgraph.csv?bgcolor=%23e1e9f0&chart_type=line&drp=0&fo=open%20sans&graph_bgcolor=%23ffffff&height=450&mode=fred&recession_bars=on&txtcolor=%23444444&ts=12&tts=12&width=720&nt=0&thu=0&trc=0&show_legend=yes&show_axis_titles=yes&show_tooltip=yes&id=UNRATE&scale=left&cosd=1948-01-01&coed=2024-07-01&line_color=%234572a7&link_values=false&line_style=solid&mark_type=none&mw=3&lw=2&ost=-99999&oet=99999&mma=0&fml=a&fq=Monthly&fam=avg&fgst=lin&fgsnd=2020-02-01&line_index=1&transformation=lin&vintage_date=2024-08-02&revision_date=2024-08-02&nd=1948-01-01"
@@ -8,14 +9,14 @@ const WTI = "https://fred.stlouisfed.org/graph/fredgraph.csv?bgcolor=%23e1e9f0&c
 // https://fred.stlouisfed.org/graph/fredgraph.csv?bgcolor=%23e1e9f0&chart_type=line&drp=0&fo=open%20sans&graph_bgcolor=%23ffffff&height=450&mode=fred&recession_bars=on&txtcolor=%23444444&ts=12&tts=12&width=960&nt=0&thu=0&trc=0&show_legend=yes&show_axis_titles=yes&show_tooltip=yes&id=SP500&scale=left&cosd=2014-08-04&coed=2024-08-02&line_color=%234572a7&link_values=false&line_style=solid&mark_type=none&mw=3&lw=2&ost=-99999&oet=99999&mma=0&fml=a&fq=Daily%2C%20Close&fam=avg&fgst=lin&fgsnd=2020-02-01&line_index=1&transformation=lin&vintage_date=2024-08-03&revision_date=2024-08-03&nd=2014-08-04
 const VIXCLS = "https://fred.stlouisfed.org/graph/fredgraph.csv?bgcolor=%23e1e9f0&chart_type=line&drp=0&fo=open%20sans&graph_bgcolor=%23ffffff&height=450&mode=fred&recession_bars=on&txtcolor=%23444444&ts=12&tts=12&width=720&nt=0&thu=0&trc=0&show_legend=yes&show_axis_titles=yes&show_tooltip=yes&id=VIXCLS&scale=left&cosd=1990-01-02&coed=2024-08-01&line_color=%234572a7&link_values=false&line_style=solid&mark_type=none&mw=3&lw=2&ost=-99999&oet=99999&mma=0&fml=a&fq=Daily%2C%20Close&fam=avg&fgst=lin&fgsnd=2020-02-01&line_index=1&transformation=lin&vintage_date=2024-08-04&revision_date=2024-08-04&nd=1990-01-02"
 
+
+
+/*
 function getLastDayOfEachMonth(data) {
     // Object to hold the last day of each month
     const lastYearMonthDayMap = [];
-
     data.forEach(entry => {
 //             array.push([new Date(els[0]).getTime(), +parseFloat(els[1])])
-
-
         const date = new Date(entry.date);
         const yearMonth = date.getFullYear() + '-' + (date.getMonth() + 1); // Format as 'YYYY-M'
 
@@ -24,8 +25,7 @@ function getLastDayOfEachMonth(data) {
             lastDayMap[yearMonth] = entry;
         }
     });
-
-
+*/
 const downloadDataSet = async(resource,name,reduce) => {
     const {data} = await axios.get(resource)
     const lines = data.split("\n")
@@ -35,9 +35,6 @@ const downloadDataSet = async(resource,name,reduce) => {
             array.push([new Date(els[0]).getTime(), +parseFloat(els[1])])
         } return array;
     }, []);
-
-
-
 
     return { name:name, data:jsonData}
 }
@@ -118,11 +115,19 @@ const indicators = async(req,res) => {
 const test = async (req, res) => {
     res.status(200).send("FED.test")
 }
+const observations =  async (req, res) => {
+    const seriesId = req.query.seriesId;
+    const frequency = req.query.frequency;
+    const units = req.query.units;
+    const jsonData = await fedApi.observations(seriesId,frequency,units)
+    return res.status(200).json(jsonData)
+}
 
 module.exports = {
     test,
     sahmrealtime,
     unrate,
     sahmrealtimeunrate,
-    indicators
+    indicators,
+    observations,
 }

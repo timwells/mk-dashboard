@@ -13,6 +13,7 @@ const state = {
   unrate : null,
   sahmrealtimeunrate:[],
   indicators: [],
+  apiunrate: []
 };
 
 const getters = {}
@@ -23,6 +24,8 @@ const mutations = {
   SET_UNRATE: (state, payload) => (state.unrate = payload),
   SET_SAHMUNRATE: (state, payload) => (state.sahmrealtimeunrate = payload),
   SET_INDICATORS: (state, payload) => (state.indicators = payload),
+
+  SET_API_UNRATE: (state, payload) => (state.apiunrate = [payload]),
 };
 
 const actions = {
@@ -57,6 +60,11 @@ const actions = {
     const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/fed/indicators`, 
                                                                     { headers: APP_FINTECH_HEADERS })                                                                    
     commit("SET_INDICATORS", data)
+  },
+  async getApiUnRate({ commit }) {
+    commit("SET_API_UNRATE", null);
+    const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/fed/observations?seriesId=UNRATE&frequency=m&units=pc1`, { headers: APP_FINTECH_HEADERS })
+    commit("SET_API_UNRATE", data)
   },
 }
 
