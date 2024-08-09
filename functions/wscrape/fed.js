@@ -119,7 +119,9 @@ const observations =  async (req, res) => {
     const seriesId = req.query.seriesId;
     const frequency = req.query.frequency;
     const units = req.query.units;
-    const jsonData = await fedApi.observations(seriesId,frequency,units)
+    let scale = req.query.scale;
+    if(scale == undefined) scale = "1.0";
+    const jsonData = await fedApi.observations(seriesId,frequency,units,parseFloat(scale))
     return res.status(200).json(jsonData)
 }
 

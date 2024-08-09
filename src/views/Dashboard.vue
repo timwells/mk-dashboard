@@ -71,8 +71,7 @@
 			</a-row>
 		</a-tab-pane>
 		<a-tab-pane key="2" tab="FED">
-			<CardFedSahmUnrate v-if="apiunrate.length>0" :dataset="apiunrate">
-			</CardFedSahmUnrate>
+			<CardFedSahmUnrate v-if="composite.length>0" :dataset="composite"></CardFedSahmUnrate>
 		</a-tab-pane>
 		<a-tab-pane key="3" tab="LSE - Performance">
 			<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
@@ -246,7 +245,8 @@ export default ({
 				"unrate",
 				"sahmrealtimeunrate",
 				"indicators",
-				"apiunrate"
+				"apiunrate",
+				"composite"
 		])
 	},
 	watch: {
@@ -301,7 +301,8 @@ export default ({
 		this.$store.dispatch("fviz/getIndustryForwardPE",{live:true});
 		this.$store.dispatch("fviz/getNews",{live:true});
 
-		this.$store.dispatch("fedinfo/getApiUnRate");
+		// this.$store.dispatch("fedinfo/getApiUnRate");
+		this.$store.dispatch("fedinfo/getComposite");
 	}
 })
 </script>

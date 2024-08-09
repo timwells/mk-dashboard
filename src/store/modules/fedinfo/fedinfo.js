@@ -13,7 +13,8 @@ const state = {
   unrate : null,
   sahmrealtimeunrate:[],
   indicators: [],
-  apiunrate: []
+  apiunrate: [],
+  composite: null
 };
 
 const getters = {}
@@ -26,6 +27,8 @@ const mutations = {
   SET_INDICATORS: (state, payload) => (state.indicators = payload),
 
   SET_API_UNRATE: (state, payload) => (state.apiunrate = [payload]),
+  
+  SET_COMPOSITE: (state, payload) => (state.composite = payload),
 };
 
 const actions = {
@@ -66,7 +69,41 @@ const actions = {
     const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/fed/observations?seriesId=UNRATE&frequency=m&units=pc1`, { headers: APP_FINTECH_HEADERS })
     commit("SET_API_UNRATE", data)
   },
+  async getComposite({ commit }) {
+    commit("SET_COMPOSITE", null);
+    let seriesQuery = [
+      'seriesId=UNRATE&frequency=m&units=pc1&scale=1.0',
+      'seriesId=POILWTIUSDM&frequency=m&units=lin&scale=1.0',
+      'seriesId=SAHMREALTIME&frequency=m&units=lin&scale=10.0',
+      'seriesId=VIXCLS&frequency=m&units=lin&scale=1.0'
+    ]
+    let seriesData = []
+    for(let i = 0; i < seriesQuery.length; i++) {
+      const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/fed/observations?${seriesQuery[i]}`, { headers: APP_FINTECH_HEADERS })
+      seriesData.push(data)
+    }
+
+    commit("SET_COMPOSITE", seriesData)
+  },
 }
+
+/*
+units
+A key that indicates a data value transformation.
+
+string, optional, default: lin (No transformation)
+One of the following values: 'lin', 'chg', 'ch1', 'pch', 'pc1', 'pca', 'cch', 'cca', 'log'
+lin = Levels (No transformation)
+chg = Change
+ch1 = Change from Year Ago
+pch = Percent Change
+pc1 = Percent Change from Year Ago
+pca = Compounded Annual Rate of Change
+cch = Continuously Compounded Rate of Change
+cca = Continuously Compounded Annual Rate of Change
+log = Natural Log
+*/
+
 
 export default {
   namespaced: true,

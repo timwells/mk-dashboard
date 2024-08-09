@@ -34,9 +34,16 @@ export default ({
 				chart: { 
 					id: 'area-datetime', 
 					type: 'line', 
-					height: 300, 
-					zoom: { autoScaleYaxis: true },
-					toolbar: TOOLS_DISABLED,			
+					height: 300,
+					zoom: {
+						type: 'x',
+						enabled: true,
+						autoScaleYaxis: true
+					},
+					toolbar: {
+						autoSelected: 'zoom'
+					}					
+					// toolbar: TOOLS_DISABLED,			
 				},
         		title:{ text: this.title()},
 			  	stroke: { curve: 'smooth',  width: 2},

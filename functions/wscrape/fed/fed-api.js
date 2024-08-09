@@ -40,13 +40,15 @@ const API_OBSERVATIONS_PATH = "fred/series/observations"
 ]
 */
 
-const observations = async (seriesId,frequency,units) => {
+// const live = validateBoolParameter(req.query.live, ['true', 'false']) && req.query.live === 'true';
+//cfunction validateBoolParameter(param, validValues) { return validValues.includes(param); }
+const observations = async (seriesId,frequency,units,scale) => {
     const resource = `${API_HOST}/${API_OBSERVATIONS_PATH}?series_id=${seriesId}&api_key=${API_KEY}&file_type=json&frequency=${frequency}&output_type=1&units=${units}`
     const {data} = await axios.get(resource);
 
     const jsonData = data.observations.reduce((array,el) => {
         if(el.value !== ".") {
-            array.push([new Date(el.date).getTime(), +parseFloat(el.value).toFixed(2)])
+            array.push([new Date(el.date).getTime(), +((parseFloat(el.value))*scale).toFixed(2)])
         }
         return array;
     }, []);
