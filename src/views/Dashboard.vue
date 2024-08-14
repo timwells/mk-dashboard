@@ -71,7 +71,7 @@
 			</a-row>
 		</a-tab-pane>
 		<a-tab-pane key="2" tab="FED">
-			<CardFedSahmUnrate v-if="composite.length>0" :dataset="composite"></CardFedSahmUnrate>
+			<CardFedComposite v-if="composite.length>0" :dataset="composite"></CardFedComposite>
 		</a-tab-pane>
 		<a-tab-pane key="3" tab="LSE - Performance">
 			<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
@@ -194,7 +194,7 @@ import CardStockPriceStrengthLineChart from '../components/Cards/CardStockPriceS
 
 import CardLseConstituentsTable from '../components/Cards/CardLseConstituentsTable';
 
-import CardFedSahmUnrate from '@/components/Cards/CardFedSahmUnrate';
+import CardFedComposite from '@/components/Cards/CardFedComposite';
 
 import WidgetCounter from '../components/Widgets/WidgetCounter' ;
 
@@ -228,10 +228,10 @@ export default ({
 		CardVixLineChart,
 		CardSP500MomentumLineChart,
 		CardStockPriceStrengthLineChart,
-		CardFedSahmUnrate,
+		CardFedComposite,
 
+		CardLseConstituentsTable,
 		WidgetCounter,
-		CardLseConstituentsTable
 	},
 	computed: {
     	...mapState("markets", ["markets"]),

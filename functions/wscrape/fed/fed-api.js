@@ -47,14 +47,13 @@ const observations = async (seriesId,frequency,units,scale) => {
     const {data} = await axios.get(resource);
 
     const jsonData = data.observations.reduce((array,el) => {
-        if(el.value !== ".") {
+        if((el.value !== ".") && (new Date(el.date).getTime() > new Date("1990-01-01").getTime())) {
             array.push([new Date(el.date).getTime(), +((parseFloat(el.value))*scale).toFixed(2)])
         }
         return array;
     }, []);
     
     return { name: seriesId, src:"src", data: jsonData }
-    // return { name: `${seriesId}-${m}-${units}`, data: jsonData }
 }
 
 module.exports = {

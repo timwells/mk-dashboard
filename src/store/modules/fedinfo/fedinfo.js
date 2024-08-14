@@ -74,7 +74,7 @@ const actions = {
     let seriesQuery = [
       'seriesId=UNRATE&frequency=m&units=pc1&scale=1.0',
       'seriesId=POILWTIUSDM&frequency=m&units=lin&scale=1.0',
-      'seriesId=SAHMREALTIME&frequency=m&units=lin&scale=10.0',
+      'seriesId=SAHMREALTIME&frequency=m&units=lin&scale=20.0',
       'seriesId=VIXCLS&frequency=m&units=lin&scale=1.0'
     ]
     let seriesData = []

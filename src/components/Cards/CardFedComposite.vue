@@ -46,7 +46,7 @@ export default ({
 					// toolbar: TOOLS_DISABLED,			
 				},
         		title:{ text: this.title()},
-			  	stroke: { curve: 'smooth',  width: 2},
+			  	stroke: { curve: 'smooth',  width: 1},
             	dataLabels: { enabled: false },
             	markers: { size: 0, style: 'hollow' },
             	xaxis: {
