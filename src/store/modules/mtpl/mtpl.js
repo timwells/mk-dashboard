@@ -1,12 +1,21 @@
 import axios from "axios";
 // import { getUserSecrets } from '@/firebase'
 const CLOUD_FUNCTION_URL = process.env.VUE_APP_FIREBASE_FUNCTION_URL;
-
 const API_KEY = process.env.VUE_APP_FINTECH_API_KEY;
 const HEADERS = { 'x-api-key' : API_KEY }
 
+const TREASURY_RATE_DATA = [
+  '1-year-treasury-rate/table/by-month',
+  '2-year-treasury-rate/table/by-month',
+  '3-year-treasury-rate/table/by-month',
+  '5-year-treasury-rate/table/by-month',
+  '10-year-treasury-rate/table/by-month',
+  '20-year-treasury-rate/table/by-month'
+]
+
 const state = {
   mtplDataSets: [],
+  treasuraryRates: []
 };
 
 const getters = {
@@ -25,17 +34,28 @@ const mutations = {
 
 const mutations = {
   SET_MTPL_DATA: (state, payload) => state.mtplDataSets.push(payload),
+  SET_TREASURY_RATES: (state, payload) => (state.treasuraryRates = payload),
 };
 
 const actions = {
   async getMtplData({ commit },{ ds }) {
-      axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/mtpl/dataset?ds=${ds}`, { headers: HEADERS })
-        .then(response => { 
-          console.log(response.data)
-          commit("SET_MTPL_DATA", response.data) })
-    //}
+    axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/mtpl/dataset?ds=${ds}`, { headers: HEADERS })
+      .then(response => { 
+        console.log(response.data)
+        commit("SET_MTPL_DATA", response.data) })
   },
- }
+
+  async getTreasuryRates({ commit },) {
+    let results=[]
+    for(let i=0; i < TREASURY_RATE_DATA.length; i++) {
+      const {data} = await axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/mtpl/dataset?ds=${TREASURY_RATE_DATA[i]}`, 
+                                      { headers: HEADERS })
+        results.push(data);
+        console.log(data)
+    }
+    commit("SET_TREASURY_RATES", results) 
+  }
+}
 
 export default {
   namespaced: true,

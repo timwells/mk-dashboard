@@ -95,10 +95,8 @@ const dataset2 = async (req, res) => {
 
         table.find('tr').each((i, r) => {    
             let cols = $(r).find('td');
-
             let dto = 0.0
             let value = 0.0
-    
             cols.each((j, col) => {
                 let entity = $(col).text().replace(/[\n|\t]/gm, '').trimStart().trimEnd()
                 switch(j) {
@@ -111,12 +109,16 @@ const dataset2 = async (req, res) => {
                     default: break;
                 }
             });
-            if(i > 0) rows.push([dto,value]);
+            if(i > 0) {
+                if (dto > new Date("1989-12-01").getTime()) {
+                    rows.push([dto,value]);
+                }
+            }
         })
 
         dataObj.data = {}
         dataObj.data.rwdata = rows.reverse()
-        dataObj.data.expMA = expMA(dataObj.data.rwdata,5000)
+        // dataObj.data.expMA = expMA(dataObj.data.rwdata,5000)
 
         res.status(200).json(dataObj);
     }
@@ -124,7 +126,6 @@ const dataset2 = async (req, res) => {
         res.status(400).json(dataObj);
     }   
 }
-
 
 module.exports = {
     datasettest,
