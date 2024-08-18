@@ -17,7 +17,7 @@ const TREASURY_RATE_DATA = [
 
 const SHILLER_DATA = [
   'shiller-pe/table/by-month',
-  '10-year-treasury-rate/table/by-month',
+  //'10-year-treasury-rate/table/by-month',
   //'cpi/table/by-month'
 ]
 const state = {
