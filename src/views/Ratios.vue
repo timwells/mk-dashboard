@@ -1,10 +1,26 @@
 <template>
 	<div>
 		<a href="https://www.multpl.com/" target="_blank">Multpl - Market, financial, and economic data.</a>
-
-		<a-row :gutter="24" type="flex">
-			<pre>{{ treasuraryRates }}</pre>
-		</a-row>
+		<a-tabs default-active-key="1">
+			<a-tab-pane key="1" tab="Treasury Rate">
+				<a-row type="flex" align="stretch">
+					<a-col :span="24" :lg="24" :xl="24" class="mb-24">
+						<CardMultiChart 
+							v-if="treasuryRates.length>0"
+							id="treasuryRates"
+							:dataset="treasuryRates">
+						</CardMultiChart>
+					</a-col>	
+				</a-row>
+			</a-tab-pane>
+			<a-tab-pane key="2" tab="Shiller">
+				<CardMultiChart 
+					v-if="shillerData.length>0" 
+					id="shillerData"
+					:dataset="shillerData">
+				</CardMultiChart>
+			</a-tab-pane>
+		</a-tabs>
 		<a-row :gutter="24" type="flex">
 		</a-row>	
 	</div>
@@ -12,40 +28,20 @@
 
 <script>
 // https://www.multpl.com/
-//const DS_SHILLER_PE = "shiller-pe/table/by-year"
 //const DS_SHILLER_PE_MONTHLY = "shiller-pe/table/by-month"
 //const DS_SP500_PE = "s-p-500-pe-ratio/table/by-month"
-//const DS_1YR_TREASURY_RATE = "1-year-treasury-rate/table/by-month"
-//const DS_10YR_TREASURY_RATE = "10-year-treasury-rate/table/by-month"
 
-const _CHART = { type: 'line', zoom: { enabled: false } }
-const _DATALABLES = { enabled: false }
-const _STROKE = { curve: 'straight',  width: 2 }
-const _TITLE = { text: '', align: 'left' }
-const _GRID = { row: { colors: ['#f3f3f3', 'transparent'], opacity: 0.5}}
-//const _XAXIS = { categories: null, tickAmount: 10 }
-
-const _XAXIS = { 
-	type: 'datetime',
-    //min: new Date(this.historicalData[0][0]).getTime(),
-    tickAmount: 2,
-}
-
-/*
-xaxis: {
-    type: 'datetime',
-    min: new Date(this.historicalData[0][0]).getTime(),
-    tickAmount: 4,
-},
-*/
+// import CardTreasuryRateComposite from '@/components/Cards/CardTreasuryRateComposite';
+import CardMultiChart from '@/components/Cards/CardMultiChart';
 
 import { mapState, mapGetters } from "vuex";
 
 export default ({
 	components: {
+		CardMultiChart
 	},
 	computed: {
-    	...mapState("mtpl", ["mtplDataSets","treasuraryRates"]),
+    	...mapState("mtpl", ["treasuryRates","shillerData"]),
 		...mapGetters("mtpl",["gMtplDataSetExists"]),
 	},
 	data() {
@@ -55,8 +51,8 @@ export default ({
 	methods: {
 	},
 	async mounted() {
-		// this.$store.dispatch("mtpl/getMtplData",{ds: DS_SHILLER_PE_MONTHLY});
 		this.$store.dispatch("mtpl/getTreasuryRates");
+		this.$store.dispatch("mtpl/getShiller");
 	},
 })
 

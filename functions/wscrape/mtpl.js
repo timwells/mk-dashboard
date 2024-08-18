@@ -85,8 +85,6 @@ const dataset = async (req, res) => {
 
 const dataset2 = async (req, res) => {
     const dataSrc = `${MULTPL_HOST}/${req.query.ds}`
-    let dataObj = { ds: req.query.ds }
-
     try {
         const { meta, data } = await axios.get(dataSrc)
         const $ = await cheerio.load(data);
@@ -105,7 +103,7 @@ const dataset2 = async (req, res) => {
                         dto = Date.parse(entity);
                     } break;
                     case 1: 
-                        value = parseFloat(entity.replace("%","").replace("†","")); break;
+                        value = +parseFloat(entity.replace("%","").replace("†","")); break;
                     default: break;
                 }
             });
@@ -116,9 +114,12 @@ const dataset2 = async (req, res) => {
             }
         })
 
-        dataObj.data = {}
-        dataObj.data.rwdata = rows.reverse()
-        // dataObj.data.expMA = expMA(dataObj.data.rwdata,5000)
+        let _name = req.query.ds.split("/")[0]
+        let dataObj = { name: _name, data: rows.reverse()}
+
+        //dataObj.data = {}
+        //dataObj.data.rwdata = rows.reverse()
+        //dataObj.data.expMA = expMA(dataObj.data.rwdata,5000)
 
         res.status(200).json(dataObj);
     }

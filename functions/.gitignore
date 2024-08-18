@@ -5,3 +5,5 @@ mk-d-b59f2-default-rtdb-export.json
 
 # Log files
 firebase-debug*.log
+ui-debug.log
+

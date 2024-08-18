@@ -3,6 +3,7 @@ import axios from "axios";
 const CLOUD_FUNCTION_URL = process.env.VUE_APP_FIREBASE_FUNCTION_URL;
 const API_KEY = process.env.VUE_APP_FINTECH_API_KEY;
 const HEADERS = { 'x-api-key' : API_KEY }
+const PATH = '/fintech/v1/scrape/mtpl/dataset2'
 
 const TREASURY_RATE_DATA = [
   '1-year-treasury-rate/table/by-month',
@@ -10,12 +11,18 @@ const TREASURY_RATE_DATA = [
   '3-year-treasury-rate/table/by-month',
   '5-year-treasury-rate/table/by-month',
   '10-year-treasury-rate/table/by-month',
-  '20-year-treasury-rate/table/by-month'
+  '20-year-treasury-rate/table/by-month',
+  'inflation/table/by-month'
 ]
 
+const SHILLER_DATA = [
+  'shiller-pe/table/by-month',
+  '10-year-treasury-rate/table/by-month',
+  //'cpi/table/by-month'
+]
 const state = {
-  mtplDataSets: [],
-  treasuraryRates: []
+  treasuryRates: [],
+  shillerData: []
 };
 
 const getters = {
@@ -34,7 +41,8 @@ const mutations = {
 
 const mutations = {
   SET_MTPL_DATA: (state, payload) => state.mtplDataSets.push(payload),
-  SET_TREASURY_RATES: (state, payload) => (state.treasuraryRates = payload),
+  SET_TREASURY_RATES: (state, payload) => (state.treasuryRates = payload),
+  SET_SHILLER_DATA: (state, payload) => (state.shillerData = payload),
 };
 
 const actions = {
@@ -45,15 +53,23 @@ const actions = {
         commit("SET_MTPL_DATA", response.data) })
   },
 
-  async getTreasuryRates({ commit },) {
+  async getTreasuryRates({ commit }) {
     let results=[]
     for(let i=0; i < TREASURY_RATE_DATA.length; i++) {
-      const {data} = await axios.get(`${CLOUD_FUNCTION_URL}/fintech/v1/scrape/mtpl/dataset?ds=${TREASURY_RATE_DATA[i]}`, 
+      const {data} = await axios.get(`${CLOUD_FUNCTION_URL}${PATH}?ds=${TREASURY_RATE_DATA[i]}`, 
                                       { headers: HEADERS })
-        results.push(data);
-        console.log(data)
+      results.push(data);
     }
     commit("SET_TREASURY_RATES", results) 
+  },
+  async getShiller({ commit }) {
+    let results = []
+    for(let i=0; i < SHILLER_DATA.length; i++) {
+      const {data} = await axios.get(`${CLOUD_FUNCTION_URL}${PATH}?ds=${SHILLER_DATA[i]}`, 
+                                      { headers: HEADERS })
+      results.push(data);
+    }
+    commit("SET_SHILLER_DATA", results) 
   }
 }
 
