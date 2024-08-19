@@ -1,3 +1,11 @@
+/*
+Build failed: Build has timed out.Please check the logs at 
+https://console.cloud.google.com/cloud-build/builds;region=us-central1/2bd71c58-34bc-498b-926a-fcf906147481?project=6240069269. 
+Please visit:
+ https://cloud.google.com/functions/docs/troubleshooting#build 
+for in-depth troubleshooting documentation for build related errors.
+*/
+
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp();
@@ -7,10 +15,8 @@ const app = express();
 
 const { config } = require("./config");
 
-const VERSION = "1.0.75";
+const VERSION = "1.0.76";
 const API_KEY_NAME = "x-api-key"
-
-// https://www.cypresscapital.com/wp-content/uploads/Research/Charts/MarketInternals.pdf
 
 const unauthorized = (res) => res.status(401).send('unauthorised');
 const unprocessible = (res) => res.status(412).send('unprocessible');

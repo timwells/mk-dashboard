@@ -30,6 +30,7 @@ import ltt from "./modules/ltt/ltt"
 import fviz from "./modules/fviz/fviz"
 import curvo from "./modules/curvo/curvo"
 import cyca from "./modules/cyca/cyca"
+import ft from "./modules/ft/ft"
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -46,6 +47,7 @@ export default new Vuex.Store({
     fedinfo,dcf,san,
     fviz,
     curvo,
-    cyca
+    cyca,
+    ft
   }
 });

@@ -55,7 +55,7 @@ const FT_PAYLOAD_BODY = {
 const FT_MY_MAPX_FUND_SYMBOLS = [
     {name: "MyMap 3 Fund D GBP Acc", symbol: "543012729" },
     {name: "MyMap 4 Fund D GBP Acc", symbol: "542997798" },
-    {name: "MyMap 5 Select ESG Fund S GBP Acc", symbol: "604990129"},
+    {name: "MyMap 5 Select ESG Fund D GBP Acc", symbol: "604977373"},
     {name: "MyMap 6 Fund D GBP Acc", symbol: "542990218" },
     {name: "MyMap 7 Select ESG Fund D GBP Acc", symbol: "722345773"}
 ]
