@@ -1,7 +1,7 @@
 <template>
 	<a-card :bordered="false" class="card-info">
-		<a-row type="flex">
-			<a-col class="col-content" :span="24" :xl="12">
+		<a-row :gutter="24" type="flex">
+			<a-col class="mb-12" :span="24" :xl="24">
 				<div class="card-content">
 					<h6 v-if="title.length>0">{{title}}</h6>
 					<img v-if="type=='img'" :src="url" :height="height" width="99%">
