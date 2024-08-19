@@ -62,7 +62,7 @@ export default ({
 						label: {
 							borderColor: '#FF0000', borderWidth: 4,
 							style: { color: '#fff', background: '#FF0000' },
-							text: 'Extreme Fear'
+							text: 'Ex.Fear'
 						}
 					},{
 						y: 85,
@@ -70,7 +70,7 @@ export default ({
 						label: {
 							borderColor: '#00AF00', borderWidth: 4,
 							style: { color: '#fff', background: '#00AF00' },
-							text: 'Extreme Greed'
+							text: 'Ex.Greed'
 						}
 					}
 				]

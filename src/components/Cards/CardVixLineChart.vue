@@ -54,7 +54,7 @@ export default ({
 						label: {
 							borderColor: '#00AF00', borderWidth: 4,
 							style: { color: '#fff', background: '#00AF00' },
-							text: 'Low Volitilty'
+							text: 'Low Vol'
 						}
 					  },{
 						  y: 75,
@@ -62,7 +62,7 @@ export default ({
 						  label: {
 							  borderColor: '#FF0000', borderWidth: 4,
 							  style: { color: '#fff', background: '#FF0000' },
-							  text: 'Extreme Volitilty'
+							  text: 'Extreme Vol'
 						  }
 					}]
 			  	},
