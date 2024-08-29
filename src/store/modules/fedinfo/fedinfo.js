@@ -14,7 +14,8 @@ const state = {
   sahmrealtimeunrate:[],
   indicators: [],
   apiunrate: [],
-  composite: null
+  composite: null,
+  y2y10maturity: null
 };
 
 const getters = {}
@@ -29,6 +30,8 @@ const mutations = {
   SET_API_UNRATE: (state, payload) => (state.apiunrate = [payload]),
   
   SET_COMPOSITE: (state, payload) => (state.composite = payload),
+
+  SET_2Y10Y: (state, payload) => (state.y2y10maturity = payload),
 };
 
 const actions = {
@@ -82,9 +85,22 @@ const actions = {
       const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/fed/observations?${seriesQuery[i]}`, { headers: APP_FINTECH_HEADERS })
       seriesData.push(data)
     }
-
     commit("SET_COMPOSITE", seriesData)
   },
+
+  async get2Y10YTreasuryMaturity({ commit }) {
+    let seriesQuery = [
+      'seriesId=JHDUSRGDPBR&frequency=q&units=lin&scale=4.0',
+      'seriesId=T10Y2Y&frequency=m&units=lin&scale=1.0'
+    ]
+    commit("SET_2Y10Y", null);
+    let seriesData = []
+    for(let i = 0; i < seriesQuery.length; i++) {
+      const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/fed/observations?${seriesQuery[i]}`, { headers: APP_FINTECH_HEADERS })
+      seriesData.push(data)
+    }
+    commit("SET_2Y10Y", seriesData)
+  }
 }
 
 /*

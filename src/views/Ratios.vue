@@ -20,9 +20,14 @@
 					:dataset="shillerData">
 				</CardMultiChart>
 			</a-tab-pane>
+			<a-tab-pane key="3" tab="Y2-10Y-Recession">
+				<CardMultiChart 
+					v-if="y2y10maturity.length>0" 
+					id="y2y10maturity"
+					:dataset="y2y10maturity">
+				</CardMultiChart>
+			</a-tab-pane>
 		</a-tabs>
-		<a-row :gutter="24" type="flex">
-		</a-row>	
 	</div>
 </template>
 
@@ -42,6 +47,7 @@ export default ({
 	},
 	computed: {
     	...mapState("mtpl", ["treasuryRates","shillerData"]),
+		...mapState("fedinfo",["y2y10maturity"]),
 		...mapGetters("mtpl",["gMtplDataSetExists"]),
 	},
 	data() {
@@ -53,6 +59,7 @@ export default ({
 	async mounted() {
 		this.$store.dispatch("mtpl/getTreasuryRates");
 		this.$store.dispatch("mtpl/getShiller");
+		this.$store.dispatch("fedinfo/get2Y10YTreasuryMaturity");
 	},
 })
 
