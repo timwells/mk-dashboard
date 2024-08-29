@@ -91,7 +91,9 @@ const actions = {
   async get2Y10YTreasuryMaturity({ commit }) {
     let seriesQuery = [
       'seriesId=JHDUSRGDPBR&frequency=q&units=lin&scale=4.0',
-      'seriesId=T10Y2Y&frequency=m&units=lin&scale=1.0'
+      'seriesId=T10Y2Y&frequency=m&units=lin&scale=1.0',
+      // 'seriesId=SAHMREALTIME&frequency=m&units=lin&scale=1.0',
+      // 'seriesId=GVZCLS&frequency=m&units=lin&scale=0.1',
     ]
     commit("SET_2Y10Y", null);
     let seriesData = []
