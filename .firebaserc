@@ -1,5 +1,12 @@
 {
   "projects": {
     "default": "mk-d-b59f2"
-  }
+  },
+  "targets": {},
+  "etags": {
+    "mk-d-b59f2": {
+      "extensionInstances": {}
+    }
+  },
+  "dataconnectEmulatorConfig": {}
 }
