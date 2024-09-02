@@ -31,6 +31,7 @@ import fviz from "./modules/fviz/fviz"
 import curvo from "./modules/curvo/curvo"
 import cyca from "./modules/cyca/cyca"
 import ft from "./modules/ft/ft"
+import fool from "./modules/fool/fool"
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -48,6 +49,7 @@ export default new Vuex.Store({
     fviz,
     curvo,
     cyca,
-    ft
+    ft,
+    fool
   }
 });

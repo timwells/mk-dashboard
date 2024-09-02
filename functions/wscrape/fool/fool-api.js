@@ -1,4 +1,8 @@
 const axios = require('axios');
+
+// https://www.npmjs.com/package/technicalindicators
+const SMA = require('technicalindicators').SMA
+
 const API_HOST = "https://api.fool.com"
 const API_HISTORICAL_PATH = "quotes/v4/historical/charts"
 const API_KEY = "fbe12de9-f56d-4d21-a955-daa0e7077bc4"
@@ -66,17 +70,32 @@ const getTestImpl = async () => {
 const getDataImpl = async (exchange,symbol,period) => {
     const resource = `${API_HOST}/${API_HISTORICAL_PATH}/${exchange}:${symbol}?apikey=${API_KEY}&timeFrame=${period}`;
     try {
-        const {data} = await axios.get(resource,{ headers: HEADERS});
-        //format 
-        const klinedata = data.ChartBars.map((e) => ({
-            time:  new Date(e.PricingDate).getTime(),
-            open:  e.Open == null ? null : +e.Open.Amount.toFixed(2),
-            high:  e.High == null ? null : +e.High.Amount.toFixed(2),
-            close: e.Close == null ? null : +e.Close.Amount.toFixed(2),
-            low:   e.Close == null ? null : +e.Close.Amount.toFixed(2)
-        }))
+        const { data } = await axios.get(resource,{ headers: HEADERS});
+        // eliminate nulls by reducing and re-formatting as ohlc
+        const ohlcSeries = data.ChartBars.reduce((arr,e) => {
+            // Process none null data
+            if(e.Open !== null && e.Close !== null) {
+                arr.push({
+                    // time:  new Date(e.PricingDate).getTime(),
+                    time:  e.PricingDate,
+                    open:  +e.Open.Amount.toFixed(2),
+                    high:  +e.High.Amount.toFixed(2),
+                    close: +e.Close.Amount.toFixed(2),
+                    low:   +e.Low.Amount.toFixed(2)
+                })
+            }
+            return arr;
+        }, []);
 
-        return klinedata;
+        // Calculate SMA
+        const sma = SMA.calculate({period:50, values: ohlcSeries.map((e) => e.close)})
+        const pSma = [...[...new Array(ohlcSeries.length - sma.length)].map((d) => ''), ...sma];
+        const smaSeries = pSma.map((e,i) => ({time: ohlcSeries[i].time, value: e}))
+        // Pad SMA
+        return { 
+            ohcl: ohlcSeries, 
+            sma: smaSeries 
+        }
     } catch (err) {
         return err;
     }
@@ -87,19 +106,3 @@ module.exports = {
     getDataImpl
 }
 
-/*
-// const API_OBSERVATIONS_PATH = "fred/series/observations"
-const observations = async (seriesId,frequency,units,scale) => {
-    const resource = `${API_HOST}/${API_OBSERVATIONS_PATH}?series_id=${seriesId}&api_key=${API_KEY}&file_type=json&frequency=${frequency}&output_type=1&units=${units}`
-    const {data} = await axios.get(resource);
-
-    const jsonData = data.observations.reduce((array,el) => {
-        if((el.value !== ".") && (new Date(el.date).getTime() > new Date("1990-01-01").getTime())) {
-            array.push([new Date(el.date).getTime(), +((parseFloat(el.value))*scale).toFixed(2)])
-        }
-        return array;
-    }, []);
-    
-    return { name: seriesId, src:"src", data: jsonData }
-}
-*/
