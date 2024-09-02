@@ -67,8 +67,6 @@ export default ({
 		this.$store.dispatch("fedinfo/get2Y10YTreasuryMaturity");
 	},
 })
-
-
 </script>
 
 <style lang="scss">

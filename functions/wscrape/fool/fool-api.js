@@ -19,8 +19,7 @@ const HEADERS = {
 const getTestImpl = async () => {
     return {"name": "getTestImpl"}
 }
-/*
-{
+/*{
     "PricingDate": "1992-04-02",
     "PricingTime": null,
     "Open": null,
@@ -89,7 +88,12 @@ const getDataImpl = async (exchange,symbol,period) => {
 
         // Calculate SMA
         const sma = SMA.calculate({period:50, values: ohlcSeries.map((e) => e.close)})
-        const pSma = [...[...new Array(ohlcSeries.length - sma.length)].map((d) => ''), ...sma];
+        //const pSma = [...[...new Array(ohlcSeries.length - sma.length)].map((d) => ), ...sma];
+        
+        const pSma = [
+            ...[...new Array(ohlcSeries.length - sma.length)].map((d,i) => (ohlcSeries[i].close)), 
+            ...sma];
+        
         const smaSeries = pSma.map((e,i) => ({time: ohlcSeries[i].time, value: e}))
         // Pad SMA
         return { 

@@ -7,6 +7,10 @@ const HL_HOST = 'https://www.hl.co.uk'
 // https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/
 // search-results/j/jupiter-india-select-class-d-gbp-accumulation
 
+/*
+https://www.hl.co.uk/ajax/funds/fund-search/search?investment=&companyid=&sectorid=&wealth=&unitTypePref=&tracker=&payment_frequency=&payment_type=&yield=&standard_ocf=&perf12m=&perf36m=&perf60m=&fund_size=&num_holdings=&start=0&rpp=60&lo=0&sort=fd.full_description&sort_dir=asc&
+*/
+
 async function _fundDetail(path) {
     let details = null
     try {
