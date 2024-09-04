@@ -11,7 +11,7 @@ const ERROR = 500
 async function _uploadJsonStream(
     writeStream, 
     dataObj
-){
+) {
     return new Promise((resolve, reject) => {
         const jsonString = JSON.stringify(dataObj);
         const jsonStream = new Readable();
@@ -27,7 +27,7 @@ async function _uploadJsonStream(
 
 function _isExpired(
     metadata
-){
+) {
     try {
         // Extract the cacheControl metadata
         const cacheControl = metadata.cacheControl;
@@ -56,7 +56,7 @@ function _isExpired(
 async function queryResourceStatus(
     bucket,
     resource
-){
+) {
     const storage = new Storage();
     const file = storage.bucket(bucket).file(resource);    
     let resp = { status: SUCCESS, metadata : null }
@@ -81,7 +81,7 @@ async function getResource(
     try {
         const [metadata] = await file.getMetadata()
         const [contents] = await file.download();
-        return { status: SUCCESS, created: metadata.timeCreated, tag:tag, source:"cache", data: JSON.parse(contents.toString())}
+        return { status: SUCCESS, created: metadata.timeCreated, tag:tag, source: "cache", data: JSON.parse(contents.toString())}
     } catch(e) {
         return { status: ERROR, tag:tag, data: null }
     }
@@ -131,5 +131,5 @@ module.exports = {
     queryResourceStatus,
     getResource,
     updateResource,
-    fetchFormattedResource
+    fetchFormattedResource,
 }

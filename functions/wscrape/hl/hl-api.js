@@ -1,9 +1,9 @@
 const axios = require('axios');
-
+const cModule = require('../common/c.js');
 const API_HOST = "https://www.hl.co.uk"
-const API_FUNDS_PATH = "/ajax/funds/fund-search/search"
+const API_FUNDS_PATH = "ajax/funds/fund-search/search"
 const API_FUNDS_QUERY = "investment=&companyid=&sectorid=&wealth=&unitTypePref=&tracker=&payment_frequency=&payment_type=&yield=&standard_ocf=&perf12m=&perf36m=&perf60m=&fund_size=&num_holdings=&start=0&rpp=200&lo=0&sort=fd.full_description&sort_dir=asc&"
-const API_FUNDS_QUERY2 = "investment=&companyid=&sectorid=&wealth=&unitTypePref=&tracker=&payment_frequency=&payment_type=&yield=&standard_ocf=&perf12m=&perf36m=&perf60m=&fund_size=&num_holdings=&start=0&rpp=200&lo=0&sort=fd.full_description&sort_dir=asc&"
+const API_FUNDS_QUERY2 = "investment=&companyid=&sectorid=&wealth=&unitTypePref=&tracker=&payment_frequency=&payment_type=&yield=&standard_ocf=&perf12m=&perf36m=&perf60m=&fund_size=&num_holdings=&lo=0&sort=fd.full_description&sort_dir=asc&"
 
 const HEADERS = {
     'Accept-Encoding': 'gzip, compress, deflate, br',
@@ -13,18 +13,43 @@ const HEADERS = {
     'Cache-Control' : 'no-cache',
     'referer': "https://www.hl.co.uk"
 }
-
-// https://api.fool.com/quotes/v4/historical/charts/LSE:WTB?apiKey=fbe12de9-f56d-4d21-a955-daa0e7077bc4&timeFrame=Max
-const testImpl = async () => {
-    return {"name": "getTestImpl"}
-}
-const fundsListImpl = async () => {
-    let offset = 0
-    let funds = []
-    const resource = `${API_HOST}${API_FUNDS_PATH}?${API_FUNDS_QUERY}`
-
+const DownloadResource = async (resource) => {
     const {data} = await axios.get(resource,{ headers: HEADERS});
     return data
+}
+// https://api.fool.com/quotes/v4/historical/charts/LSE:WTB?apiKey=fbe12de9-f56d-4d21-a955-daa0e7077bc4&timeFrame=Max
+const testImpl = async () => { return {"name": "getTestImpl"} }
+
+const PAGE_SIZE = 300
+const TOTAL_FUNDS = 600
+const fundsListImpl = async () => {
+    let funds = [];
+    let start = 0
+    let rpp = PAGE_SIZE
+
+    try {
+        // Query Number of Funds
+        let resource = `${API_HOST}/${API_FUNDS_PATH}?start=${start}&rpp=1&lo=0&sort=fd.full_description&sort_dir`
+        let totalFunds = (await DownloadResource(resource)).TotalResults
+
+        // totalFunds = TOTAL_FUNDS
+        // Query Funds in 'rpp' page sizes
+        while(start < totalFunds) {
+            rpp = ((start + PAGE_SIZE) < totalFunds) ? PAGE_SIZE : totalFunds - start;
+            resource = `${API_HOST}/${API_FUNDS_PATH}?start=${start}&rpp=${rpp}&lo=0&sort=fd.full_description&sort_dir`
+
+            funds.push(...(await DownloadResource(resource)).Results);
+            // console.log(resource)
+            start += rpp
+
+            await cModule.sleep(1100)
+        }
+        // console.log("Finished...")
+    } catch(e) {
+        console.log(e)
+    }
+
+    return funds
 }
 
 module.exports = {
