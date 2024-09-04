@@ -68,6 +68,13 @@ const getTestImpl = async () => {
     "AdjustmentFactor": 1
 },
 */
+
+const seriesTA = (ohlcSeries,values) => {
+    return [...[...new Array(ohlcSeries.length - values.length)].map((d,i) => (ohlcSeries[i].close)), 
+                ...values].map((e,i) => ({time: ohlcSeries[i].time, value: +e.toFixed(3)}))
+}
+
+
 const getDataImpl = async (
     exchange,
     symbol,
@@ -93,20 +100,24 @@ const getDataImpl = async (
             return arr;
         }, []);
 
+        const closeValues = ohlcSeries.map((e) => e.close)
+
         // Calculate SMA
-        const sma = SMA.calculate({period:50, values: ohlcSeries.map((e) => e.close)})
-        const pSma = [...[...new Array(ohlcSeries.length - sma.length)].map((d,i) => (ohlcSeries[i].close)), ...sma];
-        const smaSeries = pSma.map((e,i) => ({time: ohlcSeries[i].time, value: e}))
+        const sma50 = SMA.calculate({period:50, values: closeValues})
+        const sma100 = SMA.calculate({period:100, values: closeValues})
+        const sma200 = SMA.calculate({period:200, values: closeValues})
 
         // Calculate EMA
-        const ema = EMA.calculate({period:10, values: ohlcSeries.map((e) => e.close)})
-        const pEma = [...[...new Array(ohlcSeries.length - ema.length)].map((d,i) => (ohlcSeries[i].close)), ...ema];
-        const emaSeries = pEma.map((e,i) => ({time: ohlcSeries[i].time, value: e}))
+        const ema10 = EMA.calculate({period:10, values: closeValues})
 
         return { 
-            ohcl: ohlcSeries, 
-            sma: smaSeries,
-            ema: emaSeries
+            ohcl: ohlcSeries,
+            ta : [
+                    { name: "sma-50", series: seriesTA(ohlcSeries,sma50)  },
+                    { name: "sma-100", series: seriesTA(ohlcSeries,sma100) },
+                    { name: "sma-200", series: seriesTA(ohlcSeries,sma200) },
+                    { name: "ema-10", series: seriesTA(ohlcSeries,ema10)   },
+            ]        
         }
     } catch (err) {
         return err;

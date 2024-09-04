@@ -12,7 +12,6 @@ export default ({
 	},
 	watch: {
 		chartData(newVal,oldVal) {
-			// console.log(newVal)
 			this.candlestickSeries.setData(newVal.ohcl)
 			this.smaSeries.setData(newVal.sma)
 			

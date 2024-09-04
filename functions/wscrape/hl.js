@@ -7,7 +7,6 @@ const HL_FOLDER = 'hl-cache';
 const HL_FUNDS_DATASET =  'funds.json';
 const REQUEST_TIMEOUT = 80000
 
-
 const test = async (req, res) => {
     let data = await hlApi.testImpl()
     return res.status(200).json(data)

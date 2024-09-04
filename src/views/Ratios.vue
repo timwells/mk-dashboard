@@ -28,7 +28,7 @@
 				</CardMultiChart>
 			</a-tab-pane>
 			<a-tab-pane key="4" tab="TV Test">
-				<CardTVStockChart2 epic="PRU"/>
+				<CardTVStockChart2 epic="VIC"/>
 			</a-tab-pane>
 		</a-tabs>
 	</div>

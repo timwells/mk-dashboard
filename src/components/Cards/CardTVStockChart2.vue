@@ -16,10 +16,12 @@ export default ({
 	},
 	watch: {
 		chartData(newVal,oldVal) {
-			// console.log(newVal)
 			this.candlestickSeries.setData(newVal.ohcl)
-			this.smaSeries.setData(newVal.sma)
-			this.emaSeries.setData(newVal.ema)
+			this.sma50Series.setData(newVal.ta.find(e => e.name=="sma-50").series)
+			this.sma100Series.setData(newVal.ta.find(e => e.name=="sma-100").series)
+			this.sma200Series.setData(newVal.ta.find(e => e.name=="sma-200").series)
+
+			this.ema10Series.setData(newVal.ta.find(e => e.name=="ema-10").series)
 
 			this.chart.timeScale().fitContent();
 		}
@@ -32,8 +34,11 @@ export default ({
 			chart,
 			chartId,
 			candlestickSeries,
-			smaSeries,
-			emaSeries,
+			sma50Series,
+			sma100Series,
+			sma200Series,
+			ema10Series,
+		
 			// https://github.com/tradingview/lightweight-charts/blob/v2.0.0/docs/customization.md#date-format
 			chartProperties: {
 				timeScale: { timeVisible: true, secondsVisible: false},
@@ -43,30 +48,23 @@ export default ({
 		}
 	},
 	created() {
-		console.log("created")
-	    // Generate a unique ID when the component is created
-    	// this.chartId = `id-${this.epic}-${Math.random().toString(36).slice(2, 11)}`;
 	},
 	beforeMount() {
-		console.log("beforeMount")
 	    // Generate a unique ID when the component is created
     	this.chartId = `id-${this.epic}-${Math.random().toString(36).slice(2, 11)}`;		
 	},
 	mounted() {
-		console.log("mounted")
-
-		console.log(this.chart)
 		const chartElement = document.getElementById(this.chartId);
-		console.log(chartElement)
 	
 		// Create the chart
 		this.chart = createChart(chartElement, this.chartProperties)
-		console.log(this.chart)
 
 		// Create a line series and set initial data
 		this.candlestickSeries = this.chart.addCandlestickSeries();
-		this.smaSeries = this.chart.addLineSeries({color:'blue',lineWidth:1,title:"sma-50"});
-		this.emaSeries = this.chart.addLineSeries({color:'green',lineWidth:1,title:"ema-10"});
+		this.sma50Series = this.chart.addLineSeries({color:'blue',lineWidth:1,title:"sma-50"});
+		this.sma100Series = this.chart.addLineSeries({color:'red',lineWidth:1,title:"sma-100"});
+		this.sma200Series = this.chart.addLineSeries({color:'orange',lineWidth:1,title:"sma-200"});
+		this.ema10Series = this.chart.addLineSeries({color:'green',lineWidth:1,title:"ema-10"});
 
 		this.$store.dispatch("fool/getChartData",{symbol:this.epic});
   	},
