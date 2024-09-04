@@ -12,14 +12,14 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="2" tab="MyMap">
+		<!--a-tab-pane key="2" tab="MyMap">
 			<a-row :gutter="24" type="flex">
 				<a-col :span="24" class="mb-24">
 					<CardMultiChart v-if="funddata.length>0" id="mymap" :dataset="funddata"></CardMultiChart>
 				</a-col>
 			</a-row>
-		</a-tab-pane>
-		<a-tab-pane key="3" tab="MyMapTV">
+		</a-tab-pane-->
+		<a-tab-pane key="2" tab="MyMapTV">
 			<a-row :gutter="24" type="flex">
 				<a-col :span="24" class="mb-24">
 					<CardTVLineChart v-if="funddata2.length>0"/>
@@ -56,7 +56,7 @@ export default ({
 	},
 	mounted() {
 		this.$store.dispatch("funds/getFunds");
-		this.$store.dispatch("ft/getFundData");
+		// this.$store.dispatch("ft/getFundData");
 		this.$store.dispatch("ft/getFundData2");
 	}
 })

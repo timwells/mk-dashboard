@@ -6,8 +6,8 @@ const gettest = async (req, res) => {
 }
 
 const getdata =  async (req, res) => {
-    const { exchange, symbol, period } = req.query
-    let data = await foolApi.getDataImpl(exchange,symbol,period)
+    const { exchange, symbol, precision, period } = req.query
+    let data = await foolApi.getDataImpl(exchange,symbol,precision,period)
     return res.status(200).json(data)
 }
 

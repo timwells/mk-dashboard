@@ -8,14 +8,15 @@ for in-depth troubleshooting documentation for build related errors.
 
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-admin.initializeApp();
 const express = require('express');
 const cors = require('cors');
 const app = express();
 
 const { config } = require("./config");
 
-const VERSION = "1.0.88";
+admin.initializeApp();
+
+const VERSION = "1.0.90";
 const API_KEY_NAME = "x-api-key"
 
 const unauthorized = (res) => res.status(401).send('unauthorised');

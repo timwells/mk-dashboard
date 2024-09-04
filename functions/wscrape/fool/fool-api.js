@@ -17,6 +17,7 @@ const HEADERS = {
 }
 
 // https://api.fool.com/quotes/v4/historical/charts/LSE:WTB?apiKey=fbe12de9-f56d-4d21-a955-daa0e7077bc4&timeFrame=Max
+// https://api.fool.com/quotes/v4/historical/charts/342412?timeFrame=OneWeek&precision=Day&apikey=6cbf5f34-ba40-4108-a1ab-d951c608955e
 const getTestImpl = async () => {
     return {"name": "getTestImpl"}
 }
@@ -67,8 +68,13 @@ const getTestImpl = async () => {
     "AdjustmentFactor": 1
 },
 */
-const getDataImpl = async (exchange,symbol,period) => {
-    const resource = `${API_HOST}/${API_HISTORICAL_PATH}/${exchange}:${symbol}?apikey=${API_KEY}&timeFrame=${period}`;
+const getDataImpl = async (
+    exchange,
+    symbol,
+    precision,
+    period
+) => {
+    const resource = `${API_HOST}/${API_HISTORICAL_PATH}/${exchange}:${symbol}?apikey=${API_KEY}&precision=${precision}&timeFrame=${period}`;
     try {
         const { data } = await axios.get(resource,{ headers: HEADERS});
         // eliminate nulls by reducing and re-formatting as ohlc
