@@ -28,7 +28,7 @@
 				</CardMultiChart>
 			</a-tab-pane>
 			<a-tab-pane key="4" tab="TV Test">
-				<CardTVStockChart/>
+				<CardTVStockChart2 epic="PRU"/>
 			</a-tab-pane>
 		</a-tabs>
 	</div>
@@ -41,14 +41,14 @@
 
 // import CardTreasuryRateComposite from '@/components/Cards/CardTreasuryRateComposite';
 import CardMultiChart from '@/components/Cards/CardMultiChart';
-import CardTVStockChart from '@/components/Cards/CardTVStockChart';
+import CardTVStockChart2 from '@/components/Cards/CardTVStockChart2';
 
 import { mapState, mapGetters } from "vuex";
 
 export default ({
 	components: {
 		CardMultiChart,
-		CardTVStockChart
+		CardTVStockChart2
 	},
 	computed: {
     	...mapState("mtpl", ["treasuryRates","shillerData"]),

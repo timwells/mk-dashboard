@@ -19,6 +19,13 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane>
+		<a-tab-pane key="3" tab="MyMapTV">
+			<a-row :gutter="24" type="flex">
+				<a-col :span="24" class="mb-24">
+					<CardTVLineChart v-if="funddata2.length>0"/>
+				</a-col>
+			</a-row>
+		</a-tab-pane>
 	</a-tabs>
 </template>
 
@@ -29,14 +36,17 @@ import { FUNDS_Columns } from '@/common/table'
 // Funds table component.
 import CardFundsTable from '../components/Cards/CardFundsTable' ;
 import CardMultiChart from '@/components/Cards/CardMultiChart';
+import CardTVLineChart from "../components/Cards/CardTVLineChart.vue";
+
 export default ({
 	components: {
 		CardFundsTable,
-		CardMultiChart
+		CardMultiChart,
+		CardTVLineChart
 	},
 	computed: {
     	...mapState("funds", ["funds"]),
-    	...mapState("ft", ["funddata"]),
+    	...mapState("ft", ["funddata","funddata2"]),
 	},
 	data() {
 		return {
@@ -47,6 +57,7 @@ export default ({
 	mounted() {
 		this.$store.dispatch("funds/getFunds");
 		this.$store.dispatch("ft/getFundData");
+		this.$store.dispatch("ft/getFundData2");
 	}
 })
 </script>

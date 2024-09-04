@@ -37,6 +37,9 @@
 									<a-tab-pane key="4" tab="Price">
 										<card-price-info :epic="lseSymbol(record.epic)"></card-price-info>
 									</a-tab-pane>
+									<a-tab-pane key="5" tab="TV-Light">
+										<CardTVStockChart2 :epic="record.epic"/>
+									</a-tab-pane>
 								</a-tabs>
 							</template>
 
@@ -198,6 +201,7 @@ import WidgetTradingViewTechAnalysisTest from "@/components/Widgets/WidgetTradin
 import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
 import WidgetTradingViewFinancials from "@/components/Widgets/WidgetTradingViewFinancials";
 import CardPriceInfo from "@/components/Cards/CardPriceInfo";
+import CardTVStockChart2 from "@/components/Cards/CardTVStockChart2.vue";
 
 const epicCorrections = [
 	{in:"T17",out:"TM17"},
@@ -217,7 +221,8 @@ export default ({
 		WidgetTradingViewTechAnalysis,
 		WidgetTradingViewBrokerAnalysis,
 		WidgetTradingViewFinancials,
-		CardPriceInfo
+		CardPriceInfo,
+		CardTVStockChart2
 	},
 	computed: {
 		...mapState("nt", ["nakedTrades","nakedArchives","nakedArchiveContent"]),

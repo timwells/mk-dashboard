@@ -17,7 +17,7 @@ const mutations = {
 
 const actions = {
   async getChartData({ commit },{symbol}) {
-    const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/fool/getdata?exchange=LSE&symbol=${symbol}&period=TenYear`, { headers: APP_FINTECH_HEADERS })
+    const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/fool/getdata?exchange=LSE&symbol=${symbol}&period=Max`, { headers: APP_FINTECH_HEADERS })
     commit("SET_CHART_DATA", data)
   },
 }

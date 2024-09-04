@@ -1,7 +1,8 @@
 const axios = require('axios');
 
-// https://www.npmjs.com/package/technicalindicators
+// https://github.com/anandanand84/technicalindicators#readme
 const SMA = require('technicalindicators').SMA
+const EMA = require('technicalindicators').EMA
 
 const API_HOST = "https://api.fool.com"
 const API_HISTORICAL_PATH = "quotes/v4/historical/charts"
@@ -88,17 +89,18 @@ const getDataImpl = async (exchange,symbol,period) => {
 
         // Calculate SMA
         const sma = SMA.calculate({period:50, values: ohlcSeries.map((e) => e.close)})
-        //const pSma = [...[...new Array(ohlcSeries.length - sma.length)].map((d) => ), ...sma];
-        
-        const pSma = [
-            ...[...new Array(ohlcSeries.length - sma.length)].map((d,i) => (ohlcSeries[i].close)), 
-            ...sma];
-        
+        const pSma = [...[...new Array(ohlcSeries.length - sma.length)].map((d,i) => (ohlcSeries[i].close)), ...sma];
         const smaSeries = pSma.map((e,i) => ({time: ohlcSeries[i].time, value: e}))
-        // Pad SMA
+
+        // Calculate EMA
+        const ema = EMA.calculate({period:10, values: ohlcSeries.map((e) => e.close)})
+        const pEma = [...[...new Array(ohlcSeries.length - ema.length)].map((d,i) => (ohlcSeries[i].close)), ...ema];
+        const emaSeries = pEma.map((e,i) => ({time: ohlcSeries[i].time, value: e}))
+
         return { 
             ohcl: ohlcSeries, 
-            sma: smaSeries 
+            sma: smaSeries,
+            ema: emaSeries
         }
     } catch (err) {
         return err;
