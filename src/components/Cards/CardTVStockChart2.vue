@@ -23,6 +23,15 @@ export default ({
 				this.sma200Series.setData(newVal.ta.find(e => e.name == "sma-200").series)
 
 				this.ema10Series.setData(newVal.ta.find(e => e.name == "ema-10").series)
+			
+				// this.vwapSeries.setData(newVal.vwap)
+				console.log(newVal.vol)
+				this.volSeries.setData(newVal.vol.map((v) => ({ 
+						time: v.time, 
+						value: v.value, 
+						color: (v.direction == 1 ? 'green' : (v.direction == -1) ? 'red': 'grey')	  
+				})))
+
 
 				this.chart.timeScale().fitContent();
 			}
@@ -40,7 +49,8 @@ export default ({
 			sma100Series,
 			sma200Series,
 			ema10Series,
-		
+			vwapSeries,
+			volSeries,
 			// https://github.com/tradingview/lightweight-charts/blob/v2.0.0/docs/customization.md#date-format
 			chartProperties: {
 				timeScale: { timeVisible: true, secondsVisible: false},
@@ -67,7 +77,22 @@ export default ({
 		this.sma100Series = this.chart.addLineSeries({color:'red',lineWidth:1,title:"sma-100"});
 		this.sma200Series = this.chart.addLineSeries({color:'orange',lineWidth:1,title:"sma-200"});
 		this.ema10Series = this.chart.addLineSeries({color:'green',lineWidth:1,title:"ema-10"});
+		// this.vwapSeries = this.chart.addLineSeries({color:'black',lineWidth:1,title:"vwap"});
+		// this.volSeries = this.chart.addHistogramSeries({overlay: true});
+		this.volSeries = this.chart.addHistogramSeries({
+			color: '#2196F3', // Blue color for histogram bars
+    		lineWidth: 2,
+    		priceFormat: {
+    			type: 'volume',
+    		},
+    		// overlay: true, // Allows histogram to overlay on candlestick series
 
+			priceScaleId: 'left', // Use the left price scale
+            scaleMargins: {
+                top: 0.7, // Push the histogram to the bottom
+                bottom: 0,
+            },
+		})
 		this.$store.dispatch("fool/getChartData",{symbol:this.epic});
   	},
   	beforeDestroy() {

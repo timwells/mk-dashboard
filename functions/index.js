@@ -16,7 +16,7 @@ const { config } = require("./config");
 
 admin.initializeApp();
 
-const VERSION = "1.0.93";
+const VERSION = "1.0.94";
 const API_KEY_NAME = "x-api-key"
 
 const unauthorized = (res) => res.status(401).send('unauthorised');

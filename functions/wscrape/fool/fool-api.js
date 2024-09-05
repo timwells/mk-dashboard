@@ -85,14 +85,9 @@ const getDataImpl = async (
     try {
         const { data } = await axios.get(resource,{ headers: HEADERS});
 
-        //console.log("getDataImpl - Provider",data.Provider)
-        //console.log("getDataImpl - ChartBars",data.ChartBars[0])
-        //console.log("getDataImpl - ChartBars",data.ChartBars.length,data.ChartBars[0])
-
-        // eliminate nulls by reducing and re-formatting as ohlc
+        // Process and exclude ohlc close null data
         const ohlcSeries = data.ChartBars.reduce((arr,e) => {
-            // Process none null data
-            // if(e.Open !== null && e.Close !== null) {
+            // Process and exclude ohlc close null data
             if(e.Close !== null) {
                 arr.push({
                     // time:  new Date(e.PricingDate).getTime(),
@@ -102,14 +97,35 @@ const getDataImpl = async (
                     close: +e.Close.Amount.toFixed(2),
                     low:   (e.Low != null) ? +e.Low.Amount.toFixed(2): +e.Close.Amount.toFixed(2),
                 })
-            }
-            else {
-                console.log("getDataImpl - skip invalid data",e)
-            }
+            } return arr;
+        }, []);
+
+        // Process and exclude VWAP null data
+        const vwapSeries = data.ChartBars.reduce((arr,e) => {
+            if(e.VWAP !== null) { arr.push({time: e.PricingDate, value: +e.VWAP.toFixed(3)}); } 
             return arr;
         }, []);
 
-        //console.log("getDataImpl - ohlcSeries",ohlcSeries.length)
+        // Process Volume
+        const volSeries = data.ChartBars.reduce((arr,e) => {
+            if(e.Volume !== null) { 
+                if((e.Open != null) && (e.Close != null)) {
+                    let direction = 0;
+                    // console.log("O",e.Open.Amount, "C",e.Close.Amount)                
+                    if (e.Close.Amount > e.Open.Amount) {direction = 1;}       // 'Up Day' - Green volume bar
+                    else if (e.Close.Amount < e.Open.Amount) {direction = -1;} //'Down Day' Red volume bar
+                    else {direction = 0;}                        // Gray or no specific color
+                    
+                    arr.push({
+                        time: e.PricingDate, 
+                        value: +e.Volume.toFixed(0),
+                        direction: direction
+                    });
+                }
+            } 
+            return arr;
+        }, []);
+
         const closeValues = ohlcSeries.map((e) => e.close)
 
         // Calculate SMA
@@ -121,17 +137,17 @@ const getDataImpl = async (
         const ema10 = EMA.calculate({period:10, values: closeValues})
 
         return { 
-            ohcl: ohlcSeries,      
+            ohcl: ohlcSeries,
+            vwap: vwapSeries,
+            vol: volSeries,
             ta : [
-                    { name: "sma-50", series: seriesTA(ohlcSeries,sma50)  },
-                    { name: "sma-100", series: seriesTA(ohlcSeries,sma100) },
-                    { name: "sma-200", series: seriesTA(ohlcSeries,sma200) },
-                    { name: "ema-10", series: seriesTA(ohlcSeries,ema10)   },
+                    { name: "sma-50",  series: seriesTA(ohlcSeries, sma50)  },
+                    { name: "sma-100", series: seriesTA(ohlcSeries, sma100) },
+                    { name: "sma-200", series: seriesTA(ohlcSeries, sma200) },
+                    { name: "ema-10",  series: seriesTA(ohlcSeries, ema10)  },
             ]       
         }
-    } catch (err) {
-        return err;
-    }
+    } catch (err) { return err; }
 }
 
 module.exports = {

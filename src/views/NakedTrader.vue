@@ -25,8 +25,8 @@
 							class='table table-small' style="margin: 0; background-color: white;">				
 							<template slot="expandedRowRender" slot-scope="record">
 								<a-tabs default-active-key="1">
-									<a-tab-pane key="1" tab="TradeView">
-										<a :href="tradeView(record.epic)" target="_blank">{{record.epic}}</a>
+									<a-tab-pane key="1" tab="Fundimentals">
+										<CardTVStockChart2 :epic="record.epic"/>
 									</a-tab-pane>
 									<a-tab-pane key="2" tab="Broker View">
 										<WidgetTradingViewBrokerAnalysis :symbol="fullSymbol(record.epic)"/>
@@ -37,9 +37,9 @@
 									<a-tab-pane key="4" tab="Price">
 										<card-price-info :epic="lseSymbol(record.epic)"></card-price-info>
 									</a-tab-pane>
-									<a-tab-pane key="5" tab="TV-Light">
-										<CardTVStockChart2 :epic="record.epic"/>
-									</a-tab-pane>
+									<!--a-tab-pane key="2" tab="TradeView">
+										<a :href="tradeView(record.epic)" target="_blank">{{record.epic}}</a>
+									</a-tab-pane-->
 								</a-tabs>
 							</template>
 
