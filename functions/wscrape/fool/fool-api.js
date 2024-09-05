@@ -84,22 +84,32 @@ const getDataImpl = async (
     const resource = `${API_HOST}/${API_HISTORICAL_PATH}/${exchange}:${symbol}?apikey=${API_KEY}&precision=${precision}&timeFrame=${period}`;
     try {
         const { data } = await axios.get(resource,{ headers: HEADERS});
+
+        //console.log("getDataImpl - Provider",data.Provider)
+        //console.log("getDataImpl - ChartBars",data.ChartBars[0])
+        //console.log("getDataImpl - ChartBars",data.ChartBars.length,data.ChartBars[0])
+
         // eliminate nulls by reducing and re-formatting as ohlc
         const ohlcSeries = data.ChartBars.reduce((arr,e) => {
             // Process none null data
-            if(e.Open !== null && e.Close !== null) {
+            // if(e.Open !== null && e.Close !== null) {
+            if(e.Close !== null) {
                 arr.push({
                     // time:  new Date(e.PricingDate).getTime(),
                     time:  e.PricingDate,
-                    open:  +e.Open.Amount.toFixed(2),
-                    high:  +e.High.Amount.toFixed(2),
+                    open:  (e.Open != null) ? +e.Open.Amount.toFixed(2) : +e.Close.Amount.toFixed(2),
+                    high:  (e.High != null) ? +e.High.Amount.toFixed(2) : +e.Close.Amount.toFixed(2),
                     close: +e.Close.Amount.toFixed(2),
-                    low:   +e.Low.Amount.toFixed(2)
+                    low:   (e.Low != null) ? +e.Low.Amount.toFixed(2): +e.Close.Amount.toFixed(2),
                 })
+            }
+            else {
+                console.log("getDataImpl - skip invalid data",e)
             }
             return arr;
         }, []);
 
+        //console.log("getDataImpl - ohlcSeries",ohlcSeries.length)
         const closeValues = ohlcSeries.map((e) => e.close)
 
         // Calculate SMA
@@ -111,13 +121,13 @@ const getDataImpl = async (
         const ema10 = EMA.calculate({period:10, values: closeValues})
 
         return { 
-            ohcl: ohlcSeries,
+            ohcl: ohlcSeries,      
             ta : [
                     { name: "sma-50", series: seriesTA(ohlcSeries,sma50)  },
                     { name: "sma-100", series: seriesTA(ohlcSeries,sma100) },
                     { name: "sma-200", series: seriesTA(ohlcSeries,sma200) },
                     { name: "ema-10", series: seriesTA(ohlcSeries,ema10)   },
-            ]        
+            ]       
         }
     } catch (err) {
         return err;

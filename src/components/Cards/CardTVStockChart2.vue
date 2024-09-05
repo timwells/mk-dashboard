@@ -16,14 +16,16 @@ export default ({
 	},
 	watch: {
 		chartData(newVal,oldVal) {
-			this.candlestickSeries.setData(newVal.ohcl)
-			this.sma50Series.setData(newVal.ta.find(e => e.name=="sma-50").series)
-			this.sma100Series.setData(newVal.ta.find(e => e.name=="sma-100").series)
-			this.sma200Series.setData(newVal.ta.find(e => e.name=="sma-200").series)
+			if(newVal != null) {
+				this.candlestickSeries.setData(newVal.ohcl)
+				this.sma50Series.setData(newVal.ta.find(e => e.name == "sma-50").series)
+				this.sma100Series.setData(newVal.ta.find(e => e.name == "sma-100").series)
+				this.sma200Series.setData(newVal.ta.find(e => e.name == "sma-200").series)
 
-			this.ema10Series.setData(newVal.ta.find(e => e.name=="ema-10").series)
+				this.ema10Series.setData(newVal.ta.find(e => e.name == "ema-10").series)
 
-			this.chart.timeScale().fitContent();
+				this.chart.timeScale().fitContent();
+			}
 		}
 	},
 	computed: {
