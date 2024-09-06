@@ -18,8 +18,11 @@ const hlServices = require('./hl-fund-services.js')
 // let result = hlServices['scanFunds'](0)
 //let result = hlServices['getFundDetailsTest']()
 // let result = hlServices['mergeFunds']()
-let result = hlServices['validateFunds']()
+//let result = hlServices['validateFunds']()
 // let result = hlServices['reformatFunds']()
+
+let result = hlServices['queryFunds']()
+
 result.then((d) => { 
     console.log("done...") 
 })

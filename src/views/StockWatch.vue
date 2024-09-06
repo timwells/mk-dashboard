@@ -25,7 +25,7 @@
 					<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
 						<a-tabs default-active-key="1">
 							<a-tab-pane key="1" tab="Trade View">
-								<a :href="tradeView(record)" target="_blank">{{record.n}}</a>
+								<CardTVStockChart2 :epic="shortSymbol(record)"/>
 							</a-tab-pane>
 							<a-tab-pane key="2" tab="Broker View">
 								<WidgetTradingViewBrokerAnalysis 
@@ -93,13 +93,14 @@ import WidgetTradingViewTechAnalysis from "@/components/Widgets/WidgetTradingVie
 import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
 import WidgetTradingViewMiniChart from "@/components/Widgets/WidgetTradingViewMiniChart"
 import WidgetTradingViewFinancials from "@/components/Widgets/WidgetTradingViewFinancials"
-
+import CardTVStockChart2 from "@/components/Cards/CardTVStockChart2.vue";
 export default ({
 	components: {
 		WidgetTradingViewTechAnalysis,
 		WidgetTradingViewBrokerAnalysis,
 		WidgetTradingViewMiniChart,
-		WidgetTradingViewFinancials
+		WidgetTradingViewFinancials,
+		CardTVStockChart2
 	},
 	computed: {
     	...mapState("stockwatch", ["stockWatches"]),
@@ -135,6 +136,12 @@ export default ({
 		tradeView(epic) {
 			// return ""
 			return `https://www.tradingview.com/chart/${this.userSecrets.tradingviewid}?symbol=${this.fullSymbol(epic)}&utm_source=www.tradingview.com&utm_medium=widget&utm_campaign=chart&utm_term=${this.fullSymbol(epic)}`
+		},
+		shortSymbol(record) {
+			//console.log(s)
+			//let ss = s.n.split(":")[1].split(".")[0]
+			//console.log(ss)
+			return record.n.split(".")[0]
 		},
 		expandedRowsChange(r) {},
 		onExpand(exp,r) { },

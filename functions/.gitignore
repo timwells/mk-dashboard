@@ -2,7 +2,7 @@ node_modules/
 .cache/
 config.js
 mk-d-b59f2-default-rtdb-export.json
-scrape-dev/
+scrape-dev
 
 # Log files
 firebase-debug*.log
