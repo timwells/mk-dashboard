@@ -1,11 +1,11 @@
 <template>
-	<a-tabs v-if="markets" default-active-key="1">
+	<a-tabs v-if="markets.length>0" default-active-key="1">
 		<a-tab-pane key="1" tab="Sentiment">
-			<a href="https://edition.cnn.com/markets/fear-and-greed" target="_blank">Click for: 'CNN Market Insights' - <span v-if="sentiment">{{ sentiment.fear_and_greed.timestamp }}</span></a>
+			<a href="https://edition.cnn.com/markets/fear-and-greed" target="_blank">Click for: 'CNN Market Insights' - <span v-if="sentiment!=null">{{ sentiment.fear_and_greed.timestamp }}</span></a>
 			<!--pre v-if="sentiment">{{ sentiment.fear_and_greed }}</pre-->
-			<a-row v-if="sentiment" :gutter="24">
+			<a-row v-if="sentiment!=null" :gutter="24">
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
-					<WidgetCounter 
+					<WidgetCounter v-if="sentiment!=null"
 						title='Fear & Greed Today'
 						:value="sentiment.fear_and_greed.score" 
 						prefix="" 

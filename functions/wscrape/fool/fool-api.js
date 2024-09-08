@@ -84,19 +84,45 @@ const getDataImpl = async (
     const resource = `${API_HOST}/${API_HISTORICAL_PATH}/${exchange}:${symbol}?apikey=${API_KEY}&precision=${precision}&timeFrame=${period}`;
     try {
         const { data } = await axios.get(resource,{ headers: HEADERS});
-        // eliminate nulls by reducing and re-formatting as ohlc
+
+        // Process and exclude ohlc close null data
         const ohlcSeries = data.ChartBars.reduce((arr,e) => {
-            // Process none null data
-            if(e.Open !== null && e.Close !== null) {
+            // Process and exclude ohlc close null data
+            if(e.Close !== null) {
                 arr.push({
                     // time:  new Date(e.PricingDate).getTime(),
                     time:  e.PricingDate,
-                    open:  +e.Open.Amount.toFixed(2),
-                    high:  +e.High.Amount.toFixed(2),
+                    open:  (e.Open != null) ? +e.Open.Amount.toFixed(2) : +e.Close.Amount.toFixed(2),
+                    high:  (e.High != null) ? +e.High.Amount.toFixed(2) : +e.Close.Amount.toFixed(2),
                     close: +e.Close.Amount.toFixed(2),
-                    low:   +e.Low.Amount.toFixed(2)
+                    low:   (e.Low != null) ? +e.Low.Amount.toFixed(2): +e.Close.Amount.toFixed(2),
                 })
-            }
+            } return arr;
+        }, []);
+
+        // Process and exclude VWAP null data
+        const vwapSeries = data.ChartBars.reduce((arr,e) => {
+            if(e.VWAP !== null) { arr.push({time: e.PricingDate, value: +e.VWAP.toFixed(3)}); } 
+            return arr;
+        }, []);
+
+        // Process Volume
+        const volSeries = data.ChartBars.reduce((arr,e) => {
+            if(e.Volume !== null) { 
+                if((e.Open != null) && (e.Close != null)) {
+                    let direction = 0;
+                    // console.log("O",e.Open.Amount, "C",e.Close.Amount)                
+                    if (e.Close.Amount > e.Open.Amount) {direction = 1;}       // 'Up Day' - Green volume bar
+                    else if (e.Close.Amount < e.Open.Amount) {direction = -1;} //'Down Day' Red volume bar
+                    else {direction = 0;}                        // Gray or no specific color
+                    
+                    arr.push({
+                        time: e.PricingDate, 
+                        value: +e.Volume.toFixed(0),
+                        direction: direction
+                    });
+                }
+            } 
             return arr;
         }, []);
 
@@ -119,6 +145,8 @@ const getDataImpl = async (
 
         return { 
             ohcl: ohlcSeries,
+            vwap: vwapSeries,
+            vol: volSeries,
             ta : [
                     { name: "sma-20", series: seriesTA(ohlcSeries,sma20)  },
                     { name: "sma-50", series: seriesTA(ohlcSeries,sma50)  },
@@ -134,9 +162,7 @@ const getDataImpl = async (
                     { name: "ema-10", series: seriesTA(ohlcSeries,ema10)   },
             ]        
         }
-    } catch (err) {
-        return err;
-    }
+    } catch (err) { return err; }
 }
 
 module.exports = {

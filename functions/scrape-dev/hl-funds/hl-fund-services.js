@@ -7,6 +7,9 @@
 const cheerio = require('cheerio');
 const axios = require('axios')
 const c = require('../common/c');
+
+const {APP_FINTECH_HEADERS} = require("../secrets.js")
+
 const LTIME = 100
 const HTIME = 160
 
@@ -462,11 +465,47 @@ async function getFundDetailsTest() {
     await GetFundDetail(0,"jupiter",path) 
 }
 
+async function queryFundsCount() {
+    const urlFundsCount = "http://127.0.0.1:5001/mk-d-b59f2/us-central1/fintech/v1/scrape/hl/fundscount"
+    const {data} = await axios.get(urlFundsCount,{headers: APP_FINTECH_HEADERS})
+    return data;
+}
+async function queryFunds() {
+    // How many Funds?
+    let resp = await queryFundsCount()
+    console.log(resp)
+    const totalFunds = resp.fundsCount
+    const PAGE_SIZE = 60
+    const nFullPages = Math.floor(totalFunds/PAGE_SIZE)
+    const nPartPage = Math.floor(totalFunds%PAGE_SIZE)
+
+    console.log("queryFunds:",totalFunds,nFullPages,nPartPage)
+
+    let start = 0
+    let rpp = PAGE_SIZE
+
+    while(start < totalFunds) {
+        rpp = ((start + PAGE_SIZE) < totalFunds) ? PAGE_SIZE : totalFunds - start;
+        resource = `http://127.0.0.1:5001/mk-d-b59f2/us-central1/fintech/v1/scrape/hl/fundspage?start=${start}&rpp=${rpp}`
+        console.log(resource)
+        const { data } = await axios.get(resource,{headers: APP_FINTECH_HEADERS})
+        // console.log(data)
+        if(data != null) {
+            console.log(data.source,data.data.funds.length)
+        }
+        start += rpp
+        // await cModule.sleep(900)
+    }
+}
+
 module.exports = {
     scanFunds,
     mergeFunds,
     validateFunds,
     cleanFunds,
     reformatFunds,
-    getFundDetailsTest
+    getFundDetailsTest,
+
+    queryFundsCount,
+    queryFunds
 }

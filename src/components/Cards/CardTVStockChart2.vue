@@ -16,22 +16,25 @@ export default ({
 	},
 	watch: {
 		chartData(newVal,oldVal) {
-			this.candlestickSeries.setData(newVal.ohcl)
+			if(newVal != null) {
+				this.candlestickSeries.setData(newVal.ohcl)
+				this.sma50Series.setData(newVal.ta.find(e => e.name == "sma-50").series)
+				this.sma100Series.setData(newVal.ta.find(e => e.name == "sma-100").series)
+				this.sma200Series.setData(newVal.ta.find(e => e.name == "sma-200").series)
 
-			this.sma20Series.setData(newVal.ta.find(e => e.name=="sma-20").series)
-			this.sma50Series.setData(newVal.ta.find(e => e.name=="sma-50").series)
-			this.sma75Series.setData(newVal.ta.find(e => e.name=="sma-75").series)
-			this.sma100Series.setData(newVal.ta.find(e => e.name=="sma-100").series)
-			this.sma125Series.setData(newVal.ta.find(e => e.name=="sma-125").series)
-			this.sma150Series.setData(newVal.ta.find(e => e.name=="sma-150").series)
-			this.sma175Series.setData(newVal.ta.find(e => e.name=="sma-175").series)
-			this.sma200Series.setData(newVal.ta.find(e => e.name=="sma-200").series)
-			this.sma225Series.setData(newVal.ta.find(e => e.name=="sma-225").series)
-			this.sma250Series.setData(newVal.ta.find(e => e.name=="sma-250").series)
+				this.ema10Series.setData(newVal.ta.find(e => e.name == "ema-10").series)
+			
+				// this.vwapSeries.setData(newVal.vwap)
+				console.log(newVal.vol)
+				this.volSeries.setData(newVal.vol.map((v) => ({ 
+						time: v.time, 
+						value: v.value, 
+						color: (v.direction == 1 ? 'green' : (v.direction == -1) ? 'red': 'grey')	  
+				})))
 
-			this.ema10Series.setData(newVal.ta.find(e => e.name=="ema-10").series)
 
-			this.chart.timeScale().fitContent();
+				this.chart.timeScale().fitContent();
+			}
 		}
 	},
 	computed: {
@@ -55,7 +58,8 @@ export default ({
 
 
 			ema10Series,
-		
+			vwapSeries,
+			volSeries,
 			// https://github.com/tradingview/lightweight-charts/blob/v2.0.0/docs/customization.md#date-format
 			chartProperties: {
 				timeScale: { timeVisible: true, secondsVisible: false},
@@ -78,32 +82,26 @@ export default ({
 
 		// Create a line series and set initial data
 		this.candlestickSeries = this.chart.addCandlestickSeries();
+		this.sma50Series = this.chart.addLineSeries({color:'blue',lineWidth:1,title:"sma-50"});
+		this.sma100Series = this.chart.addLineSeries({color:'red',lineWidth:1,title:"sma-100"});
+		this.sma200Series = this.chart.addLineSeries({color:'orange',lineWidth:1,title:"sma-200"});
+		this.ema10Series = this.chart.addLineSeries({color:'green',lineWidth:1,title:"ema-10"});
+		// this.vwapSeries = this.chart.addLineSeries({color:'black',lineWidth:1,title:"vwap"});
+		// this.volSeries = this.chart.addHistogramSeries({overlay: true});
+		this.volSeries = this.chart.addHistogramSeries({
+			color: '#2196F3', // Blue color for histogram bars
+    		lineWidth: 2,
+    		priceFormat: {
+    			type: 'volume',
+    		},
+    		// overlay: true, // Allows histogram to overlay on candlestick series
 
-		this.sma20Series = this.chart.addLineSeries({color:'red',lineWidth:1,title:"sma-20"});
-		this.sma50Series = this.chart.addLineSeries({color:'green',lineWidth:1,title:"sma-50"});
-		this.sma75Series = this.chart.addLineSeries({color:'blue',lineWidth:1,title:"sma-75"});
-		this.sma100Series = this.chart.addLineSeries({color:'orange',lineWidth:1,title:"sma-100"});
-		this.sma125Series = this.chart.addLineSeries({color:'purple',lineWidth:1,title:"sma-125"});
-		this.sma150Series = this.chart.addLineSeries({color:'yellow',lineWidth:1,title:"sma-150"});
-		this.sma175Series = this.chart.addLineSeries({color:'cyan',lineWidth:1,title:"sma-175"});
-		this.sma200Series = this.chart.addLineSeries({color:'magenta',lineWidth:1,title:"sma-200"});
-		this.sma225Series = this.chart.addLineSeries({color:'teal',lineWidth:1,title:"sma-225"});
-		this.sma250Series = this.chart.addLineSeries({color:'black',lineWidth:2,title:"sma-250"});
-
-/*
-Red - #FF0000
-Green - #008000
-Blue - #0000FF
-Orange - #FFA500
-Purple - #800080
-Yellow - #FFFF00
-Cyan - #00FFFF
-Magenta - #FF00FF
-Teal - #008080
-Black - #000000		
-*/
-		this.ema10Series = this.chart.addLineSeries({color:'brown',lineWidth:2,title:"ema-10"});
-
+			priceScaleId: 'left', // Use the left price scale
+            scaleMargins: {
+                top: 0.7, // Push the histogram to the bottom
+                bottom: 0,
+            },
+		})
 		this.$store.dispatch("fool/getChartData",{symbol:this.epic});
   	},
   	beforeDestroy() {

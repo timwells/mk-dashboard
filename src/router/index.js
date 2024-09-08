@@ -284,28 +284,31 @@ router.beforeEach(async (to, from, next) => {
 	const userRole = store.getters['auth/role']
 
 	console.log(`to:${to.path}, from:${from.path}`);
-	
-	if (to.path == from.path) {
-		next(false); // Cancel the navigation
-		return
-	}
+	try {
+		if (to.path == from.path) {
+			next(false); // Cancel the navigation
+			return
+		}
 
-	if (!requiresAuth) {
-		next(); // Route does not require authentication
-		return
-	}
+		if (!requiresAuth) {
+			next(); // Route does not require authentication
+			return
+		}
 
-	if (!isAuthenticated) {
-		next('sign-in'); // User is not authenticated
-		return
-	}
+		if (!isAuthenticated) {
+			next('sign-in'); // User is not authenticated
+			return
+		}
 
-	if (roles && !roles.some((role) => userRole.includes(role))) {
-		// User is authenticated but doesn't have any of the required roles
-		// next({ name: 'home' });
-		console.log("Route Blocked - Requires admin")
-	} else {
-		next(); // User is authenticated and has at least one of the required roles
+		if (roles && !roles.some((role) => userRole.includes(role))) {
+			// User is authenticated but doesn't have any of the required roles
+			// next({ name: 'home' });
+			console.log("Route Blocked - Requires admin")
+		} else {
+			next(); // User is authenticated and has at least one of the required roles
+		}
+	} catch(e) {
+		console.log(e)
 	}
 })
 
