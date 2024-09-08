@@ -26,6 +26,7 @@
 							<template slot="expandedRowRender" slot-scope="record">
 								<a-tabs default-active-key="1">
 									<a-tab-pane key="1" tab="Fundimentals">
+										<pre>{{ record.epic }}</pre>
 										<CardTVStockChart2 :epic="record.epic"/>
 									</a-tab-pane>
 									<a-tab-pane key="2" tab="Broker View">
