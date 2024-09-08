@@ -114,7 +114,7 @@ const getDataImpl = async (
                     // console.log("O",e.Open.Amount, "C",e.Close.Amount)                
                     if (e.Close.Amount > e.Open.Amount) {direction = 1;}       // 'Up Day' - Green volume bar
                     else if (e.Close.Amount < e.Open.Amount) {direction = -1;} //'Down Day' Red volume bar
-                    else {direction = 0;}                        // Gray or no specific color
+                    else {direction = 0;}                                      // Gray or no specific color
                     
                     arr.push({
                         time: e.PricingDate, 
