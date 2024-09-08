@@ -101,11 +101,18 @@ const getDataImpl = async (
         }, []);
 
         const closeValues = ohlcSeries.map((e) => e.close)
-
+// 20 50 75 100 125 150 175 200 225 250
         // Calculate SMA
+        const sma20 = SMA.calculate({period:20, values: closeValues})
         const sma50 = SMA.calculate({period:50, values: closeValues})
+        const sma75 = SMA.calculate({period:75, values: closeValues})
         const sma100 = SMA.calculate({period:100, values: closeValues})
+        const sma125 = SMA.calculate({period:125, values: closeValues})
+        const sma150 = SMA.calculate({period:150, values: closeValues})
+        const sma175 = SMA.calculate({period:175, values: closeValues})
         const sma200 = SMA.calculate({period:200, values: closeValues})
+        const sma225 = SMA.calculate({period:225, values: closeValues})
+        const sma250 = SMA.calculate({period:250, values: closeValues})
 
         // Calculate EMA
         const ema10 = EMA.calculate({period:10, values: closeValues})
@@ -113,9 +120,17 @@ const getDataImpl = async (
         return { 
             ohcl: ohlcSeries,
             ta : [
+                    { name: "sma-20", series: seriesTA(ohlcSeries,sma20)  },
                     { name: "sma-50", series: seriesTA(ohlcSeries,sma50)  },
+                    { name: "sma-75", series: seriesTA(ohlcSeries,sma75)  },
                     { name: "sma-100", series: seriesTA(ohlcSeries,sma100) },
+                    { name: "sma-125", series: seriesTA(ohlcSeries,sma125) },
+                    { name: "sma-150", series: seriesTA(ohlcSeries,sma150) },
+                    { name: "sma-175", series: seriesTA(ohlcSeries,sma175) },
                     { name: "sma-200", series: seriesTA(ohlcSeries,sma200) },
+                    { name: "sma-225", series: seriesTA(ohlcSeries,sma225) },
+                    { name: "sma-250", series: seriesTA(ohlcSeries,sma250) },
+
                     { name: "ema-10", series: seriesTA(ohlcSeries,ema10)   },
             ]        
         }
