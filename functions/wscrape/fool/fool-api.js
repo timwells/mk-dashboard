@@ -127,7 +127,6 @@ const getDataImpl = async (
         }, []);
 
         const closeValues = ohlcSeries.map((e) => e.close)
-// 20 50 75 100 125 150 175 200 225 250
         // Calculate SMA
         const sma20 = SMA.calculate({period:20, values: closeValues})
         const sma50 = SMA.calculate({period:50, values: closeValues})
