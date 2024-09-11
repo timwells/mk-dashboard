@@ -61,8 +61,7 @@ async function processResultsRequest(url,holders) {
 }
 
 const prizeResults = async (holders) => {
-    let results = await processResultsRequest(PB_RESULTS_PATH,holders)
-    return results;
+    return await processResultsRequest(PB_RESULTS_PATH,holders)
 }
 
 const nextPrizeDraw = async (req, res) => {

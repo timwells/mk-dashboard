@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(checkApiKey);
 
 app.get('/results', async (req, res) => {
-    const {holders} = req.query;
+    const { holders } = req.query;
     let results = await pbApi.prizeResults(holders)
     return res.status(200).json(results)
 });

@@ -78,7 +78,11 @@
       "source": "function-tge",
       "codebase": "tge",
       "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+    },
+    {
+      "source": "function-ltt",
+      "codebase": "ltt",
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
     }
-
   ]
 }

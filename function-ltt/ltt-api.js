@@ -1,6 +1,8 @@
 const axios = require('axios')
+const cheerio = require('cheerio')
+
 //const cModule = require('./common/c.js');
-const CCM = require('./common/cache-mgt.js');
+//const CCM = require('./common/cache-mgt.js');
 //const { Storage } = require('@google-cloud/storage');
 //const { Readable } = require('stream');
 
@@ -18,9 +20,7 @@ https://www.longtermtrends.net/data-dow-gdp-ratio/
 https://www.longtermtrends.net/data-cyclical-vs-defensive-stocks-ratio/
 https://www.longtermtrends.net/data-cyclical-vs-defensive-stocks-ratio/
 https://www.longtermtrends.net/data-60-40-stocks-bonds-portfolio/
-
 https://www.longtermtrends.net/data-stocks-vs-bonds-correlation/
-
 */
 
 const MOVING_AVERAGE_125 = 125
@@ -102,6 +102,7 @@ const periods = 3; // Number of periods for EMA
 const emaLine = exponentialMovingAverage(data, periods);
 */
 
+/*
 function expMA(data, periods) {
     // Ensure the data is sorted by date
     // data.sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -124,6 +125,7 @@ function expMA(data, periods) {
 
     return emaData;
 }
+*/
 
 // const trend = averageExponentialTrend(data);
 /*
@@ -187,7 +189,7 @@ const _longtermtrends = async (req,res) => {
     res.status(200).json(obj);
 }
 */
-
+/*
 const longtermtrends = async (req,res) => {
     const datasetname = req.query.dataset;
     const url = `${LTT_HOST}/${datasetname}`
@@ -199,6 +201,7 @@ const longtermtrends = async (req,res) => {
     const cacheAge = CCM.CACHE_AGE
     const cacheTag = datasetname
     const live = validateBoolParameter(req.query.live, ['true', 'false']) && req.query.live === 'true';
+*/
 /*
     console.log("webResource:",webResource)
     console.log("webResourceTimeout:",webResourceTimeout)
@@ -207,7 +210,8 @@ const longtermtrends = async (req,res) => {
     console.log("cacheAge:",cacheAge)
     console.log("cacheTag:",cacheTag)
 */
-    try {
+/*
+try {
         const cacheResponse = await CCM.queryResourceStatus(cacheBucket,cacheResource);
         const hotRequest = (cacheResponse.expired || live)
         let statusCode = 200
@@ -244,16 +248,33 @@ const longtermtrends = async (req,res) => {
         return res.status(statusCode).json(dataObj)
     }        
 }
+*/
 
-const test = async (req, res) => {
-    res.status(200).send("test - longtermtrends");
+const thumbnails = async (req, res) => {
+    const { data } = await axios.get(LTT_HOST)
+    const $ = cheerio.load(data)
+    let cards = $('div.card.row')
+    let thumbnails = []
+    $(cards).each((i,card) => {
+        let title = $(card).find('img').attr("alt");
+        let src = $(card).find('img').attr("src");
+        let footNote = $(card).find('p.card-text').text();
+        thumbnails.push({title: title, src: `${LTT_HOST}${src}`, footnote: footNote })
+    })
+
+    return thumbnails;
 }
 
 const test1 = async (req, res) => {
     res.status(200).send("test1 - longtermtrends");
 }
 
+const test = async (req, res) => {
+    res.status(200).send("test - longtermtrends");
+}
+
 module.exports = {
     test,
-    longtermtrends,
+    thumbnails,
+    // longtermtrends,
 }
