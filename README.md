@@ -24,3 +24,7 @@ business cycle information:
 https://www.nber.org/research/data/us-business-cycle-expansions-and-contractions
 https://www.nber.org/programs-projects/programs-working-groups/monetary-economics?page=1&perPage=50
 https://ec.europa.eu/eurostat/cache/bcc/bcc.html
+
+
+Volitility Indexes
+https://www.cboe.com/tradable_products/vix/vix_historical_data/

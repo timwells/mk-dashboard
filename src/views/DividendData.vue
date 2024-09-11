@@ -39,14 +39,11 @@
 						</a-button>
 					</div>
 					<a-icon
-					slot="filterIcon"
-					slot-scope="filtered"
-					type="search"
-					:style="{ color: filtered ? '#108ee9' : undefined }"
+						slot="filterIcon"
+						slot-scope="filtered"
+						type="search"
+						:style="{ color: filtered ? '#108ee9' : undefined }"
 					/>
-
-
-
 					<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
 						<a-tabs default-active-key="1">
 							<a-tab-pane key="1" tab="Trade View">
@@ -165,7 +162,7 @@ export default ({
 		WidgetIntrinsicCalculator
 	},
 	computed: {
-    	...mapState("divd", ["dividendData"])	
+    	...mapState("dd", ["dividendData"])	
 	},
 	watch: {
         dividendData(o,n) {
@@ -222,7 +219,7 @@ export default ({
 	},	
 	mounted() {
 		this.loading = true
-		this.$store.dispatch("divd/getDividendData")
+		this.$store.dispatch("dd/getDividendData")
 	}
 })
 </script>

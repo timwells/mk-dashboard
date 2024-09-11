@@ -12,17 +12,10 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<!--a-tab-pane key="2" tab="MyMap">
-			<a-row :gutter="24" type="flex">
-				<a-col :span="24" class="mb-24">
-					<CardMultiChart v-if="funddata.length>0" id="mymap" :dataset="funddata"></CardMultiChart>
-				</a-col>
-			</a-row>
-		</a-tab-pane-->
 		<a-tab-pane key="2" tab="MyMapTV">
 			<a-row :gutter="24" type="flex">
 				<a-col :span="24" class="mb-24">
-					<CardTVLineChart v-if="funddata2.length>0"/>
+					<CardTVLineChart v-if="mymapfunds.length>0"/>
 				</a-col>
 			</a-row>
 		</a-tab-pane>
@@ -46,7 +39,7 @@ export default ({
 	},
 	computed: {
     	...mapState("funds", ["funds"]),
-    	...mapState("ft", ["funddata","funddata2"]),
+    	...mapState("ft", ["mymapfunds"]),
 	},
 	data() {
 		return {
@@ -56,8 +49,7 @@ export default ({
 	},
 	mounted() {
 		this.$store.dispatch("funds/getFunds");
-		// this.$store.dispatch("ft/getFundData");
-		this.$store.dispatch("ft/getFundData2");
+		this.$store.dispatch("ft/getMyMapfunds");
 	}
 })
 </script>

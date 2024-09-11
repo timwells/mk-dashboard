@@ -43,33 +43,15 @@ const actions = {
         }
       }).catch((error) => { console.error(error); });
   },
-  async getSahmRealTime({ commit }) {
-    commit("SET_SAHMREALTIME", null);
-    const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/fed/sahmrealtime`, 
-                                                                    { headers: APP_FINTECH_HEADERS })
-    commit("SET_SAHMREALTIME", data)
-  },
-  async getUnRate({ commit }) {
-    commit("SET_UNRATE", null);
-    const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/fed/unrate`, 
-                                                                    { headers: APP_FINTECH_HEADERS })
-    commit("SET_UNRATE", data)
-  },
-  async getSahmRealTimeUnRate({ commit }) {
-    commit("SET_SAHMUNRATE", []);
-    const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/fed/sahmrealtimeunrate`, 
-                                                                    { headers: APP_FINTECH_HEADERS })                                                         
-    commit("SET_SAHMUNRATE", data)
-  },
   async getIndicators({ commit }) {
     commit("SET_INDICATORS", []);
-    const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/fed/indicators`, 
+    const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fed/indicators`, 
                                                                     { headers: APP_FINTECH_HEADERS })                                                                    
     commit("SET_INDICATORS", data)
   },
   async getApiUnRate({ commit }) {
     commit("SET_API_UNRATE", null);
-    const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/fed/observations?seriesId=UNRATE&frequency=m&units=pc1`, { headers: APP_FINTECH_HEADERS })
+    const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fed/observation?seriesId=UNRATE&frequency=m&units=pc1`, { headers: APP_FINTECH_HEADERS })
     commit("SET_API_UNRATE", data)
   },
   async getComposite({ commit }) {
@@ -82,7 +64,7 @@ const actions = {
     ]
     let seriesData = []
     for(let i = 0; i < seriesQuery.length; i++) {
-      const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/fed/observations?${seriesQuery[i]}`, { headers: APP_FINTECH_HEADERS })
+      const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fed/observation?${seriesQuery[i]}`, { headers: APP_FINTECH_HEADERS })
       seriesData.push(data)
     }
     commit("SET_COMPOSITE", seriesData)
@@ -98,7 +80,7 @@ const actions = {
     commit("SET_2Y10Y", null);
     let seriesData = []
     for(let i = 0; i < seriesQuery.length; i++) {
-      const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/fed/observations?${seriesQuery[i]}`, { headers: APP_FINTECH_HEADERS })
+      const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fed/observation?${seriesQuery[i]}`, { headers: APP_FINTECH_HEADERS })
       seriesData.push(data)
     }
     commit("SET_2Y10Y", seriesData)

@@ -5,8 +5,6 @@ const cheerio = require('cheerio');
 const TGE_COMMODITIES_HOST = "https://www.theglobaleconomy.com"
 const TGE_COMMODITIES_LIST = TGE_COMMODITIES_HOST + "/world/"
 
-
-
 const COMMODITY_MAP = new Map()
 COMMODITY_MAP.set("Energy",["oil","coal","gas",])
 COMMODITY_MAP.set("Staples",["oil","coal","gas",])

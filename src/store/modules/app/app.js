@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const _version = "v85";
+const _version = "v1";
 const state = {
   version: _version,
   cfversion: "",

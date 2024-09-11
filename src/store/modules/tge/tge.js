@@ -12,7 +12,7 @@ const mutations = {
 
 const actions = {
   async getCommodities({ commit }) {
-    await genericGet(`/fintech/v1/scrape/tge/commodities`,"SET_COMMODITIES",[],{commit})
+    await genericGet(`/tge/commodities`,"SET_COMMODITIES",[],{commit})
   },
 }
 

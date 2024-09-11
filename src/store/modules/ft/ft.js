@@ -6,25 +6,19 @@ import {
 } from "../common/c.js"
 
 const state = {
-    funddata: [],
-    funddata2: []
+    mymapfunds: []
 };
 
 const getters = {}
 
 const mutations = {
-  SET_FUND_DATA: (state, payload) => (state.funddata = payload),
-  SET_FUND_DATA2: (state, payload) => (state.funddata2 = payload),
+  SET_MYMAPFUNDS: (state, payload) => (state.mymapfunds = payload),
 };
 
 const actions = {
-  async getFundData({ commit }) {
-    const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/ft/funddata`, { headers: APP_FINTECH_HEADERS })
-    commit("SET_FUND_DATA", data)
-  },
-  async getFundData2({ commit }) {
-    const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/ft/funddata2`, { headers: APP_FINTECH_HEADERS })
-    commit("SET_FUND_DATA2", data)
+  async getMyMapfunds({ commit }) {
+    const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/ft/mymapfunds`, { headers: APP_FINTECH_HEADERS })
+    commit("SET_MYMAPFUNDS", data)
   },
 }
 

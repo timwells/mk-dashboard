@@ -1,10 +1,10 @@
 <template>
   <a-row :gutter="24" type="flex">
 		<a-col :span="24" class="mb-24">
-			<a-table v-if="holdingList(detail)"
+			<a-table v-if="holdingList(investor)"
 				:columns="holdingsCols" 
-				:data-source="holdingList(detail)" 
-				:pagination="pagination"
+				:data-source="holdingList(investor)" 
+				:pagination=false
 				:rowKey="(record,index) => index"
 
 				class='table table-small' style="margin: 0; background-color: white;">
@@ -59,30 +59,30 @@ import { mapGetters } from "vuex";
 
 export default ({
 	props: {
-		detail: {
+		investor: {
 			type: String,
 			default: "",
 		},
 	},
 
 	computed: {
-    	//...mapState("wscrape", ["dataromaHoldings","dataromaHoldingsMap"])
-		...mapGetters("wscrape",["holdings"]),
+		...mapGetters("drm",["holdings"]),
+	},
+	watch: {
 	},
   	data() {
     	return {
 			holdingsCols,
-			pagination: { pageSize: 80 },
    		}
   	},
 	methods: {
-		holdingList(key) {
+		holdingList(_investor) {
 			let h;
-			return (h = this.holdings(key)) ? h.data : null
+			return (h = this.holdings(_investor)) ? h.data : null
 		}
 	},
 	mounted() {
-  		this.$store.dispatch("wscrape/getDataromaHoldings",{ q: this.detail });
+  		this.$store.dispatch("drm/getHoldings",{ investor: this.investor });
 	}
 })
 </script>

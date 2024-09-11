@@ -16,13 +16,14 @@ const mutations = {
 
 const actions = {
   async getNakedTrades({ commit }) {
-    await genericGet(`/fintech/v1/scrape/nt/trades`,"SET_NAKED_TRADES",null,{commit})
+    // await genericGet(`/fintech/v1/scrape/nt/trades`,"SET_NAKED_TRADES",null,{commit})
+    await genericGet(`/nt/trades`,"SET_NAKED_TRADES",null,{commit})
   },
   async getNakedArchives({ commit }) {
-    await genericGet(`/fintech/v1/scrape/nt/archives`,"SET_NAKED_ARCHIVES",[],{commit})
+    await genericGet(`/nt/archives`,"SET_NAKED_ARCHIVES",[],{commit})
   },
   async getNakedArchiveContent({ commit },{ content }) {
-    await genericGet(`/fintech/v1/scrape/nt/archiveContent?a=${content}`,"SET_NAKED_ARCHIVE_CONTENT","",{commit})
+    await genericGet(`/nt/archiveContent?a=${content}`,"SET_NAKED_ARCHIVE_CONTENT","",{commit})
   },
 }
 

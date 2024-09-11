@@ -11,10 +11,10 @@ export const APP_CLOUD_FUNCTION_URL = process.env.VUE_APP_FIREBASE_FUNCTION_URL;
 export async function genericGet(subPath,service,init,{commit}) {
   const host = store.getters['auth/appSecrets'].fintech_host
   const apikey = store.getters['auth/appSecrets'].fintech_apikey
-
   commit(service, init);
-  let resp = await axios.get(`${host}${subPath}`,{ headers: { 'x-api-key': apikey} })
-  commit(service, resp.data)
+  const resource = `${host}${subPath}`
+  const {data} = await axios.get(resource,{ headers: { 'x-api-key': apikey} })
+  commit(service, data)
 }
 
 export async function genPOST(subPath,service,init, {payload}, {commit}) {

@@ -15,14 +15,12 @@ const getters = {
 }
   
 const mutations = {
-  SET_SENTIMENT_DATA: (state, payload) => { 
-    return (state.sentiment = payload) 
-  },
+  SET_SENTIMENT_DATA: (state, payload) => (state.sentiment = payload),
 };
   
 const actions = {
   async getSentiment({ commit }) {
-    await genericGet(`/fintech/v1/scrape/cnn/marketsentiment`,"SET_SENTIMENT_DATA",null,{commit})
+    await genericGet(`/cnn/marketsentiment`,"SET_SENTIMENT_DATA",null,{commit})
   },
 }
   

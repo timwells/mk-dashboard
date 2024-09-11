@@ -24,7 +24,15 @@ export default ({
 			type: Array,
 			default: () => [],
 		},
-		historicalMA125Data: {
+		historicalMA200Data: {
+			type: Array,
+			default: () => [],
+		},
+		historicalMA100Data: {
+			type: Array,
+			default: () => [],
+		},
+		historicalMA50Data: {
 			type: Array,
 			default: () => [],
 		},
@@ -39,7 +47,9 @@ export default ({
 		return {
 			series: [
 				{name: "MM", data: this.historicalData},
-				{name: "MA125", data: this.historicalMA125Data}
+				{name: "MA200", data: this.historicalMA200Data},
+				{name: "MA100", data: this.historicalMA100Data},
+				{name: "MA50", data: this.historicalMA50Data}
 			],
 			chartOptions: {
 				chart: { 

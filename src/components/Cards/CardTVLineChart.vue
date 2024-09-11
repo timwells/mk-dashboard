@@ -9,8 +9,9 @@ export default ({
 	components: {
 	},
 	watch: {
-		funddata2(newVal,oldVal) {
+		mymapfunds(newVal,oldVal) {
 			// console.log(newVal)
+			console.log(newVal)
 			this.myMap3.setData(newVal[0].data)
 			this.myMap3.applyOptions({title:newVal[0].name})
 			this.myMap4.setData(newVal[1].data)
@@ -26,7 +27,7 @@ export default ({
 		}
 	},
 	computed: {
-		...mapState("ft", ["funddata2"]),
+		...mapState("ft", ["mymapfunds"]),
 	},
 	data() {
 		return {
@@ -35,6 +36,12 @@ export default ({
 			candlestickSeries,
 			smaSeries,
 			emaSeries,
+			myMap3,
+			myMap4,
+			myMap5,
+			myMap6,
+			myMap7,
+
 			// https://github.com/tradingview/lightweight-charts/blob/v2.0.0/docs/customization.md#date-format
 			chartProperties: {
 				timeScale: { timeVisible: true, secondsVisible: false},
@@ -62,7 +69,7 @@ export default ({
 		this.myMap6 = this.chart.addLineSeries({color:'green',lineWidth:1,title:"myMap6"});
 		this.myMap7 = this.chart.addLineSeries({color:'red',lineWidth:1,title:"myMap7"});
 
-		this.$store.dispatch("ft/getFundData2");
+		this.$store.dispatch("ft/getMyMapfunds");
   	},
   	beforeDestroy() {
     	if (this.chart) {

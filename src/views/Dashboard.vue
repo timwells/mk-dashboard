@@ -1,8 +1,9 @@
 <template>
-	<a-tabs v-if="markets.length>0" default-active-key="1">
+	<a-tabs default-active-key="1">
 		<a-tab-pane key="1" tab="Sentiment">
-			<a href="https://edition.cnn.com/markets/fear-and-greed" target="_blank">Click for: 'CNN Market Insights' - <span v-if="sentiment!=null">{{ sentiment.fear_and_greed.timestamp }}</span></a>
-			<!--pre v-if="sentiment">{{ sentiment.fear_and_greed }}</pre-->
+			<!--pre>{{ sentiment.fear_and_greed }}</pre-->
+			<a href="https://edition.cnn.com/markets/fear-and-greed" 
+				target="_blank">Click for: 'CNN Market Insights' - <span v-if="sentiment.fear_and_greed">{{ sentiment.fear_and_greed.timestamp }}</span></a>
 			<a-row v-if="sentiment!=null" :gutter="24">
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
 					<WidgetCounter v-if="sentiment!=null"
@@ -49,7 +50,6 @@
 						:rating="sentiment.fear_and_greed_historical.rating"/>
 				</a-col>
 				<a-col v-if="sentiment!=null" :span="12" :lg="12" class="mb-12">
-					<!--pre>{{ sentiment.market_volatility_vix }}</pre-->
 					<CardVixLineChart :historicalData="sentiment.market_volatility_vix.data"
 						:score="sentiment.market_volatility_vix.score" 
 						:rating="sentiment.market_volatility_vix.rating"/>
@@ -59,7 +59,10 @@
 				<a-col v-if="sentiment!=null" :span="12" :lg="12" class="mb-12">
 					<CardSP500MomentumLineChart 
 						:historicalData="sentiment.market_momentum_sp500.data"
-						:historicalMA125Data="sentiment.market_momentum_sp500_MA125.data"
+						:historicalMA200Data="sentiment.market_momentum_sp500_MA200.data"
+						:historicalMA100Data="sentiment.market_momentum_sp500_MA100.data"
+						:historicalMA50Data="sentiment.market_momentum_sp500_MA50.data"
+
 						:score="sentiment.market_momentum_sp500.score" 
 						:rating="sentiment.market_momentum_sp500.rating"/>
 				</a-col>
@@ -73,7 +76,7 @@
 		<a-tab-pane key="2" tab="FED">
 			<CardFedComposite v-if="composite.length>0" :dataset="composite"></CardFedComposite>
 		</a-tab-pane>
-		<a-tab-pane key="3" tab="LSE - Performance">
+		<!--a-tab-pane key="3" tab="LSE - Performance">
 			<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
 				<div>
 					<a href="https://www.lse.co.uk/share-prices/sectors/" target="_blank">Click for: lse sector performance - 
@@ -100,7 +103,7 @@
 					<template slot="changePercent" slot-scope="changePercent">{{ changePercent }}</template>
 				</a-table>
 			</a-card>
-		</a-tab-pane>
+		</a-tab-pane-->
 		<a-tab-pane key="4" tab="Funds">
 			<a-row type="flex" align="stretch">
 				<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(e, i) in getGroup(1)" :key="i">			
@@ -129,7 +132,6 @@
 					<a href="https://www.theglobaleconomy.com/" target="_blank">The Global Economy</a>
 					<a-row :gutter="24" type="flex" align="stretch">
 						<a-col :span="8" :lg="8" :xl="8" class="mb-8" v-for="(c, ci) in g.commodities" :key="ci">
-							<!--pre>{{ c }}</pre-->
 							<a-card hoverable style="padding: 10px;">
 								<a-card-meta>
 									<template #title>
@@ -148,13 +150,11 @@
 				</a-tab-pane>
 			</a-tabs>
 		</a-tab-pane>
-		<a-tab-pane key="8" tab="FinViz-Sectors">
-			<!--pre>{{ industryforwardpe }}</pre-->
+		<!--a-tab-pane key="8" tab="FinViz-Sectors">
 			<h5>Industry Forward PE - Ascending</h5>
 			<a-row :gutter="24" type="flex" align="stretch">
 				<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(ifpe, ifv) in industryforwardpe" :key="ifv">
 					<a-card :bordered="true" class="header-solid h-full" :bodyStyle="{padding: 6}">
-						<!--a-card-meta :title='ifpe.title'></a-card-meta-->
 						<template #cover>
 							<img :src="ifpe.img"/>
 						</template>
@@ -175,12 +175,11 @@
 					</a-list-item-meta>
 				</a-list-item>
 			</a-list>
-		</a-tab-pane>
+		</a-tab-pane-->
 	</a-tabs>
 </template>
 
 <script>
-
 import { mapState, mapGetters } from "vuex";
 import CardChartFundInfo from '../components/Cards/CardChartFundInfo' ;
 import CardChartEquityInfo from '../components/Cards/CardChartEquityInfo';
@@ -235,17 +234,20 @@ export default ({
 	},
 	computed: {
     	...mapState("markets", ["markets"]),
+		
 		...mapGetters("markets",["getGroup"]),
+
     	...mapState("cnn", ["sentiment"]),
-    	...mapState("lse", ["sectorPerformance"]),
+    	
+		...mapState("lse", ["sectorPerformance"]),
     	...mapState("tge", ["commodities"]),
     	...mapState("fviz", ["news","industryforwardpe"]),
 		...mapState("fedinfo", [
-				"sahmrealtime",
-				"unrate",
-				"sahmrealtimeunrate",
-				"indicators",
-				"apiunrate",
+				//"sahmrealtime",
+				//"unrate",
+				//"sahmrealtimeunrate",
+				//"indicators",
+				//"apiunrate",
 				"composite"
 		])
 	},
@@ -294,14 +296,14 @@ export default ({
 	},
 	mounted() {
 	    this.$store.dispatch("markets/getMarkets");
-	    this.$store.dispatch("cnn/getSentiment");
-	    this.$store.dispatch("lse/getSectorPeformance",{live:this.cacheState});
+		this.$store.dispatch("cnn/getSentiment");
+
+		//this.$store.dispatch("lse/getSectorPeformance",{live:this.cacheState});
 	    this.$store.dispatch("tge/getCommodities",{live:this.cacheState});
 
-		this.$store.dispatch("fviz/getIndustryForwardPE",{live:true});
-		this.$store.dispatch("fviz/getNews",{live:true});
+		//this.$store.dispatch("fviz/getIndustryForwardPE",{live:true});
+		//this.$store.dispatch("fviz/getNews",{live:true});
 
-		// this.$store.dispatch("fedinfo/getApiUnRate");
 		this.$store.dispatch("fedinfo/getComposite");
 	}
 })

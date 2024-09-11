@@ -17,13 +17,68 @@
     {
       "source": "functions",
       "codebase": "default",
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log",
-        ".cache"
-      ]
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+    },
+    {
+      "source": "function-fool",
+      "codebase": "fool",
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+    },
+    {
+      "source": "function-cnn",
+      "codebase": "cnn",
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+    },
+    {
+      "source": "function-pb",
+      "codebase": "pb",
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+    },
+    {
+      "source": "function-dd",
+      "codebase": "dd",
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+    },
+    {
+      "source": "function-drm",
+      "codebase": "drm",
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+    },
+    {
+      "source": "function-ft",
+      "codebase": "ft",
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+    },
+    {
+      "source": "function-fed",
+      "codebase": "fed",
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+    },
+    {
+      "source": "function-nt",
+      "codebase": "nt",
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+    },
+    {
+      "source": "function-mtpl",
+      "codebase": "mtpl",
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+    },
+    {
+      "source": "function-cyca",
+      "codebase": "cyca",
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+    },
+    {
+      "source": "function-hl",
+      "codebase": "hl",
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+    },
+    {
+      "source": "function-tge",
+      "codebase": "tge",
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
     }
+
   ]
 }

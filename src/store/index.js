@@ -19,7 +19,7 @@ import stockwatch from "./modules/stockwatch/stockwatch"
 import pb from "./modules/pb/pb"
 import fedinfo from "./modules/fedinfo/fedinfo"
 import nt from "./modules/nt/nt"
-import divd from "./modules/divd/divd"
+import dd from "./modules/dd/dd"
 import mtpl from "./modules/mtpl/mtpl"
 import dcf from "./modules/dcf/dcf"
 import san from "./modules/san/san"
@@ -32,6 +32,7 @@ import curvo from "./modules/curvo/curvo"
 import cyca from "./modules/cyca/cyca"
 import ft from "./modules/ft/ft"
 import fool from "./modules/fool/fool"
+import drm from "./modules/drm/drm"
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -43,13 +44,14 @@ export default new Vuex.Store({
     trends, indicators, newsfeed,
     sa, tradeview, lse, tge,ltt,
     wscrape, nt,cnn,
-    divd,mtpl,
+    dd,mtpl,
     crypto, stockwatch, pb,
     fedinfo,dcf,san,
     fviz,
     curvo,
     cyca,
     ft,
-    fool
+    fool,
+    drm
   }
 });

@@ -1,8 +1,9 @@
 <template>
 	<a-row :gutter="24" type="flex">
 		<a-col v-if="show" :span="24" class="mb-24">
+			<pre>{{ premiumBondsData }}</pre>
 			<div v-if="holders.length>0 && premiumBondsData.results.length>0">
-				<h5>{{premiumBondsData.nextDrawDate}}</h5>
+				<!--h5>{{premiumBondsData.nextDrawDate}}</h5-->
 				<a-tabs v-if="holders.length" v-model="activeTab">
 					<a-tab-pane v-for="(holder,index) in premiumBondsData.results" :key="index" :tab="holder.name">
 						<a-row>
@@ -49,12 +50,16 @@ export default ({
 	},
 	watch: {
         premiumBondsData(nn, prv) {
+
+			console.log(nn)
+
 			if(nn != null) {
 				this.show = true;
 				this.loading = false;
 			}
 		},
 		holders(nn,prv) {
+			console.log(nn)
 			this.$store.dispatch("pb/getPremiumBondsData",{ holders: this.getHoldersQry });
 		}
 	},
@@ -75,9 +80,7 @@ export default ({
 		getHolderValue2(name) { return name !== undefined ? this.getHolderValue(name) : "-"},
 		getHolderWinRate2(name,winnings) { return this.getHolderWinRate(name,winnings) + "%"},
 	}
-
 })
-
 </script>
 
 <style>

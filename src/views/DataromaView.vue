@@ -3,9 +3,9 @@
 		<a-table
 			:loading="loading"
 			:columns="sivcols" 
-			:data-source="dataroma" 
+			:data-source="portfolio" 
 			:pagination="false"
-			:rowKey="record => record.key"
+			:rowKey="record => record.investor"
 			class='table table-small' style="margin: 6;">
 				<div slot="filterDropdown"
 					slot-scope="{setSelectedKeys,selectedKeys,confirm,clearFilters,column}"
@@ -40,7 +40,7 @@
 			<a-button icon="plus" type="primary" slot="action" slot-scope="record" onClick="onExpand(record)"></a-button>
 
 			<div slot="expandedRowRender" slot-scope="record" style="margin: 0">
-				<DataromaHoldingsView :detail="record.detail"></DataromaHoldingsView>
+				<DataromaHoldingsView :investor="record.investor"></DataromaHoldingsView>
 			</div>
 
 			<template slot="name" slot-scope="text, record, index, column">
@@ -97,11 +97,11 @@ export default ({
     	DataromaHoldingsView
   	},
 	computed: {
-    	...mapState("wscrape", ["dataroma"])	
+    	...mapState("drm", ["portfolio"])	
 	},
 	watch: {
-		dataroma(o,n) {
-			this.loading = this.dataroma.length > 0 ? false: true
+		portfolio(nn, prv){
+			if(nn != null) this.loading = false
 		}
 	},
   	data() {
@@ -119,8 +119,8 @@ export default ({
   	},
 	methods: {
    		onExpand(record) {
-      		// console.log('onExpand:',record)
-  			//this.$store.dispatch("wscrape/getDataromaHoldings",{ q: record.detail });
+			console.log(record)
+  			this.$store.dispatch("drm/getHoldings",{ investor: record.investor });
     	},
 		handleSearch(selectedKeys, confirm, dataIndex) {
       		confirm();
@@ -135,7 +135,7 @@ export default ({
   	},
 	mounted() {
 		this.loading = true;
-		this.$store.dispatch("wscrape/getDataroma");
+		this.$store.dispatch("drm/getPortfolio");
 	}
 })
 </script>

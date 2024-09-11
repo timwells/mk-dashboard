@@ -12,7 +12,8 @@ const getters = {
     for(let i=0; i<state.holders.length; i++) {
       if(hQry.length>0) hQry += ","
       hQry += `${state.holders[i].n}:${state.holders[i].h}`
-    } return hQry
+    } 
+    return hQry
   },
   getHolderValue: (state) => (name) => {
       if(name.length>0) return (state.holders.find(h => h.n === name)).v;
@@ -42,11 +43,11 @@ const actions = {
       })
       .catch((error) => { console.error(error); });
   },
-  async getPremiumBondsHolders({ commit }, { holders }) {
-    await genericGet(`/fintech/v1/scrape/pb/results?holders=${holders}`,"SET_PREMIUM_BONDS",[],{commit})
-  },
+  //async getPremiumBondsHolders({ commit }, { holders }) {
+  //  await genericGet(`/pb/results?holders=${holders}`,"SET_PREMIUM_BONDS",[],{commit})
+  //},
   async getPremiumBondsData({ commit }, { holders }) {
-    await genericGet(`/fintech/v1/scrape/pb/results2?holders=${holders}`,"SET_PREMIUM_BONDS",null,{commit})
+    await genericGet(`/pb/results?holders=${holders}`,"SET_PREMIUM_BONDS",null,{commit})
   },
 }
 
