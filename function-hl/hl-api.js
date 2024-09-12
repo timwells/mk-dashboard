@@ -1,11 +1,16 @@
 const axios = require('axios');
-const CCM = require('../function-libs/cache/cache-mgt.js');
+const CCM = require('./common/cache/ccm.js');
 
 // const cModule = require('../common/c.js');
-const API_HOST = "https://www.hl.co.uk"
-const API_FUNDS_PATH = "ajax/funds/fund-search/search"
+const HL_HOST = "https://www.hl.co.uk"
+const HL_FUNDS_PATH = "ajax/funds/fund-search/search"
 const API_FUNDS_QUERY = "investment=&companyid=&sectorid=&wealth=&unitTypePref=&tracker=&payment_frequency=&payment_type=&yield=&standard_ocf=&perf12m=&perf36m=&perf60m=&fund_size=&num_holdings=&start=0&rpp=200&lo=0&sort=fd.full_description&sort_dir=asc&"
 const API_FUNDS_QUERY2 = "investment=&companyid=&sectorid=&wealth=&unitTypePref=&tracker=&payment_frequency=&payment_type=&yield=&standard_ocf=&perf12m=&perf36m=&perf60m=&fund_size=&num_holdings=&lo=0&sort=fd.full_description&sort_dir=asc&"
+
+//const BUCKET_NAME = 'mk-d-b59f2.appspot.com';
+const HL_FOLDER = 'hl-cache';
+const HL_SUB_FUNDS = "funds";
+const REQUEST_TIMEOUT = 80000
 
 const HEADERS = {
     'Accept-Encoding': 'gzip, compress, deflate, br',
@@ -15,20 +20,21 @@ const HEADERS = {
     'Cache-Control' : 'no-cache',
     'referer': "https://www.hl.co.uk"
 }
+
 const DownloadResource = async (resource) => {
     try {
         const {data} = await axios.get(resource,{ headers: HEADERS});
         return data
     } catch(e) {
         console.log(e)
-        return null
     }
+    return null
 }
 
 const fundsCount = async () => {
     try {
         // Query Number of Funds
-        let resource = `${API_HOST}/${API_FUNDS_PATH}?start=0&rpp=1`
+        let resource = `${HL_HOST}/${HL_FUNDS_PATH}?start=0&rpp=1`
         let totalFunds = (await DownloadResource(resource)).TotalResults
         return {fundsCount: totalFunds}
     } catch(e) {
@@ -40,7 +46,7 @@ const fundsCount = async () => {
 const fundsPageImpl = async (start,rpp) => {
     try {
         // Query Number of Funds
-        let resource = `${API_HOST}/${API_FUNDS_PATH}?start=${start}&rpp=${rpp}&sort_dir=asc`
+        let resource = `${HL_HOST}/${HL_FUNDS_PATH}?start=${start}&rpp=${rpp}&sort_dir=asc`
         console.log("fundsPageImpl:",resource)
         return {funds : (await DownloadResource(resource)).Results}
     } catch(e) {
@@ -49,13 +55,13 @@ const fundsPageImpl = async (start,rpp) => {
     }
 }
 
-const fundsPage =  async (start,rpp) => {
+const fundsPage = async (start,rpp) => {
     const webResourceTimeout = CCM.PAGE_REQUEST_TIMEOUT
     const cacheBucket = CCM.BUCKET_NAME
     const cacheAge = CCM.CACHE_AGE
-    const live = val.validateBoolParameter(req.query.live, ['true', 'false']) && req.query.live === 'true';
-
-    const cacheResource = `${HL_FOLDER}/funds/funds-${start}.json`; 
+    // const live = val.validateBoolParameter(req.query.live, ['true', 'false']) && req.query.live === 'true';
+    const live = false
+    const cacheResource = `${HL_FOLDER}/${HL_SUB_FUNDS}/funds-${start}.json`; 
     const cacheTag = `funds-${start}`
 
     console.log("webResourceTimeout:",webResourceTimeout)
@@ -73,31 +79,50 @@ const fundsPage =  async (start,rpp) => {
             case CCM.SUCCESS: {
                 console.log("CCM.SUCCESS")
                 if(!hotRequest) { // Get Resource from cache if not hotRequest
-                    res.status(200).json(await CCM.getResource(cacheBucket,cacheResource,cacheTag))
+                    return await CCM.getResource(cacheBucket,cacheResource,cacheTag)
                 }
                 else {
                     console.log("CCM.NOT_FOUND",cacheResource)
-                    res.status(200).json(await CCM.updateResource(await fundsPageImpl(start,rpp),cacheBucket,cacheResource,cacheAge,cacheTag,"re-cache"))                    
+                    return (await CCM.updateResource(await fundsPageImpl(start,rpp),cacheBucket,cacheResource,cacheAge,cacheTag,"re-cache"))                    
                 }
             } break;
-            case CCM.NOT_FOUND: {
+            case CCM.NOT_FOUND: { 
                 console.log("CCM.NOT_FOUND",cacheResource)
-                res.status(200).json(await CCM.updateResource(await fundsPageImpl(start,rpp),cacheBucket,cacheResource,cacheAge,cacheTag,"initialised-cache"))
+                return (await CCM.updateResource(await fundsPageImpl(start,rpp),cacheBucket,cacheResource,cacheAge,cacheTag,"initialised-cache"))
             } break;
             default: {
                 console.log("ERROR - ",cacheResponse.status)
-                res.status(500).json({})
+                return null
             }
         }    
     } catch(e) {
         console.log("fundspage",e)    
-        res.status(500).json({})
     }
+    return null
 }
 
+const listFundObjs = async () => {
+  return await CCM.listObjects(CCM.BUCKET_NAME,`${HL_FOLDER}/${HL_SUB_FUNDS}`)
+}
 
-//https://www.hl.co.uk/ajax/funds/fund-search/search?investment=&companyid=1174&sectorid=&wealth=&unitTypePref=&tracker=&payment_frequency=&payment_type=&yield=&standard_ocf=&perf12m=&perf36m=&perf60m=&fund_size=&num_holdings=&lo=0&sort=fd.full_description&sort_dir=asc&
+const funds = async () => {
+    const files = await CCM.listObjects(CCM.BUCKET_NAME,`${HL_FOLDER}/${HL_SUB_FUNDS}`)
+    let funds = []
+    for(let i = 0; i < files.length; i++) {
+        const content = await CCM.getResource(CCM.BUCKET_NAME,files[i].name,"tag")
+        if (content?.data?.funds !== undefined) {
+            //console.log(i,content.data.funds.length)
+            funds = [...funds, ...content.data.funds]
+        } else {
+            console.log("The attribute does not exist.");
+        }
+    }
+    return funds
+}
+  
 module.exports = {
     fundsCount,
-    fundsPage
+    fundsPage,
+    listFundObjs,
+    funds
 }

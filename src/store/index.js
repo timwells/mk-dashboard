@@ -33,6 +33,7 @@ import cyca from "./modules/cyca/cyca"
 import ft from "./modules/ft/ft"
 import fool from "./modules/fool/fool"
 import drm from "./modules/drm/drm"
+import hl from "./modules/hl/hl"
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -52,6 +53,7 @@ export default new Vuex.Store({
     cyca,
     ft,
     fool,
-    drm
+    drm,
+    hl
   }
 });

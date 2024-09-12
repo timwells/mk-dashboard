@@ -15,7 +15,7 @@
 						:status="rating(sentiment.fear_and_greed.score)"></WidgetCounter>
 				</a-col>
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
-					<WidgetCounter 
+					<WidgetCounter v-if="sentiment!=null"
 						title="Fear & Greed - 1 Week" 
 						:value="sentiment.fear_and_greed.previous_1_week" 
 						prefix="" 
@@ -24,7 +24,7 @@
 						:status="rating(sentiment.fear_and_greed.previous_1_week)"></WidgetCounter>
 				</a-col>
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
-					<WidgetCounter 
+					<WidgetCounter v-if="sentiment!=null"
 						title="Fear & Greed - 1 Month" 
 						:value="sentiment.fear_and_greed.previous_1_month" 
 						prefix="" 
@@ -33,7 +33,7 @@
 						:status="rating(sentiment.fear_and_greed.previous_1_month)"></WidgetCounter>
 				</a-col>
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
-					<WidgetCounter 
+					<WidgetCounter v-if="sentiment!=null"
 						title="Fear & Greed - 1 Year" 
 						:value="sentiment.fear_and_greed.previous_1_year" 
 						prefix="" 
@@ -43,31 +43,32 @@
 				</a-col>
 			</a-row>
 			<a-row>
-				<a-col v-if="sentiment!=null" :span="12" :lg="12" class="mb-12">
-					<CardFearAndGreedLineChart 
+				<a-col :span="12" :lg="12" class="mb-12">
+					<CardFearAndGreedLineChart v-if="sentiment!=null"
 						:historicalData="sentiment.fear_and_greed_historical.data" 
 						:score="sentiment.fear_and_greed_historical.score" 
 						:rating="sentiment.fear_and_greed_historical.rating"/>
 				</a-col>
-				<a-col v-if="sentiment!=null" :span="12" :lg="12" class="mb-12">
-					<CardVixLineChart :historicalData="sentiment.market_volatility_vix.data"
+				<a-col :span="12" :lg="12" class="mb-12">
+					<CardVixLineChart v-if="sentiment!=null"
+						:historicalData="sentiment.market_volatility_vix.data"
 						:score="sentiment.market_volatility_vix.score" 
 						:rating="sentiment.market_volatility_vix.rating"/>
 				</a-col>
 			</a-row>
 			<a-row>
-				<a-col v-if="sentiment!=null" :span="12" :lg="12" class="mb-12">
-					<CardSP500MomentumLineChart 
+				<a-col :span="12" :lg="12" class="mb-12">
+					<CardSP500MomentumLineChart v-if="sentiment!=null"
 						:historicalData="sentiment.market_momentum_sp500.data"
 						:historicalMA200Data="sentiment.market_momentum_sp500_MA200.data"
 						:historicalMA100Data="sentiment.market_momentum_sp500_MA100.data"
 						:historicalMA50Data="sentiment.market_momentum_sp500_MA50.data"
-
 						:score="sentiment.market_momentum_sp500.score" 
 						:rating="sentiment.market_momentum_sp500.rating"/>
 				</a-col>
-				<a-col v-if="sentiment!=null" :span="12" :lg="12" class="mb-12">
-					<CardStockPriceStrengthLineChart :historicalData="sentiment.stock_price_strength.data"
+				<a-col :span="12" :lg="12" class="mb-12">
+					<CardStockPriceStrengthLineChart v-if="sentiment!=null"
+						:historicalData="sentiment.stock_price_strength.data"
 						:score="sentiment.stock_price_strength.score" 
 						:rating="sentiment.stock_price_strength.rating"/>
 				</a-col>

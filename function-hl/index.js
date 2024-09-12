@@ -20,5 +20,14 @@ app.get('/fundspage', async (req, res) => {
     return res.status(200).json(data)
 });
 
+app.get('/funds', async (req, res) => {
+    const data = await hlApi.funds()
+    return res.status(200).json(data)
+});
+
+app.get('/listfundsobjs', async (req, res) => {
+    let data = await hlApi.listFundObjs()
+    return res.status(200).json(data)
+});
 
 exports.hl = functions.https.onRequest(app);
