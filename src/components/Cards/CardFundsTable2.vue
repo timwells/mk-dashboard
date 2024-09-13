@@ -1,5 +1,7 @@
 <template>
 	<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
+
+		
 		<a-table 
 			:columns="columns" 
 			:data-source="data" 
@@ -21,7 +23,7 @@
                     	icon="search"
                     	size="small"
                     	style="width: 90px; margin-right: 8px"
-                    	@click="() =>handleSearch(selectedKeys, confirm, column.dataIndex)">
+                    	@click="() => handleSearch(selectedKeys, confirm, column.dataIndex)">
 						Search</a-button>
                   	<a-button
                     	size="small"
@@ -39,12 +41,9 @@
 			<a-button icon="plus" type="primary" slot="action" slot-scope="record" @click="onExpand(record.key)"></a-button>
 
 			<div slot="expandedRowRender" slot-scope="record" style="margin: 0">
-				<CardChartInfoIframe 
-					:title="record.full_description" 
-					:fund="record.fund"
-					:sedol="record.sedol" 
-					:citicode="record.citicode">
-				</CardChartInfoIframe>
+				<CardFundDetails
+					:fundTitle="record.full_description">
+				</CardFundDetails>
 			</div>
 			
 			<!-- Fund Name -->
@@ -84,7 +83,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
+import CardFundDetails from '@/components/Cards/CardFundDetails';
 import CardChartInfoIframe from '@/components/Cards/CardChartInfoIframe';
 
 export default ({
@@ -107,10 +107,9 @@ export default ({
 		}
 	},
 	components: {
-		CardChartInfoIframe
+		CardFundDetails
 	},
 	computed: {
-		// ...mapState("funds", ["fundDetail"])
 	},
 	data() {
 		return {

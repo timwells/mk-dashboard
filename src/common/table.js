@@ -53,6 +53,7 @@ const BROKER_RATINGS_Columns = [
     genCol('New Target','newTarget',0,false,null,""),
     genCol('Rating','ratingType',0,true,SORT_TYPE.STRING,""),
 ]
+
 const FUNDS_Columns = [
 	{ title: 'Name', dataIndex:'name', sortDirections: _SORT_DIRECTIONS, sorter: (a, b) => a.name.localeCompare(b.name),
 	    onFilter: (value, record) => record.name.toString().toLowerCase().includes(value.toLowerCase()),

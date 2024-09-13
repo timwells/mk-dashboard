@@ -9,8 +9,8 @@ app.use(cors({ origin: true }));
 app.use(express.json());
 app.use(checkApiKey);
 
-app.get('/fundscount', async (req, res) => {
-    let data = await hlApi.fundsCount()
+app.get('/fundsstats', async (req, res) => {
+    let data = await hlApi.fundsStats()
     return res.status(200).json(data)
 });
 
@@ -30,4 +30,11 @@ app.get('/listfundsobjs', async (req, res) => {
     return res.status(200).json(data)
 });
 
-exports.hl = functions.https.onRequest(app);
+app.get('/funddetails', async (req, res) => {
+    const {searchTitle} = req.query;
+    let data = await hlApi.fundDetail(searchTitle)
+    return res.status(200).json(data)
+});
+
+const gOpts = {timeoutSeconds: 120};
+exports.hl = functions.runWith(gOpts).https.onRequest(app);

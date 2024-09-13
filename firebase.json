@@ -72,7 +72,7 @@
     {
       "source": "function-hl",
       "codebase": "hl",
-      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache",".dev"]
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache","dev"]
     },
     {
       "source": "function-tge",

@@ -3,10 +3,10 @@
 		<a-tab-pane key="1" tab="Sentiment">
 			<!--pre>{{ sentiment.fear_and_greed }}</pre-->
 			<a href="https://edition.cnn.com/markets/fear-and-greed" 
-				target="_blank">Click for: 'CNN Market Insights' - <span v-if="sentiment.fear_and_greed">{{ sentiment.fear_and_greed.timestamp }}</span></a>
-			<a-row v-if="sentiment!=null" :gutter="24">
+				target="_blank">Click for: 'CNN Market Insights' - <span v-if="sentiment">{{ sentiment.fear_and_greed.timestamp }}</span></a>
+			<a-row v-if="sentiment" :gutter="24">
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
-					<WidgetCounter v-if="sentiment!=null"
+					<WidgetCounter
 						title='Fear & Greed Today'
 						:value="sentiment.fear_and_greed.score" 
 						prefix="" 
@@ -15,7 +15,7 @@
 						:status="rating(sentiment.fear_and_greed.score)"></WidgetCounter>
 				</a-col>
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
-					<WidgetCounter v-if="sentiment!=null"
+					<WidgetCounter
 						title="Fear & Greed - 1 Week" 
 						:value="sentiment.fear_and_greed.previous_1_week" 
 						prefix="" 
@@ -24,7 +24,7 @@
 						:status="rating(sentiment.fear_and_greed.previous_1_week)"></WidgetCounter>
 				</a-col>
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
-					<WidgetCounter v-if="sentiment!=null"
+					<WidgetCounter
 						title="Fear & Greed - 1 Month" 
 						:value="sentiment.fear_and_greed.previous_1_month" 
 						prefix="" 
@@ -33,7 +33,7 @@
 						:status="rating(sentiment.fear_and_greed.previous_1_month)"></WidgetCounter>
 				</a-col>
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
-					<WidgetCounter v-if="sentiment!=null"
+					<WidgetCounter
 						title="Fear & Greed - 1 Year" 
 						:value="sentiment.fear_and_greed.previous_1_year" 
 						prefix="" 
@@ -42,9 +42,9 @@
 						:status="rating(sentiment.fear_and_greed.previous_1_year)"></WidgetCounter>"			
 				</a-col>
 			</a-row>
-			<a-row>
+			<a-row v-if="sentiment" :gutter="24">
 				<a-col :span="12" :lg="12" class="mb-12">
-					<CardFearAndGreedLineChart v-if="sentiment!=null"
+					<CardFearAndGreedLineChart
 						:historicalData="sentiment.fear_and_greed_historical.data" 
 						:score="sentiment.fear_and_greed_historical.score" 
 						:rating="sentiment.fear_and_greed_historical.rating"/>
@@ -56,9 +56,9 @@
 						:rating="sentiment.market_volatility_vix.rating"/>
 				</a-col>
 			</a-row>
-			<a-row>
+			<a-row v-if="sentiment" :gutter="24">
 				<a-col :span="12" :lg="12" class="mb-12">
-					<CardSP500MomentumLineChart v-if="sentiment!=null"
+					<CardSP500MomentumLineChart
 						:historicalData="sentiment.market_momentum_sp500.data"
 						:historicalMA200Data="sentiment.market_momentum_sp500_MA200.data"
 						:historicalMA100Data="sentiment.market_momentum_sp500_MA100.data"
@@ -67,7 +67,7 @@
 						:rating="sentiment.market_momentum_sp500.rating"/>
 				</a-col>
 				<a-col :span="12" :lg="12" class="mb-12">
-					<CardStockPriceStrengthLineChart v-if="sentiment!=null"
+					<CardStockPriceStrengthLineChart
 						:historicalData="sentiment.stock_price_strength.data"
 						:score="sentiment.stock_price_strength.score" 
 						:rating="sentiment.stock_price_strength.rating"/>
