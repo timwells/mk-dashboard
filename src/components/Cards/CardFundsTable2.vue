@@ -1,7 +1,5 @@
 <template>
-	<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
-
-		
+	<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">		
 		<a-table 
 			:columns="columns" 
 			:data-source="data" 
@@ -42,8 +40,12 @@
 
 			<div slot="expandedRowRender" slot-scope="record" style="margin: 0">
 				<CardFundDetails
-					:fundTitle="record.full_description">
+					:companyid="record.company_id"
+					:sectorid="record.sector_id"
+					:sedol="record.sedol"
+					>
 				</CardFundDetails>
+
 			</div>
 			
 			<!-- Fund Name -->
@@ -62,18 +64,23 @@
                 	{{ text }}
                 </template>
 			</template>
-			<!-- Fund Type -->
 			<!--template slot="type" slot-scope="type">
 				<p class="m-0 font-regular text-muted">{{ type }}</p>
 			</template-->
-			<!-- Fund SEDOL -->
-			<!--template slot="sedol" slot-scope="sedol">
-				<p class="m-0 font-regular text-muted">{{ sedol }}</p>
-			</template-->
-			<!-- Fund CITICODE -->
-			<!--template slot="citicode" slot-scope="citicode">
-				<p class="m-0 font-regular text-muted">F{{ citicode }}</p>
-			</template-->
+			<template slot="sedol" slot-scope="sedol">
+				<!--p class="m-0 font-regular text-muted">{{ sedol }}</p-->
+			</template>
+			<template slot="citicode" slot-scope="citicode">
+				<!--p class="m-0 font-regular text-muted">F{{ citicode }}</p-->
+			</template>
+			<template slot="company_id" slot-scope="company_id">
+				<!--p class="m-0 font-regular text-muted">F{{ citicode }}</p-->
+			</template>
+			<template slot="sector_id" slot-scope="sector_id">
+				<!--p class="m-0 font-regular text-muted">F{{ citicode }}</p-->
+			</template>
+
+
 			<!-- Fund Annual Charge -->
 			<!--template slot="netAC" slot-scope="netAC">
 				<p class="m-0 font-regular text-muted">{{ netAC }}</p>
@@ -122,6 +129,7 @@ export default ({
 	},
 	methods: {
    		onExpand(rowkey) {
+			console.log("onExpand:",rowkey);
 			if (this.curExpandedRowKeys.length > 0) {
 				let index = this.curExpandedRowKeys.indexOf(rowkey);
 				if (index > -1) {
@@ -145,5 +153,4 @@ export default ({
     	},
   	}
 })
-
 </script>

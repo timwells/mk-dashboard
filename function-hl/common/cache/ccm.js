@@ -4,7 +4,9 @@ const { Readable } = require('stream');
 
 const BUCKET_NAME = 'mk-d-b59f2.appspot.com';
 const CACHE_AGE =  43200
-const CACHE_AGE_1YEAR =  365*24*60 *60
+const CACHE_AGE_12HRS =  43200
+const CACHE_AGE_24HRS =  CACHE_AGE_12HRS*2
+const CACHE_AGE_1YEAR =  365*24*60*60
 const SUCCESS = 200
 const NOT_FOUND = 404
 const ERROR = 500
@@ -144,6 +146,8 @@ const listObjects = async (bucketName,folder) => {
 module.exports = {
     BUCKET_NAME,
     CACHE_AGE,
+    CACHE_AGE_12HRS,
+    CACHE_AGE_24HRS,
     CACHE_AGE_1YEAR,
     SUCCESS,
     NOT_FOUND,

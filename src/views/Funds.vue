@@ -24,25 +24,17 @@
 		<a-tab-pane key="3" tab="Manage Funds">
 			<a-row :gutter="24" type="flex">
 				<a-col :span="8">
-					<a-statistic v-if="fundsStats" title="Funds" :value="fundsStats.availableFunds" />
+					<a-statistic v-if="fundsStats" title="HL-Funds" :value="fundsStats.availableFunds" />
 				</a-col>
 				<a-col :span="8">
 					<a-button @click="refresh()">Refresh Funds</a-button>
-					<!--a-button @click="getFunds()">Get Funds</a-button-->
 				</a-col>
 				<a-col :span="8">
 					<a-progress type="circle" :percent="progressPercent" />
 				</a-col>
 			</a-row>
 			<a-row :gutter="24" type="flex">
-				<!--a-table 
-					:columns="fundColumns" 
-					:data-source="fundsList.data" 
-					:pagination="pagination" 
-					:rowKey="(record,i) => i">
-				</a-table-->
 				<a-col :span="24">
-					<pre>{{ fundsList }}</pre>
 					<CardFundsTable2
 						:data="fundsList.data" 
 						:columns="fundListColumns" 
@@ -85,9 +77,7 @@ import CardTVLineChart from "@/components/Cards/CardTVLineChart.vue";
 */
 
 const fundListColumns = [
-	{ title: 'sedol', dataIndex: 'sedol'},
-	{ title: 'citicode', dataIndex: 'citicode'},
-	{ title: 'Desc', dataIndex: 'full_description', 
+	{ title: 'Fund', dataIndex: 'fund_name', ellipsis:true, width:320,
 		onFilter: (value, record) => record.name.toString().toLowerCase().includes(value.toLowerCase()),
 		scopedSlots: { 
 			customRender: 'full_description', 
@@ -95,9 +85,12 @@ const fundListColumns = [
 			filterIcon: 'filterIcon' 
 		}
 	},
-	{ title: 'Type', dataIndex: 'unit_type'},
-	{ title: 'IC', dataIndex: 'initial_charge'},
-	{ title: 'AC', dataIndex: 'annual_charge',
+	{ title: 'Company', dataIndex: 'company_name', ellipsis:true, width:200},
+	{ title: 'Sector', dataIndex: 'sector_name'},
+
+	{ title: 'Type', dataIndex: 'unit_type', ellipsis:true,},
+	{ title: 'IChg', dataIndex: 'initial_charge'},
+	{ title: 'AChg', dataIndex: 'annual_charge',
 		sortDirections: ["descend", "ascend"],
 		sorter: (a, b) => a.annual_charge - b.annual_charge,
 	},
@@ -106,12 +99,16 @@ const fundListColumns = [
 		sortDirections: ["descend", "ascend"],
 		sorter: (a, b) => a.yield - b.yield,
 	},
-	{ title: 'F.Size', dataIndex: 'fund_size'},
+	//{ title: 'F.Size', dataIndex: 'fund_size'},
 	{ title: 'Bid', dataIndex: 'bid_price'},
 	{ title: 'Offer', dataIndex: 'offer_price'},
-	{ title: 'Chg', dataIndex: 'price_change'},
-	{ title: '%Chg', dataIndex: 'percent_change'},
-	{ title: 'Updated', dataIndex: 'updated'},
+	//{ title: 'Chng', dataIndex: 'price_change'},
+	//{ title: '%Chng', dataIndex: 'percent_change'},
+	//{ title: 'Updd', dataIndex: 'updated'},
+	{ title: '', dataIndex: 'company_id',width:0,scopedSlots: { customRender: "company_id"}},
+	{ title: '', dataIndex: 'sector_id',width:0, scopedSlots: { customRender: "sector_id"}},
+	{ title: '', dataIndex: 'sedol',width:0, scopedSlots: { customRender: "sedol"}},
+	{ title: '', dataIndex: 'citicode',width:0,scopedSlots: { customRender: "citicode"}},
 ];
 
 export default ({
