@@ -1,28 +1,34 @@
 const axios = require('axios');
 const CCM = require('./common/cache/ccm.js');
+const HL = require('./hl-constants.js')
 const pp = require('./hl-postprocess.js')
 
+/*
 const HL_HOST = "https://www.hl.co.uk"
 const HL_FUNDS_PATH = "ajax/funds/fund-search/search"
 
 const HL_FOLDER = 'hl-cache';
 const HL_SUB_FUNDS = "funds";
 const HL_SUB_FUNDS_PAGES = "pages";
+const HL_SUB_FUNDS_DETIALS = "details";
+const HL_SUB_FUNDS_ANALYSIS = "analysis";
+
 const HL_SUB_FUNDS_SEDOLS = "sedols";
 const HL_SUB_FUNDS_CONSOLIDATED = "consolidated";
+*/
 
-const HEADERS = {
-    'Accept-Encoding': 'gzip, compress, deflate, br',
-    'Accept': '*/*',
-    'Connection': 'keep-alive',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
-    'Cache-Control' : 'no-cache',
-    'referer': "https://www.hl.co.uk"
-}
+//const HEADERS = {
+//    'Accept-Encoding': 'gzip, compress, deflate, br',
+//    'Accept': '*/*',
+//    'Connection': 'keep-alive',
+//    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
+//    'Cache-Control' : 'no-cache',
+//    'referer': "https://www.hl.co.uk"
+//}
 
 const downloadResource = async (resource) => {
     try {
-        const {data} = await axios.get(resource,{ headers: HEADERS});
+        const {data} = await axios.get(resource,{ headers: HL.HEADERS});
         return data
     } catch(e) {
         console.log(e)
@@ -33,7 +39,7 @@ const downloadResource = async (resource) => {
 const fundsStats = async () => {
     try {
         // Query Number of Funds
-        let resource = `${HL_HOST}/${HL_FUNDS_PATH}?start=0&rpp=1`
+        let resource = `${HL.HOST}/${HL.FUNDS_SEARCH_PATH}?start=0&rpp=1`
         let totalFunds = (await downloadResource(resource)).TotalResults
         return {availableFunds: totalFunds}
     } catch(e) {
@@ -45,7 +51,7 @@ const fundsStats = async () => {
 const fundsPageImpl = async (start,rpp) => {
     try {
         // Query Number of Funds
-        let resource = `${HL_HOST}/${HL_FUNDS_PATH}?start=${start}&rpp=${rpp}&sort_dir=asc`
+        let resource = `${HL.HOST}/${HL.FUNDS_SEARCH_PATH}?start=${start}&rpp=${rpp}&sort_dir=asc`
         let content = await downloadResource(resource)        
         if (content?.Results !== undefined) {
             for(let i = 0; i < content.Results.length; i++) {
@@ -67,11 +73,11 @@ const fundsPageImpl = async (start,rpp) => {
 
 const fundsPage = async (start,rpp) => {
     const cacheBucket = CCM.BUCKET_NAME
-    const cacheAge = CCM.CACHE_AGE
+    const cacheAge = CCM.CACHE_AGE_1HR
     // const live = val.validateBoolParameter(req.query.live, ['true', 'false']) && req.query.live === 'true';
     const live = false
-    const cacheResource = `${HL_FOLDER}/${HL_SUB_FUNDS}/${HL_SUB_FUNDS_PAGES}/funds-${start}-${rpp}.json`; 
-    const cacheTag = `funds-${start}`
+    const cacheResource = `${HL.FUNDS_CACHE_PAGES_PATH}/funds-${start}-${rpp}.json`; 
+    const cacheTag = `funds-page-${start}-${rpp}`
 
     try {
         const cacheResponse = await CCM.queryResourceStatus(cacheBucket,cacheResource);
@@ -102,13 +108,13 @@ const fundsPage = async (start,rpp) => {
     return null
 }
 
-const listFundObjs = async () => {
-  return await CCM.listObjects(CCM.BUCKET_NAME,`${HL_FOLDER}/${HL_SUB_FUNDS}/${HL_SUB_FUNDS_PAGES}`)
+const fundsPagesListObjs = async () => {
+  return await CCM.listObjects(CCM.BUCKET_NAME,`${HL.FUNDS_CACHE_PAGES_PATH}`)
 }
 
 const fundsConsolidationImpl = async () => {
     try {
-        const files = await CCM.listObjects(CCM.BUCKET_NAME,`${HL_FOLDER}/${HL_SUB_FUNDS}/${HL_SUB_FUNDS_PAGES}`)
+        const files = await CCM.listObjects(CCM.BUCKET_NAME,`${HL.FUNDS_CACHE_PAGES_PATH}`)
         let funds = []
         for(let i = 0; i < files.length; i++) {
             const content = await CCM.getResource(CCM.BUCKET_NAME,files[i].name,"tag")
@@ -128,16 +134,14 @@ const fundsConsolidationImpl = async () => {
 }
 
 const funds = async () => {
-    const webResourceTimeout = CCM.PAGE_REQUEST_TIMEOUT
     const cacheBucket = CCM.BUCKET_NAME
-    const cacheAge = CCM.CACHE_AGE_1YEAR
+    const cacheAge = CCM.CACHE_AGE_1WEEK
     // const live = val.validateBoolParameter(req.query.live, ['true', 'false']) && req.query.live === 'true';
     const live = false
-    const cacheResource = `${HL_FOLDER}/${HL_SUB_FUNDS}/${HL_SUB_FUNDS_CONSOLIDATED}/consolidated-funds.json`; 
+    const cacheResource = `${HL.FUNDS_CACHE_CONSOLIDATED_PATH}/consolidated-funds.json`; 
     const cacheTag = "consolidated-funds"
 
     // Check Cache
-    console.log("webResourceTimeout:",webResourceTimeout)
     console.log("cacheBucket:",cacheBucket)
     console.log("cacheResource:",cacheResource)
     console.log("cacheAge:",cacheAge)
@@ -156,12 +160,12 @@ const funds = async () => {
                 }
                 else {
                     console.log("funds - CCM.NOT_FOUND",cacheResource)
-                    return (await CCM.updateResource(await fundsConsolidationImpl(),cacheBucket,cacheResource,cacheAge,cacheTag,"re-cache"))                    
+                    return (await CCM.updateResource(await fundsConsolidationImpl(),cacheBucket,cacheResource,cacheAge,cacheTag,CCM.RE_CACHE))                    
                 }
             } break;
             case CCM.NOT_FOUND: { 
                 console.log("funds - CCM.NOT_FOUND",cacheResource)
-                return (await CCM.updateResource(await fundsConsolidationImpl(),cacheBucket,cacheResource,cacheAge,cacheTag,"initialised-cache"))
+                return (await CCM.updateResource(await fundsConsolidationImpl(),cacheBucket,cacheResource,cacheAge,cacheTag,CCM.INIT_CACHE))
             } break;
             default: {
                 console.log("ERROR - ",cacheResponse.status)
@@ -173,18 +177,14 @@ const funds = async () => {
     return []
 }
 
-
 async function fundDetailsImpl(companyid,sectorid,sedol) {
     try {
-        const resource = `${HL_HOST}/${HL_FUNDS_PATH}?companyid=${companyid}&sectorid=${sectorid}`
+        const resource = `${HL.HOST}/${HL.FUNDS_SEARCH_PATH}?companyid=${companyid}&sectorid=${sectorid}`
         let content = await downloadResource(resource)        
         if (content?.total_results > 0) {
             let totalResults = content.total_results
-            // console.log("totalResults:",totalResults)
             for(let i=0; i < totalResults; ++i) {                
-                //console.log(content[`${i}`].sedol,sedol)
                 if(content[`${i}`].sedol === sedol) 
-                    // console.log(content[`${i}`])
                     return content[`${i}`]
             }
         }
@@ -203,8 +203,8 @@ async function fundDetails(companyid,sectorid,sedol) {
     const cacheBucket = CCM.BUCKET_NAME
     const cacheAge = CCM.CACHE_AGE_12HRS
     const live = false
-    const cacheResource = `${HL_FOLDER}/${HL_SUB_FUNDS}/${HL_SUB_FUNDS_SEDOLS}/${sedol}.json`; 
-    const cacheTag = `sedol-${sedol}`
+    const cacheResource = `${HL.FUNDS_CACHE_DETAILS_PATH}/${sedol}.json`; 
+    const cacheTag = `sedol-details-${sedol}`
 
     try {
         const cacheResponse = await CCM.queryResourceStatus(cacheBucket,cacheResource);
@@ -218,19 +218,19 @@ async function fundDetails(companyid,sectorid,sedol) {
                 }
                 else {
                     console.log("CCM.NOT_FOUND",cacheResource)
-                    return (await CCM.updateResource(await fundDetailsImpl(companyid,sectorid,sedol),cacheBucket,cacheResource,cacheAge,cacheTag,"re-cache"))                    
+                    return (await CCM.updateResource(await fundDetailsImpl(companyid,sectorid,sedol),cacheBucket,cacheResource,cacheAge,cacheTag,CCM.RE_CACHE))                    
                 }
             } break;
             case CCM.NOT_FOUND: { 
                 console.log("CCM.NOT_FOUND",cacheResource)
-                return (await CCM.updateResource(await fundDetailsImpl(companyid,sectorid,sedol),cacheBucket,cacheResource,cacheAge,cacheTag,"initialised-cache"))
+                return (await CCM.updateResource(await fundDetailsImpl(companyid,sectorid,sedol),cacheBucket,cacheResource,cacheAge,cacheTag,CCM.INIT_CACHE))
             } break;
             default: {
                 console.log("ERROR - ",cacheResponse.status)
             }
         }    
     } catch(e) {
-        console.log("fundDetails",e)    
+        console.log(`fundDetails-${companyid},${sectorid},${sedol}`,e)    
     }
     return null
 }
@@ -238,7 +238,7 @@ async function fundDetails(companyid,sectorid,sedol) {
 module.exports = {
     fundsStats,
     fundsPage,
-    listFundObjs,
+    fundsPagesListObjs,
     funds,
     fundDetails
 }

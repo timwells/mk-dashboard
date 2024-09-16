@@ -4,12 +4,21 @@ const { Readable } = require('stream');
 
 const BUCKET_NAME = 'mk-d-b59f2.appspot.com';
 const CACHE_AGE =  43200
-const CACHE_AGE_12HRS =  43200
+const CACHE_AGE_1HR = 3600
+const CACHE_AGE_12HRS =  CACHE_AGE_1HR * 12
 const CACHE_AGE_24HRS =  CACHE_AGE_12HRS*2
+const CACHE_AGE_1WEEK =  CACHE_AGE_12HRS*7
 const CACHE_AGE_1YEAR =  365*24*60*60
 const SUCCESS = 200
 const NOT_FOUND = 404
 const ERROR = 500
+
+
+// Cache Tags
+const INIT_CACHE = "initialised-cache"
+const RE_CACHE = "re-cache"
+const FROM_CACHE = "cache"
+
 
 async function _uploadJsonStream(
     writeStream, 
@@ -146,11 +155,19 @@ const listObjects = async (bucketName,folder) => {
 module.exports = {
     BUCKET_NAME,
     CACHE_AGE,
+    CACHE_AGE_1HR,
     CACHE_AGE_12HRS,
     CACHE_AGE_24HRS,
+    CACHE_AGE_1WEEK,
     CACHE_AGE_1YEAR,
+    
     SUCCESS,
     NOT_FOUND,
+
+    INIT_CACHE,
+    RE_CACHE,
+    FROM_CACHE,
+
     queryResourceStatus,
     getResource,
     updateResource,

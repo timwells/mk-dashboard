@@ -1,17 +1,25 @@
 <template>
 	<a-tabs default-active-key="1">
-		<a-tab-pane key="1" tab="Performance">
-			<CardHLPerformance
+		<a-tab-pane key="1" tab="Overview">
+			<CardHLOverview
 				:fundName="fundsDetailFilter(sedol).data.fund_name"
+				:annualCharge="fundsDetailFilter(sedol).data.annual_charge"
 				:citiCode="fundsDetailFilter(sedol).data.citicode"
+				:sedol="sedol"
 				:aims="fundsDetailFilter(sedol).data.aims"
+				:sectorName="fundsDetailFilter(sedol).data.sector_name"
+				:unitType="fundsDetailFilter(sedol).data.unit_type"
+				:paymentType="fundsDetailFilter(sedol).data.payment_type"
 			>
-			</CardHLPerformance>
+			</CardHLOverview>
 		</a-tab-pane>
-		<a-tab-pane key="2" tab="Analysis">
-			<p>Analysis</p>
+		<a-tab-pane key="2" tab="Holdings">
+			<CardHLAnalysis :sedol="sedol"></CardHLAnalysis>
 		</a-tab-pane>
-		<a-tab-pane key="3" tab="Data">
+		<a-tab-pane key="3" tab="Allocation">
+			<CardHLAllocation :sedol="sedol"></CardHLAllocation>
+		</a-tab-pane>
+		<a-tab-pane key="4" tab="Data">
 			<pre>{{ fundsDetailFilter(sedol) }}</pre>
 		</a-tab-pane>
 	</a-tabs>
@@ -29,7 +37,10 @@ import { mapGetters, mapState } from "vuex";
 // https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/B88N705
 
 // Hargreaves Lansdown Multi-Manager Special Situations Trust
-import CardHLPerformance from "./CardHLPerformance.vue";
+import CardHLOverview from "./CardHLOverview.vue";
+import CardHLAnalysis from "./CardHLAnalysis.vue";
+import CardHLAllocation from "./CardHLAllocation.vue";
+
 export default ({
 	props: {
 		companyid: { type: String, default: ""},
@@ -37,7 +48,9 @@ export default ({
 		sedol:     { type: String, default: ""}
 	},
 	components: {
-		CardHLPerformance
+		CardHLOverview,
+		CardHLAnalysis,
+		CardHLAllocation
 	},
 	watch:{
 	},
@@ -57,9 +70,6 @@ export default ({
 				sedol: this.sedol 
 		});
 		// await new Promise((s) => setTimeout(s, 1000));
-		this.$store.dispatch("hl/getFundAnalysis",{ 
-				sedol: this.sedol 
-		});
 	},
 })
 

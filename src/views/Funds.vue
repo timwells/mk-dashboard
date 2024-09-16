@@ -1,10 +1,8 @@
 <template>
 	<a-tabs default-active-key="1">
-		<a-tab-pane key="1" tab="Fund Table">
+		<!--a-tab-pane key="1" tab="Fund Table">
 			<a-row :gutter="24" type="flex">
 				<a-col :span="24" class="mb-24">
-
-					<!--pre style="color:blue">{{funds}}</pre-->
 					<pre>{{funds.length}}</pre>
 					<CardFundsTable 
 						:data="funds" 
@@ -13,34 +11,40 @@
 					</CardFundsTable>
 				</a-col>
 			</a-row>
-		</a-tab-pane>
-		<a-tab-pane key="2" tab="MyMapTV">
+		</a-tab-pane-->
+		<a-tab-pane key="2" tab="Manage Funds">
 			<a-row :gutter="24" type="flex">
-				<a-col :span="24" class="mb-24">
-					<CardTVLineChart v-if="mymapfunds.length>0"/>
+				<a-col :span="4">
+					<a-statistic v-if="fundsStats" title="Live: HL-Funds" :value="fundsStats.availableFunds" />
 				</a-col>
-			</a-row>
-		</a-tab-pane>
-		<a-tab-pane key="3" tab="Manage Funds">
-			<a-row :gutter="24" type="flex">
-				<a-col :span="8">
-					<a-statistic v-if="fundsStats" title="HL-Funds" :value="fundsStats.availableFunds" />
+				<a-col :span="4">
+					<a-statistic v-if="fundsObj" title="Cached: HL-Funds" :value="fundsObj.data.length" />
+				</a-col>
+				<a-col :span="4">
+					<a-statistic v-if="fundsObj" title="Cached Date" :value="fundsCreatedDate()" />
+				</a-col>
+				<a-col :span="4">
+					<a-button @click="refresh()" :disabled="disableRefresh">Refresh Funds</a-button>
 				</a-col>
 				<a-col :span="8">
-					<a-button @click="refresh()">Refresh Funds</a-button>
-				</a-col>
-				<a-col :span="8">
-					<a-progress type="circle" :percent="progressPercent" />
+					<a-progress type="circle" :percent="fundsRefreshProgress" :width="60" />
 				</a-col>
 			</a-row>
 			<a-row :gutter="24" type="flex">
 				<a-col :span="24">
-					<CardFundsTable2
-						:data="fundsList.data" 
+					<CardFundsTable2 v-if="fundsObj"
+						:data="fundsObj.data" 
 						:columns="fundListColumns" 
 						:pagination="pagination"
 						searchIndex="full_description">
 					</CardFundsTable2>
+				</a-col>
+			</a-row>
+		</a-tab-pane>
+		<a-tab-pane key="3" tab="MyMapTV">
+			<a-row :gutter="24" type="flex">
+				<a-col :span="24" class="mb-24">
+					<CardTVLineChart v-if="mymapfunds.length>0"/>
 				</a-col>
 			</a-row>
 		</a-tab-pane>
@@ -86,7 +90,7 @@ const fundListColumns = [
 		}
 	},
 	{ title: 'Company', dataIndex: 'company_name', ellipsis:true, width:200},
-	{ title: 'Sector', dataIndex: 'sector_name'},
+	{ title: 'Sector', dataIndex: 'sector_name', ellipsis:true},
 
 	{ title: 'Type', dataIndex: 'unit_type', ellipsis:true,},
 	{ title: 'IChg', dataIndex: 'initial_charge'},
@@ -104,7 +108,7 @@ const fundListColumns = [
 	{ title: 'Offer', dataIndex: 'offer_price'},
 	//{ title: 'Chng', dataIndex: 'price_change'},
 	//{ title: '%Chng', dataIndex: 'percent_change'},
-	//{ title: 'Updd', dataIndex: 'updated'},
+	{ title: 'Date', dataIndex: 'updated'},
 	{ title: '', dataIndex: 'company_id',width:0,scopedSlots: { customRender: "company_id"}},
 	{ title: '', dataIndex: 'sector_id',width:0, scopedSlots: { customRender: "sector_id"}},
 	{ title: '', dataIndex: 'sedol',width:0, scopedSlots: { customRender: "sedol"}},
@@ -121,7 +125,7 @@ export default ({
 	computed: {
     	...mapState("funds", ["funds"]),
     	...mapState("ft", ["mymapfunds"]),
-    	...mapState("hl", ["fundsStats","progress","fundsList"]),
+    	...mapState("hl", ["fundsStats","fundsRefreshProgress","fundsRefreshComplete","fundsObj"]),
 		progressPercent() {
 			// Check if TotalFunds is not zero to avoid division by zero errors
 			if (this.fundsStats == null || this.fundsStats.availableFunds === 0) {return 0;} 
@@ -129,23 +133,47 @@ export default ({
 			return +((this.progress / this.fundsStats.availableFunds) * 100).toFixed(0);
 		},
 	},
+	watch: {
+		fundsRefreshProgress(n,o) {
+			// console.log("fundsRefreshProgress:",n)
+		},
+		fundsRefreshComplete(n,o) {
+			// console.log("fundsRefreshComplete:",n,o)
+
+			if(n == true) {
+				// console.log("fundsRefreshComplete:",n)
+				this.$store.dispatch("hl/getFunds");
+				disableRefresh = true
+			}
+		},
+		fundsObj(n,o) {
+		}
+	},
 	data() {
 		return {
 			FUNDS_Columns,
 			fundListColumns,
 			pagination: { pageSize: 500 },
+			disableRefresh: false
 		}
 	},
 	methods: {
 		refresh() {
+			this.disableRefresh = true
 			this.$store.dispatch("hl/refreshFunds",{count: this.fundsStats.availableFunds});
 		},
+		fundsCreatedDate() {
+			if(this.fundsObj)
+				return this.fundsObj.created.split("T")[0]
+			return ""
+		}
 	},
 	mounted() {
 		this.$store.dispatch("funds/getFunds");
 		this.$store.dispatch("ft/getMyMapfunds");
-		this.$store.dispatch("hl/getFundsStats");
 
+
+		this.$store.dispatch("hl/getFundsStats");
 		this.$store.dispatch("hl/getFunds");
 	}
 })
