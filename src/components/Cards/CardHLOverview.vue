@@ -10,11 +10,12 @@
 			</a-col>
 			<a-col class="col-content" :span="8" :xl="8">							
 				<a-card :bordered="true" class="card-info">
-					<pre>{{ citiCode }}</pre>
-					<pre>{{ annualCharge }}</pre>
-					<pre>{{ sectorName }}</pre>
-					<pre>{{ unitType }}</pre>
-					<pre>{{ paymentType }}</pre>
+					<pre>Citi: {{ citiCode }}</pre>
+					<pre>Anual Charge: {{ annualCharge }}</pre>
+					<pre>Sector: {{ sectorName }}</pre>
+					<pre>Type: {{ unitType }}</pre>
+					<pre>Payment: {{ paymentType }}</pre>
+					<pre>LaunchDate: {{ launchDate}}</pre>
 				</a-card>
 			</a-col>
 		</a-row>
@@ -36,6 +37,7 @@ export default ({
 		sectorName:     { type: String, default: ""},
 		unitType:     	{ type: String, default: ""},
 		paymentType:    { type: String, default: ""},
+		launchDate:		{ type: String, default: ""},
 	},
 	computed: {},
 	watch: {},

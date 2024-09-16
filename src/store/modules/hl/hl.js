@@ -57,7 +57,7 @@ const actions = {
     while(start < totalFunds) {
         rpp = ((start + REQ_PAGE_SIZE) < totalFunds) ? REQ_PAGE_SIZE : totalFunds - start;
         const resource = `${APP_CLOUD_FUNCTION_URL}/hl/funds/page?start=${start}&rpp=${rpp}`
-        const { data } = await axios.get(resource,{headers: APP_FINTECH_HEADERS})
+        //const { data } = await axios.get(resource,{headers: APP_FINTECH_HEADERS})
         start += rpp
         commit("SET_FUNDS_REFRESH_PROGRESS",+(100*((start)/totalFunds)).toFixed(0))
         await new Promise((s) => setTimeout(s, 50));

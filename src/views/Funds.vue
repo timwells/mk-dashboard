@@ -24,10 +24,13 @@
 					<a-statistic v-if="fundsObj" title="Cached Date" :value="fundsCreatedDate()" />
 				</a-col>
 				<a-col :span="4">
-					<a-button @click="refresh()" :disabled="disableRefresh">Refresh Funds</a-button>
+					<a-button @click="refresh()" :disabled="isDisabled">Refresh Funds</a-button>
+					<a-button @click="incr()">+</a-button>
+					<a-button @click="decr()">-</a-button>
 				</a-col>
 				<a-col :span="8">
 					<a-progress type="circle" :percent="fundsRefreshProgress" :width="60" />
+
 				</a-col>
 			</a-row>
 			<a-row :gutter="24" type="flex">
@@ -143,10 +146,15 @@ export default ({
 			if(n == true) {
 				// console.log("fundsRefreshComplete:",n)
 				this.$store.dispatch("hl/getFunds");
-				disableRefresh = true
+				// this.disableRefresh = true
+				// this.isDisabled = true
 			}
+			console.log(this.isDisabled)
 		},
 		fundsObj(n,o) {
+			if(n) {
+				this.isDisabled=false;
+			}
 		}
 	},
 	data() {
@@ -154,18 +162,34 @@ export default ({
 			FUNDS_Columns,
 			fundListColumns,
 			pagination: { pageSize: 500 },
-			disableRefresh: false
+			disableRefresh: false,
+			isDisabled: false,
+			count:0
 		}
 	},
 	methods: {
 		refresh() {
-			this.disableRefresh = true
+			// this.disableRefresh = true
+			this.isDisabled = true
 			this.$store.dispatch("hl/refreshFunds",{count: this.fundsStats.availableFunds});
 		},
 		fundsCreatedDate() {
 			if(this.fundsObj)
 				return this.fundsObj.created.split("T")[0]
 			return ""
+		},
+		incr() {
+			this.count++
+			if(this.count > 0) {
+				this.isDisabled = false
+			}
+		},
+		decr() {
+			this.count--
+			if(this.count < 0) {
+				this.isDisabled = true
+
+			}
 		}
 	},
 	mounted() {

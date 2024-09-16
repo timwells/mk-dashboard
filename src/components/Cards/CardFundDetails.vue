@@ -10,6 +10,7 @@
 				:sectorName="fundsDetailFilter(sedol).data.sector_name"
 				:unitType="fundsDetailFilter(sedol).data.unit_type"
 				:paymentType="fundsDetailFilter(sedol).data.payment_type"
+				:launchDate="fundsDetailFilter(sedol).data.launchdate"
 			>
 			</CardHLOverview>
 		</a-tab-pane>
