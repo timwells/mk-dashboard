@@ -20,7 +20,6 @@ const actions = {
     const resource = `${APP_CLOUD_FUNCTION_URL}/fool/historical?exchange=LSE&symbol=${symbol}&precision=Day&period=Max`
     try {
       const {data} = await axios.get(resource, { headers: APP_FINTECH_HEADERS })
-      console.log(data)
       commit("SET_CHART_DATA", data)
     } catch(e) {
         console.log("getChartData",e)
