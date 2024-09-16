@@ -25,8 +25,6 @@
 				</a-col>
 				<a-col :span="4">
 					<a-button @click="refresh()" :disabled="isDisabled">Refresh Funds</a-button>
-					<a-button @click="incr()">+</a-button>
-					<a-button @click="decr()">-</a-button>
 				</a-col>
 				<a-col :span="8">
 					<a-progress type="circle" :percent="fundsRefreshProgress" :width="60" />
@@ -132,28 +130,21 @@ export default ({
 		progressPercent() {
 			// Check if TotalFunds is not zero to avoid division by zero errors
 			if (this.fundsStats == null || this.fundsStats.availableFunds === 0) {return 0;} 
-			// Calculate percentage and round to 2 decimal places
 			return +((this.progress / this.fundsStats.availableFunds) * 100).toFixed(0);
 		},
 	},
 	watch: {
 		fundsRefreshProgress(n,o) {
-			// console.log("fundsRefreshProgress:",n)
 		},
 		fundsRefreshComplete(n,o) {
-			// console.log("fundsRefreshComplete:",n,o)
-
-			if(n == true) {
-				// console.log("fundsRefreshComplete:",n)
+			if(n === true) {
 				this.$store.dispatch("hl/getFunds");
-				// this.disableRefresh = true
-				// this.isDisabled = true
+				this.isDisabled = false
 			}
-			console.log(this.isDisabled)
 		},
 		fundsObj(n,o) {
 			if(n) {
-				this.isDisabled=false;
+				//this.isDisabled = false;
 			}
 		}
 	},
@@ -162,35 +153,18 @@ export default ({
 			FUNDS_Columns,
 			fundListColumns,
 			pagination: { pageSize: 500 },
-			disableRefresh: false,
 			isDisabled: false,
-			count:0
 		}
 	},
 	methods: {
 		refresh() {
-			// this.disableRefresh = true
 			this.isDisabled = true
 			this.$store.dispatch("hl/refreshFunds",{count: this.fundsStats.availableFunds});
 		},
 		fundsCreatedDate() {
-			if(this.fundsObj)
-				return this.fundsObj.created.split("T")[0]
+			if(this.fundsObj) return this.fundsObj.created.split("T")[0]
 			return ""
 		},
-		incr() {
-			this.count++
-			if(this.count > 0) {
-				this.isDisabled = false
-			}
-		},
-		decr() {
-			this.count--
-			if(this.count < 0) {
-				this.isDisabled = true
-
-			}
-		}
 	},
 	mounted() {
 		this.$store.dispatch("funds/getFunds");

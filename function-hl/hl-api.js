@@ -3,29 +3,6 @@ const CCM = require('./common/cache/ccm.js');
 const HL = require('./hl-constants.js')
 const pp = require('./hl-postprocess.js')
 
-/*
-const HL_HOST = "https://www.hl.co.uk"
-const HL_FUNDS_PATH = "ajax/funds/fund-search/search"
-
-const HL_FOLDER = 'hl-cache';
-const HL_SUB_FUNDS = "funds";
-const HL_SUB_FUNDS_PAGES = "pages";
-const HL_SUB_FUNDS_DETIALS = "details";
-const HL_SUB_FUNDS_ANALYSIS = "analysis";
-
-const HL_SUB_FUNDS_SEDOLS = "sedols";
-const HL_SUB_FUNDS_CONSOLIDATED = "consolidated";
-*/
-
-//const HEADERS = {
-//    'Accept-Encoding': 'gzip, compress, deflate, br',
-//    'Accept': '*/*',
-//    'Connection': 'keep-alive',
-//    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36',
-//    'Cache-Control' : 'no-cache',
-//    'referer': "https://www.hl.co.uk"
-//}
-
 const downloadResource = async (resource) => {
     try {
         const {data} = await axios.get(resource,{ headers: HL.HEADERS});
