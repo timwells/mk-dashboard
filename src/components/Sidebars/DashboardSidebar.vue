@@ -43,7 +43,6 @@ const sidebarItems = [
 	{title: "Cypress", linkTo: "/cypress-capital"},
 	// {title: "DCF Notes", linkTo: "/dcf"},
 	{title: "Ratios",linkTo: "/market-ratios"},
-
 	{title: "Funds",linkTo: "/funds"},
 	{title: "ETFs",linkTo: "/etfs"},
 	{title: "NakedTrades",linkTo: "/trades"},
@@ -54,6 +53,7 @@ const sidebarItems = [
 	{title: "FED",linkTo: "/fed-insights"},
 	{title: "Models",linkTo: "/models"},
 	{title: "P.Bonds",linkTo: "/premium-bonds"},
+	{title: "Pensions",linkTo: "/pensions"},
 	{title: "Dataroma",linkTo: "/dataroma"},
 
 // {title: "BoE",linkTo: "/boe-irates"},

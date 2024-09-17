@@ -2,7 +2,7 @@
 node_modules
 /dist
 package-lock.json
-
+mk-d-b59f2-default-rtdb-export.json
 
 # local env files
 .env
@@ -16,7 +16,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 firebase-debug.log
-
 
 # Editor directories and files
 .idea

@@ -34,6 +34,7 @@ import ft from "./modules/ft/ft"
 import fool from "./modules/fool/fool"
 import drm from "./modules/drm/drm"
 import hl from "./modules/hl/hl"
+import pensions from "./modules/pensions/pensions"
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -54,6 +55,7 @@ export default new Vuex.Store({
     ft,
     fool,
     drm,
-    hl
+    hl,
+    pensions
   }
 });

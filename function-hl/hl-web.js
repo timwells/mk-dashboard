@@ -5,9 +5,9 @@ const HL = require('./hl-constants.js')
 const CCM = require('./common/cache/ccm.js');
 
 // const HL_FUND_FACTSHEET_PATH ="funds/fund-discounts,-prices--and--factsheets/search-results"
-
 // https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/B88N705
 // https://www.hl.co.uk/funds/fund-discounts,-prices--and--factsheets/search-results/a/abrdn-asia-pacific-equity-i-income/fund-analysis/in-detail
+
 //
 //<meta
 //content="https://www.hl.co.uk/
@@ -23,8 +23,7 @@ const getResource = async (resource) => {
         const { data } = await axios.get(resource)
         return cheerio.load(data)
     }
-    catch (err) {
-    }
+    catch (err) {}
     return null
 }
 
@@ -137,7 +136,49 @@ async function fundAnalysis(sedol) {
     return []
 }
 
+
+// https://www.hl.co.uk/shares/exchange-traded-funds-etfs/list-of-etfs
+const listETFCompanies = async () => {
+    const $ = await getResource('https://www.hl.co.uk/shares/exchange-traded-funds-etfs/list-of-etfs')
+    let etfs = []
+    $('#companyid').find('option').each((i, option) => {
+        let _id = $(option).attr('value')
+        let _name = $(option).text()
+        if(_id.length>0) etfs.push({name: _name, id: _id})
+    })
+
+    return etfs
+}
+
+// https://www.hl.co.uk/shares/exchange-traded-funds-etfs/ajax/funds/etf-search/searchlist-of-etfs?etf_search_input=&companyid=128&sectorid=&tab=prices"ajax/funds/fund-search/search"
+// https://www.hl.co.uk/shares/exchange-traded-funds-etfs/list-of-etfs?etf_search_input=&companyid=128&sectorid=&tab=prices
+const listETFsByCompanies = async (companyid) => {
+    const $ = await getResource('https://www.hl.co.uk/shares/exchange-traded-funds-etfs/list-of-etfs')
+    let etfs = []
+    $('#companyid').find('option').each((i, option) => {
+        let _id = $(option).attr('value')
+        let _name = $(option).text()
+        if(_id.length>0) etfs.push({name: _name, id: _id})
+    })
+
+    return etfs
+}
+
+/*
+
+async function getProviderFundPages($) {
+    // Has more than 1 page
+    const additionalPages = $(`table[summary="ETF search results"] > tbody > tr:nth-child(1) > td > table > tbody > tr`)
+    let pageQueries = []
+    $(additionalPages).find('a').each((i,e) => { pageQueries.push($(e).attr("href")) })
+    return pageQueries;
+}
+
+*/
+
 module.exports = {
     fundAnalysis,
+    listETFCompanies,
+    listETFsByCompanies
 }
 

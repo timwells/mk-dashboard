@@ -35,6 +35,7 @@ const mutations = {
 };
 
 const actions = {
+  
   getFunds({ commit }) {
     commit("SET_FUNDS", null);
     axios.get(`./data/allFunds3.json`)
@@ -46,9 +47,11 @@ const actions = {
           //      .sort((a,b) => a.netAC - b.netAC)                
       })
   },
+  
   async getIndexData({ commit }) {
     await genericGet(`/fintech/v1/scrape/hlindex/indexes`,"SET_INDEX_MODELS",[],{ commit })
   },
+
   async getFundDetail({ commit }, { fund }) {
     axios.get(`${APP_CLOUD_FUNCTION_URL}/fintech/v1/scrape/hlfund/details?fund=${fund}`, { headers: APP_FINTECH_HEADERS })
       .then(response => { 
@@ -56,7 +59,6 @@ const actions = {
         commit("SET_FUND_DETAILS", response.data)  
       })
   },
-
 }
 
 export default {

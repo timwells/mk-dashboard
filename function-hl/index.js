@@ -43,5 +43,11 @@ app.get('/fund/analysis', async (req, res) => {
     return res.status(200).json(data)
 });
 
+app.get('/etfs/compaines', async (req, res) => {
+    let data = await hlWeb.listETFCompanies()
+    return res.status(200).json(data)
+});
+
+
 const gOpts = {timeoutSeconds: 120};
 exports.hl = functions.runWith(gOpts).https.onRequest(app);

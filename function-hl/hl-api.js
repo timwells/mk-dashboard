@@ -212,6 +212,12 @@ async function fundDetails(companyid,sectorid,sedol) {
     return null
 }
 
+// ETF Scan
+// https://www.hl.co.uk/shares/exchange-traded-funds-etfs/list-of-etfs?etf_search_input=&companyid=128&sectorid=&tab=prices
+//
+//
+
+
 module.exports = {
     fundsStats,
     fundsPage,

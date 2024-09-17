@@ -69,13 +69,22 @@ let routes = [
 		layout: "dashboard",
 		component: () => import('../views/Layout.vue'),
 		meta: { requiresAuth: true }
-	},*/{
+	},*/
+	{
 		path: '/premium-bonds',
 		name: 'P.Bonds',
 		layout: "dashboard",
 		component: () => import('../views/PremiumBondsView.vue'),
 		meta: { requiresAuth: true, roles: ['admin']}
-	},{
+	},
+	{
+		path: '/pensions',
+		name: 'Pensions',
+		layout: "dashboard",
+		component: () => import('../views/PensionView.vue'),
+		meta: { requiresAuth: true, roles: ['admin']}
+	},
+	{
 		path: '/fed-insights',
 		name: 'FEDi',
 		layout: "dashboard",
