@@ -2,6 +2,7 @@ const HOST = "https://www.hl.co.uk"
 const FUNDS_SEARCH_PATH = "ajax/funds/fund-search/search"
 const FUND_FACTSHEET_PATH ="funds/fund-discounts,-prices--and--factsheets/search-results"
 
+const ETFS_SEARCH_PATH = "shares/exchange-traded-funds-etfs/list-of-etfs"
 
 const FUNDS_CACHE_FOLDER = 'hl-cache';
 const FUNDS_FOLDER = "funds";
@@ -17,6 +18,10 @@ const FUNDS_CACHE_PAGES_PATH =        "hl-cache/funds/pages";
 const FUNDS_CACHE_DETAILS_PATH =      "hl-cache/funds/details/sedols";
 const FUNDS_CACHE_ANALYSIS_PATH =     "hl-cache/funds/analysis/sedols";
 
+const ETFS_CACHE_PATH =              "hl-cache/etfs";
+const ETFS_CACHE_CONSOLIDATED_PATH = "hl-cache/etfs/consolidated";
+const ETFS_CACHE_COMPANIES_PATH =    "hl-cache/etfs/companies";
+
 const REQ_HEADERS = {
     'Accept-Encoding': 'gzip, compress, deflate, br',
     'Accept': '*/*',
@@ -27,12 +32,10 @@ const REQ_HEADERS = {
 }
 
 module.exports = {
-    HOST,
+    HOST, REQ_HEADERS,
 
     FUNDS_SEARCH_PATH,
     FUND_FACTSHEET_PATH,
-
-
 
     FUNDS_CACHE_PATH,
     FUNDS_CACHE_CONSOLIDATED_PATH,    
@@ -40,5 +43,9 @@ module.exports = {
     FUNDS_CACHE_DETAILS_PATH,
     FUNDS_CACHE_ANALYSIS_PATH,
 
-    REQ_HEADERS
+
+    ETFS_SEARCH_PATH,
+    ETFS_CACHE_PATH,
+    ETFS_CACHE_CONSOLIDATED_PATH,
+    ETFS_CACHE_COMPANIES_PATH
 }

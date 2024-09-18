@@ -6,13 +6,21 @@ import {
 } from "../common/c.js"
 
 const state = {
+    // Funds
     fundsStats: null,
     fundsRefreshProgress: 0,
     fundsRefreshComplete: true,
     fundsCacheList: [],
     fundsObj: null,
     fundDetails: [],
-    fundAnalysis: []
+    fundAnalysis: [],
+
+    // Etfs
+    etfsStats: null,
+    etfsCompanies: [],
+    etfsRefreshProgress: 0,
+    etfsRefreshComplete: true,
+    etfsObj: null,
 };
 
 const getters = {
@@ -33,6 +41,12 @@ const mutations = {
     
     SET_FUND_ANALYSIS: (state, payload) => (state.fundDetails = payload),
     ADD_FUND_ANALYSIS: (state, payload) => (state.fundAnalysis = [...state.fundAnalysis, payload]),
+
+    SET_ETFS_STATS: (state, payload) => (state.etfsStats = payload),
+    SET_ETFS_COMPANIES: (state, payload) => (state.etfsCompanies = payload),
+    SET_ETFS_REFRESH_PROGRESS: (state, payload) => (state.etfsRefreshProgress = payload),
+    SET_ETFS_REFRESH_COMPLETE: (state, payload) => (state.etfsRefreshComplete = payload),
+    SET_ETFS_OBJ: (state, payload) => (state.etfsObj = payload),    
 };
 
 const actions = {
@@ -92,7 +106,40 @@ const actions = {
         `${APP_CLOUD_FUNCTION_URL}/hl/fund/analysis?sedol=${sedol}`, 
             { headers: APP_FINTECH_HEADERS })
     commit("ADD_FUND_ANALYSIS", data)
-  }
+  },
+
+  async getEtfsStats({ commit }) {
+    const { data } = await axios.get(`${APP_CLOUD_FUNCTION_URL}/hl/funds/stats`, 
+                                        { headers: APP_FINTECH_HEADERS })
+    commit("SET_FUNDS_STATS", data)
+  },
+
+  async getEtfsCompanies({commit}) {
+    commit("SET_ETFS_COMPANIES", [])
+    const { data } = await axios.get(`${APP_CLOUD_FUNCTION_URL}/hl/etfs/compaines/list`,{ headers: APP_FINTECH_HEADERS })
+    commit("SET_ETFS_COMPANIES", data)
+  },
+
+  async refreshEtfs({ commit }) {
+    commit("SET_ETFS_REFRESH_PROGRESS", 0)
+    commit("SET_ETFS_REFRESH_COMPLETE", false)
+    commit("SET_ETFS_OBJ", null)
+
+    // Request Number of Companies
+    let totalCompanies = 0
+    const resp = await axios.get(`${APP_CLOUD_FUNCTION_URL}/hl/etfs/compaines/list`,{ headers: APP_FINTECH_HEADERS })
+    totalCompanies = resp.data.length
+
+    for(let company = 0; company < totalCompanies; company++) {
+      const resource = `${APP_CLOUD_FUNCTION_URL}/hl/etfs/compaines/funds/list?companyid=${resp.data[company].id}`  // /etfs/compaines/funds/list'
+      console.log(resource)
+      const { data } = await axios.get(resource, { headers: APP_FINTECH_HEADERS })
+      console.log(data)
+      commit("SET_ETFS_REFRESH_PROGRESS",Math.ceil(+(100*((company)/totalCompanies)).toFixed(0)))
+      // await new Promise((s) => setTimeout(s, 1000));
+    }
+    commit("SET_ETFS_REFRESH_COMPLETE", true)
+  },
 }
 
 export default {

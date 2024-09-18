@@ -19,7 +19,6 @@ const INIT_CACHE = "initialised-cache"
 const RE_CACHE = "re-cache"
 const FROM_CACHE = "cache"
 
-
 async function _uploadJsonStream(
     writeStream, 
     dataObj
@@ -93,7 +92,7 @@ async function getResource(
     try {
         const [metadata] = await file.getMetadata()
         const [contents] = await file.download();
-        return { status: SUCCESS, created: metadata.timeCreated, tag:tag, source: "cache", data: JSON.parse(contents.toString())}
+        return { status: SUCCESS, created: metadata.timeCreated, tag:tag, source: FROM_CACHE, data: JSON.parse(contents.toString())}
     } catch(e) {
         return { status: ERROR, tag:tag, data: null }
     }

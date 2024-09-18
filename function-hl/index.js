@@ -10,6 +10,7 @@ app.use(cors({ origin: true }));
 app.use(express.json());
 app.use(checkApiKey);
 
+// Funds
 app.get('/funds', async (req, res) => {
     const data = await hlApi.funds()
     return res.status(200).json(data)
@@ -43,9 +44,27 @@ app.get('/fund/analysis', async (req, res) => {
     return res.status(200).json(data)
 });
 
-app.get('/etfs/compaines', async (req, res) => {
-    let data = await hlWeb.listETFCompanies()
+// ETFS
+app.get('/etfs/stats', async (req, res) => {
+    let data = await hlWeb.EtfStats()
     return res.status(200).json(data)
+});
+
+app.get('/etfs/compaines/list', async (req, res) => {
+    let data = await hlWeb.EtfCompaniesList()
+    return res.status(200).json(data)
+});
+
+app.get('/etfs/compaines/funds/list', async (req, res) => {
+    const { companyid } =  req.query;
+    let data = await hlWeb.EtfCompaniesFundsList(companyid)
+    return res.status(200).json(data)
+});
+
+app.get('/etfs', async (req, res) => {
+    // const { companyid } =  req.query;
+    // let data = await hlWeb.Etfs()
+    return res.status(200).json({})
 });
 
 

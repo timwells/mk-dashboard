@@ -1,5 +1,10 @@
 <template>
 	<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
+	<p>etfsCompanies</p>
+	<a-button @click="refreshEtfs">Refresh</a-button>
+	<pre>{{ etfsRefreshProgress }} | {{ etfsRefreshComplete }}</pre>
+	<pre>{{ etfsCompanies }}</pre>
+
 		<a-table 
 			:columns="COLUMNS" 
 			:data-source="etfs" 
@@ -88,6 +93,20 @@
 								:pagination="false"
 								:rowKey="(record,i) => i"
 								class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
+								<template slot="country" slot-scope="country">
+									<p class="m-0 font-regular text-muted">{{ country }}</p>
+								</template>
+								<template slot="weight" slot-scope="weight">
+									<p class="m-0 font-regular text-muted">{{ weight }}</p>
+								</template>
+							</a-table>						
+						</a-card>
+					</a-tab-pane>
+					<!--a-tab-pane key="5" tab="RawData">
+						<a-card class="card-content">						
+			:pagination="false"
+								:rowKey="(record,i) => i"
+								class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
 								<template slot="sector" slot-scope="sector">
 									<p class="m-0 font-regular text-muted">{{ sector }}</p>
 								</template>
@@ -102,21 +121,7 @@
 							<a-table v-if="gEtfDetail(record.sedol)"
 								:columns="COUNTRY_Columns"
 								:data-source="gEtfDetail(record.sedol).countries"
-								:pagination="false"
-								:rowKey="(record,i) => i"
-								class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">			
-								<template slot="country" slot-scope="country">
-									<p class="m-0 font-regular text-muted">{{ country }}</p>
-								</template>
-								<template slot="weight" slot-scope="weight">
-									<p class="m-0 font-regular text-muted">{{ weight }}</p>
-								</template>
-							</a-table>						
-						</a-card>
-					</a-tab-pane>
-					<!--a-tab-pane key="5" tab="RawData">
-						<a-card class="card-content">						
-
+					
 							<pre>{{ gEtfDetail(record.sedol) }}</pre>
 						</a-card>						
 					</a-tab-pane-->
@@ -208,6 +213,8 @@ export default ({
 	computed: {
     	...mapState("etfs", ["etfs"]),
 		...mapGetters("etfs",["gEtfDetail","gEtfHoldingsSum"]),
+
+		...mapState("hl",["etfsCompanies","etfsRefreshProgress","etfsRefreshComplete"])
 	},
 	data() {
 		return {
@@ -252,9 +259,16 @@ export default ({
     	onExpand(expanded, record) {
 			this.$store.dispatch("etfs/getEtfDetail",{sedol: record.sedol });
     	},
+	
+		refreshEtfs() {
+			console.log("refreshEtfs")
+			this.$store.dispatch("hl/refreshEtfs")
+		}
 	},
 	mounted() {
-		this.$store.dispatch("etfs/getETFs");
+		//this.$store.dispatch("etfs/getETFs");
+
+		this.$store.dispatch("hl/getEtfsCompanies")
 	}
 })
 </script>

@@ -6,7 +6,8 @@ import {
 } from "../common/c.js"
 
 const state = {
-    mymapfunds: []
+    mymapfunds: [],
+    dataset: []
 };
 
 const getters = {}

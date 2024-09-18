@@ -23,11 +23,12 @@ const getResource = async (resource) => {
         const { data } = await axios.get(resource)
         return cheerio.load(data)
     }
-    catch (err) {}
+    catch (err) {
+        console.log(err)
+    }
     return null
 }
-
-const queryTop10Holdings = async ($) => {
+const queryFundTop10Holdings = async ($) => {
     let holdings = [];
     $('#top-10-holdings tbody').find('tr').each((i, row) => {
         let colsD = $(row).find('td');
@@ -48,7 +49,7 @@ const queryTop10Holdings = async ($) => {
 
     return holdings
 }
-const queryAssetAllocation = async ($) => {
+const queryFundAssetAllocation = async ($) => {
     let assetAllocations = [];
     $('#asset-allocation tbody').find('tr').each((i, row) => {
         let colsD = $(row).find('td');
@@ -83,8 +84,8 @@ async function fundAnalysisImpl(sedol) {
         // console.log(analysisResource)
         $ = await getResource(analysisResource)
 
-        analysis.holdings = await queryTop10Holdings($)       
-        analysis.assetAllocation = await queryAssetAllocation($)       
+        analysis.holdings = await queryFundTop10Holdings($)       
+        analysis.assetAllocation = await queryFundAssetAllocation($)       
 
         return analysis
     } catch(e) {
@@ -135,50 +136,131 @@ async function fundAnalysis(sedol) {
     }
     return []
 }
+async function queryEtfFunds($) {
+    const tableRows = $(`table[summary="ETF search results"] tbody tr`);
+    let etfFunds = [];
+    tableRows.each((i,row) => {
+        let c = $(row).find('td');                        
+        let fundDetails = {}
+        c.each((j, col) => {
+            let html = $(col).html()
+            let bSkip = html.includes("&nbsp;") || html.includes("Page")
+            if(!bSkip) {
+                let entity = $(col).text().replace(/[\n|\t]/gm, '')
+                if((entity.length !== 0)) {
+                    switch(j) {
+                        case 0: fundDetails.id = entity;  break; 
+                        case 1: {
+                            fundDetails.provider = entity;
+                            fundDetails.sedol = $(col).find('a').attr("href").split("/").pop()
+                        }
+                        break;
+                        case 4: {
+                            fundDetails.name = entity
+                        } break;
+                        case 5: { 
+                            fundDetails.nonLSE = $(col).find('a').attr("data-nonlse")
+                        } 
+                        break;
+                    }
+                }
+            }
+        })
+        
+        if(Object.keys(fundDetails).length > 0) {
+            etfFunds.push(fundDetails)
+        }
+    })
 
+    return etfFunds
+}
 
-// https://www.hl.co.uk/shares/exchange-traded-funds-etfs/list-of-etfs
-const listETFCompanies = async () => {
-    const $ = await getResource('https://www.hl.co.uk/shares/exchange-traded-funds-etfs/list-of-etfs')
+async function EtfCompaniesFundsListImpl(companyid) {
+    const resource = `${HL.HOST}/${HL.ETFS_SEARCH_PATH}?etf_search_input=&companyid=${companyid}&sectorid=&tab=prices&lse_only=1`  
+    
+    console.log(resource)
+    const $ = await getResource(resource)
+
+    let pageEtfs = []
+
+    // Check if funds available: no_results
+    if($(`#no_results`).html() !== null) { console.log(`No Results for CompanyId:${companyid}`)} 
+    else {
+        console.log(`Has Results for CompanyId:${companyid}`)
+        // Check if more than 1 page
+        let pageRefs = []
+        const additionalPages = $(`table[summary="ETF search results"] > tbody > tr:nth-child(1) > td > table > tbody > tr`)
+        $(additionalPages).find('a').each((i,e) => { pageRefs.push($(e).attr("href")) })
+        let page = 0;
+        do {
+            pageEtfs.push(...(await queryEtfFunds($)))
+            page++
+        } while (page < additionalPages.length)
+    }
+
+    return pageEtfs;
+}
+
+const EtfCompaniesFundsList = async (companyid) => {
+    const cacheBucket = CCM.BUCKET_NAME
+    const cacheAge = CCM.CACHE_AGE_24HRS
+    const live = false
+    const cacheResource = `${HL.ETFS_CACHE_COMPANIES_PATH}/etf-${companyid}.json`; 
+    const cacheTag = `etf-${companyid}`
+
+    try {
+        const cacheResponse = await CCM.queryResourceStatus(cacheBucket,cacheResource);
+        const hotRequest = (cacheResponse.expired || live)
+
+        switch(cacheResponse.status) {
+            case CCM.SUCCESS: {
+                console.log("CCM.SUCCESS")
+                if(!hotRequest) { // Get Resource from cache if not hotRequest
+                    return await CCM.getResource(cacheBucket,cacheResource,cacheTag)
+                }
+                else {
+                    console.log("CCM.NOT_FOUND",cacheResource)
+                    return (await CCM.updateResource(await EtfCompaniesFundsListImpl(companyid),cacheBucket,cacheResource,cacheAge,cacheTag,CCM.RE_CACHE))                    
+                }
+            } break;
+            case CCM.NOT_FOUND: { 
+                console.log("CCM.NOT_FOUND",cacheResource)
+                return (await CCM.updateResource(await EtfCompaniesFundsListImpl(companyid),cacheBucket,cacheResource,cacheAge,cacheTag,CCM.INIT_CACHE))
+            } break;
+            default: {
+                console.log("ERROR - ",cacheResponse.status)
+            }
+        }    
+    } catch(e) {
+        console.log("EtfCompaniesFundsList",e)    
+    }
+    return null
+}
+
+const EtfCompaniesList = async () => {
+    const resource = `${HL.HOST}/${HL.ETFS_SEARCH_PATH}`;
+    console.log(resource)
+
+    const $ = await getResource(resource)
     let etfs = []
+
     $('#companyid').find('option').each((i, option) => {
         let _id = $(option).attr('value')
         let _name = $(option).text()
-        if(_id.length>0) etfs.push({name: _name, id: _id})
+        if(_id.length > 0) etfs.push({name: _name, id: _id})
     })
 
     return etfs
 }
-
-// https://www.hl.co.uk/shares/exchange-traded-funds-etfs/ajax/funds/etf-search/searchlist-of-etfs?etf_search_input=&companyid=128&sectorid=&tab=prices"ajax/funds/fund-search/search"
-// https://www.hl.co.uk/shares/exchange-traded-funds-etfs/list-of-etfs?etf_search_input=&companyid=128&sectorid=&tab=prices
-const listETFsByCompanies = async (companyid) => {
-    const $ = await getResource('https://www.hl.co.uk/shares/exchange-traded-funds-etfs/list-of-etfs')
-    let etfs = []
-    $('#companyid').find('option').each((i, option) => {
-        let _id = $(option).attr('value')
-        let _name = $(option).text()
-        if(_id.length>0) etfs.push({name: _name, id: _id})
-    })
-
-    return etfs
+const EtfStats = async () => {
+    let etfCompanies = await EtfCompaniesList()
+    return {availableCompanies: etfCompanies.length}
 }
-
-/*
-
-async function getProviderFundPages($) {
-    // Has more than 1 page
-    const additionalPages = $(`table[summary="ETF search results"] > tbody > tr:nth-child(1) > td > table > tbody > tr`)
-    let pageQueries = []
-    $(additionalPages).find('a').each((i,e) => { pageQueries.push($(e).attr("href")) })
-    return pageQueries;
-}
-
-*/
 
 module.exports = {
     fundAnalysis,
-    listETFCompanies,
-    listETFsByCompanies
+    EtfStats,
+    EtfCompaniesList,
+    EtfCompaniesFundsList
 }
 
