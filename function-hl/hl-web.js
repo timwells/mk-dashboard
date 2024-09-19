@@ -174,8 +174,7 @@ async function queryEtfFunds($) {
 
     return etfFunds
 }
-
-async function EtfCompaniesFundsListImpl(companyid) {
+async function etfCompaniesFundsListImpl(companyid) {
     const resource = `${HL.HOST}/${HL.ETFS_SEARCH_PATH}?etf_search_input=&companyid=${companyid}&sectorid=&tab=prices&lse_only=1`  
     
     console.log(resource)
@@ -200,8 +199,7 @@ async function EtfCompaniesFundsListImpl(companyid) {
 
     return pageEtfs;
 }
-
-const EtfCompaniesFundsList = async (companyid) => {
+const etfCompaniesFundsList = async (companyid) => {
     const cacheBucket = CCM.BUCKET_NAME
     const cacheAge = CCM.CACHE_AGE_24HRS
     const live = false
@@ -220,12 +218,12 @@ const EtfCompaniesFundsList = async (companyid) => {
                 }
                 else {
                     console.log("CCM.NOT_FOUND",cacheResource)
-                    return (await CCM.updateResource(await EtfCompaniesFundsListImpl(companyid),cacheBucket,cacheResource,cacheAge,cacheTag,CCM.RE_CACHE))                    
+                    return (await CCM.updateResource(await etfCompaniesFundsListImpl(companyid),cacheBucket,cacheResource,cacheAge,cacheTag,CCM.RE_CACHE))                    
                 }
             } break;
             case CCM.NOT_FOUND: { 
                 console.log("CCM.NOT_FOUND",cacheResource)
-                return (await CCM.updateResource(await EtfCompaniesFundsListImpl(companyid),cacheBucket,cacheResource,cacheAge,cacheTag,CCM.INIT_CACHE))
+                return (await CCM.updateResource(await etfCompaniesFundsListImpl(companyid),cacheBucket,cacheResource,cacheAge,cacheTag,CCM.INIT_CACHE))
             } break;
             default: {
                 console.log("ERROR - ",cacheResponse.status)
@@ -236,8 +234,68 @@ const EtfCompaniesFundsList = async (companyid) => {
     }
     return null
 }
+const etfsConsolidationImpl = async () => {
+    try {
+        const files = await CCM.listObjects(CCM.BUCKET_NAME,`${HL.ETFS_CACHE_COMPANIES_PATH}`)
+        let etfs = []
+        for(let i = 0; i < files.length; i++) {
+            const content = await CCM.getResource(CCM.BUCKET_NAME,files[i].name,"tag")
+            if (content?.data !== undefined) {
+                // console.log(i,content.data.funds.length)
+                etfs = [...etfs, ...content.data]
+            } else {
+                console.log("The attribute does not exist.");
+            }
+        }
+        return etfs
+    }
+    catch(e) { console.log("etfsConsolidationImpl",e) }
+    return []
+}
+const etfs = async () => {
+    const cacheBucket = CCM.BUCKET_NAME
+    const cacheAge = CCM.CACHE_AGE_1WEEK
+    // const live = val.validateBoolParameter(req.query.live, ['true', 'false']) && req.query.live === 'true';
+    const live = false
+    const cacheResource = `${HL.ETFS_CACHE_CONSOLIDATED_PATH}/consolidated-etfs.json`; 
+    const cacheTag = "consolidated-etfs"
 
-const EtfCompaniesList = async () => {
+    // Check Cache
+    console.log("cacheBucket:",cacheBucket)
+    console.log("cacheResource:",cacheResource)
+    console.log("cacheAge:",cacheAge)
+    console.log("cacheTag:",cacheTag)
+    console.log("live:",live)
+
+    try {
+        const cacheResponse = await CCM.queryResourceStatus(cacheBucket,cacheResource);
+        const hotRequest = (cacheResponse.expired || live)
+
+        switch(cacheResponse.status) {
+            case CCM.SUCCESS: {
+                console.log("funds - CCM.SUCCESS")
+                if(!hotRequest) { // Get Resource from cache if not hotRequest
+                    return await CCM.getResource(cacheBucket,cacheResource,cacheTag)
+                }
+                else {
+                    console.log("funds - CCM.NOT_FOUND",cacheResource)
+                    return (await CCM.updateResource(await etfsConsolidationImpl(),cacheBucket,cacheResource,cacheAge,cacheTag,CCM.RE_CACHE))                    
+                }
+            } break;
+            case CCM.NOT_FOUND: { 
+                console.log("funds - CCM.NOT_FOUND",cacheResource)
+                return (await CCM.updateResource(await etfsConsolidationImpl(),cacheBucket,cacheResource,cacheAge,cacheTag,CCM.INIT_CACHE))
+            } break;
+            default: {
+                console.log("ERROR - ",cacheResponse.status)
+            }
+        }    
+    } catch(e) {
+        console.log("funds",e)    
+    }
+    return []
+}
+const etfCompaniesList = async () => {
     const resource = `${HL.HOST}/${HL.ETFS_SEARCH_PATH}`;
     console.log(resource)
 
@@ -252,15 +310,16 @@ const EtfCompaniesList = async () => {
 
     return etfs
 }
-const EtfStats = async () => {
-    let etfCompanies = await EtfCompaniesList()
+const etfStats = async () => {
+    let etfCompanies = await etfCompaniesList()
     return {availableCompanies: etfCompanies.length}
 }
 
 module.exports = {
     fundAnalysis,
-    EtfStats,
-    EtfCompaniesList,
-    EtfCompaniesFundsList
+    etfStats,
+    etfCompaniesList,
+    etfCompaniesFundsList,
+    etfs
 }
 

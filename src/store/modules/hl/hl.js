@@ -47,7 +47,8 @@ const mutations = {
     SET_ETFS_REFRESH_PROGRESS: (state, payload) => (state.etfsRefreshProgress = payload),
     SET_ETFS_REFRESH_COMPLETE: (state, payload) => (state.etfsRefreshComplete = payload),
     SET_ETFS_OBJ: (state, payload) => (state.etfsObj = payload),    
-};
+
+  };
 
 const actions = {
   async getFundsStats({ commit }) {

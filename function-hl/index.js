@@ -17,54 +17,53 @@ app.get('/funds', async (req, res) => {
 });
 
 app.get('/funds/stats', async (req, res) => {
-    let data = await hlApi.fundsStats()
+    const data = await hlApi.fundsStats()
     return res.status(200).json(data)
 });
 
 app.get('/funds/page', async (req, res) => {
     const {start,rpp} = req.query;
-    let data = await hlApi.fundsPage(start,rpp)
+    const data = await hlApi.fundsPage(start,rpp)
     return res.status(200).json(data)
 });
 
 app.get('/funds/pages/list-objs', async (req, res) => {
-    let data = await hlApi.fundsPagesListObjs()
+    const data = await hlApi.fundsPagesListObjs()
     return res.status(200).json(data)
 });
 
 app.get('/fund/details', async (req, res) => {
     const {companyid, sectorid, sedol } = req.query;
-    let data = await hlApi.fundDetails(companyid,sectorid,sedol)
+    const data = await hlApi.fundDetails(companyid,sectorid,sedol)
     return res.status(200).json(data)
 });
 
 app.get('/fund/analysis', async (req, res) => {
     const {sedol } = req.query;
-    let data = await hlWeb.fundAnalysis(sedol)
+    const data = await hlWeb.fundAnalysis(sedol)
     return res.status(200).json(data)
 });
 
 // ETFS
 app.get('/etfs/stats', async (req, res) => {
-    let data = await hlWeb.EtfStats()
+    const data = await hlWeb.etfStats()
     return res.status(200).json(data)
 });
 
 app.get('/etfs/compaines/list', async (req, res) => {
-    let data = await hlWeb.EtfCompaniesList()
+    let data = await hlWeb.etfCompaniesList()
     return res.status(200).json(data)
 });
 
 app.get('/etfs/compaines/funds/list', async (req, res) => {
     const { companyid } =  req.query;
-    let data = await hlWeb.EtfCompaniesFundsList(companyid)
+    const data = await hlWeb.etfCompaniesFundsList(companyid)
     return res.status(200).json(data)
 });
 
 app.get('/etfs', async (req, res) => {
-    // const { companyid } =  req.query;
-    // let data = await hlWeb.Etfs()
-    return res.status(200).json({})
+    const data = await hlWeb.etfs()
+    return res.status(200).json(data)
 });
 
 
