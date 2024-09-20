@@ -132,7 +132,7 @@ let routes = [
 		path: '/funds',
 		name: 'Funds',
 		layout: "dashboard",
-		component: () => import('../views/Funds.vue'),
+		component: () => import('../views/FundsView.vue'),
 		meta: { requiresAuth: true }
 	},{
 		path: '/etfs',

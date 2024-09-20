@@ -12,15 +12,18 @@ const FUNDS_ANALYSIS_FOLDER = "analysis";
 const FUNDS_SEDOLS_FOLDER = "sedols";
 const FUNDS_CONSOLIDATED_FOLDER = "consolidated";
 
+// FUNDS...
 const FUNDS_CACHE_PATH =              "hl-cache/funds";
 const FUNDS_CACHE_CONSOLIDATED_PATH = "hl-cache/funds/consolidated";
 const FUNDS_CACHE_PAGES_PATH =        "hl-cache/funds/pages";
 const FUNDS_CACHE_DETAILS_PATH =      "hl-cache/funds/details/sedols";
 const FUNDS_CACHE_ANALYSIS_PATH =     "hl-cache/funds/analysis/sedols";
 
+// ETFS...
 const ETFS_CACHE_PATH =              "hl-cache/etfs";
 const ETFS_CACHE_CONSOLIDATED_PATH = "hl-cache/etfs/consolidated";
 const ETFS_CACHE_COMPANIES_PATH =    "hl-cache/etfs/companies";
+const ETFS_CACHE_DETAILS_PATH =      "hl-cache/etfs/details/sedols";
 
 const REQ_HEADERS = {
     'Accept-Encoding': 'gzip, compress, deflate, br',
@@ -47,5 +50,6 @@ module.exports = {
     ETFS_SEARCH_PATH,
     ETFS_CACHE_PATH,
     ETFS_CACHE_CONSOLIDATED_PATH,
-    ETFS_CACHE_COMPANIES_PATH
+    ETFS_CACHE_COMPANIES_PATH,
+    ETFS_CACHE_DETAILS_PATH
 }

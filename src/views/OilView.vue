@@ -1,17 +1,17 @@
 <template>
 	<div>
-        <p>Oil View</p>
-</div>
+		<p>CardTVStockChart2</p>
+		<CardTVStockChart2 epic="PRU"/>
+	</div>
 </template>
 
 <script>
-// import CardTVStockChart2 from '@/components/Cards/CardTVStockChart2';
-
 import { mapState, mapGetters } from "vuex";
+import CardTVStockChart2 from '@/components/Cards/CardTVStockChart2';
 
 export default ({
 	components: {
-		// CardTVStockChart2
+		CardTVStockChart2
 	},
 	computed: {
         //...mapState("pensions",["portfolios"])
@@ -23,9 +23,9 @@ export default ({
 	methods: {
 	},
 	async mounted() {
-        // this.$store.dispatch("pensions/getPortfolios")
 	}
 })
+
 </script>
 
 <style lang="scss">

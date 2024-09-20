@@ -315,11 +315,181 @@ const etfStats = async () => {
     return {availableCompanies: etfCompanies.length}
 }
 
+const extractSecurityEntity = ($,entity) => {
+    entity.length > 0 ? $(entity[0]).text() : "n/a"
+}
+const etfDetailsImpl = async (sedol) => {
+    let details = null
+    try {
+        details = {}
+        const resource = `https://www.hl.co.uk/shares/shares-search-results/${sedol}`
+
+        let { data } = await axios.get(resource)
+        const $ = await cheerio.load(data)
+
+        details.provider = $("head meta[name='Share_Title']").attr("content");
+        details.name = $("head meta[name='Share_Description']").attr("content");
+        details.sedol = $("head meta[name='Share_Sedol']").attr("content");
+        details.epic = $("head meta[name='Share_EPIC']").attr("content");
+        details.tradeable = $("head meta[name='Share_Tradeable']").attr("content");
+        // details.url = $("head meta[property='og:url']").attr("content");
+
+        // Bid | Ask
+        let prices = []
+        prices.push({id:"Bid", value: $("#security-price .row span[data-field='bid']").first().text().trimStart().trimEnd()})
+        prices.push({id:"Ask", value: $("#security-price .row span[data-field='ask']").first().text().trimStart().trimEnd()})
+        prices.push({id:"Chg.£", value: $("#security-price .row span[data-field='change']").first().text().trimStart().trimEnd()})
+        prices.push({id:"Chg %", value:$("#security-price .row span[data-field='perc']").first().text().trimStart().trimEnd()})
+        // prices.push({id:"Dir", value: $("#stock_change_arrow").attr("src")})
+        details.prices = prices
+
+        // Secrurity Details
+        // const secStatDetails = $('#security-detail .row div')
+        // console.log("sStatDetails:",secStatDetails.length)
+        //secStatDetails.each((i,e) => {
+        //    console.log(i,$(e).find("span").text().trim(),$(e).find("strong").text().trim())
+        //})
+
+        // Costs Table
+        let costs = []
+        const h2Costs = $('h2.tab-divide:contains("COSTS")');
+        const trE = h2Costs.next('div.grey-gradient').find('table.factsheet-table tbody tr');
+        trE.each((i, e) => {
+            let cat = ""
+            let cost = ""
+            let desc = ""
+            switch(i) {
+                case 0: cat = "onc"; break;
+                case 1: cat = "mfee"; break;
+                case 2: cat = "ispd"; break;
+            }
+            desc = $(e).find("th").text().trim().replace(":","")
+            cost = $(e).find("td").text().trim().replace(":","")
+            costs.push({cat: cat, desc: desc, cost: cost})
+        });
+        details.costs = costs
+
+        // Fund Performance Returns
+        let table = $('#calendar-table-wrapper .factsheet-table');
+        let perf = []
+        table.find('tr').each((i, row) => {
+            let colsH = $(row).find('th');
+            let colsD = $(row).find('td');
+
+            colsH.each((j, col) => {
+                let pd = {}
+                pd.period = $(col).text().replace(/[\n|\t]/gm, '')
+                pd.retn = ""
+                perf.push(pd)
+            });
+
+            colsD.each((j, col) => {
+                perf[j].retn = $(col).text().replace(/[\n|\t]/gm, '') 
+            });
+        });
+        perf.shift()
+        details.performance = perf
+
+        // top-top_10_exposures_data
+        let holdings = [];
+        let holdingsTable = $('#top_10_exposures_data .factsheet-table tbody');
+        holdingsTable.find('tr').each((i, row) => {
+            let cD = $(row).find('td');          
+            
+            let holding = {}
+            cD.each((j, col) => {
+                let entity = $(col).text().replace(/[\n|\t]/gm, '').trimEnd().trimStart();
+                switch(j) {
+                    case 0: { holding.security = entity;} break;
+                    case 1: { holding.weight = entity; holdings.push(holding);} break;
+                }                
+            });
+        })
+        details.holdings = holdings
+
+        // top_10_sectors_data
+        let sectors = [];
+        let sectorsTable = $('#top_10_sectors_data .factsheet-table tbody');        
+        sectorsTable.find('tr').each((i, row) => {
+            let cD = $(row).find('td');          
+            
+            let sector = {}
+            cD.each((j, col) => {
+                let entity = $(col).text().replace(/[\n|\t]/gm, '').trimEnd().trimStart();
+                switch(j) {
+                    case 0: { sector.sector = entity;} break;
+                    case 1: { sector.weight = entity; sectors.push(sector);} break;
+                }                
+            });
+        })
+        details.sectors = sectors
+
+        // top_10_countries_data
+        let countries = [];
+        let countriesTable = $('#top_10_countries_data .factsheet-table tbody');
+        countriesTable.find('tr').each((i, row) => {
+            let cD = $(row).find('td');          
+            
+            let country = {}
+            cD.each((j, col) => {
+                let entity = $(col).text().replace(/[\n|\t]/gm, '').trimEnd().trimStart();
+                switch(j) {
+                    case 0: { country.country = entity;} break;
+                    case 1: { country.weight = entity; countries.push(country);} break;
+                }                
+            });
+        })
+        details.countries = countries
+    }
+    catch(e) {
+        console.log("etfDetails:",e)
+    }
+
+    return details
+}
+const etfDetails = async (sedol) => {
+    const cacheBucket = CCM.BUCKET_NAME
+    const cacheAge = CCM.CACHE_AGE_24HRS
+    const live = false
+    const cacheResource = `${HL.ETFS_CACHE_DETAILS_PATH}/${sedol}.json`; 
+    const cacheTag = `etf-details-${sedol}`
+
+    try {
+        const cacheResponse = await CCM.queryResourceStatus(cacheBucket,cacheResource);
+        const hotRequest = (cacheResponse.expired || live)
+
+        switch(cacheResponse.status) {
+            case CCM.SUCCESS: {
+                console.log("CCM.SUCCESS")
+                if(!hotRequest) { // Get Resource from cache if not hotRequest
+                    return await CCM.getResource(cacheBucket,cacheResource,cacheTag)
+                }
+                else {
+                    console.log("CCM.NOT_FOUND",cacheResource)
+                    return (await CCM.updateResource(await etfDetailsImpl(sedol),cacheBucket,cacheResource,cacheAge,cacheTag,CCM.RE_CACHE))                    
+                }
+            } break;
+            case CCM.NOT_FOUND: { 
+                console.log("CCM.NOT_FOUND",cacheResource)
+                return (await CCM.updateResource(await etfDetailsImpl(sedol),cacheBucket,cacheResource,cacheAge,cacheTag,CCM.INIT_CACHE))
+            } break;
+            default: {
+                console.log("ERROR - ",cacheResponse.status)
+            }
+        }    
+    } catch(e) {
+        console.log("EtfCompaniesFundsList",e)    
+    }
+    return null
+}
+
+
 module.exports = {
     fundAnalysis,
     etfStats,
     etfCompaniesList,
     etfCompaniesFundsList,
-    etfs
+    etfs,
+    etfDetails
 }
 

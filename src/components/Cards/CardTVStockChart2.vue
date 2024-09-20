@@ -17,8 +17,6 @@ export default ({
 	watch: {
 		chartData(newVal,oldVal) {
 			if(newVal != null) {
-				console.log(newVal)
-
 				this.candlestickSeries.setData(newVal.ohcl)
 
 				this.sma20Series.setData(newVal.ta.find(e => e.name == "sma-20").series)

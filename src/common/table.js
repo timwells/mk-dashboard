@@ -4,12 +4,22 @@ const _SECTOR_COL   = { title: 'Sector',dataIndex: 'sector',width: 120, scopedSl
 const _PERDIOD_COL  = { title: 'Period',dataIndex: 'period',width: 120, scopedSlots: { customRender: 'period' }}
 const _RETURN_COL   = { title: 'Return',dataIndex: 'retn',width: 80, scopedSlots: { customRender: 'retn' }}
 const _COUNTRY_COL  = { title: 'Country',dataIndex: 'country',width: 100, scopedSlots: { customRender: 'country' }}
+const _CAT_COL      = { title: 'Cat', dataIndex: 'cat'}
+const _DESC_COL     = { title: 'Desc',dataIndex: 'desc'}
+const _COST_COL     = { title: 'Cost',dataIndex: 'cost'}
+const _ID_COL       = { title: 'Name',dataIndex: 'id'}
+const _VALUE_COL    = { title: 'Last',dataIndex: 'value'}
+
+
+
 const _SORT_DIRECTIONS = ["descend", "ascend"]
 
 const HOLDING_Columns = [_SECURITY_COL,_WEIGHT_COL]
 const PERIOD_Columns = [_PERDIOD_COL,_RETURN_COL]
 const SECTOR_Columns = [_SECTOR_COL,_WEIGHT_COL]
 const COUNTRY_Columns = [_COUNTRY_COL,_WEIGHT_COL]
+const COSTS_Columns = [_DESC_COL,_COST_COL]
+const PRICES_Columns = [_ID_COL,_VALUE_COL]
 
 const SORT_TYPE = { NUMBER: "NUMBER",STRING: "STRING" };
 
@@ -80,5 +90,7 @@ module.exports = {
     BROKER_RATINGS_Columns,
     FUNDS_Columns,
     HOLDING_Columns,
-    CYPRESS_Columns
+    CYPRESS_Columns,
+    COSTS_Columns,
+    PRICES_Columns
 }

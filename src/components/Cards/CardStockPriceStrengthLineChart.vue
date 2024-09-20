@@ -44,7 +44,7 @@ export default ({
 				},
 				annotations: {
 					yaxis: [{
-						y: -8,
+						y: 8,
 						borderColor: '#00AF00',
 						label: {
 							borderColor: '#00AF00', borderWidth: 4,
@@ -52,7 +52,7 @@ export default ({
 							text: 'Ex.Greed'
 						}
 					  },{
-						  y: 8,
+						  y: -8,
 						  borderColor: '#FF0000',
 						  label: {
 							  borderColor: '#FF0000', borderWidth: 4,

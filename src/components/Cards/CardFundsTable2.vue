@@ -42,8 +42,7 @@
 				<CardFundDetails
 					:companyid="record.company_id"
 					:sectorid="record.sector_id"
-					:sedol="record.sedol"
-					>
+					:sedol="record.sedol">
 				</CardFundDetails>
 
 			</div>

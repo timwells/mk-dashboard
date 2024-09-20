@@ -21,12 +21,33 @@ const state = {
     etfsRefreshProgress: 0,
     etfsRefreshComplete: true,
     etfsObj: null,
+    etfsDetails: [],
+    etfsAnalysis: [],
 };
 
 const getters = {
   fundsDetailFilter: (state) => (sedol) => state.fundDetails.find((f) => (f.data.sedol === sedol)),
-  fundsAnalysisFilter: (state) => (sedol) => state.fundAnalysis.find((f) => (f.data.sedol === sedol))
+  fundsAnalysisFilter: (state) => (sedol) => state.fundAnalysis.find((f) => (f.data.sedol === sedol)),
+
+  etfDetailFilter: (state) => (sedol) => state.etfsDetails.find((f) => (f.data.sedol === sedol)),
 }
+
+
+/*
+const getters = {
+  gEtfDetail: (state) => (sedol) => state.etfsDetails.find((fd) => (fd.sedol === sedol)),
+  gEtfHoldingsSum: (state) => (sedol) => {
+    let etf = state.etfsDetails.find((fd) => (fd.sedol === sedol))
+    let sum = 0.0    
+    for(let i = 0; i < etf.holdings.length; i++) {
+      let wgt = parseFloat(etf.holdings[i].weight.replace("%",""))
+      sum += wgt;
+    }
+    return +sum.toFixed(2);
+  }
+}
+
+*/
 
 const mutations = {
     SET_FUNDS_STATS: (state, payload) => (state.fundsStats = payload),
@@ -46,7 +67,10 @@ const mutations = {
     SET_ETFS_COMPANIES: (state, payload) => (state.etfsCompanies = payload),
     SET_ETFS_REFRESH_PROGRESS: (state, payload) => (state.etfsRefreshProgress = payload),
     SET_ETFS_REFRESH_COMPLETE: (state, payload) => (state.etfsRefreshComplete = payload),
-    SET_ETFS_OBJ: (state, payload) => (state.etfsObj = payload),    
+    SET_ETFS_OBJ: (state, payload) => (state.etfsObj = payload),
+    
+    SET_ETF_DETAILS: (state, payload) => (state.etfsDetails = payload),
+    ADD_ETF_DETAILS: (state, payload) => (state.etfsDetails = [...state.etfsDetails, payload]),
 
   };
 
@@ -140,6 +164,20 @@ const actions = {
       // await new Promise((s) => setTimeout(s, 1000));
     }
     commit("SET_ETFS_REFRESH_COMPLETE", true)
+  },
+
+  async getEtfs({commit}) {
+    commit("SET_ETFS_OBJ", {})
+    const { data } = await axios.get(`${APP_CLOUD_FUNCTION_URL}/hl/etfs`,{ headers: APP_FINTECH_HEADERS })
+    commit("SET_ETFS_OBJ", data)
+  },
+  async getEtfDetails({commit},{sedol}) {   
+    const { data } = await axios.get(
+                        `${APP_CLOUD_FUNCTION_URL}/hl/etf/details?sedol=${sedol}`, 
+                             { headers: APP_FINTECH_HEADERS })
+    console.log("getEtfDetails:",sedol,data)
+
+    commit("ADD_ETF_DETAILS", data)
   },
 }
 

@@ -74,7 +74,12 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="2" tab="FED">
+		<a-tab-pane key="2" tab="Oil">
+			<h6>BP.</h6>
+			<CardTVStockChart3 epic="BP."></CardTVStockChart3>
+		
+		</a-tab-pane>
+		<a-tab-pane key="3" tab="FED">
 			<CardFedComposite v-if="composite.length>0" :dataset="composite"></CardFedComposite>
 		</a-tab-pane>
 		<!--a-tab-pane key="3" tab="LSE - Performance">
@@ -151,6 +156,12 @@
 				</a-tab-pane>
 			</a-tabs>
 		</a-tab-pane>
+
+		<a-tab-pane key="8" tab="BitCoin">
+			<a href="https://www.blockchaincenter.net/static/rainbow-chart.html" target="_blank">Rainbow Chart</a>
+			<CardIndicatorInfo title="Rainbow" url='https://www.blockchaincenter.net/static/rainbow-chart.html' type="iframe" height="500"/>
+		</a-tab-pane>
+
 		<!--a-tab-pane key="8" tab="FinViz-Sectors">
 			<h5>Industry Forward PE - Ascending</h5>
 			<a-row :gutter="24" type="flex" align="stretch">
@@ -186,11 +197,15 @@ import CardChartFundInfo from '../components/Cards/CardChartFundInfo' ;
 import CardChartEquityInfo from '../components/Cards/CardChartEquityInfo';
 import CardChartIndexInfo from '../components/Cards/CardChartIndexInfo';
 import CardChartBondInfo from '../components/Cards/CardChartBondInfo';
+import CardIndicatorInfo from '../components/Cards/CardIndicatorInfo';
 
 import CardFearAndGreedLineChart from '../components/Cards/CardFearAndGreedLineChart';
 import CardVixLineChart from '../components/Cards/CardVixLineChart';
 import CardSP500MomentumLineChart from '../components/Cards/CardSP500MomentumLineChart';
 import CardStockPriceStrengthLineChart from '../components/Cards/CardStockPriceStrengthLineChart';
+
+import CardTVStockChart2 from '../components/Cards/CardTVStockChart2'
+import CardTVStockChart3 from '../components/Cards/CardTVStockChart3'
 
 import CardLseConstituentsTable from '../components/Cards/CardLseConstituentsTable';
 
@@ -225,6 +240,8 @@ export default ({
 		CardChartBondInfo,
 
 		CardFearAndGreedLineChart,
+		CardIndicatorInfo,
+
 		CardVixLineChart,
 		CardSP500MomentumLineChart,
 		CardStockPriceStrengthLineChart,
@@ -232,6 +249,9 @@ export default ({
 
 		CardLseConstituentsTable,
 		WidgetCounter,
+
+		CardTVStockChart2,
+		CardTVStockChart3
 	},
 	computed: {
     	...mapState("markets", ["markets"]),

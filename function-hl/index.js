@@ -66,6 +66,11 @@ app.get('/etfs', async (req, res) => {
     return res.status(200).json(data)
 });
 
+app.get('/etf/details', async (req, res) => {
+    const { sedol } = req.query;
+    const data = await hlWeb.etfDetails(sedol)
+    return res.status(200).json(data)
+});
 
 const gOpts = {timeoutSeconds: 120};
 exports.hl = functions.runWith(gOpts).https.onRequest(app);

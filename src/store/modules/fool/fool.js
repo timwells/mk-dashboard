@@ -6,13 +6,15 @@ import {
 } from "../common/c.js"
 
 const state = {
-    chartData: null
+    chartData: null,
+    chartData2: null
 };
 
 const getters = {}
 
 const mutations = {
   SET_CHART_DATA: (state, payload) => (state.chartData = payload),
+  SET_CHART_DATA2: (state, payload) => (state.chartData2 = payload),
 };
 
 const actions = {
@@ -24,6 +26,16 @@ const actions = {
     } catch(e) {
         console.log("getChartData",e)
         commit("SET_CHART_DATA", null)
+    }
+  },
+  async getChartData2({ commit },{symbol}) {
+    const resource = `${APP_CLOUD_FUNCTION_URL}/fool/historical2?exchange=LSE&symbol=${symbol}&precision=Day&period=Max`
+    try {
+      const {data} = await axios.get(resource, { headers: APP_FINTECH_HEADERS })
+      console.log(data)
+      commit("SET_CHART_DATA2", data)
+    } catch(e) {
+        console.log("getChartData2",e)
     }
   },
 }
