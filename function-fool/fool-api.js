@@ -194,9 +194,42 @@ const getDataImpl2 = async (
         }
     } catch (err) { return err; }
 }
+
+const getDataValuesImpl = async (
+    exchange,
+    symbol,
+    precision,
+    period
+) => {
+    const resource = `${API_HOST}/${API_HISTORICAL_PATH}/${exchange}:${symbol}?apikey=${API_KEY}&precision=${precision}&timeFrame=${period}`;
+    try {
+        const { data } = await axios.get(resource,{ headers: HEADERS});
+
+        // Process and exclude ohlc close null data
+        const valueSeries = data.ChartBars.reduce((arr,e) => {
+            // Process and exclude ohlc close null data
+            if(e.Close !== null) {
+                arr.push({
+                    time:  e.PricingDate,
+                    value: +e.Close.Amount.toFixed(2),
+                })
+            } return arr;
+        }, []);
+
+        return {
+            symbol: symbol,
+            period: period,
+            vs: valueSeries 
+        }
+    } catch (err) { return err; }
+}
+
+
+// https://www.fool.co.uk/tickers/#h-lse-market-movers
 module.exports = {
     getTestImpl,
     getDataImpl,
-    getDataImpl2
+    getDataImpl2,
+    getDataValuesImpl
 }
 

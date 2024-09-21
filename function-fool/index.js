@@ -20,4 +20,11 @@ app.get('/historical2', async (req, res) => {
     let data = await foolApi.getDataImpl2(exchange,symbol,precision,period)
     return res.status(200).json(data)
 });
+
+app.get('/historical/values', async (req, res) => {
+    const { exchange, symbol, precision, period } = req.query
+    let data = await foolApi.getDataValuesImpl(exchange,symbol,precision,period)
+    return res.status(200).json(data)
+});
+
 exports.fool = functions.https.onRequest(app);

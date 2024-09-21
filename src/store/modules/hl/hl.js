@@ -10,7 +10,6 @@ const state = {
     fundsStats: null,
     fundsRefreshProgress: 0,
     fundsRefreshComplete: true,
-    fundsCacheList: [],
     fundsObj: null,
     fundDetails: [],
     fundAnalysis: [],

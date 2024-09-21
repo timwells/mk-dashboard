@@ -3,8 +3,8 @@
 		<a-tab-pane key="1" tab="Sentiment">
 			<!--pre>{{ sentiment.fear_and_greed }}</pre-->
 			<a href="https://edition.cnn.com/markets/fear-and-greed" 
-				target="_blank">Click for: 'CNN Market Insights' - <span v-if="sentiment">{{ sentiment.fear_and_greed.timestamp }}</span></a>
-			<a-row v-if="sentiment" :gutter="24">
+				target="_blank">Click for: 'CNN Market Insights' - <span v-if="sentiment!=null">{{ sentiment.fear_and_greed.timestamp }}</span></a>
+			<a-row v-if="sentiment != null" :gutter="24">
 				<a-col :span="24" :lg="12" :xl="6" class="mb-24">
 					<WidgetCounter
 						title='Fear & Greed Today'
@@ -42,7 +42,7 @@
 						:status="rating(sentiment.fear_and_greed.previous_1_year)"></WidgetCounter>"			
 				</a-col>
 			</a-row>
-			<a-row v-if="sentiment" :gutter="24">
+			<a-row v-if="sentiment != null" :gutter="24">
 				<a-col :span="12" :lg="12" class="mb-12">
 					<CardFearAndGreedLineChart
 						:historicalData="sentiment.fear_and_greed_historical.data" 
@@ -56,7 +56,7 @@
 						:rating="sentiment.market_volatility_vix.rating"/>
 				</a-col>
 			</a-row>
-			<a-row v-if="sentiment" :gutter="24">
+			<a-row v-if="sentiment !=null" :gutter="24">
 				<a-col :span="12" :lg="12" class="mb-12">
 					<CardSP500MomentumLineChart
 						:historicalData="sentiment.market_momentum_sp500.data"
@@ -75,8 +75,8 @@
 			</a-row>
 		</a-tab-pane>
 		<a-tab-pane key="2" tab="Oil">
-			<h6>BP.</h6>
-			<CardTVStockChart3 epic="BP."></CardTVStockChart3>
+			<h6>{{ epics }}</h6>
+			<CardTVStockChart4 :epics="epics"></CardTVStockChart4>
 		
 		</a-tab-pane>
 		<a-tab-pane key="3" tab="FED">
@@ -206,6 +206,7 @@ import CardStockPriceStrengthLineChart from '../components/Cards/CardStockPriceS
 
 import CardTVStockChart2 from '../components/Cards/CardTVStockChart2'
 import CardTVStockChart3 from '../components/Cards/CardTVStockChart3'
+import CardTVStockChart4 from '../components/Cards/CardTVStockChart4'
 
 import CardLseConstituentsTable from '../components/Cards/CardLseConstituentsTable';
 
@@ -214,6 +215,7 @@ import CardFedComposite from '@/components/Cards/CardFedComposite';
 import WidgetCounter from '../components/Widgets/WidgetCounter' ;
 
 import { SECTOR_PERFORMANCE_Columns } from '@/common/table'
+import { NULL } from "sass";
 
 // https://skyandtelescope.org/wp-content/uploads/ises-solar-cycle-sunspot-2-900x515.jpg
 // https://www.researchgate.net/publication/370171428/figure/fig3/AS:11431281152708626@1682119597484/Prediction-of-Solar-Cycle-25.png
@@ -251,7 +253,8 @@ export default ({
 		WidgetCounter,
 
 		CardTVStockChart2,
-		CardTVStockChart3
+		CardTVStockChart3,
+		CardTVStockChart4
 	},
 	computed: {
     	...mapState("markets", ["markets"]),
@@ -273,10 +276,7 @@ export default ({
 		])
 	},
 	watch: {
-        sectorPerformance(nn, prv) {
-			// console.log(nn,nn)
-			// if(nn || prv) { this.loading = false; }
-		}
+
 	},
 	data() {
 		return {
@@ -284,7 +284,8 @@ export default ({
 			SECTOR_PERFORMANCE_Columns,
 			loading: true,
 			live: false,
-			activeCommoditiesTab: 0
+			activeCommoditiesTab: 0,
+			epics: ["BP.","SHEL","HBR"]
 		}
 	},
 	methods: {

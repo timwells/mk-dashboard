@@ -1,5 +1,5 @@
 <template>
-	<div :id="chartId" style="width: 99%; height: 700px;"></div>
+	<div :id="chartId" style="width: 99%; height: 600px;"></div>
 </template>
 
 <script>
@@ -10,6 +10,10 @@ export default ({
 		epic: {
 			type: String,
 			default: null,
+		},
+		epics: {
+			type: Array,
+			default: () => [],
 		}
 	},
 	components: {
