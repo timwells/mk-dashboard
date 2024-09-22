@@ -12,12 +12,13 @@ const state = {
 };
 
 const getters = {
-
 }
 
 const mutations = {
   SET_CHART_DATA: (state, payload) => (state.chartData = payload),
   SET_CHART_DATA2: (state, payload) => (state.chartData2 = payload),
+
+  RESET_CHART_CACHE: (state, payload) => (state.chartCache = payload),
   ADD_CHART_CACHE: (state, payload) => (state.chartCache = [...state.chartCache, payload]),
 };
 
@@ -42,15 +43,16 @@ const actions = {
         console.log("getChartData2",e)
     }
   },
-  async getChartDataValues({ commit },{symbol}) {
+  async resetChartDataValues({ commit }) {
+    commit("RESET_CHART_CACHE", [])
+  },
+  async getChartDataValues({ commit },{ symbol }) {
     const resource = `${APP_CLOUD_FUNCTION_URL}/fool/historical/values?exchange=LSE&symbol=${symbol}&precision=Day&period=Max`
     try {
       const {data} = await axios.get(resource, { headers: APP_FINTECH_HEADERS })
-      console.log(data)
-      //commit("ADD_CHART_CACHE", {symbol: symbol, data: data})
       commit("ADD_CHART_CACHE", data)
     } catch(e) {
-        console.log("getChartData3",e)
+        console.log("getChartDataValues",e)
     }
   },
 }

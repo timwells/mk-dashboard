@@ -74,10 +74,9 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="2" tab="Oil">
+		<a-tab-pane key="2" tab="Oil-Markets">
 			<h6>{{ epics }}</h6>
-			<CardTVStockChart4 :epics="epics"></CardTVStockChart4>
-		
+			<CardTVStockMultiChart :epics="epics"></CardTVStockMultiChart>
 		</a-tab-pane>
 		<a-tab-pane key="3" tab="FED">
 			<CardFedComposite v-if="composite.length>0" :dataset="composite"></CardFedComposite>
@@ -206,7 +205,7 @@ import CardStockPriceStrengthLineChart from '../components/Cards/CardStockPriceS
 
 import CardTVStockChart2 from '../components/Cards/CardTVStockChart2'
 import CardTVStockChart3 from '../components/Cards/CardTVStockChart3'
-import CardTVStockChart4 from '../components/Cards/CardTVStockChart4'
+import CardTVStockMultiChart from '../components/Cards/CardTVStockMultiChart'
 
 import CardLseConstituentsTable from '../components/Cards/CardLseConstituentsTable';
 
@@ -252,9 +251,7 @@ export default ({
 		CardLseConstituentsTable,
 		WidgetCounter,
 
-		CardTVStockChart2,
-		CardTVStockChart3,
-		CardTVStockChart4
+		CardTVStockMultiChart
 	},
 	computed: {
     	...mapState("markets", ["markets"]),
@@ -285,7 +282,8 @@ export default ({
 			loading: true,
 			live: false,
 			activeCommoditiesTab: 0,
-			epics: ["BP.","SHEL","HBR"]
+			// epics: ["BP.","SHEL","HBR","SQZ","DELT"]
+			epics: ["BP.","SHEL","HBR","SQZ"]
 		}
 	},
 	methods: {

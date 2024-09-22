@@ -1,18 +1,6 @@
 <template>
 	<a-tabs default-active-key="1">
-		<!--a-tab-pane key="1" tab="Fund Table">
-			<a-row :gutter="24" type="flex">
-				<a-col :span="24" class="mb-24">
-					<pre>{{funds.length}}</pre>
-					<CardFundsTable 
-						:data="funds" 
-						:columns="FUNDS_Columns" 
-						:pagination="pagination">
-					</CardFundsTable>
-				</a-col>
-			</a-row>
-		</a-tab-pane-->
-		<a-tab-pane key="2" tab="Manage Funds">
+		<a-tab-pane key="1" tab="Funds">
 			<a-row :gutter="24" type="flex">
 				<a-col :span="4">
 					<a-statistic v-if="fundsStats" title="Live: HL-Funds" :value="fundsStats.availableFunds" />
@@ -42,7 +30,7 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="3" tab="MyMapTV">
+		<a-tab-pane key="2" tab="MyMapTV">
 			<a-row :gutter="24" type="flex">
 				<a-col :span="24" class="mb-24">
 					<CardTVLineChart v-if="mymapfunds.length>0"/>
@@ -90,7 +78,15 @@ const fundListColumns = [
 			filterIcon: 'filterIcon' 
 		}
 	},
-	{ title: 'Company', dataIndex: 'company_name', ellipsis:true, width:200},
+	{ title: 'Company', dataIndex: 'company_name', ellipsis:true, width:150,
+		onFilter: (value, record) => record.name.toString().toLowerCase().includes(value.toLowerCase()),
+		scopedSlots: { 
+			customRender: 'full_description', 
+			filterDropdown: 'filterDropdown', 
+			filterIcon: 'filterIcon' 
+		}
+	},
+
 	{ title: 'Sector', dataIndex: 'sector_name', ellipsis:true},
 
 	{ title: 'Type', dataIndex: 'unit_type', ellipsis:true,},
