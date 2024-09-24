@@ -14,4 +14,4 @@ app.get('/gold', async (req, res) => {
     return res.status(200).json(data)
 });
 
-exports.pm = functions.https.onRequest(app);
+exports.pmx = functions.https.onRequest(app);
