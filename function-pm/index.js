@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(checkApiKey);
 
 app.get('/gold', async (req, res) => {
-    let data = await pmApi.gold()
+    const data = await pmApi.gold()
     return res.status(200).json(data)
 });
 
