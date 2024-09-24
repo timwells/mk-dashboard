@@ -158,7 +158,7 @@
 
 		<a-tab-pane key="8" tab="BitCoin">
 			<a href="https://www.blockchaincenter.net/static/rainbow-chart.html" target="_blank">Rainbow Chart</a>
-			<CardIndicatorInfo title="Rainbow" url='https://www.blockchaincenter.net/static/rainbow-chart.html' type="iframe" height="500"/>
+			<CardIndicatorInfo title="Rainbow" url='https://www.blockchaincenter.net/static/rainbow-chart.html' type="iframe" height="700"/>
 		</a-tab-pane>
 
 		<!--a-tab-pane key="8" tab="FinViz-Sectors">
