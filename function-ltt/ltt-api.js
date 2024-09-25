@@ -249,7 +249,7 @@ try {
     }        
 }
 */
-
+/*
 const thumbnails = async (req, res) => {
     const { data } = await axios.get(LTT_HOST)
     const $ = cheerio.load(data)
@@ -264,7 +264,7 @@ const thumbnails = async (req, res) => {
 
     return thumbnails;
 }
-
+*/
 const test1 = async (req, res) => {
     res.status(200).send("test1 - longtermtrends");
 }
@@ -275,6 +275,6 @@ const test = async (req, res) => {
 
 module.exports = {
     test,
-    thumbnails,
+    //thumbnails,
     // longtermtrends,
 }

@@ -8,6 +8,15 @@ Firebase Reminder
 * firebase deploy --only functions
 * firebase deploy --only hosting
 
+
+Make sure to add the function to 'firebase.json'
+{
+    "source": "function-xx",
+    "codebase": "xx",
+    "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+}
+
+
 uses https://polygon.io/
 
 Uses Antd vue 2
