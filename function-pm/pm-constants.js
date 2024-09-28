@@ -14,4 +14,6 @@ const REQ_HEADERS = {
 module.exports = {
     HOST, 
     REQ_HEADERS,
+    SERIES_PATH,
+    PRICES_PATH
 }
