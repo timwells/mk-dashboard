@@ -35,6 +35,7 @@ import fool from "./modules/fool/fool"
 import drm from "./modules/drm/drm"
 import hl from "./modules/hl/hl"
 import pensions from "./modules/pensions/pensions"
+import pm from "./modules/pm/pm"
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -56,6 +57,7 @@ export default new Vuex.Store({
     fool,
     drm,
     hl,
-    pensions
+    pensions,
+    pm
   }
 });

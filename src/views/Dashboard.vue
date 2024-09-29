@@ -74,11 +74,23 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="2" tab="Oil-Markets">
-			<h6>{{ epics }}</h6>
-			<CardTVStockMultiChart :epics="epics"></CardTVStockMultiChart>
+		<a-tab-pane key="2" tab="Oil">
+			<h6>{{ oilSymbols }}</h6>
+			<CardTVStockMultiChart :epics="oilSymbols"></CardTVStockMultiChart>
 		</a-tab-pane>
-		<a-tab-pane key="3" tab="FED">
+		<a-tab-pane key="4" tab="Metals & Markets">
+			<a-tabs>
+				<a-tab-pane key="1" tab="Metals">
+					<h6>{{ preciousMetalSymbols }}</h6>
+					<CardTVMetalsMultiChart :metals="preciousMetalSymbols"></CardTVMetalsMultiChart>
+				</a-tab-pane>
+				<a-tab-pane key="2" tab="Markets">
+					<h6>{{ preciousMetalMinerSymbols }}</h6>
+					<CardTVStockMultiChart :epics="preciousMetalMinerSymbols"></CardTVStockMultiChart>
+				</a-tab-pane>
+			</a-tabs>
+		</a-tab-pane>
+		<a-tab-pane key="5" tab="FED">
 			<CardFedComposite v-if="composite.length>0" :dataset="composite"></CardFedComposite>
 		</a-tab-pane>
 		<!--a-tab-pane key="3" tab="LSE - Performance">
@@ -109,21 +121,21 @@
 				</a-table>
 			</a-card>
 		</a-tab-pane-->
-		<a-tab-pane key="4" tab="Funds">
+		<a-tab-pane key="6" tab="Funds">
 			<a-row type="flex" align="stretch">
 				<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(e, i) in getGroup(1)" :key="i">			
 					<CardChartFundInfo :title="e.title" :ticker="e.ticker" :sedol="e.sedol"/>
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="5" tab="Equities">
+		<a-tab-pane key="7" tab="Equities">
 			<a-row :gutter="24" type="flex" align="stretch">
 				<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(e, i) in getGroup(2)" :key="i">			
 					<CardChartEquityInfo :title="e.title" :ticker="e.ticker"/>
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="6" tab="Index & Bonds">
+		<a-tab-pane key="8" tab="Index & Bonds">
 			<a-row :gutter="24" type="flex" align="stretch">
 				<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(e, i) in getGroup(3)" :key="i">			
 					<CardChartIndexInfo v-if="e.type==='index'" :title="e.title" :ticker="e.ticker"/>
@@ -131,7 +143,7 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="7" tab="Commodities">
+		<a-tab-pane key="9" tab="Commodities">
 			<a-tabs v-model="activeCommoditiesTab">
 				<a-tab-pane v-for="(g, gi) in commodities" :key="gi" :tab="g.commodityGroup">
 					<a href="https://www.theglobaleconomy.com/" target="_blank">The Global Economy</a>
@@ -156,7 +168,7 @@
 			</a-tabs>
 		</a-tab-pane>
 
-		<a-tab-pane key="8" tab="BitCoin">
+		<a-tab-pane key="10" tab="BitCoin">
 			<a href="https://www.blockchaincenter.net/static/rainbow-chart.html" target="_blank">Rainbow Chart</a>
 			<CardIndicatorInfo title="Rainbow" url='https://www.blockchaincenter.net/static/rainbow-chart.html' type="iframe" height="700"/>
 		</a-tab-pane>
@@ -203,9 +215,8 @@ import CardVixLineChart from '../components/Cards/CardVixLineChart';
 import CardSP500MomentumLineChart from '../components/Cards/CardSP500MomentumLineChart';
 import CardStockPriceStrengthLineChart from '../components/Cards/CardStockPriceStrengthLineChart';
 
-import CardTVStockChart2 from '../components/Cards/CardTVStockChart2'
-import CardTVStockChart3 from '../components/Cards/CardTVStockChart3'
 import CardTVStockMultiChart from '../components/Cards/CardTVStockMultiChart'
+import CardTVMetalsMultiChart from '../components/Cards/CardTVMetalsMultiChart'
 
 import CardLseConstituentsTable from '../components/Cards/CardLseConstituentsTable';
 
@@ -251,7 +262,8 @@ export default ({
 		CardLseConstituentsTable,
 		WidgetCounter,
 
-		CardTVStockMultiChart
+		CardTVStockMultiChart,
+		CardTVMetalsMultiChart
 	},
 	computed: {
     	...mapState("markets", ["markets"]),
@@ -282,8 +294,9 @@ export default ({
 			loading: true,
 			live: false,
 			activeCommoditiesTab: 0,
-			// epics: ["BP.","SHEL","HBR","SQZ","DELT"]
-			epics: ["BP.","SHEL","HBR","SQZ"]
+			oilSymbols: ["BP.","SHEL","HBR","SQZ"],
+			preciousMetalSymbols: ["gold","silver","platinum","palladium"],
+			preciousMetalMinerSymbols: ["FRES","HOC","CEY","POG","GGP"]
 		}
 	},
 	methods: {

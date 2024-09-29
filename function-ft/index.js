@@ -14,4 +14,17 @@ app.get('/mymapfunds', async (req, res) => {
     return res.status(200).json(data)
 });
 
+app.get('/historical/series', async (req, res) => {
+    const { ticker } = req.query
+    let data = await ftApi.getSeries(ticker)
+    return res.status(200).json(data)
+});
+
+app.get('/lookup/symbol', async (req, res) => {
+    const { ticker } = req.query
+    let data = await ftApi.lookUpSymbol(ticker)
+    return res.status(200).json(data)
+});
+
+
 exports.ft = functions.https.onRequest(app);
