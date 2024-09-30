@@ -92,6 +92,8 @@
 					<h6>{{ etfMarkets }}</h6>
 					<CardTVStockMultiChartFT :epics="etfMarkets"></CardTVStockMultiChartFT>
 				</a-tab-pane>
+
+
 			</a-tabs>
 		</a-tab-pane>
 		<a-tab-pane key="5" tab="FED">
@@ -302,7 +304,8 @@ export default ({
 			oilSymbols: ["BP.","SHEL","HBR","SQZ"],
 			preciousMetalSymbols: ["gold","silver","platinum","palladium"],
 			preciousMetalMinerSymbols: ["FRES","HOC","CEY","POG","GGP"],
-			etfMarkets: ["REGB:LSE:GBP","GJGB:LSE:GBP","URNG:LSE:GBP","NUCG:LSE:GBP","GDGB:LSE:GBP"]
+			etfMarkets: ["REGB:LSE:GBP","GJGB:LSE:GBP","URNG:LSE:GBP","NUCG:LSE:GBP","GDGB:LSE:GBP"],
+			uraniumMetalSymbols:["BKY","YCA","AURA","KAP"]
 		}
 	},
 	methods: {

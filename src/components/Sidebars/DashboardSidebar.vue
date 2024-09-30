@@ -45,6 +45,8 @@ const sidebarItems = [
 	{title: "Ratios",linkTo: "/market-ratios"},
 	{title: "Funds",linkTo: "/funds"},
 	{title: "ETFs",linkTo: "/etfs"},
+	{title: "Pensions",linkTo: "/pensions"},
+	{title: "P.Bonds",linkTo: "/premium-bonds"},
 	{title: "NakedTrades",linkTo: "/trades"},
 	{title: "Dividends",linkTo: "/dividend-data"},
 
@@ -52,8 +54,6 @@ const sidebarItems = [
 
 	{title: "FED",linkTo: "/fed-insights"},
 	{title: "Models",linkTo: "/models"},
-	{title: "P.Bonds",linkTo: "/premium-bonds"},
-	{title: "Pensions",linkTo: "/pensions"},
 	{title: "Dataroma",linkTo: "/dataroma"},
 
 // {title: "BoE",linkTo: "/boe-irates"},
@@ -63,10 +63,10 @@ const sidebarItems = [
 // {title: "Heatmap",linkTo: "/stock-heatmap"},
 	// {title: "Screener",linkTo: "/stock-screener"},
 
-	{title: "Indicators",linkTo: "/market-indicators"},
+	// {title: "Indicators",linkTo: "/market-indicators"},
 	// {title: "News",linkTo: "/news"},
 	// {title: "Trading",linkTo: "/trading"},
-	{title: "Quotes",linkTo: "/quotes"},
+	//{title: "Quotes",linkTo: "/quotes"},
 	// {title: "Trends",linkTo: "/trends"},
 	// {title: "SeekingAlpha",linkTo: "/seeking-alpha"},
 	//{title: "Fear&Greed",linkTo: "/fear-n-greed"}
