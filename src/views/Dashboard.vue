@@ -291,7 +291,6 @@ export default ({
 		])
 	},
 	watch: {
-
 	},
 	data() {
 		return {
@@ -303,7 +302,7 @@ export default ({
 			oilSymbols: ["BP.","SHEL","HBR","SQZ"],
 			preciousMetalSymbols: ["gold","silver","platinum","palladium"],
 			preciousMetalMinerSymbols: ["FRES","HOC","CEY","POG","GGP"],
-			etfMarkets:  ["REGB:LSE:GBP","GJGB:LSE:GBP","URNG:LSE:GBP","NUCG:LSE:GBP","GDGB:LSE:GBP"]
+			etfMarkets: ["REGB:LSE:GBP","GJGB:LSE:GBP","URNG:LSE:GBP","NUCG:LSE:GBP","GDGB:LSE:GBP"]
 		}
 	},
 	methods: {
