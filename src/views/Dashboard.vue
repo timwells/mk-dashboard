@@ -88,6 +88,10 @@
 					<h6>{{ preciousMetalMinerSymbols }}</h6>
 					<CardTVStockMultiChart :epics="preciousMetalMinerSymbols"></CardTVStockMultiChart>
 				</a-tab-pane>
+				<a-tab-pane key="3" tab="ETFS">
+					<h6>{{ etfMarkets }}</h6>
+					<CardTVStockMultiChartFT :epics="etfMarkets"></CardTVStockMultiChartFT>
+				</a-tab-pane>
 			</a-tabs>
 		</a-tab-pane>
 		<a-tab-pane key="5" tab="FED">
@@ -217,6 +221,7 @@ import CardStockPriceStrengthLineChart from '../components/Cards/CardStockPriceS
 
 import CardTVStockMultiChart from '../components/Cards/CardTVStockMultiChart'
 import CardTVMetalsMultiChart from '../components/Cards/CardTVMetalsMultiChart'
+import CardTVStockMultiChartFT from '@/components/Cards/CardTVStockMultiChartFT'
 
 import CardLseConstituentsTable from '../components/Cards/CardLseConstituentsTable';
 
@@ -263,7 +268,8 @@ export default ({
 		WidgetCounter,
 
 		CardTVStockMultiChart,
-		CardTVMetalsMultiChart
+		CardTVMetalsMultiChart,
+		CardTVStockMultiChartFT
 	},
 	computed: {
     	...mapState("markets", ["markets"]),
@@ -296,7 +302,8 @@ export default ({
 			activeCommoditiesTab: 0,
 			oilSymbols: ["BP.","SHEL","HBR","SQZ"],
 			preciousMetalSymbols: ["gold","silver","platinum","palladium"],
-			preciousMetalMinerSymbols: ["FRES","HOC","CEY","POG","GGP"]
+			preciousMetalMinerSymbols: ["FRES","HOC","CEY","POG","GGP"],
+			etfMarkets:  ["REGB:LSE:GBP","GJGB:LSE:GBP","URNG:LSE:GBP","NUCG:LSE:GBP","GDGB:LSE:GBP"]
 		}
 	},
 	methods: {

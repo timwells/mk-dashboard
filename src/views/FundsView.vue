@@ -117,7 +117,7 @@ export default ({
 		CardFundsTable,
 		CardFundsTable2,
 		CardMultiChart,
-		CardTVLineChart
+		CardTVLineChart,
 	},
 	computed: {
     	...mapState("funds", ["funds"]),
