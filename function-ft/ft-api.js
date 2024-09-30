@@ -15,10 +15,11 @@ const FT_MY_MAPX_FUND_SYMBOLS = [
 const myMapFunds = async () => {
     let dataObj = []
     for(let fund = 0; fund < FT_MY_MAPX_FUND_SYMBOLS.length; fund++ ) {
-        FT_PAYLOAD_BODY.elements[0].Symbol = FT_MY_MAPX_FUND_SYMBOLS[fund].symbol
+        let payLoad = FT.PAYLOAD_BODY;
+        payLoad.elements[0].Symbol = FT_MY_MAPX_FUND_SYMBOLS[fund].symbol
         let scale = FT_MY_MAPX_FUND_SYMBOLS[fund].scale
         try {
-            const { data } = await axios.post(`${FT.HOST}${FT.SERIES_PATH}`,FT.PAYLOAD_BODY)
+            const { data } = await axios.post(`${FT.HOST}${FT.SERIES_PATH}`,payLoad)
             let dv = []
             for(let i=0; i < data.Dates.length; i++) {
                 dv.push({
