@@ -1,39 +1,37 @@
 <template>
 	<div>
-        <h6>{{ pensionTickers }}</h6>
-		<CardTVStockMultiChartFT :epics="pensionTickers"></CardTVStockMultiChartFT>
+        <h6>{{ getSymbols(portfolioName) }}</h6>
+		<CardTVStockMultiChartFT :epics="getSymbols(portfolioName)"></CardTVStockMultiChartFT>
+		<!--pre>{{ portfolios }}</pre-->
 	</div>
 </template>
 
 <script>
 import CardTVStockMultiChartFT from '@/components/Cards/CardTVStockMultiChartFT';
-
 import { mapState, mapGetters } from "vuex";
 
 export default ({
 	components: {
 		CardTVStockMultiChartFT
 	},
+	watch: {
+		portfolios(n,v) {
+			console.log(this.getSymbols("Tim"))
+		}
+	},
 	computed: {
-        ...mapState("pensions",["portfolios"])
+		...mapGetters("pensions",["getSymbols"]),
+		...mapState("pensions",["portfolios"])
 	},
 	data() {
 		return {
-			pensionTickers: [
-				"GB00B9GRH067:GBX", 
-				"GB00B935C537:GBP", 
-				"GB0007832826:GBP",
-				"GB0007832602:GBP",
-				"GB0007832487:GBP",
-				"GB00B6QQDK47:GBP",
-				"GB0030927700:GBP"
-			]
+			portfolioName: "Tim",
 		}
 	},
 	methods: {
 	},
 	async mounted() {
-        // this.$store.dispatch("pensions/getPortfolios")
+    	this.$store.dispatch("pensions/getPortfolios")
 	}
 })
 </script>

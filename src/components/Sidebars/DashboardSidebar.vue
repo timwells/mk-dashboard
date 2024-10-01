@@ -36,7 +36,6 @@
 
 <script>
 const sidebarItems = [
-
 	// {title: "Markets-Dev", linkTo: "/dashboard-bk"},
 	{title: "Markets", linkTo: "/dashboard"},
 	// {title: "Curvo", linkTo: "/curvo"},
@@ -50,26 +49,23 @@ const sidebarItems = [
 	{title: "NakedTrades",linkTo: "/trades"},
 	{title: "Dividends",linkTo: "/dividend-data"},
 
-// {title: "HLi", linkTo: "/hl-index"},
-
+	// {title: "HLi", linkTo: "/hl-index"},
 	{title: "FED",linkTo: "/fed-insights"},
 	{title: "Models",linkTo: "/models"},
 	{title: "Dataroma",linkTo: "/dataroma"},
 
-// {title: "BoE",linkTo: "/boe-irates"},
-
+	// {title: "BoE",linkTo: "/boe-irates"},
 	{title: "StockWatch",linkTo: "/stock-watch"},
 
-// {title: "Heatmap",linkTo: "/stock-heatmap"},
+	// {title: "Heatmap",linkTo: "/stock-heatmap"},
 	// {title: "Screener",linkTo: "/stock-screener"},
-
 	// {title: "Indicators",linkTo: "/market-indicators"},
 	// {title: "News",linkTo: "/news"},
 	// {title: "Trading",linkTo: "/trading"},
-	//{title: "Quotes",linkTo: "/quotes"},
+	// {title: "Quotes",linkTo: "/quotes"},
 	// {title: "Trends",linkTo: "/trends"},
 	// {title: "SeekingAlpha",linkTo: "/seeking-alpha"},
-	//{title: "Fear&Greed",linkTo: "/fear-n-greed"}
+	// {title: "Fear&Greed",linkTo: "/fear-n-greed"}
 ];
 
 export default ({

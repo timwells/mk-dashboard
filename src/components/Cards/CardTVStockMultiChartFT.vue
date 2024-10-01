@@ -21,11 +21,8 @@ export default ({
 	watch: {
 		chartCache(newVal, oldVal) {
 			if(newVal !== null) {
-				console.log("chartCache:",newVal.length)
 				if(newVal.length === this.epics.length) {
-					console.log("Charts Loaded:")
 					for(let i = 0; i < this.epics.length; i++) {
-						console.log(this.epics[i])
 						switch(i) {
 							case 0: 
 								this.setChartSeries(this.lineSeries0,newVal[0].data,newVal[0].name)

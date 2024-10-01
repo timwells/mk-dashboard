@@ -6,6 +6,9 @@ const state = {
 };
 
 const getters = {
+    getSymbols: (state) => (name) => state.portfolios.find((p) => p.name === name).investments.map(e => e.symbol)
+    // fundsDetailFilter: (state) => (sedol) => state.fundDetails.find((f) => (f.data.sedol === sedol)),
+
 }
 const setters = {
 }
