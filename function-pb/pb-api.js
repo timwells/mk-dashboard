@@ -64,15 +64,13 @@ const prizeResults = async (holders) => {
     return await processResultsRequest(PB_RESULTS_PATH,holders)
 }
 
-const nextPrizeDraw = async (req, res) => {
+const nextPrizeDrawDate = async (req, res) => {
   const { data } = await axios.get(PB_NEXT_DRAW_DATE_PATH);
   const $ = cheerio.load(data);
-
-  const _nextPrizeDraw = $('#pc-container .pb-countdown-caption').text().replaceAll("\t","").replaceAll("\n","")
-  return _nextPrizeDraw;
+  return $('#pc-container .pb-countdown-caption').text().replaceAll("\t","").replaceAll("\n","")
 }
 
 module.exports = {
     prizeResults,
-    nextPrizeDraw,
+    nextPrizeDrawDate,
 }

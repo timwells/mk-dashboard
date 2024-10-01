@@ -2,6 +2,7 @@
 	<div>
 		<a-row :gutter="24" type="flex">
 			<a-col :span="24" class="mb-24" v-if="premiumBondsData.length>0">
+				<h6>{{ nextPrizeDrawDate }}</h6>
 				<a-tabs v-model="activeKey">
 					<a-tab-pane v-for="(holder,i) in premiumBondsData" :key="i" :tab="holder.name">
 						<a-row>
@@ -40,7 +41,7 @@ const cols = [
 export default ({
 	components: {},
 	computed: {
-    	...mapState("pb", ["holders","premiumBondsData"]),
+    	...mapState("pb", ["holders","premiumBondsData","nextPrizeDrawDate"]),
 		...mapGetters("pb", ['getHoldersQry','getHolderValue','getHolderWinRate']),
 	},
 	watch: {
@@ -57,6 +58,7 @@ export default ({
 	},
 	mounted() {
         this.$store.dispatch("pb/getHolders")
+		this.$store.dispatch("pb/getNextPrizeDrawDate")
 	},
 	methods: {
 		getHolder(name) { return name !== undefined ? " "+name: ''},

@@ -4,6 +4,7 @@ import { genericGet } from "../common/c.js"
 const state = {
   holders: [],
   premiumBondsData: [],
+  nextPrizeDrawDate: "?"
 };
 
 const getters = {
@@ -29,6 +30,7 @@ const setters = {
 const mutations = {
   SET_HOLDERS: (state, payload) => (state.holders = payload),
   SET_PREMIUM_BONDS: (state, payload) => (state.premiumBondsData = payload),
+  SET_NEXT_PRIZE_DRAW_DATE: (state, payload) => (state.nextPrizeDrawDate = payload.value),
 };
 
 const actions = {
@@ -44,6 +46,9 @@ const actions = {
   },
   async getPremiumBondsData({ commit }, { holders }) {
     await genericGet(`/pb/results?holders=${holders}`,"SET_PREMIUM_BONDS",[],{ commit })
+  },
+  async getNextPrizeDrawDate({ commit }) {
+    await genericGet(`/pb/nextprizedraw`,"SET_NEXT_PRIZE_DRAW_DATE","?",{ commit })
   },
 }
 
