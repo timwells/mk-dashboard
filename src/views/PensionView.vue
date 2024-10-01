@@ -24,7 +24,9 @@ export default ({
 				"GB00B935C537:GBP", 
 				"GB0007832826:GBP",
 				"GB0007832602:GBP",
-				"GB0007832487:GBP"
+				"GB0007832487:GBP",
+				"GB00B6QQDK47:GBP",
+				"GB0030927700:GBP"
 			]
 		}
 	},
