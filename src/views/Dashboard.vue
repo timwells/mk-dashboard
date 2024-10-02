@@ -178,7 +178,10 @@
 			<a href="https://www.blockchaincenter.net/static/rainbow-chart.html" target="_blank">Rainbow Chart</a>
 			<CardIndicatorInfo title="Rainbow" url='https://www.blockchaincenter.net/static/rainbow-chart.html' type="iframe" height="700"/>
 		</a-tab-pane>
-
+		<a-tab-pane key="11" tab="Chart Cycles">
+			<img src="/images/stockcyclestages2.png" height="600" width="98%">
+			<img src="/images/stockcyclestages4.webp" height="600" width="98%">
+		</a-tab-pane>
 		<!--a-tab-pane key="8" tab="FinViz-Sectors">
 			<h5>Industry Forward PE - Ascending</h5>
 			<a-row :gutter="24" type="flex" align="stretch">
