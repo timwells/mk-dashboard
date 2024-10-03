@@ -7,7 +7,9 @@
 <script>
 import { mapState } from "vuex";
 import { createChart } from 'lightweight-charts';
-import { genRndColor } from '@/common/fns.js'
+import { 
+	genRndColor,
+	genRndColor2 } from '@/common/fns.js'
 
 export default ({
 	props: {
@@ -79,11 +81,11 @@ export default ({
 		// Create the chart
 		this.chart = createChart(chartElement, this.chartProperties)
 				
-		this.lineSeries0 = this.chart.addLineSeries({color:genRndColor(),lineWidth:1});
-		this.lineSeries1 = this.chart.addLineSeries({color:genRndColor(),lineWidth:1});
-		this.lineSeries2 = this.chart.addLineSeries({color:genRndColor(),lineWidth:1});
-		this.lineSeries3 = this.chart.addLineSeries({color:genRndColor(),lineWidth:1});
-		this.lineSeries4 = this.chart.addLineSeries({color:genRndColor(),lineWidth:1});
+		this.lineSeries0 = this.chart.addLineSeries({color:genRndColor2(),lineWidth:1});
+		this.lineSeries1 = this.chart.addLineSeries({color:genRndColor2(),lineWidth:1});
+		this.lineSeries2 = this.chart.addLineSeries({color:genRndColor2(),lineWidth:1});
+		this.lineSeries3 = this.chart.addLineSeries({color:genRndColor2(),lineWidth:1});
+		this.lineSeries4 = this.chart.addLineSeries({color:genRndColor2(),lineWidth:1});
 		
 		for(let i = 0; i < this.metals.length; i++) {
 			this.$store.dispatch("pm/getChartDataValues",{metal: this.metals[i]});
