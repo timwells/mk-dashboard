@@ -5,66 +5,68 @@
 			<a-tab-pane key="1" tab="Treasury Rate">
 				<a-row type="flex" align="stretch">
 					<a-col :span="24" :lg="24" :xl="24" class="mb-24">
-						<CardMultiChart 
-							v-if="treasuryRates.length>0"
-							id="treasuryRates"
-							:dataset="treasuryRates">
-						</CardMultiChart>
+						<CardTVMultiChartMtpl :datasets="treasuryRates"></CardTVMultiChartMtpl>
 					</a-col>	
 				</a-row>
 			</a-tab-pane>
 			<a-tab-pane key="2" tab="Shiller">
-				<CardMultiChart 
-					v-if="shillerData.length>0" 
-					id="shillerData"
-					:dataset="shillerData">
-				</CardMultiChart>
+				<CardTVMultiChartMtpl :datasets="shillerData"></CardTVMultiChartMtpl>
 			</a-tab-pane>
-			<a-tab-pane key="3" tab="Y2-10Y-Recession">
-				<CardMultiChart 
-					v-if="y2y10maturity.length>0" 
-					id="y2y10maturity"
-					:dataset="y2y10maturity">
-				</CardMultiChart>
-			</a-tab-pane>
-			<a-tab-pane key="4" tab="TV Test">
-				<CardTVStockChart2 epic="VIC"/>
+			<a-tab-pane key="3" tab="FED">
+				<CardTVMultiChartFed :datasets="fedData"></CardTVMultiChartFed>
 			</a-tab-pane>
 		</a-tabs>
 	</div>
 </template>
 
 <script>
-// https://www.multpl.com/
-//const DS_SHILLER_PE_MONTHLY = "shiller-pe/table/by-month"
-//const DS_SP500_PE = "s-p-500-pe-ratio/table/by-month"
+import CardTVMultiChartMtpl from '../components/Cards/CardTVMultiChartMtpl';
+import CardTVMultiChartFed from '../components/Cards/CardTVMultiChartFed';
 
-// import CardTreasuryRateComposite from '@/components/Cards/CardTreasuryRateComposite';
-import CardMultiChart from '@/components/Cards/CardMultiChart';
-import CardTVStockChart2 from '@/components/Cards/CardTVStockChart2';
+const TREASURY_RATE_DATA = [
+  '1-year-treasury-rate/table/by-month',
+  '2-year-treasury-rate/table/by-month',
+  '3-year-treasury-rate/table/by-month',
+  '5-year-treasury-rate/table/by-month',
+  '10-year-treasury-rate/table/by-month',
+  '20-year-treasury-rate/table/by-month',
+  'inflation/table/by-month'
+];
 
-import { mapState, mapGetters } from "vuex";
+const SHILLER_DATA = [
+  'shiller-pe/table/by-month',
+  '10-year-treasury-rate/table/by-month',
+  //'cpi/table/by-month'
+]
+
+const FED_DATA = [
+    'seriesId=JHDUSRGDPBR&frequency=q&units=lin&scale=4.0',
+    'seriesId=T10Y2Y&frequency=m&units=lin&scale=1.0',
+	'seriesId=FEDFUNDS&frequency=m&units=lin&scale=1.0',
+	'seriesId=VIXCLS&frequency=m&units=lin&scale=1.0'
+
+	//'seriesId=M2V&frequency=m&units=lin&scale=1.0',
+	//'seriesId=SAHMREALTIME&frequency=m&units=lin&scale=1.0',
+    //'seriesId=GVZCLS&frequency=m&units=lin&scale=0.1',	
+]
 
 export default ({
 	components: {
-		CardMultiChart,
-		CardTVStockChart2
+		CardTVMultiChartMtpl,
+		CardTVMultiChartFed
 	},
 	computed: {
-    	...mapState("mtpl", ["treasuryRates","shillerData"]),
-		...mapState("fedinfo",["y2y10maturity"]),
-		...mapGetters("mtpl",["gMtplDataSetExists"]),
 	},
 	data() {
 		return {
+			treasuryRates: TREASURY_RATE_DATA,
+			shillerData: SHILLER_DATA,
+			fedData: FED_DATA
 		}
 	},
 	methods: {
 	},
 	async mounted() {
-		this.$store.dispatch("mtpl/getTreasuryRates");
-		this.$store.dispatch("mtpl/getShiller");
-		this.$store.dispatch("fedinfo/get2Y10YTreasuryMaturity");
 	},
 })
 </script>

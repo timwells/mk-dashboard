@@ -15,7 +15,11 @@ const state = {
   indicators: [],
   apiunrate: [],
   composite: null,
-  y2y10maturity: null
+  y2y10maturity: null,
+
+  chartCache: [],
+
+
 };
 
 const getters = {}
@@ -32,6 +36,9 @@ const mutations = {
   SET_COMPOSITE: (state, payload) => (state.composite = payload),
 
   SET_2Y10Y: (state, payload) => (state.y2y10maturity = payload),
+
+  RESET_CHART_CACHE: (state, payload) => (state.chartCache = payload),
+  ADD_CHART_CACHE: (state, payload) => (state.chartCache = [...state.chartCache, payload]),
 };
 
 const actions = {
@@ -43,12 +50,7 @@ const actions = {
         }
       }).catch((error) => { console.error(error); });
   },
-  async getIndicators({ commit }) {
-    commit("SET_INDICATORS", []);
-    const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fed/indicators`, 
-                                                                    { headers: APP_FINTECH_HEADERS })                                                                    
-    commit("SET_INDICATORS", data)
-  },
+
   async getApiUnRate({ commit }) {
     commit("SET_API_UNRATE", null);
     const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fed/observation?seriesId=UNRATE&frequency=m&units=pc1`, { headers: APP_FINTECH_HEADERS })
@@ -70,21 +72,20 @@ const actions = {
     commit("SET_COMPOSITE", seriesData)
   },
 
-  async get2Y10YTreasuryMaturity({ commit }) {
-    let seriesQuery = [
-      'seriesId=JHDUSRGDPBR&frequency=q&units=lin&scale=4.0',
-      'seriesId=T10Y2Y&frequency=m&units=lin&scale=1.0',
-      // 'seriesId=SAHMREALTIME&frequency=m&units=lin&scale=1.0',
-      // 'seriesId=GVZCLS&frequency=m&units=lin&scale=0.1',
-    ]
-    commit("SET_2Y10Y", null);
-    let seriesData = []
-    for(let i = 0; i < seriesQuery.length; i++) {
-      const {data} = await axios.get(`${APP_CLOUD_FUNCTION_URL}/fed/observation?${seriesQuery[i]}`, { headers: APP_FINTECH_HEADERS })
-      seriesData.push(data)
+  async resetChartDataValues({ commit }) {
+    commit("RESET_CHART_CACHE", [])
+  },
+
+  async getChartDataValues({ commit },{ dataset }) {
+    const resource = `${APP_CLOUD_FUNCTION_URL}/fed/observation2?${dataset}`
+    try {
+      const {data} = await axios.get(resource, { headers: APP_FINTECH_HEADERS })
+      //console.log(data)
+      commit("ADD_CHART_CACHE", data)
+    } catch(e) {
+        console.log("getChartDataValues",e)
     }
-    commit("SET_2Y10Y", seriesData)
-  }
+  },
 }
 
 /*

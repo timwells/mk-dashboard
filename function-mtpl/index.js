@@ -15,4 +15,10 @@ app.get('/dataset', async (req, res) => {
     return res.status(200).json(data)
 });
 
+app.get('/dataset2', async (req, res) => {
+    const {ds} = req.query;
+    let data = await mtplApi.datasetImpl(ds)
+    return res.status(200).json(data)
+});
+
 exports.mtpl = functions.https.onRequest(app);

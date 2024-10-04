@@ -1,7 +1,7 @@
 const ColorSingleton = (function () {
     let instance; // Store the single instance
     const colors = [
-        "Red", "Blue", "Green", "DarkYellow", "Orange", "Purple", "Cyan", 
+        "Red", "Blue", "Green", "DarkGoldenRod", "Orange", "Purple", "Cyan", 
         "Magenta", "Lime", "Crimson", "DarkBlue", "DarkGreen", "Gold",
         "FireBrick", "DeepPink", "DodgerBlue", "DarkOrange", "DarkViolet", 
         "MediumSeaGreen", "Tomato"      
