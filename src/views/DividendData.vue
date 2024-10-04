@@ -166,6 +166,8 @@ export default ({
 	},
 	watch: {
         dividendData(o,n) {
+
+			console.log("dividendData:",o)
 			this.loading = this.dividendData.length > 0 ? false: true
 		},
     },
@@ -219,7 +221,7 @@ export default ({
 	},	
 	mounted() {
 		this.loading = true
-		this.$store.dispatch("dd/getDividendData")
+		this.$store.dispatch("dd/getDividendData2")
 	}
 })
 </script>

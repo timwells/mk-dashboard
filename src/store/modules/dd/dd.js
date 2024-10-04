@@ -1,6 +1,10 @@
 import {
   genericGet
 } from "../common/c.js"
+import axios from "axios";
+const CLOUD_FUNCTION_URL = process.env.VUE_APP_FIREBASE_FUNCTION_URL;
+const API_KEY = process.env.VUE_APP_FINTECH_API_KEY;
+const HEADERS = { 'x-api-key' : API_KEY }
 
 const state = {
   dividendData: [],
@@ -16,6 +20,14 @@ const mutations = {
 const actions = {
   async getDividendData({ commit }) {
     await genericGet(`/dd/exdividenddate`,"SET_DIVIDEND_DATA",[],{commit})
+  },
+  async getDividendData2({ commit }) {
+    console.log("getDividendData2")
+    commit("SET_DIVIDEND_DATA", [])
+    const resource = `${CLOUD_FUNCTION_URL}/dd/exdividenddate`
+    const {data} = await axios.get(resource, { headers: HEADERS })
+    console.log(data)
+    commit("SET_DIVIDEND_DATA", data)
   },
 }
 
