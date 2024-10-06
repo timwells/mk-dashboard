@@ -304,7 +304,7 @@ export default ({
 			loading: true,
 			live: false,
 			activeCommoditiesTab: 0,
-			oilSymbols: ["BP.","SHEL","HBR","SQZ"],
+			oilSymbols: ["BP.","SHEL","HBR","SQZ","RKH"],
 			preciousMetalSymbols: ["gold","silver","platinum","palladium"],
 			preciousMetalMinerSymbols: ["FRES","HOC","CEY","POG","GGP","CNR","PAF","SRB"],
 			etfMarkets: ["REGB:LSE:GBP","GJGB:LSE:GBP","URNG:LSE:GBP","NUCG:LSE:GBP","GDGB:LSE:GBP"],

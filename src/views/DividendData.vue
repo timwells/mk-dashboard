@@ -3,8 +3,10 @@
 		<a href="https://www.dividenddata.co.uk/exdividenddate.py?m=alldividends" target="_blank">Dividend Data</a>
 		<a-row :gutter="24" type="flex">
 			<a-col :span="24" class="mb-24">
-				<a-table
-					:loading="loading"
+
+				<pre>{{ dividendData }}</pre>
+				
+				<!--a-table
 					:columns="dividendColumns" 
 					:data-source="dividendData" 
 					:pagination="pagination"
@@ -88,17 +90,13 @@
 					<template slot="declarationDate" slot-scope="declarationDate"><p class="m-0">{{ declarationDate }}</p></template>						
 					<template slot="exDividendDate" slot-scope="exDividendDate"><p class="m-0">{{ exDividendDate }}</p></template>				
 
-				</a-table>
+				</a-table-->
 			</a-col>
 		</a-row>
 	</div>
 </template>
 
 <script>
-// {"epic": "SMIN", "name": "Smiths Group", 
-// "market": "FTSE 100", "price": "1506p", 
-// "dividend": "27.3p", "exdividenddate": "20-Oct"},
-
 const dividendColumns = [
 	{ title: 'Epic', dataIndex: 'epic', scopedSlots: { customRender: 'epic' }},
 	{ title: 'Name', dataIndex: 'name', 
@@ -167,8 +165,8 @@ export default ({
 	watch: {
         dividendData(o,n) {
 
-			console.log("dividendData:",o)
-			this.loading = this.dividendData.length > 0 ? false: true
+			console.log("dividendData:",n)
+			//this.loading = this.dividendData.length > 0 ? false: true
 		},
     },
 	data() {
@@ -220,8 +218,8 @@ export default ({
     	},
 	},	
 	mounted() {
-		this.loading = true
-		this.$store.dispatch("dd/getDividendData2")
+		// this.loading = true
+		this.$store.dispatch("dd/getDividendData")
 	}
 })
 </script>

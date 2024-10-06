@@ -15,4 +15,10 @@ app.get('/exdividenddate', async (req, res) => {
     return res.status(200).json(data)
 });
 
+app.get('/exdividenddate2', async (req, res) => {
+    console.log("exdividenddate2")
+    let data = await ddApi.exdividenddate2()
+    return res.status(200).json(data)
+});
+
 exports.dd = functions.https.onRequest(app);
