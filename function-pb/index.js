@@ -19,4 +19,8 @@ app.get('/nextprizedraw', async (req, res) => {
     return res.status(200).json({value: await pbApi.nextPrizeDrawDate()})
 });
 
+app.get('/winners', async (req, res) => {
+    return res.status(200).json({value: await pbApi.winners()})
+});
+
 exports.pb = functions.https.onRequest(app);

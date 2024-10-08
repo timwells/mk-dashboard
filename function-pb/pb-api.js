@@ -5,7 +5,7 @@ const cheerio = require('cheerio');
 const PB_SITE_HOST = "https://www.nsandi.com"
 const PB_RESULTS_PATH = PB_SITE_HOST + "/premium-bonds-have-i-won-ajax"
 const PB_NEXT_DRAW_DATE_PATH = PB_SITE_HOST + "/prize-checker"
-
+const PB_WINNERS_PATH = PB_SITE_HOST + "/prize-checker/winners"
 async function lookUpResults(url,nh) {
   try {
     // Get form data
@@ -67,10 +67,41 @@ const prizeResults = async (holders) => {
 const nextPrizeDrawDate = async (req, res) => {
   const { data } = await axios.get(PB_NEXT_DRAW_DATE_PATH);
   const $ = cheerio.load(data);
+
   return $('#pc-container .pb-countdown-caption').text().replaceAll("\t","").replaceAll("\n","")
+}
+
+
+/*
+<tr>
+  <td class="" data-sort='1,000,000'><span>&pound;</span>1,000,000<br /><span class="table-subtext hidden-l">535MK963637</small></td>
+  <td class="hidden-s">535MK963637</td>
+  <td class="" data-sort='50,000'><span>&pound;</span>50,000<br /><span class="table-subtext hidden-l">Derbyshire</small></td>
+  <td class="hidden-s">Derbyshire</td>
+  <td class="hidden-s"><span>&pound;</span>40,000</td>
+  <td class="th-odd" data-sort='202303			'>Mar-23<br /><span class="table-subtext hidden-l">Value: &pound;40,000</span></td>
+</tr>
+
+Prize value	, Winning Bond, Holding,	Area,	      Bond Value,	Purchased
+£1,000,000    535MK963637	  £50,000   Derbyshire	£40,000	    Mar-23
+*/
+const winners = async (holders) => {
+  const {data} = await axios.get(PB_WINNERS_PATH);  
+  const $ = cheerio.load(data);  
+  const rows = $("#table-prizewinner tr")
+
+  let winners = [];
+  rows.each((idx, el) => {
+    const rowCols = $(el).children("td")
+    
+
+  })
+
+  return await {rows: rows.length}
 }
 
 module.exports = {
     prizeResults,
     nextPrizeDrawDate,
+    winners
 }
