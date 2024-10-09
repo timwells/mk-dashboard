@@ -20,7 +20,7 @@ app.get('/nextprizedraw', async (req, res) => {
 });
 
 app.get('/winners', async (req, res) => {
-    return res.status(200).json({value: await pbApi.winners()})
+    return res.status(200).json(await pbApi.winners())
 });
 
 exports.pb = functions.https.onRequest(app);

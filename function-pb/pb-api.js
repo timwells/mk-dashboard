@@ -79,25 +79,42 @@ const nextPrizeDrawDate = async (req, res) => {
   <td class="" data-sort='50,000'><span>&pound;</span>50,000<br /><span class="table-subtext hidden-l">Derbyshire</small></td>
   <td class="hidden-s">Derbyshire</td>
   <td class="hidden-s"><span>&pound;</span>40,000</td>
-  <td class="th-odd" data-sort='202303			'>Mar-23<br /><span class="table-subtext hidden-l">Value: &pound;40,000</span></td>
+  <td class="th-odd" data-sort='202303'>Mar-23<br />
+    <span class="table-subtext hidden-l">Value: &pound;40,000</span>
+  </td>
 </tr>
 
 Prize value	, Winning Bond, Holding,	Area,	      Bond Value,	Purchased
 £1,000,000    535MK963637	  £50,000   Derbyshire	£40,000	    Mar-23
+
+
+  0 £5,000131VB339496
+>  1 131VB339496
+>  2 £36,550Hampshire And Isle Of Wight
+>  3 Hampshire And Isle Of Wight
+>  4 £2,000
 */
-const winners = async (holders) => {
-  const {data} = await axios.get(PB_WINNERS_PATH);  
-  const $ = cheerio.load(data);  
+const winners = async () => {
+  const { data } = await axios.get(PB_WINNERS_PATH);  
+  const $ = cheerio.load(data);
   const rows = $("#table-prizewinner tr")
-
   let winners = [];
-  rows.each((idx, el) => {
-    const rowCols = $(el).children("td")
-    
-
+  rows.each((i, e) => {
+    if (i>0) {
+      let winObj={}
+      $(e).find("td").each((i, t) => {
+        switch(i) {
+          case 0: winObj.prize = $(t).attr('data-sort'); break;
+          case 1: winObj.bondNumber = $(t).text().trim(); break;
+          case 2: winObj.holding = $(t).attr('data-sort'); break;
+          case 3: winObj.area = $(t).text().trim(); break;
+          case 4: winObj.purchased = $(t).attr('data-sort'); break;
+        }      
+      })
+      winners.push(winObj)
+    }
   })
-
-  return await {rows: rows.length}
+  return winners
 }
 
 module.exports = {
