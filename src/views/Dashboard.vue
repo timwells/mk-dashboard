@@ -93,7 +93,7 @@
 					<CardTVStockMultiChartFT :epics="etfMarkets"></CardTVStockMultiChartFT>
 				</a-tab-pane>
 				<a-tab-pane key="4" tab="FxTop">
-<h5> £1 buys !ounces ofXAU or XAG </h5>
+<h5> £1 buys !ounces of XAU or XAG </h5>
 <a-row>
 <a-col :span="12">
 <img src="https://fxtop.com/php/imggraph.php?C1=GBP&C2=XAU&A=1&DD1=01&YYYY1=1980&YYYY2=2024&LANG=en&CJ=0&MM1Y=0&LARGE=&TR=ON" width="700" height="500">
