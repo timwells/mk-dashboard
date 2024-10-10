@@ -94,6 +94,16 @@ Prize value	, Winning Bond, Holding,	Area,	      Bond Value,	Purchased
 >  3 Hampshire And Isle Of Wight
 >  4 £2,000
 */
+function fmtDate(dateString) {
+  if (dateString.length !== 6) {
+      return "?"
+  }
+
+  // Extract the year (first 4 characters) and the month (last 2 characters)
+  const year = dateString.substring(0, 4);
+  const month = dateString.substring(4, 6);
+  return `${year}-${month}` 
+}
 const winners = async () => {
   const { data } = await axios.get(PB_WINNERS_PATH);  
   const $ = cheerio.load(data);
@@ -104,11 +114,11 @@ const winners = async () => {
       let winObj={}
       $(e).find("td").each((i, t) => {
         switch(i) {
-          case 0: winObj.prize = $(t).attr('data-sort'); break;
+          case 0: winObj.prize = parseInt($(t).attr('data-sort').replaceAll(",","")); break;
           case 1: winObj.bondNumber = $(t).text().trim(); break;
-          case 2: winObj.holding = $(t).attr('data-sort'); break;
+          case 2: winObj.holdings = parseInt($(t).attr('data-sort').replaceAll(",","")); break;
           case 3: winObj.area = $(t).text().trim(); break;
-          case 4: winObj.purchased = $(t).attr('data-sort'); break;
+          case 5: winObj.purchaseDate = fmtDate($(t).attr('data-sort').trim()); break;
         }      
       })
       winners.push(winObj)

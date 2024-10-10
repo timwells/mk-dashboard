@@ -13,7 +13,7 @@
 							<a-col :span="4"><a-statistic title="6MWR" :value="getHolderWinRate2(holder.name,holder.sum)" /></a-col>
 						</a-row>
 						<a-table
-							:columns="cols"
+							:columns="prizeCols"
 							:data-source="holder.results" 
 							:pagination="false"
 							:rowKey="(record,i) => i"
@@ -23,6 +23,21 @@
 							<template slot="prize" slot-scope="prize"><p class="m-0 font-regular text-muted">{{ prize }}</p></template>
 						</a-table>
 					</a-tab-pane>
+					<a-tab-pane tab="Winners">
+						<a-row>
+							<a-col :span="4"><a-statistic title="Winners" :value="getWinnersCount()"/></a-col>
+							<a-col :span="4"><a-statistic title="50K Holders" :value="getMaxHoldersCount()" /></a-col>
+							<a-col :span="4"><a-statistic title="Ratio" :value="getMaxHolderWinnerRatio()" /></a-col>
+							<a-col :span="4"></a-col>
+						</a-row>
+						<a-table
+							:columns="winnersCols"
+							:data-source="winners" 
+							:pagination="false"
+							:rowKey="(record,i) => i"
+							class='table table-small' style="margin: 0; background-color: white;">
+						</a-table>
+					</a-tab-pane>
 				</a-tabs>
 			</a-col>
 		</a-row>
@@ -30,19 +45,37 @@
 </template>
 
 <script>
+
 import { mapState, mapGetters } from "vuex";
 
-const cols = [
+const prizeCols = [
 	{ title: 'Date', dataIndex: 'date', width: 50, scopedSlots: { customRender: 'date' }},
 	{ title: 'Bond', dataIndex: 'bond_number', width: 50, scopedSlots: { customRender: 'bond_number' }},
 	{ title: 'Prize', dataIndex: 'prize', width: 50, scopedSlots: { customRender: 'prize' }},
 ];
 
+const winnersCols = [
+{ title: 'Prize', 
+	dataIndex: 'prize',sortDirections: ["descend", "ascend"],sorter: (a, b) => a.prize - b.prize},
+{ title: 'Area', 
+	dataIndex: 'area',sortDirections: ["descend", "ascend"],sorter: (a, b) => a.area.localeCompare(b.area)},
+{ title: 'Bond', 
+	dataIndex: 'bondNumber'},
+{ title: 'Holdings', 
+	dataIndex: 'holdings',sortDirections: ["descend", "ascend"],sorter: (a, b) => a.holdings - b.holdings},
+{ title: 'Purchased', 
+	dataIndex: 'purchaseDate',sortDirections: ["descend", "ascend"],sorter: (a, b) => a.purchaseDate.localeCompare(b.purchaseDate),}
+];
+
 export default ({
 	components: {},
 	computed: {
-    	...mapState("pb", ["holders","premiumBondsData","nextPrizeDrawDate"]),
-		...mapGetters("pb", ['getHoldersQry','getHolderValue','getHolderWinRate']),
+    	...mapState("pb", ["holders","premiumBondsData","nextPrizeDrawDate","winners"]),
+		...mapGetters("pb", ['getHoldersQry','getHolderValue','getHolderWinRate','getHoldersQry',
+							'getWinnersCount',
+							'getMaxHoldersCount',
+							'getMaxHolderWinnerRatio'
+						]),
 	},
 	watch: {
 		holders(nn,prv) {			
@@ -51,14 +84,16 @@ export default ({
 	},
 	data() {
 		return {
-			cols,
 			activeKey: 0,
-			tabs:[]
+			tabs:[],
+			winnersCols,
+			prizeCols
 		}
 	},
 	mounted() {
         this.$store.dispatch("pb/getHolders")
 		this.$store.dispatch("pb/getNextPrizeDrawDate")
+		this.$store.dispatch("pb/getWinners")
 	},
 	methods: {
 		getHolder(name) { return name !== undefined ? " "+name: ''},

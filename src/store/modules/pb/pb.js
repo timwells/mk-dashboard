@@ -2,9 +2,10 @@ import { getDatabase, ref, child, get} from "firebase/database";
 import { genericGet } from "../common/c.js"
   
 const state = {
+  nextPrizeDrawDate: "?",
   holders: [],
   premiumBondsData: [],
-  nextPrizeDrawDate: "?"
+  winners: [],
 };
 
 const getters = {
@@ -23,6 +24,17 @@ const getters = {
     if(name.length>0) return (100*(winings/((state.holders.find(h => h.n === name)).v))).toFixed(1);
     else return 0
   },
+  getMaxHoldersCount: (state) => () => {
+    return state.winners.filter(item => item.holdings == 50000).length;
+  },
+  getWinnersCount: (state) => () => {
+    return state.winners.length;
+  },
+  getMaxHolderWinnerRatio: (state) => () => {
+    if(state.winners.length > 0) {
+      return (100*((state.winners.filter(item => item.holdings == 50000).length) / state.winners.length)).toFixed(1) + "%"
+    } return "0%"
+  },
 }
 const setters = {
 }
@@ -31,6 +43,7 @@ const mutations = {
   SET_HOLDERS: (state, payload) => (state.holders = payload),
   SET_PREMIUM_BONDS: (state, payload) => (state.premiumBondsData = payload),
   SET_NEXT_PRIZE_DRAW_DATE: (state, payload) => (state.nextPrizeDrawDate = payload.value),
+  SET_WINNERS: (state, payload) => (state.winners = payload),
 };
 
 const actions = {
@@ -49,6 +62,9 @@ const actions = {
   },
   async getNextPrizeDrawDate({ commit }) {
     await genericGet(`/pb/nextprizedraw`,"SET_NEXT_PRIZE_DRAW_DATE","?",{ commit })
+  },
+  async getWinners({ commit }) {
+    await genericGet(`/pb/winners`,"SET_WINNERS",[],{ commit })
   },
 }
 
