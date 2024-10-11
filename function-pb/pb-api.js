@@ -127,8 +127,36 @@ const winners = async () => {
   return winners
 }
 
+const winProbability = async (holding) => {
+
+    console.log(holding)
+    const bondCost = 1; // Each bond costs £1
+    const totalBonds = holding / bondCost;
+
+    // General odds of winning any prize
+    const generalOdds = 24000; // 1 in 24,000 for each £1 bond
+
+    // Odds of winning £1 million (approximate)
+    const millionPrizeOdds = 37000000000; // 1 in 37 billion
+
+    // Calculate probabilities
+    const probabilityAnyPrize = (totalBonds / generalOdds) / totalBonds; // Probability of winning any prize
+    const probabilityMillionPrize = (totalBonds / millionPrizeOdds) / totalBonds; // Probability of winning £1 million
+
+    // Probability of not winning any prize
+    const probabilityNotWinningAnyPrize = 1 - probabilityAnyPrize;
+
+    return {
+        anyPrize: (probabilityAnyPrize * 100).toFixed(6) + '%',
+        millionPrize: (probabilityMillionPrize * 100).toFixed(10) + '%',
+        notWinningAnyPrize: (probabilityNotWinningAnyPrize * 100).toFixed(6) + '%',
+    };
+}
+
+
 module.exports = {
     prizeResults,
     nextPrizeDrawDate,
-    winners
+    winners,
+    winProbability
 }

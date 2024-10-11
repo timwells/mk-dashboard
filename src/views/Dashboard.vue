@@ -74,7 +74,11 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="2" tab="Oil">
+		<a-tab-pane key="2" tab="Money Mkts">
+			<h6>{{ moneyMarkets }}</h6>
+			<CardTVStockMultiChartFT :epics="moneyMarkets"></CardTVStockMultiChartFT>
+		</a-tab-pane>
+		<a-tab-pane key="3" tab="Oil">
 			<h6>{{ oilSymbols }}</h6>
 			<CardTVStockMultiChart :epics="oilSymbols"></CardTVStockMultiChart>
 		</a-tab-pane>
@@ -82,7 +86,7 @@
 			<a-tabs>
 				<a-tab-pane key="1" tab="Metals">
 					<h6>{{ preciousMetalSymbols }}</h6>
-					<CardTVMetalsMultiChart :metals="preciousMetalSymbols"></CardTVMetalsMultiChart>
+					<CardTVStockMultiChartFT :metals="preciousMetalSymbols"></CardTVStockMultiChartFT>
 				</a-tab-pane>
 				<a-tab-pane key="2" tab="Markets">
 					<h6>{{ preciousMetalMinerSymbols }}</h6>
@@ -325,7 +329,13 @@ export default ({
 			preciousMetalSymbols: ["gold","silver","platinum","palladium"],
 			preciousMetalMinerSymbols: ["FRES","HOC","CEY","POG","GGP","CNR","PAF","SRB"],
 			etfMarkets: ["REGB:LSE:GBP","GJGB:LSE:GBP","URNG:LSE:GBP","NUCG:LSE:GBP","GDGB:LSE:GBP"],
+			moneyMarkets: ["GB00BFYDWM59:GBP","GB00B8XYYQ86:GBP","GB0033029413:GBP"],
 			uraniumMetalSymbols:["BKY","YCA","AURA","KAP"]
+
+
+// Crypto
+//https://api.fool.com/quotes/v4/historical/charts/220472?start=2014-10-14&end=2024-10-10&precision=Week&apikey=6cbf5f34-ba40-4108-a1ab-d951c608955e
+
 		}
 	},
 	methods: {

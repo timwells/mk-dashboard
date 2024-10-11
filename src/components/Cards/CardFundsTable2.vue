@@ -91,7 +91,6 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import CardFundDetails from '@/components/Cards/CardFundDetails';
-import CardChartInfoIframe from '@/components/Cards/CardChartInfoIframe';
 
 export default ({
 	props: {

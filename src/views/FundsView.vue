@@ -86,12 +86,15 @@ const fundListColumns = [
 			filterIcon: 'filterIcon' 
 		}
 	},
-
-	{ title: 'Sector', dataIndex: 'sector_name', ellipsis:true},
-
+	{ title: 'Sector', dataIndex: 'sector_name', ellipsis: true,
+		onFilter: (value, record) => record.sector_name.toString().toLowerCase().includes(value.toLowerCase()),
+		scopedSlots: { customRender: 'sector_name', filterDropdown: 'filterDropdown', filterIcon: 'filterIcon' },
+		sortDirections: ["descend", "ascend"],
+		sorter: (a, b) => a.sector_name.localeCompare(b.sector_name)
+	},
 	{ title: 'Type', dataIndex: 'unit_type', ellipsis:true,},
-	{ title: 'IChg', dataIndex: 'initial_charge'},
-	{ title: 'AChg', dataIndex: 'annual_charge',
+	{ title: 'I.Chg', dataIndex: 'initial_charge'},
+	{ title: 'A.Chg', dataIndex: 'annual_charge',
 		sortDirections: ["descend", "ascend"],
 		sorter: (a, b) => a.annual_charge - b.annual_charge,
 	},

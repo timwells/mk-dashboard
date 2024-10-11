@@ -23,4 +23,9 @@ app.get('/winners', async (req, res) => {
     return res.status(200).json(await pbApi.winners())
 });
 
+app.get('/probability', async (req, res) => {
+    const { holdings } = req.query;
+    return res.status(200).json(await pbApi.winProbability(parseInt(holdings)))
+});
+
 exports.pb = functions.https.onRequest(app);
