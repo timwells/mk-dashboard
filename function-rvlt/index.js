@@ -19,4 +19,4 @@ app.get('/historical/series', async (req, res) => {
     return res.status(200).json(data)
 });
 
-exports.tge = functions.https.onRequest(app);
+exports.rvlt = functions.https.onRequest(app);

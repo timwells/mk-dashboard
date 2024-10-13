@@ -9,7 +9,9 @@ const RVLT = require('./rvlt-constants.js')
 const getSeries = async () => {
   
   try {
-      const { data } = await axios.post(`${RVLT.HOST}${FT.SERIES_PRICE_PATH}/BTC/chart?fiatCurrency=GBP&interval=1d&range=max`)
+      const { data } = await axios.get(
+        `${RVLT.HOST}${RVLT.SERIES_PRICE_PATH}/BTC/chart?fiatCurrency=GBP&interval=1d&range=max`,
+         { headers: RVLT.HEADERS });
 
       /*
       let dv = []
@@ -23,6 +25,7 @@ const getSeries = async () => {
       */
       return data
   } catch(e) {
+      return null
       console.log(e)
   }        
   return null
