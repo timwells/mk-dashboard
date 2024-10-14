@@ -86,7 +86,7 @@
 			<a-tabs>
 				<a-tab-pane key="1" tab="Metals">
 					<h6>{{ preciousMetalSymbols }}</h6>
-					<CardTVStockMultiChartFT :metals="preciousMetalSymbols"></CardTVStockMultiChartFT>
+					<CardTVMetalsMultiChart :metals="preciousMetalSymbols"></CardTVMetalsMultiChart>
 				</a-tab-pane>
 				<a-tab-pane key="2" tab="Markets">
 					<h6>{{ preciousMetalMinerSymbols }}</h6>
@@ -256,7 +256,6 @@ import CardFedComposite from '@/components/Cards/CardFedComposite';
 import WidgetCounter from '../components/Widgets/WidgetCounter' ;
 
 import { SECTOR_PERFORMANCE_Columns } from '@/common/table'
-import { NULL } from "sass";
 
 // https://skyandtelescope.org/wp-content/uploads/ises-solar-cycle-sunspot-2-900x515.jpg
 // https://www.researchgate.net/publication/370171428/figure/fig3/AS:11431281152708626@1682119597484/Prediction-of-Solar-Cycle-25.png
