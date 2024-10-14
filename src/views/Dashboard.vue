@@ -78,9 +78,17 @@
 			<h6>{{ moneyMarkets }}</h6>
 			<CardTVStockMultiChartFT :epics="moneyMarkets"></CardTVStockMultiChartFT>
 		</a-tab-pane>
-		<a-tab-pane key="3" tab="Oil">
-			<h6>{{ oilSymbols }}</h6>
-			<CardTVStockMultiChart :epics="oilSymbols"></CardTVStockMultiChart>
+		<a-tab-pane key="3" tab="Oil Markets">
+			<a-tabs>
+				<a-tab-pane key="1" tab="Stocks">
+					<h6>{{ oilSymbols }}</h6>
+					<CardTVStockMultiChart :epics="oilSymbols"></CardTVStockMultiChart>
+				</a-tab-pane>
+				<a-tab-pane key="2" tab="ETFs">
+					<h6>{{ oilEtfs }}</h6>
+					<CardTVStockMultiChartFT></CardTVStockMultiChartFT>
+				</a-tab-pane>
+			</a-tabs>
 		</a-tab-pane>
 		<a-tab-pane key="4" tab="Metals & Markets">
 			<a-tabs>
@@ -92,9 +100,9 @@
 					<h6>{{ preciousMetalMinerSymbols }}</h6>
 					<CardTVStockMultiChart :epics="preciousMetalMinerSymbols"></CardTVStockMultiChart>
 				</a-tab-pane>
-				<a-tab-pane key="3" tab="ETFS">
-					<h6>{{ etfMarkets }}</h6>
-					<CardTVStockMultiChartFT :epics="etfMarkets"></CardTVStockMultiChartFT>
+				<a-tab-pane key="3" tab="ETFs">
+					<h6>{{ metalEtfs }}</h6>
+					<CardTVStockMultiChartFT :epics="metalEtfs"></CardTVStockMultiChartFT>
 				</a-tab-pane>
 				<a-tab-pane key="4" tab="FxTop">
 <h5> £1 buys !ounces of XAU or XAG </h5>
@@ -325,9 +333,10 @@ export default ({
 			live: false,
 			activeCommoditiesTab: 0,
 			oilSymbols: ["BP.","SHEL","HBR","SQZ","RKH"],
+			oilEtfs: [],
 			preciousMetalSymbols: ["gold","silver","platinum","palladium"],
 			preciousMetalMinerSymbols: ["FRES","HOC","CEY","POG","GGP","CNR","PAF","SRB"],
-			etfMarkets: ["REGB:LSE:GBP","GJGB:LSE:GBP","URNG:LSE:GBP","NUCG:LSE:GBP","GDGB:LSE:GBP"],
+			metalEtfs: ["REGB:LSE:GBP","GJGB:LSE:GBP","URNG:LSE:GBP","NUCG:LSE:GBP","GDGB:LSE:GBP"],
 			moneyMarkets: ["GB00BFYDWM59:GBP","GB00B8XYYQ86:GBP","GB0033029413:GBP"],
 			uraniumMetalSymbols:["BKY","YCA","AURA","KAP"]
 
