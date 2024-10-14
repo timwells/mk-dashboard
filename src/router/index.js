@@ -290,10 +290,11 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
 	const { requiresAuth, roles } = to.meta;
-	const isAuthenticated = store.getters['auth/isAuthenticated']
-	const userRole = store.getters['auth/role']
+	const isAuthenticated = await store.getters['auth/isAuthenticated']
+	const userRole = await store.getters['auth/role']
 
 	console.log(`to:${to.path}, from:${from.path}`);
+
 	try {
 		if (to.path == from.path) {
 			next(false); // Cancel the navigation
