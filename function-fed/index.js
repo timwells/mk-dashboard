@@ -15,10 +15,10 @@ app.get('/observation', async (req, res) => {
     return res.status(200).json(data)
 });
 
-app.get('/observation2', async (req, res) => {
-    const { seriesId, frequency, units, scale} = req.query;
-    let data = await fedApi.observation2(seriesId, frequency, units, scale)
+app.get('/observation2', async (req, res) => {on2(seriesId, frequency, units, scale)
     return res.status(200).json(data)
 });
 
-exports.fed = functions.https.onRequest(app);
+
+    const { seriesId, frequency, units, scale} = req.query;
+    let data = await fedApi.observatiexports.fed = functions.https.onRequest(app);
