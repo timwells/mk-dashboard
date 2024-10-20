@@ -98,6 +98,16 @@
       "source": "function-ons",
       "codebase": "ons",
       "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+    },
+    {
+      "source": "function-tfl",
+      "codebase": "tfl",
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+    },
+    {
+      "source": "function-gbcc",
+      "codebase": "gbcc",
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
     }
   ]
 }
