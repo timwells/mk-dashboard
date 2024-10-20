@@ -37,6 +37,7 @@ import hl from "./modules/hl/hl"
 import pensions from "./modules/pensions/pensions"
 import pm from "./modules/pm/pm"
 import ons from "./modules/ons/ons"
+import gbcc from "./modules/gbcc/gbcc"
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -60,6 +61,7 @@ export default new Vuex.Store({
     hl,
     pensions,
     pm,
-    ons
+    ons,
+    gbcc
   }
 });
