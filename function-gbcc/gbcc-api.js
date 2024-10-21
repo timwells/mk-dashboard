@@ -30,7 +30,7 @@ const getCategories = async () => {
     catItems.each((i,el) => {
       catItemDetails.push({
         name: $(el).text(), 
-        href: $(el).attr('href'),
+        // href: $(el).attr('href'),
         category: getLastPartOfUrl($(el).attr('href'))
       })
     })

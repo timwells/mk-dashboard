@@ -19,7 +19,7 @@ const mutations = {
 const actions = {
   async getCategories({ commit }) {
     const { data } = await axios.get(`${APP_CLOUD_FUNCTION_URL}/gbcc/categories`, { headers: APP_FINTECH_HEADERS })
-    commit("SET_FUNDS_STATS", data)
+    commit("SET_CATEGORIES", data)
   },
 
   /*

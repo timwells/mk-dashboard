@@ -56,20 +56,21 @@ let routes = [
 		layout: "dashboard",
 		component: () => import('../views/Ratios.vue'),
 		meta: { requiresAuth: true }
-	},	
+	},
 	{
 		path: '/hl-index',
 		name: 'HLi',
 		layout: "dashboard",
 		component: () => import('../views/IndexView.vue'),
 		meta: { requiresAuth: true }
-	},/*{
-		path: '/layout',
-		name: 'Layout',
+	},
+	{
+		path: '/coins',
+		name: 'Coins',
 		layout: "dashboard",
-		component: () => import('../views/Layout.vue'),
+		component: () => import('../views/CoinsView.vue'),
 		meta: { requiresAuth: true }
-	},*/
+	},
 	{
 		path: '/premium-bonds',
 		name: 'P.Bonds',
