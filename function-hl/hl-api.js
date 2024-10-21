@@ -217,7 +217,6 @@ async function fundDetails(companyid,sectorid,sedol) {
 //
 //
 
-
 module.exports = {
     fundsStats,
     fundsPage,

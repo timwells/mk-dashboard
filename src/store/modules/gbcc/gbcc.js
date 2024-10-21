@@ -6,6 +6,8 @@ import {
 } from "../common/c.js"
 
 const state = {
+  productsRefreshProgress: 0,
+  productssRefreshComplete: true,
   categories:[]
 };
 
@@ -14,6 +16,10 @@ const getters = {
 
 const mutations = {
     SET_CATEGORIES: (state, payload) => (state.categories = payload),
+
+    SET_PRODUCTS_REFRESH_PROGRESS: (state, payload) => (state.productsRefreshProgress = payload),
+    SET_PRODUCTS_REFRESH_COMPLETE: (state, payload) => (state.productssRefreshComplete = payload),
+
 };
 
 const actions = {
@@ -22,30 +28,25 @@ const actions = {
     commit("SET_CATEGORIES", data)
   },
 
-  /*
-  async refreshFunds({ commit }, {count}) {
-    commit("SET_FUNDS_REFRESH_PROGRESS", 0)
-    commit("SET_FUNDS_REFRESH_COMPLETE", false)
-    commit("SET_FUND_DETAILS", [])
-    commit("SET_FUND_ANALYSIS", [])
-    commit("SET_FUNDS_OBJ", null)
+  async refreshProducts({ commit }) {
+    commit("SET_PRODUCTS_REFRESH_PROGRESS", 0)
+    commit("SET_PRODUCTS_REFRESH_COMPLETE", false)
+    const resp = await axios.get(`${APP_CLOUD_FUNCTION_URL}/gbcc/categories`,{ headers: APP_FINTECH_HEADERS })
+    const totalCategories = resp.data.data.length;
 
-    const totalFunds = count
-    const REQ_PAGE_SIZE = 50
-    let start = 0
-    let rpp = REQ_PAGE_SIZE
+    console.log("totalCategories:",totalCategories)
+    for(let category = 0; category < totalCategories; category++) {
+      const resource = `${APP_CLOUD_FUNCTION_URL}/gbcc/products?id=${resp.data.data[category].category}` 
+      const { data } = await axios.get(resource, { headers: APP_FINTECH_HEADERS })
+      
+      // console.log(category,totalCategories,(category+1)/totalCategories,(100*((category+1)/totalCategories)))
 
-    while(start < totalFunds) {
-        rpp = ((start + REQ_PAGE_SIZE) < totalFunds) ? REQ_PAGE_SIZE : totalFunds - start;
-        const resource = `${APP_CLOUD_FUNCTION_URL}/hl/funds/page?start=${start}&rpp=${rpp}`
-        const { data } = await axios.get(resource,{headers: APP_FINTECH_HEADERS})
-        start += rpp
-        commit("SET_FUNDS_REFRESH_PROGRESS",+(100*((start)/totalFunds)).toFixed(0))
-        await new Promise((s) => setTimeout(s, 50));
+      commit("SET_PRODUCTS_REFRESH_PROGRESS",+(100*((category+1)/totalCategories)).toFixed(0))
+
     }
-    commit("SET_FUNDS_REFRESH_COMPLETE", true)
+    commit("SET_PRODUCTS_REFRESH_COMPLETE", true)
   },
-  */
+
  /*
   async listCacheFiles({commit}) {
     const {data} = await axios.get(

@@ -187,10 +187,7 @@ import {
 	PRICES_Columns
 } from '@/common/table'
 
-
-
 const COLUMNS = [
-	/* { title: 'Id', dataIndex: 'id',}, */
 	{
 		title: 'Name',
 		dataIndex: 'name',
@@ -237,8 +234,6 @@ export default ({
 		CardChartInfoIframe
 	},
 	computed: {
-    	// ...mapState("etfs", ["etfs"]),
-		// ...mapGetters("etfs",["gEtfDetail","gEtfHoldingsSum"]),
 		...mapGetters("hl",["etfDetailFilter",]),
 		...mapState("hl",["etfsCompanies","etfsRefreshProgress","etfsRefreshComplete","etfsObj"])
 	},
