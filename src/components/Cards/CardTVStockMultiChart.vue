@@ -21,8 +21,11 @@ export default ({
 	watch: {
 		chartCache(newVal, oldVal) {
 			if(newVal !== null) {
+				console.log(newVal.length)
 				if(newVal.length === this.epics.length) {
+					console.log(newVal)
 					for(let i = 0; i < this.epics.length; i++) {
+						
 						switch(i) {
 							case 0: 
 								this.setChartSeries(this.lineSeries0,newVal[0].vs,newVal[0].symbol)
@@ -50,6 +53,12 @@ export default ({
 								break;
 							case 8: 
 								this.setChartSeries(this.lineSeries8,newVal[8].vs,newVal[8].symbol)
+								break;
+							case 9: 
+								this.setChartSeries(this.lineSeries9,newVal[9].vs,newVal[9].symbol)
+								break;
+							case 10: 
+								this.setChartSeries(this.lineSeries10,newVal[10].vs,newVal[10].symbol)
 								break;
 						}
 					}
@@ -79,6 +88,8 @@ export default ({
 			lineSeries6,
 			lineSeries7,
 			lineSeries8,
+			lineSeries9,
+			lineSeries10,
 		}
 	},
 	beforeMount() {
@@ -101,6 +112,8 @@ export default ({
 		this.lineSeries6 = this.chart.addLineSeries({color:genRndColor2(),lineWidth:1});
 		this.lineSeries7 = this.chart.addLineSeries({color:genRndColor2(),lineWidth:1});
 		this.lineSeries8 = this.chart.addLineSeries({color:genRndColor2(),lineWidth:1});
+		this.lineSeries9 = this.chart.addLineSeries({color:genRndColor2(),lineWidth:1});
+		this.lineSeries10 = this.chart.addLineSeries({color:genRndColor2(),lineWidth:1});
 		
 		for(let i = 0; i < this.epics.length; i++) {
 			this.$store.dispatch("fool/getChartDataValues",{symbol: this.epics[i]});

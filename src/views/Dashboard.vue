@@ -306,11 +306,8 @@ export default ({
 	},
 	computed: {
     	...mapState("markets", ["markets"]),
-		
 		...mapGetters("markets",["getGroup"]),
-
     	...mapState("cnn", ["sentiment"]),
-    	
 		...mapState("lse", ["sectorPerformance"]),
     	...mapState("tge", ["commodities"]),
     	...mapState("fviz", ["news","industryforwardpe"]),
@@ -327,6 +324,7 @@ export default ({
 	},
 	data() {
 		return {
+
 			icon1: ICON1,
 			SECTOR_PERFORMANCE_Columns,
 			loading: true,
@@ -335,11 +333,10 @@ export default ({
 			oilSymbols: ["BP.","SHEL","HBR","SQZ","RKH"],
 			oilEtfs: [],
 			preciousMetalSymbols: ["gold","silver","platinum","palladium"],
-			preciousMetalMinerSymbols: ["FRES","HOC","CEY","POG","GGP","CNR","PAF","SRB"],
+			preciousMetalMinerSymbols: ["FRES","HOC","CEY","POG","GGP","CNR","PAF","SRB"],// "WPM",],//"PAAS"],
 			metalEtfs: ["REGB:LSE:GBP","GJGB:LSE:GBP","URNG:LSE:GBP","NUCG:LSE:GBP","GDGB:LSE:GBP"],
 			moneyMarkets: ["GB00BFYDWM59:GBP","GB00B8XYYQ86:GBP","GB0033029413:GBP"],
 			uraniumMetalSymbols:["BKY","YCA","AURA","KAP"]
-
 
 // Crypto
 //https://api.fool.com/quotes/v4/historical/charts/220472?start=2014-10-14&end=2024-10-10&precision=Week&apikey=6cbf5f34-ba40-4108-a1ab-d951c608955e

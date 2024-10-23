@@ -54,17 +54,17 @@ const getCategories = async () => {
 
       switch(cacheResponse.status) {
           case CCM.SUCCESS: {
-              console.log("CCM.SUCCESS")
+              //console.log("CCM.SUCCESS")
               if(!hotRequest) { // Get Resource from cache if not hotRequest
                   return await CCM.getResource(cacheBucket,cacheResource,cacheTag)
               }
               else {
-                  console.log("CCM.NOT_FOUND",cacheResource)
+                  //console.log("CCM.NOT_FOUND",cacheResource)
                   return (await CCM.updateResource(await getCategoriesImpls(),cacheBucket,cacheResource,cacheAge,cacheTag,"re-cache"))                    
               }
           }
           case CCM.NOT_FOUND: { 
-              console.log("CCM.NOT_FOUND",cacheResource)
+              //console.log("CCM.NOT_FOUND",cacheResource)
               return (await CCM.updateResource(await getCategoriesImpls(),cacheBucket,cacheResource,cacheAge,cacheTag,"initialised-cache"))
           }
           default: {
@@ -111,17 +111,17 @@ const getProducts = async (id) => {
 
       switch(cacheResponse.status) {
           case CCM.SUCCESS: {
-              console.log("CCM.SUCCESS")
+              //console.log("CCM.SUCCESS")
               if(!hotRequest) { // Get Resource from cache if not hotRequest
                   return await CCM.getResource(cacheBucket,cacheResource,cacheTag)
               }
               else {
-                  console.log("CCM.NOT_FOUND",cacheResource)
+                  //console.log("CCM.NOT_FOUND",cacheResource)
                   return (await CCM.updateResource(await getProductsImpls(id),cacheBucket,cacheResource,cacheAge,cacheTag,"re-cache"))                    
               }
           }
           case CCM.NOT_FOUND: { 
-              console.log("CCM.NOT_FOUND",cacheResource)
+              //console.log("CCM.NOT_FOUND",cacheResource)
               return (await CCM.updateResource(await getProductsImpls(id),cacheBucket,cacheResource,cacheAge,cacheTag,"initialised-cache"))
           }
           default: {
