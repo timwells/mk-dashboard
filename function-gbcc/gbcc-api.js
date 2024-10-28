@@ -131,7 +131,7 @@ const getProducts = async (id) => {
   try {
       const cacheResponse = await CCM.queryResourceStatus(cacheBucket,cacheResource);
       let hotRequest = (cacheResponse.expired || live)
-      hotRequest = true;
+      // hotRequest = true;
       switch(cacheResponse.status) {
           case CCM.SUCCESS: {
               //console.log("CCM.SUCCESS")
