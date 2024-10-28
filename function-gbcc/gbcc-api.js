@@ -80,20 +80,43 @@ const getCategories = async () => {
 
 const getProductsImpls = async (id) => {
   try {
-    const $ = await getResource(`https://www.gbclassiccoins.co.uk/product-category/${id}/`);
-    const products = $('.products .col-inner')
+    // First
+    let resource = `https://www.gbclassiccoins.co.uk/product-category/${id}/`;
     let _products = []
-    products.each((i,el) => {
-      _products.push({
-        id: id, 
-        name: $(el).find('.title-wrapper .product-title a').text(),
-        price: $(el).find('.price-wrapper .price ins').text(),
-        image: $(el).find('.box-image img').attr('src')
-      })
-    })
-    return _products
+    do {
+      let $ = await getResource(resource);
+      let products = $('.products .col-inner')
+      products.each(async (i,el) => {
+        let title = $(el).find('.title-wrapper .product-title a').text();
+        let titleSplit = title.split(",")
+        let _name = ""
+        let _scarcness = ""
+        let _fineness = ""
+        _name = titleSplit[0]
+        if(titleSplit.length == 2) { _fineness = titleSplit[1].trim() }
+        else if(titleSplit.length == 3) {
+          _scarcness = (titleSplit[1].length > 0) ? titleSplit[1].trim() : ""
+          _fineness = (titleSplit[2].length > 0) ? titleSplit[2].trim() : ""
+        }
+        else { // console.log(title,titleSplit.length)
+        }
+
+        _products.push({
+          id: id, 
+          name: _name,
+          scarcness: _scarcness,
+          fineness: _fineness,
+          // £175.00
+          price: +parseFloat($(el).find('.price-wrapper .price ins').text().split("£")[1]).toFixed(2),
+          image: $(el).find('.box-image img').attr('src')
+        })
+      })      
+      resource = $('link[rel="next"]').attr('href')
+    } while(resource != null)
+
+    return _products;
   } catch(e) {
-    console.log("getProductsImpls")
+    console.log("getProductsImpls",e)
   }
   return null
 }
@@ -107,8 +130,8 @@ const getProducts = async (id) => {
 
   try {
       const cacheResponse = await CCM.queryResourceStatus(cacheBucket,cacheResource);
-      const hotRequest = (cacheResponse.expired || live)
-
+      let hotRequest = (cacheResponse.expired || live)
+      hotRequest = true;
       switch(cacheResponse.status) {
           case CCM.SUCCESS: {
               //console.log("CCM.SUCCESS")
@@ -132,9 +155,7 @@ const getProducts = async (id) => {
       console.log("getProducts",e)    
   }
   return null
-
 }
-
 
 module.exports = {
     getCategories,

@@ -324,7 +324,6 @@ export default ({
 	},
 	data() {
 		return {
-
 			icon1: ICON1,
 			SECTOR_PERFORMANCE_Columns,
 			loading: true,

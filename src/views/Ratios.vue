@@ -54,7 +54,6 @@ const ONS_DATA = [
     'inflationandpriceindices/timeseries/d7bt/mm23/data',
 ]
 
-
 export default ({
 	components: {
 		CardTVMultiChartMtpl,
