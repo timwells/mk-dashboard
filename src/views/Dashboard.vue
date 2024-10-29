@@ -211,6 +211,10 @@
 			<img src="/images/stockcyclestages2.png" height="600" width="98%">
 			<img src="/images/stockcyclestages4.webp" height="600" width="98%">
 		</a-tab-pane>
+		<a-tab-pane key="12" tab="Rise & Fall">
+			<img src="/images/TheRise-FalloftheDollar.png" height="600" width="98%">
+			<img src="/images/fallofthepound.webp" height="600" width="98%">
+		</a-tab-pane>
 		<!--a-tab-pane key="8" tab="FinViz-Sectors">
 			<h5>Industry Forward PE - Ascending</h5>
 			<a-row :gutter="24" type="flex" align="stretch">
@@ -312,12 +316,12 @@ export default ({
     	...mapState("tge", ["commodities"]),
     	...mapState("fviz", ["news","industryforwardpe"]),
 		...mapState("fedinfo", [
-				//"sahmrealtime",
-				//"unrate",
-				//"sahmrealtimeunrate",
-				//"indicators",
-				//"apiunrate",
-				"composite"
+			//"sahmrealtime",
+			//"unrate",
+			//"sahmrealtimeunrate",
+			//"indicators",
+			//"apiunrate",
+			"composite"
 		])
 	},
 	watch: {
