@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
-			<a-row :gutter="24" type="flex">
+			<!--a-row :gutter="24" type="flex">
 				<a-col :span="4">
 				</a-col>
 				<a-col :span="4">
@@ -14,28 +14,26 @@
 				<a-col :span="8">
 					<a-progress type="circle" :percent="productsRefreshProgress" :width="60" />
 				</a-col>
-			</a-row>
+			</a-row-->
+			<a-tabs v-model="activeKey">
+				<a-tab-pane v-for="(cat,i) in categories.data" :key="i" :tab="cat.name">
+					<CardCoinTable :category="cat.category"></CardCoinTable>
+				</a-tab-pane>
+			</a-tabs>
 		</a-card>
-		<a-tabs v-model="activeKey">
-			<a-tab-pane v-for="(category,i) in categories.data" :key="i" :tab="category.name">
-				<!--pre>{{ category}}</pre-->
-				<!--pre>{{ gtProducts(category.category) }}</pre-->
-				<pre>{{ products }}</pre>
-			</a-tab-pane>
-		</a-tabs>
-		<pre>{{ products }}</pre>
 	</div>
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState } from "vuex";
+import CardCoinTable from '@/components/Cards/CardCoinTable';
 
 export default ({
 	components: {
+		CardCoinTable
 	},
 	computed: {
-		...mapState("gbcc", ["categories","productsRefreshProgress","productsRefreshComplete","products"]),
-		...mapGetters("gbcc", ["gtProducts"]),
+		...mapState("gbcc", ["categories","productsRefreshProgress","productsRefreshComplete",]),
 	},
 	watch: {
 		productsRefreshComplete(n,o) {
@@ -43,10 +41,6 @@ export default ({
 				this.isDisabled = false
 			}
 		},
-		categories(n,o) {
-			for(let i=0; i < n.data.length; i++)
-				this.$store.dispatch("gbcc/getProducts",{category: n.data[i].category});
-		}
 	},
 	data() {
 		return {

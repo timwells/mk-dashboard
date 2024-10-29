@@ -101,14 +101,14 @@ const getProductsImpls = async (id) => {
         else { // console.log(title,titleSplit.length)
         }
 
+        // console.log($(el).find('.box-image .image-fade_in_back img').attr('data-lazy-src'))
         _products.push({
           id: id, 
           name: _name,
           scarcness: _scarcness,
           fineness: _fineness,
-          // £175.00
-          price: +parseFloat($(el).find('.price-wrapper .price ins').text().split("£")[1]).toFixed(2),
-          image: $(el).find('.box-image img').attr('src')
+          price: +parseFloat($(el).find('.price-wrapper .price ins').text().split("£")[1]).toFixed(2),   // £175.00
+          image: $(el).find('.box-image .image-fade_in_back img').attr('data-lazy-src')
         })
       })      
       resource = $('link[rel="next"]').attr('href')

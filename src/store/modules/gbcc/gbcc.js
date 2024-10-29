@@ -12,7 +12,10 @@ const state = {
 };
 
 const getters = {
-  gtProducts: (state) => (id) => state.products.find((e) => (e.tag === `products-${id}`).data),
+  gProducts: (state) => (id) => {
+    let key = `products-${id}`
+    return state.products.find((e) => (e.tag === key))
+  },
 }
 
 const mutations = {
@@ -48,19 +51,9 @@ const actions = {
     const resource = `${APP_CLOUD_FUNCTION_URL}/gbcc/products?id=${category}`
     console.log(resource)
     const { data } = await axios.get(resource, { headers: APP_FINTECH_HEADERS })
+    console.log(data)
+
     commit("ADD_PRODUCTS_CACHE", data)
-
-    // commit("SET_PRODUCTS_CACHE", [])
-    //const resp = await axios.get(`${APP_CLOUD_FUNCTION_URL}/gbcc/categories`,{ headers: APP_FINTECH_HEADERS })
-    //const totalCategories = resp.data.data.length;
-    
-    //for(let category = 0; category < totalCategories; category++) {
-      //const resource = `${APP_CLOUD_FUNCTION_URL}/gbcc/products?id=${resp.data.data[category].category}` 
-      //const { data } = await axios.get(resource, { headers: APP_FINTECH_HEADERS })
-      //commit("ADD_PRODUCTS_CACHE", data)
-    //}
-
-
   },
 }
 
