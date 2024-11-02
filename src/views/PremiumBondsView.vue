@@ -36,6 +36,52 @@
 							:pagination="false"
 							:rowKey="(record,i) => i"
 							class='table table-small' style="margin: 0; background-color: white;">
+							<div slot="filterDropdown"
+								slot-scope="{setSelectedKeys,selectedKeys,confirm,clearFilters,column}"
+								style="padding: 8px">
+								<a-input
+									v-ant-ref="c => (searchInput = c)"
+									:placeholder="`Search ${column.dataIndex}`"
+									:value="selectedKeys[0]"
+									style="width:188px; margin-bottom:8px; display: block"
+									@change="e => setSelectedKeys(e.target.value ? [e.target.value] : [])"
+									@pressEnter="() => handleSearch(selectedKeys, confirm, column.dataIndex)"/>
+								<a-button
+									type="primary"
+									icon="search"
+									size="small"
+									style="width: 90px; margin-right: 8px"
+									@click="() =>handleSearch(selectedKeys, confirm, column.dataIndex)">
+									Search</a-button>
+								<a-button
+									size="small"
+									style="width: 90px"
+									@click="() => handleReset(clearFilters)">
+									Reset
+								</a-button>
+							</div>
+							<a-icon
+								slot="filterIcon"
+								slot-scope="filtered"
+								type="search"
+								:style="{ color: filtered ? '#108ee9' : undefined }"
+							/>
+
+							<template slot="full_description" slot-scope="text, record, index, column">
+								<span v-if="searchText && searchedColumn === column.dataIndex">
+									<template v-for="(fragment, i) in text
+										.toString()
+										.split(new RegExp(`(?<=${searchText})|(?=${searchText})`,'i'))">
+										<mark v-if="fragment.toLowerCase() === searchText.toLowerCase()"
+											:key="i"
+											class="highlight">{{ fragment }}</mark>
+										<template v-else>{{ fragment }}</template>
+									</template>
+								</span>
+								<template v-else>
+									{{ text }}
+								</template>
+							</template>
 						</a-table>
 					</a-tab-pane>
 				</a-tabs>
@@ -56,9 +102,21 @@ const prizeCols = [
 
 const winnersCols = [
 { title: 'Prize', 
-	dataIndex: 'prize',sortDirections: ["descend", "ascend"],sorter: (a, b) => a.prize - b.prize},
+	width: 180,
+	dataIndex: 'prize',
+	sortDirections: ["descend", "ascend"],
+	sorter: (a, b) => a.prize - b.prize},
 { title: 'Area', 
-	dataIndex: 'area',sortDirections: ["descend", "ascend"],sorter: (a, b) => a.area.localeCompare(b.area)},
+	width: 240,
+	dataIndex: 'area',sortDirections: ["descend", "ascend"],
+	sorter: (a, b) => a.area.localeCompare(b.area),
+	onFilter: (value, record) => record.area.toString().toLowerCase().includes(value.toLowerCase()),
+		scopedSlots: { 
+			customRender: 'full_description', 
+	      	filterDropdown: 'filterDropdown',
+ 	     	filterIcon: 'filterIcon'
+		},
+},
 { title: 'Bond', 
 	dataIndex: 'bondNumber'},
 { title: 'Holdings', 
@@ -87,7 +145,12 @@ export default ({
 			activeKey: 0,
 			tabs:[],
 			winnersCols,
-			prizeCols
+			prizeCols,
+
+			selectedRowKeys: [],
+			searchText: "",
+	    	searchInput: null,
+    		searchedColumn: "",
 		}
 	},
 	mounted() {
@@ -99,6 +162,16 @@ export default ({
 		getHolder(name) { return name !== undefined ? " "+name: ''},
 		getHolderValue2(name) { return name !== undefined ? this.getHolderValue(name) : "-"},
 		getHolderWinRate2(name,winnings) { return this.getHolderWinRate(name,winnings) + "%"},
+
+		handleSearch(selectedKeys, confirm, dataIndex) {
+      		confirm();
+      		this.searchText = selectedKeys[0];
+      		this.searchedColumn = dataIndex;
+    	},
+    	handleReset(clearFilters) {
+      		clearFilters();
+      		this.searchText = "";
+    	},		
 	}
 })
 </script>
