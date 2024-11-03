@@ -105,24 +105,24 @@
 					<CardTVStockMultiChartFT :epics="metalEtfs"></CardTVStockMultiChartFT>
 				</a-tab-pane>
 				<a-tab-pane key="4" tab="FxTop">
-<h5> £1 buys !ounces of XAU or XAG </h5>
-<a-row>
-<a-col :span="12">
-<img src="https://fxtop.com/php/imggraph.php?C1=GBP&C2=XAU&A=1&DD1=01&YYYY1=1980&YYYY2=2024&LANG=en&CJ=0&MM1Y=0&LARGE=&TR=ON" width="700" height="500">
-</a-col>
-<a-col :span="12">
-<img src="https://fxtop.com/php/imggraph.php?A=1&C1=XAU&C2=GBP&DD1=01&YYYY1=1980&YYYY2=2024&LANG=en&CJ=0&MM1Y=0&LARGE=&TR=ON" width="700" height="500">
-</a-col>
-</a-row>
-<a-row>
-<a-col :span="12">
-<img src="https://fxtop.com/php/imggraph.php?C1=GBP&C2=XAG&A=1&DD1=01&YYYY1=1980&YYYY2=2024&LANG=en&CJ=0&MM1Y=0&LARGE=&TR=ON" width="700" height="500">
-</a-col>
-<a-col :span="12">
-<img src="https://fxtop.com/php/imggraph.php?A=1&C1=XAG&C2=GBP&DD1=01&YYYY1=1980&YYYY2=2024&LANG=en&CJ=0&MM1Y=0&LARGE=&TR=ON" width="700" height="500">
-</a-col>
-</a-row>
-</a-tab-pane>
+					<h5> £1 buys !ounces of XAU or XAG </h5>
+					<a-row>
+						<a-col :span="12">
+							<img src="https://fxtop.com/php/imggraph.php?C1=GBP&C2=XAU&A=1&DD1=01&YYYY1=1980&YYYY2=2024&LANG=en&CJ=0&MM1Y=0&LARGE=&TR=ON" width="700" height="500">
+						</a-col>
+						<a-col :span="12">
+							<img src="https://fxtop.com/php/imggraph.php?A=1&C1=XAU&C2=GBP&DD1=01&YYYY1=1980&YYYY2=2024&LANG=en&CJ=0&MM1Y=0&LARGE=&TR=ON" width="700" height="500">
+						</a-col>
+					</a-row>
+					<a-row>
+						<a-col :span="12">
+							<img src="https://fxtop.com/php/imggraph.php?C1=GBP&C2=XAG&A=1&DD1=01&YYYY1=1980&YYYY2=2024&LANG=en&CJ=0&MM1Y=0&LARGE=&TR=ON" width="700" height="500">
+						</a-col>
+						<a-col :span="12">
+							<img src="https://fxtop.com/php/imggraph.php?A=1&C1=XAG&C2=GBP&DD1=01&YYYY1=1980&YYYY2=2024&LANG=en&CJ=0&MM1Y=0&LARGE=&TR=ON" width="700" height="500">
+						</a-col>
+					</a-row>
+				</a-tab-pane>
 			</a-tabs>
 		</a-tab-pane>
 		<a-tab-pane key="5" tab="FED">
@@ -170,13 +170,16 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="8" tab="Index & Bonds">
-			<a-row :gutter="24" type="flex" align="stretch">
+		<a-tab-pane key="8" tab="UK Bonds">
+			<h6>{{ ukBonds }}</h6>
+			<CardTVStockMultiChartCNBC :epics="ukBonds"></CardTVStockMultiChartCNBC>
+
+			<!--a-row :gutter="24" type="flex" align="stretch">
 				<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(e, i) in getGroup(3)" :key="i">			
 					<CardChartIndexInfo v-if="e.type==='index'" :title="e.title" :ticker="e.ticker"/>
 					<CardChartBondInfo v-if="e.type==='bond'" :title="e.title" :ticker="e.ticker"/>
 				</a-col>
-			</a-row>
+			</a-row-->
 		</a-tab-pane>
 		<a-tab-pane key="9" tab="Commodities">
 			<a-tabs v-model="activeCommoditiesTab">
@@ -260,6 +263,7 @@ import CardStockPriceStrengthLineChart from '../components/Cards/CardStockPriceS
 import CardTVStockMultiChart from '../components/Cards/CardTVStockMultiChart'
 import CardTVMetalsMultiChart from '../components/Cards/CardTVMetalsMultiChart'
 import CardTVStockMultiChartFT from '@/components/Cards/CardTVStockMultiChartFT'
+import CardTVStockMultiChartCNBC from '@/components/Cards/CardTVStockMultiChartCNBC'
 
 import CardLseConstituentsTable from '../components/Cards/CardLseConstituentsTable';
 
@@ -306,8 +310,8 @@ export default ({
 
 		CardTVStockMultiChart,
 		CardTVMetalsMultiChart,
-		CardTVStockMultiChartFT
-	},
+		CardTVStockMultiChartFT,
+		CardTVStockMultiChartCNBC	},
 	computed: {
     	...mapState("markets", ["markets"]),
 		...mapGetters("markets",["getGroup"]),
@@ -339,7 +343,8 @@ export default ({
 			preciousMetalMinerSymbols: ["FRES","HOC","CEY","POG","GGP","CNR","PAF","SRB"],// "WPM",],//"PAAS"],
 			metalEtfs: ["REGB:LSE:GBP","GJGB:LSE:GBP","URNG:LSE:GBP","NUCG:LSE:GBP","GDGB:LSE:GBP"],
 			moneyMarkets: ["GB00BFYDWM59:GBP","GB00B8XYYQ86:GBP","GB0033029413:GBP"],
-			uraniumMetalSymbols:["BKY","YCA","AURA","KAP"]
+			uraniumMetalSymbols:["BKY","YCA","AURA","KAP"],
+			ukBonds:["UK10Y-GB","UK2Y-GB"]
 
 // Crypto
 //https://api.fool.com/quotes/v4/historical/charts/220472?start=2014-10-14&end=2024-10-10&precision=Week&apikey=6cbf5f34-ba40-4108-a1ab-d951c608955e

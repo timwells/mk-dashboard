@@ -10,8 +10,8 @@ app.use(checkApiKey);
 app.use(express.json());
 
 app.get('/historical/values', async (req, res) => {
-    const { symbol } = req.query
-    let data = await cnbcApi.getHistoricalValuesImpl(symbol)
+    const { symbol, period } = req.query
+    let data = await cnbcApi.getHistoricalValuesImpl(symbol,period)
     return res.status(200).json(data)
 });
 

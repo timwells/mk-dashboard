@@ -38,6 +38,7 @@ import pensions from "./modules/pensions/pensions"
 import pm from "./modules/pm/pm"
 import ons from "./modules/ons/ons"
 import gbcc from "./modules/gbcc/gbcc"
+import cnbc from "./modules/cnbc/cnbc"
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -55,13 +56,12 @@ export default new Vuex.Store({
     fviz,
     curvo,
     cyca,
-    ft,
-    fool,
+    ft, fool,
     drm,
-    hl,
-    pensions,
+    hl,pensions,
     pm,
     ons,
-    gbcc
+    gbcc,
+    cnbc
   }
 });
