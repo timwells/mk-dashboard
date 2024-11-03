@@ -344,7 +344,7 @@ export default ({
 			metalEtfs: ["REGB:LSE:GBP","GJGB:LSE:GBP","URNG:LSE:GBP","NUCG:LSE:GBP","GDGB:LSE:GBP"],
 			moneyMarkets: ["GB00BFYDWM59:GBP","GB00B8XYYQ86:GBP","GB0033029413:GBP"],
 			uraniumMetalSymbols:["BKY","YCA","AURA","KAP"],
-			bonds:["UK10Y-GB","UK2Y-GB","US10Y-USD","US2Y-USD"]
+			bonds:["UK30Y-GB","UK10Y-GB","UK2Y-GB","US30Y-USD","US10Y-USD","US2Y-USD"]
 
 // Crypto
 //https://api.fool.com/quotes/v4/historical/charts/220472?start=2014-10-14&end=2024-10-10&precision=Week&apikey=6cbf5f34-ba40-4108-a1ab-d951c608955e
