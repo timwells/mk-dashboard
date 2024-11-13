@@ -206,18 +206,36 @@
 			</a-tabs>
 		</a-tab-pane>
 
-		<a-tab-pane key="10" tab="BitCoin">
+		<a-tab-pane key="10" tab="Allocation">
+			<a-row :gutter="24" type="flex" align="stretch">
+				<a-col :span="12" :lg="12" :xl="12" class="mb-12">
+					<LazyYoutube
+						ref="youtubeLazyVideo"
+						:src='yt'
+						max-width="720px"
+						aspect-ratio="16:9"
+						thumbnail-quality="standard"
+					></LazyYoutube>
+				</a-col>
+				<a-col :span="12" :lg="12" :xl="12" class="mb-12">
+					<img src="/images/Allocation2024.png" height="600" width="99%">
+				</a-col>
+			</a-row>
+		</a-tab-pane>
+		<a-tab-pane key="11" tab="BitCoin">
 			<a href="https://www.blockchaincenter.net/static/rainbow-chart.html" target="_blank">Rainbow Chart</a>
 			<CardIndicatorInfo title="Rainbow" url='https://www.blockchaincenter.net/static/rainbow-chart.html' type="iframe" height="700"/>
 		</a-tab-pane>
-		<a-tab-pane key="11" tab="Chart Cycles">
+		<a-tab-pane key="12" tab="Chart Cycles">
 			<img src="/images/stockcyclestages2.png" height="600" width="98%">
 			<img src="/images/stockcyclestages4.webp" height="600" width="98%">
 		</a-tab-pane>
-		<a-tab-pane key="12" tab="Rise & Fall">
+
+		<a-tab-pane key="13" tab="Rise & Fall">
 			<img src="/images/TheRise-FalloftheDollar.png" height="600" width="98%">
 			<img src="/images/fallofthepound.webp" height="600" width="98%">
 		</a-tab-pane>
+
 		<!--a-tab-pane key="8" tab="FinViz-Sectors">
 			<h5>Industry Forward PE - Ascending</h5>
 			<a-row :gutter="24" type="flex" align="stretch">
@@ -344,7 +362,8 @@ export default ({
 			metalEtfs: ["REGB:LSE:GBP","GJGB:LSE:GBP","URNG:LSE:GBP","NUCG:LSE:GBP","GDGB:LSE:GBP"],
 			moneyMarkets: ["GB00BFYDWM59:GBP","GB00B8XYYQ86:GBP","GB0033029413:GBP"],
 			uraniumMetalSymbols:["BKY","YCA","AURA","KAP"],
-			bonds:["UK30Y-GB","UK10Y-GB","UK2Y-GB","US30Y-USD","US10Y-USD","US2Y-USD",".MOVE"]
+			bonds:["UK30Y-GB","UK10Y-GB","UK2Y-GB","US30Y-USD","US10Y-USD","US2Y-USD",".MOVE"],
+			yt: 'https://www.youtube.com/watch?v=B4Nhkja0hFs'
 
 // Crypto
 //https://api.fool.com/quotes/v4/historical/charts/220472?start=2014-10-14&end=2024-10-10&precision=Week&apikey=6cbf5f34-ba40-4108-a1ab-d951c608955e
@@ -418,6 +437,16 @@ export default ({
 
 .blue-font {
   color: blue !important;
+}
+
+
+.video-container {
+  max-width: 800px; /* adjust the max width as needed */
+  margin: 0 auto;
+}
+.vue-plyr video {
+  width: 100%;
+  height: auto;
 }
 </style>
 

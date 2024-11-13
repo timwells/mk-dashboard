@@ -11,6 +11,9 @@ import router from './router'
 import store from "@/store";
 import './scss/app.scss';
 
+import LazyTube from "vue-lazytube";
+Vue.use(LazyTube);
+
 Vue.use(Antd);
 
 //import { AgCharts } from "ag-charts-community";
