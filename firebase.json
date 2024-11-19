@@ -113,6 +113,11 @@
       "source": "function-cnbc",
       "codebase": "cnbc",
       "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+    },
+    {
+      "source": "function-mtcl",
+      "codebase": "mtcl",
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
     }
   ]
 }
