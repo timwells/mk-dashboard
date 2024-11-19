@@ -218,7 +218,7 @@
 					></LazyYoutube>
 				</a-col>
 				<a-col :span="12" :lg="12" :xl="12" class="mb-12">
-					<img src="/images/Allocation2024.PNG" height="600" width="99%">
+					<img src="/images/Allocation2024.PNG" height="500" width="99%">
 				</a-col>
 			</a-row>
 		</a-tab-pane>
