@@ -45,7 +45,11 @@
 const holdingsCols = [
 	{ title: 'Stock', dataIndex: 'stock', scopedSlots: { customRender: 'stock' }},
 	{ title: 'Portfolio %', dataIndex: 'portfolio', scopedSlots: { customRender: 'portfolio' }},
-	{ title: 'Recent Activity', dataIndex: 'recentActivity', scopedSlots: { customRender: 'recentActivity' }},
+	{ title: 'Recent Activity', 
+		dataIndex: 'recentActivity', 
+		sorter: (a, b) => a.recentActivity.localeCompare(b.recentActivity),
+		scopedSlots: { customRender: 'recentActivity' }
+	},
 	{ title: 'Share', dataIndex: 'share', scopedSlots: { customRender: 'share' }},
 	{ title: 'Reported Price', dataIndex: 'reportedPrice', scopedSlots: { customRender: 'reportedPrice' }},
 	{ title: 'Value', dataIndex: 'value', scopedSlots: { customRender: 'value' }},
