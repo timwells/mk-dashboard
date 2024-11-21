@@ -2,7 +2,7 @@
 	<div>
 		<a href="https://www.longtermtrends.net/" target="_blank">Longterm Trends</a>
 		<a-row :gutter="24" type="flex" align="stretch">
-			<a-col :span="8" :lg="12" :xl="12" class="mb-12" v-for="(tn, tni) in thumbnails" :key="tni">
+			<a-col :span="24" :lg="24" :xl="24" class="mb-24" v-for="(tn, tni) in thumbnails" :key="tni">
 				<a-card hoverable style="padding: 10px;">
 					<a-card-meta>
 						<template #title>
