@@ -22,6 +22,7 @@ app.get('/mtcl2', async (req, res) => {
         meanReturn,
         stdDev,
         years,
+        startYear,
         iterations
     } = req.query;
 
@@ -32,6 +33,7 @@ app.get('/mtcl2', async (req, res) => {
             parseFloat(meanReturn),
             parseFloat(stdDev),
             parseInt(years),
+            parseInt(startYear),
             parseInt(iterations)
         ))
 })

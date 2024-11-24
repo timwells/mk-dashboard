@@ -1,6 +1,5 @@
 
 function monteCarloPensionDrawdown(model) {
-    console.log(model)
 
     // Helper to generate random returns (normal distribution)
     const generateRandomReturn = () => {
@@ -13,13 +12,14 @@ function monteCarloPensionDrawdown(model) {
     };
 
     // Store results
-    const results = [];
-  
+    const runs = [];
     // Run simulations
     for (let i = 0; i < model.iterations; i++) {
         let balance = model.initialPot;
         let yearsLasted = 0;
         let yearBalance = [];
+        let dv = [];
+
         for (let year = 1; year <= model.years; year++) {
             const annualReturn = generateRandomReturn();
             balance = balance * (1 + annualReturn) - model.annualDrawdown;
@@ -31,20 +31,25 @@ function monteCarloPensionDrawdown(model) {
             }
 
             yearsLasted = year;
-            yearBalance.push({ year: year, balance: +balance.toFixed(2) });
+            yearBalance.push({ 
+                year: year, 
+                balance: +balance.toFixed(2) 
+            });
+
+            dv.push({time: `${model.startYear + year}-12-31`, value: +balance.toFixed(2)})
         }
         balance = +balance.toFixed(2)
-        results.push({ balance, yearsLasted, yearBalance });
+        runs.push({ balance, yearsLasted, yearBalance, dv:dv });
     }
   
     // Analyze results
-    const probabilityOfDepletion = results.filter(r => r.balance === 0).length / model.iterations;
-    const averageYearsLasted = results.reduce((sum, r) => sum + r.yearsLasted, 0) / model.iterations;
+    const probabilityOfDepletion = runs.filter(r => r.balance === 0).length / model.iterations;
+    const averageYearsLasted = runs.reduce((sum, r) => sum + r.yearsLasted, 0) / model.iterations;
   
     return {
-      results,
-      probabilityOfDepletion: (probabilityOfDepletion * 100).toFixed(2) + '%',
-      averageYearsLasted: averageYearsLasted.toFixed(1)
+        runs,
+        probabilityOfDepletion: +(probabilityOfDepletion * 100).toFixed(2),
+        averageYearsLasted: +averageYearsLasted.toFixed(1)
     };
 }
 
@@ -70,6 +75,7 @@ const monteCarloModelImpl2 = async (
     meanReturn,
     stdDev,
     years,
+    startYear,
     iterations
 ) => {
     const mc = monteCarloPensionDrawdown({
@@ -78,6 +84,7 @@ const monteCarloModelImpl2 = async (
             meanReturn: meanReturn,          // Expected annual return (5%)
             stdDev: stdDev,                  // Standard deviation of returns (10%)
             years: years,                    // Number of years to simulate
+            startYear: startYear,             // Start Year
             iterations: iterations           //10000 // Number of Monte Carlo simulations
     })
     return mc

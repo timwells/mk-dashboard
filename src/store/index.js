@@ -39,6 +39,8 @@ import pm from "./modules/pm/pm"
 import ons from "./modules/ons/ons"
 import gbcc from "./modules/gbcc/gbcc"
 import cnbc from "./modules/cnbc/cnbc"
+import mtcl from "./modules/mtcl/mtcl"
+
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -62,6 +64,7 @@ export default new Vuex.Store({
     pm,
     ons,
     gbcc,
-    cnbc
+    cnbc,
+    mtcl
   }
 });

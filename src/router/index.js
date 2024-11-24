@@ -213,14 +213,14 @@ let routes = [
     }
 	},
 	*/
-	/*
+	
 	{
 		path: '/billing',
 		name: 'Billing',
 		layout: "dashboard",
 		component: () => import('../views/Billing.vue'),
 	},
-	{
+/*	{
 		path: '/rtl',
 		name: 'RTL',
 		layout: "dashboard-rtl",
