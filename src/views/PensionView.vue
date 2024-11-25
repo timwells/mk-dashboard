@@ -34,7 +34,7 @@
 								<a-input-number v-model="iterations"/>
 							</a-form-item>
 
-							<a-form-item label='' :labelCol="labelCol" :wrapperCol="wrapperCol">
+							<a-form-item :wrapperCol="buttonLayout">
 								<a-button htmlType="submit">Submit</a-button>
 							</a-form-item>        
 						</a-form>
@@ -88,15 +88,23 @@ export default ({
 			form: this.$form.createForm(this),
 		
 			labelCol: { span: 12 },		
-			wrapperCol: { span: 8 },
+			wrapperCol: { 
+				span: 8, 
+				offset: 2,
+			},
+			buttonLayout: { 
+				span: 8, 
+				offset: 14,
+			},
+
 
             initialPot: 500000.0,
             annualDrawdown: 25000.0,
             meanReturn: 0.03,
-            stdDev :0.01,
+            stdDev :0.12,
 			startYear: 2026,
             years: 30,
-            iterations: 30,
+            iterations: 50,
 
 /*
 Age: 65

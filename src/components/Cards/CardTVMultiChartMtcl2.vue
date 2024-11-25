@@ -38,6 +38,11 @@ export default {
 				vertLines: { color: '#EAEAEA' },
 				horzLines: { color: '#EAEAEA' },
 			},
+			timeScale: {
+        		leftOffset: -2, // Reduce this value to bring the timeline closer to the left
+        		barSpacing: 45,
+        		fixLeftEdge: true,
+    		},
 		});
 
 		// Add multiple Monte Carlo simulation lines
