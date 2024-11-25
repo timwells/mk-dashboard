@@ -54,7 +54,7 @@
 
 		<a-tab-pane key="2" tab="Monte-Carlo-2">
 			<a-row :gutter="24" type="flex">
-				<a-col :span="4">
+				<a-col :span="6">
 					<a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
 						<a-form :form="form" @submit="handleSubmit2">
 							<a-form-item label='Initial Pot' :labelCol="labelCol" :wrapperCol="wrapperCol">
@@ -95,7 +95,7 @@
 						</a-form>
 					</a-card>
 				</a-col>
-				<a-col :span="20">
+				<a-col :span="18">
 					<a-card v-if="results2!=null" results:bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
 						<!--pre>{{ results2 }}</pre-->
 						<CardTVMultiChartMtcl3 
@@ -137,7 +137,7 @@
 
 <script>
 import CardTVStockMultiChartFT from '@/components/Cards/CardTVStockMultiChartFT';
-import CardTVMultiChartMtcl2 from '@/components/Cards/CardTVMultiChartMtcl2';
+//import CardTVMultiChartMtcl2 from '@/components/Cards/CardTVMultiChartMtcl2';
 import CardTVMultiChartMtcl3 from '@/components/Cards/CardTVMultiChartMtcl3';
 import { mapState, mapGetters } from "vuex";
 
@@ -165,7 +165,7 @@ const COLUMNS = [
 export default ({
 	components: {
 		CardTVStockMultiChartFT,
-		CardTVMultiChartMtcl2,
+		// CardTVMultiChartMtcl2,
 		CardTVMultiChartMtcl3
 	},
 	watch: {
@@ -189,6 +189,7 @@ export default ({
 				span: 8, 
 				offset: 2,
 			},
+
 			buttonLayout: { 
 				span: 8, 
 				offset: 14,
@@ -199,18 +200,18 @@ export default ({
             annualDrawdown: 25000.0,
             meanReturn: 0.03,
             stdDev :0.12,
-			startYear: 2026,
-            years: 30,
+			startYear: 2026,  // 2026 + 28 = 88 yrs
+            years: 28,
             iterations: 50,
 
 			// Model #2
-			initialPortfolio: 800000,   // £500,000 starting value
-			annualWithdrawal: 35000,    // £30,000 initial withdrawal
+			initialPortfolio: 600000,   // £500,000 starting value
+			annualWithdrawal: 32000,    // £30,000 initial withdrawal
 			inflationRate: 0.025,       // 2.5% annual inflation
-			expectedReturn: 0.05,       // 5% annual expected return
+			expectedReturn: 0.043,      // 5% annual expected return
 			returnStdDev: 0.1,          // 10% return standard deviation
-			simulationYears: 30, 
-			startYear2: 2026,            // Simulate 30 years
+			simulationYears: 28, 		// Simulate 30 years
+			startYear2: 2026,           // Simulate 30 years
 			numSimulations: 50,         // Run x scenarios
 
 			COLUMNS,
