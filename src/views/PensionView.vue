@@ -1,58 +1,6 @@
 <template>
 	<a-tabs default-active-key="2">
-		<!--a-tab-pane key="1" tab="Monte-Carlo">
-			<a-row :gutter="24" type="flex">
-				<a-col :span="4">
-					<a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
-						<a-form :form="form" @submit="handleSubmit">
-							<a-form-item label='Initial Pot' :labelCol="labelCol" :wrapperCol="wrapperCol">
-								<a-input-number v-model="initialPot" :formatter="formatNumber" :parser="parseNumber"/>
-							</a-form-item>
-
-							<a-form-item label='Annual Drwdwn' :labelCol="labelCol" :wrapperCol="wrapperCol">
-								<a-input-number v-model="annualDrawdown" :formatter="formatNumber" :parser="parseNumber"/>
-							</a-form-item>
-
-							<a-form-item label='Mean Return' :labelCol="labelCol" :wrapperCol="wrapperCol">
-								<a-input-number v-model="meanReturn"/>
-							</a-form-item>
-
-							<a-form-item label='stdDev' :labelCol="labelCol" :wrapperCol="wrapperCol">
-								<a-input-number v-model="stdDev"/>
-							</a-form-item>
-						
-							<a-form-item label='Years' :labelCol="labelCol" :wrapperCol="wrapperCol">
-								<a-input-number v-model="years"/>
-							</a-form-item>
-
-							<a-form-item label='Start Year' :labelCol="labelCol" :wrapperCol="wrapperCol">
-								<a-input-number v-model="startYear"/>
-							</a-form-item>
-
-
-							<a-form-item label='Iterations' :labelCol="labelCol" :wrapperCol="wrapperCol">
-								<a-input-number v-model="iterations"/>
-							</a-form-item>
-
-							<a-form-item :wrapperCol="buttonLayout">
-								<a-button htmlType="submit">Submit</a-button>
-							</a-form-item>        
-						</a-form>
-					</a-card>
-				</a-col>
-				<a-col :span="20">
-					<a-card v-if="results!=null" results:bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
-						<CardTVMultiChartMtcl2 
-							:datasets="results.runs"
-							:probabilityOfDepletion="results.probabilityOfDepletion"	
-							:averageYearsLasted="results.averageYearsLasted">
-						</CardTVMultiChartMtcl2>						
-					</a-card>
-				</a-col>
-			</a-row>
-		</a-tab-pane-->
-
-		<a-tab-pane key="2" tab="Monte-Carlo-2">
+		<a-tab-pane key="2" tab="Monte-Carlo">
 			<a-row :gutter="24" type="flex">
 				<a-col :span="6">
 					<a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
@@ -171,7 +119,8 @@ export default ({
 	computed: {
 		...mapGetters("pensions",["getSymbols"]),
 		...mapState("pensions",["portfolios"]),
-		...mapState("mtcl",["results","results2"]),
+		
+		...mapState("mtcl",[,"results2"]),
 		...mapGetters("mtcl",["getSimulationsSummary"]),
 	},
 	data() {
@@ -190,15 +139,6 @@ export default ({
 				span: 8, 
 				offset: 14,
 			},
-
-			// Model #1
-            initialPot: 500000.0,
-            annualDrawdown: 25000.0,
-            meanReturn: 0.03,
-            stdDev :0.12,
-			startYear: 2026,  // 2026 + 28 = 88 yrs
-            years: 28,
-            iterations: 50,
 
 			// Model #2
 			initialPortfolio: 600000,   // £500,000 starting value
@@ -233,20 +173,6 @@ State Pension Growth rate: 2.5%
 		parseNumber(value) {
 			return value ? value.replace(/,/g, '') : '';
 		},
-		handleSubmit (e) {
-	    	e.preventDefault()    
-			let _mcvalues = {
-				initialPot: this.initialPot,
-	            annualDrawdown: this.annualDrawdown,
-    	        meanReturn: this.meanReturn,
-        	    stdDev: this.stdDev,
-            	years: this.years,
-				startYear: this.startYear,
-            	iterations: this.iterations,
-			}
-			this.$store.dispatch("mtcl/runSimulation", {simulationValues: _mcvalues})
-		},
-
 		handleSubmit2(e) {
 			e.preventDefault()    
 			let _mcvalues = {

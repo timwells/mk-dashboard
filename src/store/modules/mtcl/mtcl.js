@@ -7,7 +7,6 @@ import {
 
 
 const state = {
-    results: null,
     results2: null
 };
 
@@ -16,34 +15,10 @@ const getters = {
 }
 
 const mutations = {
-  // RESET_CHART_CACHE: (state, payload) => (state.chartCache = payload),
-  // ADD_CHART_CACHE: (state, payload) => (state.chartCache = [...state.chartCache, payload]),
-
-    SET_RESULTS: (state, payload) => (state.results = payload),
     SET_RESULTS2: (state, payload) => (state.results2 = payload),
 };
 
 const actions = {
-  async runSimulation({ commit }, { simulationValues }) {
-    commit("SET_RESULTS", null)
-    const qset = [
-        `initialPot=${simulationValues.initialPot}`,
-        `annualDrawdown=${simulationValues.annualDrawdown}`,
-        `meanReturn=${simulationValues.meanReturn}`,
-        `stdDev=${simulationValues.stdDev}`,
-        `years=${simulationValues.years}`,
-        `startYear=${simulationValues.startYear}`,
-        `iterations=${simulationValues.iterations}`
-    ]
-    const resource = `${APP_CLOUD_FUNCTION_URL}/mtcl/mtcl2?${qset.join("&")}`
-    try {
-        const { data } = await axios.get(resource,{ headers: APP_FINTECH_HEADERS })
-        commit("SET_RESULTS", data)
-    } catch (e) {
-        console.log(e)
-    }
-  },
-
   async runSimulation2({ commit }, { simulationValues }) {
     commit("SET_RESULTS2", null)
     const qset = [
