@@ -12,6 +12,7 @@ const state = {
 };
 
 const getters = {
+  getSimulationsSummary: (state) => () => state.results2.simulations.filter((run) => run.depleted)
 }
 
 const mutations = {

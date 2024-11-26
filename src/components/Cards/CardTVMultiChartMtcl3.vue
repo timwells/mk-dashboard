@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<h4>Depletion Probability: {{ probabilityOfDepletion }}%, Average Years Lasted: {{ averageYearsLasted }}</h4>
 		<div id="chart-container" ref="chartContainer" style="width: 100%; height: 500px;"></div>
 	</div>
 </template>
@@ -15,14 +14,6 @@ export default {
 			type: Array,
 			default: () => [],
 		},
-		probabilityOfDepletion : {
-			type: Number,
-			default: 0.0,
-		},
-		averageYearsLasted: {
-			type: Number,
-			default: 1,
-		}
 	},
 
 	mounted() {

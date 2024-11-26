@@ -97,7 +97,12 @@
 				</a-col>
 				<a-col :span="18">
 					<a-card v-if="results2!=null" results:bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
-						<!--pre>{{ results2 }}</pre-->
+						<a-row>
+							<a-col :span="8"><a-statistic title="Depletion %" :value="results2.probabilityOfDepletion"/></a-col>
+							<a-col :span="8"><a-statistic title="ShortFall.Max.Yrs" :value="results2.shortFalls.max" /></a-col>
+							<a-col :span="8"><a-statistic title="ShortFall.Min.Yrs" :value="results2.shortFalls.min" /></a-col>
+						</a-row>
+
 						<CardTVMultiChartMtcl3 
 							:datasets="results2.simulations"
 							:probabilityOfDepletion="results2.probabilityOfDepletion"	
@@ -106,7 +111,7 @@
 						
 						<a-table 
 							:columns="COLUMNS"
-							:data-source="results2.simulations"
+							:data-source="getSimulationsSummary()"
 							:pagination="false"
 							:rowKey="(record,i) => i"
 							class='table table-small' style="margin: 0; background-color: rgb(253, 253, 253);">
@@ -121,8 +126,6 @@
 								<p class="m-0 font-regular text-muted">{{ depletedShortfall }}</p>
 							</template>
 						</a-table>	
-
-						<!--p v-for="(result,i) in results2.simulations" :key="i">depleted: {{ result.depleted }} | depletedYear: {{ result.depletedYear }} | depletedShortfall: {{ result.depletedShortfall }}</p--> 
 					</a-card>
 				</a-col>
 			</a-row>
@@ -137,17 +140,10 @@
 
 <script>
 import CardTVStockMultiChartFT from '@/components/Cards/CardTVStockMultiChartFT';
-//import CardTVMultiChartMtcl2 from '@/components/Cards/CardTVMultiChartMtcl2';
 import CardTVMultiChartMtcl3 from '@/components/Cards/CardTVMultiChartMtcl3';
 import { mapState, mapGetters } from "vuex";
 
 const COLUMNS = [
-	{
-		title: 'Depleted',
-		dataIndex: 'depleted',
-		scopedSlots: { customRender: 'depleted' },
-		sorter: (a, b) => (a.depleted === b.depleted ? 0 : a.depleted ? -1 : 1),
-	},
 	{
 		title: 'Depleted Year',
 		dataIndex: 'depletedYear',
@@ -165,7 +161,6 @@ const COLUMNS = [
 export default ({
 	components: {
 		CardTVStockMultiChartFT,
-		// CardTVMultiChartMtcl2,
 		CardTVMultiChartMtcl3
 	},
 	watch: {
@@ -176,7 +171,8 @@ export default ({
 	computed: {
 		...mapGetters("pensions",["getSymbols"]),
 		...mapState("pensions",["portfolios"]),
-		...mapState("mtcl",["results","results2"])
+		...mapState("mtcl",["results","results2"]),
+		...mapGetters("mtcl",["getSimulationsSummary"]),
 	},
 	data() {
 		return {
