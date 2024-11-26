@@ -8,7 +8,7 @@ function monteCarloSimulation({
     startYear,                // Start year
     numSimulations            // Number of Monte Carlo runs
   }) {
-    const simulations = []; // Store all simulation results
+    const simulations = [];   // Store all simulation results
   
     // Function to simulate a single scenario
     function runSimulation(simulationIndex) {
@@ -51,13 +51,13 @@ function monteCarloSimulation({
     return simulations;
   }
   
-  // Analyze results
+// Analyze results
 function analyzeResults(simulations) {
     const endingBalances = simulations.map(sim => sim.balances[sim.balances.length - 1].value);
-    const probabilityOfDepletion = (simulations.filter(sim => sim.depleted).length / simulations.length) * 100;
+    const probabilityOfDepletion = +((simulations.filter(sim => sim.depleted).length / simulations.length) * 100).toFixed(1);
+    const maxShortFall = simulations.reduce((max, obj) => { return obj.depletedShortfall > max ? obj.depletedShortfall : max }, -Infinity);
+    const minShortFall = simulations.reduce((min, obj) => { return obj.depletedShortfall < min ? obj.depletedShortfall : min }, +Infinity);
 
-    // const maxShortFall = simulations.reduce((max, obj) => { return obj.depletedShortfall > max ? obj.depletedShortfall : max }, -Infinity);
-    // const minShortFall = simulations.reduce((min, obj) => { return obj.depletedShortfall < min ? obj.depletedShortfall : min }, +Infinity);
     // const averageYearsLasted = runs.reduce((sum, r) => sum + r.yearsLasted, 0) / model.iterations;
   
     const percentiles = [5, 25, 50, 75, 95].map(p => ({
@@ -67,12 +67,10 @@ function analyzeResults(simulations) {
   
     return {
         probabilityOfDepletion,
+        shortFalls: { max:maxShortFall, min: minShortFall },
+        numSimulations: simulations.length,
+        simulations,
         percentiles,
-
-        // maxShortFall,
-        // minShortFall,
-
-        simulations
     };
 }
   
@@ -83,8 +81,8 @@ const monteCarloModelImpl = async () => {
         inflationRate: 0.025,       // 2.5% annual inflation
         expectedReturn: 0.05,       // 5% annual expected return
         returnStdDev: 0.1,          // 10% return standard deviation
-        simulationYears: 30, 
-        startYear: 2026,            // Simulate 30 years
+        simulationYears: 30,        // Simulate 30 years
+        startYear: 2026,            // Simulate from year
         numSimulations: 20          // Run x scenarios
     };
     
@@ -102,7 +100,7 @@ const monteCarloModelImpl2 = async (
     simulationYears, 
     startYear,          
     numSimulations
-)  => {
+) => {
     
     const params = {
         initialPortfolio: initialPortfolio,  // £500,000 starting value
@@ -110,8 +108,8 @@ const monteCarloModelImpl2 = async (
         inflationRate: inflationRate,        // 2.5% annual inflation
         expectedReturn: expectedReturn,      // 5% annual expected return
         returnStdDev: returnStdDev,          // 10% return standard deviation
-        simulationYears: simulationYears,    // Simulate 30 years
-        startYear: startYear,                // 2026
+        simulationYears: simulationYears,    // Simulate for 30 years
+        startYear: startYear,                // Simutate from 2026
         numSimulations: numSimulations       // Run x scenarios
     };
     
