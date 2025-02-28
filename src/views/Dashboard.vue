@@ -357,12 +357,14 @@ export default ({
 			activeCommoditiesTab: 0,
 			oilSymbols: ["BP.","SHEL","HBR","SQZ","RKH"],
 			oilEtfs: [],
-			preciousMetalSymbols: ["gold","silver","platinum","palladium"],
-			preciousMetalMinerSymbols: ["FRES","HOC","CEY","POG","GGP","CNR","PAF","SRB"],// "WPM",],//"PAAS"],
+			// preciousMetalSymbols: ["gold","silver","platinum","palladium"],
+			preciousMetalSymbols: ["gold","silver"],
+			preciousMetalMinerSymbols: ["FRES","HOC","GGP","PAF","SRB"],// "WPM",],//"PAAS"],
 			metalEtfs: ["REGB:LSE:GBP","GJGB:LSE:GBP","URNG:LSE:GBP","NUCG:LSE:GBP","GDGB:LSE:GBP"],
 			moneyMarkets: ["GB00BFYDWM59:GBP","GB00B8XYYQ86:GBP","GB0033029413:GBP"],
 			uraniumMetalSymbols:["BKY","YCA","AURA","KAP"],
-			bonds:["UK30Y-GB","UK10Y-GB","UK2Y-GB","US30Y-USD","US10Y-USD","US2Y-USD",".MOVE"],
+			// bonds:["UK30Y-GB","UK10Y-GB","UK2Y-GB","US30Y-USD","US10Y-USD","US2Y-USD",".MOVE"],
+			bonds:["UK30Y-GB","UK10Y-GB","UK2Y-GB","US30Y-USD","US10Y-USD","US2Y-USD"],
 			yt: 'https://www.youtube.com/watch?v=B4Nhkja0hFs'
 
 // Crypto
