@@ -59,19 +59,19 @@ export default ({
 					yaxis: [{
 						y: 15,
 						borderColor: '#FF0000',
-						label: {
-							borderColor: '#FF0000', borderWidth: 4,
-							style: { color: '#fff', background: '#FF0000' },
-							text: 'Ex.Fear'
-						}
+						//label: {
+						//	borderColor: '#FF0000', borderWidth: 4,
+						//	style: { color: '#fff', background: '#FF0000' },
+						//	text: '🤩'
+						//}
 					},{
 						y: 85,
 						borderColor: '#00AF00',
-						label: {
-							borderColor: '#00AF00', borderWidth: 4,
-							style: { color: '#fff', background: '#00AF00' },
-							text: 'Ex.Greed'
-						}
+						//label: {
+						//	borderColor: '#00AF00', borderWidth: 1,
+						//	style: { color: '#fff', background: '#00AF00' },
+						//	text: '😌'
+						//}
 					}
 				]
 			},
