@@ -20,5 +20,9 @@ app.get('/exdividenddate2', async (req, res) => {
     let data = await ddApi.exdividenddate2()
     return res.status(200).json(data)
 });
+app.get('/exdividenddate3', async (req, res) => {
+    let data = await ddApi.exdividenddate3()
+    return res.status(200).json(data)
+});
 
 exports.dd = functions.https.onRequest(app);
