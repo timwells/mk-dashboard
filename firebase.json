@@ -15,6 +15,11 @@
   ],
   "functions": [
     {
+      "source": "function-bge",
+      "codebase": "bge",
+      "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
+    },
+    {
       "source": "function-rvlt",
       "codebase": "rvlt",
       "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
@@ -30,7 +35,7 @@
       "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
     },
     {
-      "source": "function-cnn",
+      "source": "function-cnn/",
       "codebase": "cnn",
       "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
     },

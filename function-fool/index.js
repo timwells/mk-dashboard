@@ -1,4 +1,4 @@
-const functions = require('firebase-functions');
+const { onRequest } = require("firebase-functions/v2/https");
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -27,4 +27,4 @@ app.get('/historical/values', async (req, res) => {
     return res.status(200).json(data)
 });
 
-exports.fool = functions.https.onRequest(app);
+exports.fool = onRequest(app);

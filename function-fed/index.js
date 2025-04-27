@@ -1,4 +1,4 @@
-const functions = require('firebase-functions');
+const { onRequest } = require("firebase-functions/v2/https");
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -18,3 +18,5 @@ app.get('/observation', async (req, res) => {
 app.get('/observation2', async (req, res) => {on2(seriesId, frequency, units, scale)
     return res.status(200).json(data)
 });
+
+exports.fed = onRequest(app);

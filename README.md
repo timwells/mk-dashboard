@@ -16,6 +16,11 @@ Make sure to add the function to 'firebase.json'
     "ignore": ["node_modules",".git","firebase-debug.log","firebase-debug.*.log",".cache"]
 }
 
+Delploy single function - firebase deploy --only functions:functionName
+e.g. firebase deploy --only functions:cnn
+cnn - refers to the code!
+
+
 
 uses https://polygon.io/
 

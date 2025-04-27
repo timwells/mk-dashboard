@@ -1,4 +1,6 @@
-const functions = require('firebase-functions');
+const { onRequest } = require("firebase-functions/v2/https");
+const { setGlobalOptions } = require('firebase-functions/v2');
+
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -72,5 +74,5 @@ app.get('/etf/details', async (req, res) => {
     return res.status(200).json(data)
 });
 
-const gOpts = {timeoutSeconds: 120};
-exports.hl = functions.runWith(gOpts).https.onRequest(app);
+setGlobalOptions({ timeoutSeconds: 120 });
+exports.hl = onRequest(app);

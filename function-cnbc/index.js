@@ -1,4 +1,8 @@
-const functions = require('firebase-functions');
+const { onRequest } = require("firebase-functions/v2/https");
+const admin = require('firebase-admin');
+// Initialize Firebase Admin SDK
+admin.initializeApp();
+
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -15,4 +19,4 @@ app.get('/historical/values', async (req, res) => {
     return res.status(200).json(data)
 });
 
-exports.cnbc = functions.https.onRequest(app);
+exports.cnbc = onRequest(app);

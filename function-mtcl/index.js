@@ -1,4 +1,6 @@
-const functions = require('firebase-functions');
+const { onRequest } = require("firebase-functions/v2/https");
+const { setGlobalOptions } = require('firebase-functions/v2');
+
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -68,4 +70,4 @@ app.get('/mtcl4', async (req, res) => {
     ))
 })
 
-exports.mtcl = functions.https.onRequest(app);
+exports.mtcl = onRequest(app);

@@ -1,4 +1,5 @@
-const functions = require('firebase-functions');
+const { onRequest } = require("firebase-functions/v2/https");
+const { setGlobalOptions } = require('firebase-functions/v2');
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -18,4 +19,4 @@ app.get('/historical/series', async (req, res) => {
     return res.status(200).json(data)
 });
 
-exports.ons = functions.https.onRequest(app);
+exports.ons = onRequest(app);

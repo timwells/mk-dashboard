@@ -1,4 +1,4 @@
-const functions = require('firebase-functions');
+const { onRequest } = require("firebase-functions/v2/https");
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -19,4 +19,4 @@ app.get('/news', async (req, res) => {
     return res.status(200).json(data)
 });
 
-exports.cyca = functions.https.onRequest(app);
+exports.cyca = onRequest(app);

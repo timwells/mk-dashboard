@@ -74,11 +74,14 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="2" tab="Money Mkts">
+		<a-tab-pane key="2" tab="Liquidity">
+			<CardLiquidityChart></CardLiquidityChart>
+		</a-tab-pane>
+		<a-tab-pane key="3" tab="Money Mkts">
 			<h6>{{ moneyMarkets }}</h6>
 			<CardTVStockMultiChartFT :epics="moneyMarkets"></CardTVStockMultiChartFT>
 		</a-tab-pane>
-		<a-tab-pane key="3" tab="Oil Markets">
+		<a-tab-pane key="4" tab="Oil Markets">
 			<a-tabs>
 				<a-tab-pane key="1" tab="Stocks">
 					<h6>{{ oilSymbols }}</h6>
@@ -90,7 +93,7 @@
 				</a-tab-pane>
 			</a-tabs>
 		</a-tab-pane>
-		<a-tab-pane key="4" tab="Metals & Markets">
+		<a-tab-pane key="5" tab="Metals & Markets">
 			<a-tabs>
 				<a-tab-pane key="1" tab="Metals">
 					<h6>{{ preciousMetalSymbols }}</h6>
@@ -125,7 +128,7 @@
 				</a-tab-pane>
 			</a-tabs>
 		</a-tab-pane>
-		<a-tab-pane key="5" tab="FED">
+		<a-tab-pane key="6" tab="FED">
 			<CardFedComposite v-if="composite.length>0" :dataset="composite"></CardFedComposite>
 		</a-tab-pane>
 		<!--a-tab-pane key="3" tab="LSE - Performance">
@@ -156,21 +159,21 @@
 				</a-table>
 			</a-card>
 		</a-tab-pane-->
-		<a-tab-pane key="6" tab="Funds">
+		<a-tab-pane key="7" tab="Funds">
 			<a-row type="flex" align="stretch">
 				<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(e, i) in getGroup(1)" :key="i">			
 					<CardChartFundInfo :title="e.title" :ticker="e.ticker" :sedol="e.sedol"/>
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="7" tab="Equities">
+		<a-tab-pane key="8" tab="Equities">
 			<a-row :gutter="24" type="flex" align="stretch">
 				<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(e, i) in getGroup(2)" :key="i">			
 					<CardChartEquityInfo :title="e.title" :ticker="e.ticker"/>
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="8" tab="T-Bills & Gilts">
+		<a-tab-pane key="9" tab="T-Bills & Gilts">
 			<h6>{{ bonds }}</h6>
 			<CardTVStockMultiChartCNBC :epics="bonds"></CardTVStockMultiChartCNBC>
 
@@ -181,7 +184,7 @@
 				</a-col>
 			</a-row-->
 		</a-tab-pane>
-		<a-tab-pane key="9" tab="Commodities">
+		<a-tab-pane key="10" tab="Commodities">
 			<a-tabs v-model="activeCommoditiesTab">
 				<a-tab-pane v-for="(g, gi) in commodities" :key="gi" :tab="g.commodityGroup">
 					<a href="https://www.theglobaleconomy.com/" target="_blank">The Global Economy</a>
@@ -206,7 +209,47 @@
 			</a-tabs>
 		</a-tab-pane>
 
-		<a-tab-pane key="10" tab="Allocation">
+		<a-tab-pane key="11" tab="BitCoin">
+			<a-tabs v-model="activeBitCoinTab">
+				<!--transition name="fade"-->
+					<a-tab-pane tab="Rainbow" key="0">
+						<a href="https://www.blockchaincenter.net/static/rainbow-chart.html" target="_blank">Rainbow Chart</a>
+						<CardIndicatorInfo title="" 
+							url='https://www.blockchaincenter.net/static/rainbow-chart.html' 
+							type="iframe" height="700"/>
+					</a-tab-pane>
+				<!--/transition-->
+				<a-tab-pane tab="Fear & Greed" key="1">
+					<CardIndicatorInfo title="" 
+						url='https://charts.bgeometrics.com/graphics/fear_greed.html' 
+						type="iframe" height="700"/>		
+				</a-tab-pane>
+				<a-tab-pane tab="Price Log" key="2">
+					<CardIndicatorInfo title="" 
+						url='https://charts.bgeometrics.com/reports/bitcoin_price_g_log.html' 
+						type="iframe" height="700"/>							
+				</a-tab-pane>
+				<a-tab-pane tab="M2-Global" key="3">
+					<CardIndicatorInfo title="" 
+						url='https://charts.bgeometrics.com/graphics/m2_global.html' 
+						type="iframe" height="700"/>		
+				</a-tab-pane>
+				<a-tab-pane tab="M2-10w-Lead" key="4">
+					<CardIndicatorInfo title="" 
+						url='https://charts.bgeometrics.com/graphics/m2_global_10w.html' 
+						type="iframe" height="700"/>		
+				</a-tab-pane>
+				<a-tab-pane tab="Moving Ave." key="5">
+					<CardIndicatorInfo title="" 
+						url='https://charts.bgeometrics.com/graphics/moving_average.html' 
+						type="iframe" height="700"/>		
+				</a-tab-pane>
+
+				<!-- https://charts.bgeometrics.com/files/mstr_yf.json-->
+			</a-tabs>
+		</a-tab-pane>
+
+		<!--a-tab-pane key="11" tab="Allocation">
 			<a-row :gutter="24" type="flex" align="stretch">
 				<a-col :span="12" :lg="12" :xl="12" class="mb-12">
 					<LazyYoutube
@@ -221,11 +264,7 @@
 					<img src="/images/Allocation2024.PNG" height="500" width="99%">
 				</a-col>
 			</a-row>
-		</a-tab-pane>
-		<a-tab-pane key="11" tab="BitCoin">
-			<a href="https://www.blockchaincenter.net/static/rainbow-chart.html" target="_blank">Rainbow Chart</a>
-			<CardIndicatorInfo title="Rainbow" url='https://www.blockchaincenter.net/static/rainbow-chart.html' type="iframe" height="700"/>
-		</a-tab-pane>
+		</a-tab-pane-->
 		<a-tab-pane key="12" tab="Chart Cycles">
 			<img src="/images/stockcyclestages2.png" height="600" width="98%">
 			<img src="/images/stockcyclestages4.webp" height="600" width="98%">
@@ -273,6 +312,10 @@ import CardChartIndexInfo from '../components/Cards/CardChartIndexInfo';
 import CardChartBondInfo from '../components/Cards/CardChartBondInfo';
 import CardIndicatorInfo from '../components/Cards/CardIndicatorInfo';
 
+
+import CardLiquidityChart from '../components/Cards/CardLiquidityChart';
+
+
 import CardFearAndGreedLineChart from '../components/Cards/CardFearAndGreedLineChart';
 import CardVixLineChart from '../components/Cards/CardVixLineChart';
 import CardSP500MomentumLineChart from '../components/Cards/CardSP500MomentumLineChart';
@@ -318,6 +361,8 @@ export default ({
 		CardFearAndGreedLineChart,
 		CardIndicatorInfo,
 
+		CardLiquidityChart,
+
 		CardVixLineChart,
 		CardSP500MomentumLineChart,
 		CardStockPriceStrengthLineChart,
@@ -355,6 +400,7 @@ export default ({
 			loading: true,
 			live: false,
 			activeCommoditiesTab: 0,
+			activeBitCoinTab: "0",
 			oilSymbols: ["BP.","SHEL","HBR","SQZ","RKH"],
 			oilEtfs: [],
 			// preciousMetalSymbols: ["gold","silver","platinum","palladium"],

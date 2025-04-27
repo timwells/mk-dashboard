@@ -1,4 +1,6 @@
-const functions = require('firebase-functions');
+const { onRequest } = require("firebase-functions/v2/https");
+const { setGlobalOptions } = require('firebase-functions/v2');
+
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -14,4 +16,4 @@ app.get('/commodities', async (req, res) => {
     return res.status(200).json(data)
 });
 
-exports.tge = functions.https.onRequest(app);
+exports.tge = onRequest(app);

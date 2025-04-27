@@ -1,4 +1,5 @@
-const functions = require('firebase-functions');
+const { onRequest } = require("firebase-functions/v2/https");
+const { setGlobalOptions } = require('firebase-functions/v2');
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -28,4 +29,4 @@ app.get('/probability', async (req, res) => {
     return res.status(200).json(await pbApi.winProbability(parseInt(holdings)))
 });
 
-exports.pb = functions.https.onRequest(app);
+exports.pb = onRequest(app);

@@ -1,4 +1,4 @@
-const functions = require('firebase-functions');
+const { onRequest } = require("firebase-functions/v2/https");
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -25,4 +25,4 @@ app.get('/exdividenddate3', async (req, res) => {
     return res.status(200).json(data)
 });
 
-exports.dd = functions.https.onRequest(app);
+exports.dd = onRequest(app);

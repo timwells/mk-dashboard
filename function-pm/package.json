@@ -11,20 +11,20 @@
     "_postinstall": "node node_modules/puppeteer/install.mjs"
   },
   "engines": {
-    "node": "18"
+    "node": "20"
   },
   "main": "index.js",
   "dependencies": {
-    "axios": "^1.6.2",
+    "axios": "^1.9.0",
     "cheerio": "^1.0.0",
-    "express": "^4.18.2",
-    "firebase-admin": "^11.8.0",
-    "firebase-functions": "^5.1.1",
-    "firebase-storage": "^1.1.4",
+    "moment": "^2.30.1",
+    "express": "^5.1.0",
+    "firebase-admin": "^13.3.0",
+    "firebase-functions": "^6.3.2",
+    "technicalindicators": "^3.1.0",
     "puppeteer": "^23.4.1",
     "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2",
-    "technicalindicators": "^3.1.0"
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
   },
   "devDependencies": {
     "firebase-functions-test": "^3.1.0"

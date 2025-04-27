@@ -1,4 +1,4 @@
-const functions = require('firebase-functions');
+const { onRequest } = require("firebase-functions/v2/https");
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -20,4 +20,4 @@ app.get('/holdings', async (req, res) => {
     return res.status(200).json(data)
 });
 
-exports.drm = functions.https.onRequest(app);
+exports.drm = onRequest(app);

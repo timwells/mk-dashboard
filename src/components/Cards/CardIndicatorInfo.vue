@@ -1,5 +1,5 @@
 <template>
-	<a-card :bordered="false" class="card-info">
+	<a-card :bordered="true" class="card-info">
 		<a-row :gutter="24" type="flex">
 			<a-col class="mb-12" :span="24" :xl="24">
 				<div class="card-content">
