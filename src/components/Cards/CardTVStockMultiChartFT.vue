@@ -25,6 +25,7 @@ export default ({
 					for(let i = 0; i < this.epics.length; i++) {
 						switch(i) {
 							case 0: 
+								console.log(newval[0].data)
 								this.setChartSeries(this.lineSeries0,newVal[0].data,newVal[0].name)
 							break;
 							case 1: 

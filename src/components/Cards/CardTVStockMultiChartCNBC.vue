@@ -82,7 +82,7 @@ export default ({
 		}
 	},
 	beforeMount() {
-    	this.chartId = `id-${this.epic}-${Math.random().toString(36).slice(2, 11)}`;
+    	this.chartId = `id-${Math.random().toString(36).slice(2, 11)}`;
 	},
 	mounted() {
 		this.$store.dispatch("cnbc/resetChartDataValues");

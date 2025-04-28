@@ -40,6 +40,8 @@ import ons from "./modules/ons/ons"
 import gbcc from "./modules/gbcc/gbcc"
 import cnbc from "./modules/cnbc/cnbc"
 import mtcl from "./modules/mtcl/mtcl"
+import bge from "./modules/bge/bge"
+import yahoo from "./modules/yahoo/yahoo"
 
 
 Vue.use(Vuex);
@@ -65,6 +67,10 @@ export default new Vuex.Store({
     ons,
     gbcc,
     cnbc,
-    mtcl
+    mtcl,
+
+    bge,
+
+    yahoo
   }
 });

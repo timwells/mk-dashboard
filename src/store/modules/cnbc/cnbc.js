@@ -18,11 +18,9 @@ const mutations = {
   
 const actions = {
   async getChartDataValues({ commit },{ symbol }) {
-    console.log("getChartDataValues:",symbol)
     const resource = `${APP_CLOUD_FUNCTION_URL}/cnbc/historical/values?symbol=${symbol}&period=ALL`
     try {
       const {data} = await axios.get(resource, { headers: APP_FINTECH_HEADERS })
-      console.log(data,symbol)
       commit("ADD_CHART_CACHE", data)
     } catch(e) {
         console.log("getChartDataValues",e)

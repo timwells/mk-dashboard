@@ -22,11 +22,15 @@ const actions = {
     commit("RESET_CHART_CACHE", [])
   },
 
-  async getChartDataValues({ commit },{path}) {
-    const resource = `${APP_CLOUD_FUNCTION_URL}/bge/historical/values?path=${path}`
+  async getChartDataValues(
+      { commit },
+      { expression,period1,period2,interval }
+  ) {
+    const parameters = `expression=${expression}&period1=${period1}&period2=${period2}&interval=${interval}`
+    const resource = `${APP_CLOUD_FUNCTION_URL}/yahoo/historical/values?${parameters}`
     try {
       const { data } = await axios.get(resource, { headers: APP_FINTECH_HEADERS })
-      console.log("getChartDataValues",path,data)
+      // console.log("getChartDataValues",parameters,data)
       commit("ADD_CHART_CACHE", data)
     } catch(e) {
         console.log("getChartDataValues",e)

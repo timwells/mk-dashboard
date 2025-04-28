@@ -216,36 +216,34 @@
 						<a href="https://www.blockchaincenter.net/static/rainbow-chart.html" target="_blank">Rainbow Chart</a>
 						<CardIndicatorInfo title="" 
 							url='https://www.blockchaincenter.net/static/rainbow-chart.html' 
-							type="iframe" height="700"/>
+							type="iframe" height="600"/>
 					</a-tab-pane>
 				<!--/transition-->
 				<a-tab-pane tab="Fear & Greed" key="1">
 					<CardIndicatorInfo title="" 
 						url='https://charts.bgeometrics.com/graphics/fear_greed.html' 
-						type="iframe" height="700"/>		
+						type="iframe" height="600"/>		
 				</a-tab-pane>
 				<a-tab-pane tab="Price Log" key="2">
 					<CardIndicatorInfo title="" 
 						url='https://charts.bgeometrics.com/reports/bitcoin_price_g_log.html' 
-						type="iframe" height="700"/>							
+						type="iframe" height="600"/>							
 				</a-tab-pane>
 				<a-tab-pane tab="M2-Global" key="3">
 					<CardIndicatorInfo title="" 
 						url='https://charts.bgeometrics.com/graphics/m2_global.html' 
-						type="iframe" height="700"/>		
+						type="iframe" height="600"/>		
 				</a-tab-pane>
 				<a-tab-pane tab="M2-10w-Lead" key="4">
 					<CardIndicatorInfo title="" 
 						url='https://charts.bgeometrics.com/graphics/m2_global_10w.html' 
-						type="iframe" height="700"/>		
+						type="iframe" height="600"/>		
 				</a-tab-pane>
 				<a-tab-pane tab="Moving Ave." key="5">
 					<CardIndicatorInfo title="" 
 						url='https://charts.bgeometrics.com/graphics/moving_average.html' 
-						type="iframe" height="700"/>		
+						type="iframe" height="600"/>		
 				</a-tab-pane>
-
-				<!-- https://charts.bgeometrics.com/files/mstr_yf.json-->
 			</a-tabs>
 		</a-tab-pane>
 
