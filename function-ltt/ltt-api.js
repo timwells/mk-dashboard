@@ -51,101 +51,7 @@ function formatResource(
     return { rwdata: rwdata, expMA: expMA(rwdata,5000) }
 }
 
-/*
-function averageExponentialTrend(data) {
-    // Ensure there are at least two data points
-    if (data.length < 2) {
-        throw new Error('At least two data points are required to calculate the trend.');
-    }
 
-    // Transform the y-values using the natural logarithm
-    const transformedData = data.map(point => [point[0], Math.log(point[1])]);
-
-    // Calculate the means of x and ln(y)
-    const n = transformedData.length;
-    const meanX = transformedData.reduce((sum, point) => sum + point[0], 0) / n;
-    const meanLnY = transformedData.reduce((sum, point) => sum + point[1], 0) / n;
-
-    // Calculate the numerator and denominator for the slope (m)
-    let numerator = 0;
-    let denominator = 0;
-    transformedData.forEach(point => {
-        const x = point[0];
-        const lnY = point[1];
-        numerator += (x - meanX) * (lnY - meanLnY);
-        denominator += (x - meanX) ** 2;
-    });
-
-    // Calculate the slope (m) and intercept (b)
-    const slope = numerator / denominator;
-    const intercept = meanLnY - slope * meanX;
-
-    // Convert the slope and intercept back to the exponential form
-    const a = Math.exp(intercept);
-    const b = slope;
-
-    // Return the parameters of the exponential trend line: y = a * e^(bx)
-    // return { a, b };
-    return transformedData
-}
-*/
-/*
-const data = [
-    [ date: '2023-07-01', value: 100 ],
-    [ date: '2023-07-02', value: 105 ],
-    [ date: '2023-07-03', value: 102 ],
-    [ date: '2023-07-04', value: 108 ],
-    [ date: '2023-07-05', value: 110 ]
-];
-
-const periods = 3; // Number of periods for EMA
-const emaLine = exponentialMovingAverage(data, periods);
-*/
-
-/*
-function expMA(data, periods) {
-    // Ensure the data is sorted by date
-    // data.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-    const alpha = 2 / (periods + 1);
-    const emaData = [];
-
-    // Initialize the EMA with the first value
-    let ema = data[0][1];
-
-    // Calculate the EMA for each data point
-    data.forEach((point, index) => {
-        if (index === 0) {
-            emaData.push([point[0],point[1]]);
-        } else {
-            ema = alpha * point[1] + (1 - alpha) * ema;
-            emaData.push([point[0],+ema.toFixed(2)]);
-        }
-    });
-
-    return emaData;
-}
-*/
-
-// const trend = averageExponentialTrend(data);
-/*
-function calMA(data, period) {
-    const mAD = [];
-    for (let i = 0; i < data.length; i++) {
-        if (i < period - 1) {
-            mAD.push([data[i][0], null ]);
-        } else {
-            let sum = 0;
-            for (let j = i; j > i - period; j--) { 
-                sum += data[j][1] 
-            }
-            const average = sum / period;
-            mAD.push([data[i][0], +parseFloat(average.toFixed(2))]);
-        }
-    }
-    return mAD;
-}
-*/
 /*
 function reduceBySkip(data,skip) {
     const reducedData = [];
@@ -265,16 +171,24 @@ const thumbnails = async (req, res) => {
     return thumbnails;
 }
 */
-const test1 = async (req, res) => {
-    res.status(200).send("test1 - longtermtrends");
-}
 
-const test = async (req, res) => {
-    res.status(200).send("test - longtermtrends");
-}
+// https://www.longtermtrends.net/data-dow-gold-ratio/
+const getHistoricalValuesImpl = async (datasetname, period1, period2, interval) => {
+    const url = `${LTT_HOST}/${datasetname}`
+    const {data} = await axios.get(url)
+    let rdata = data.map(
+                (e,i) => { return {
+                    time: new Date(Buffer.from(e[0],'base64').toString('ascii')).toISOString().slice(0, 10),
+                    value: +parseFloat(Buffer.from(e[1],'base64').toString('ascii')).toFixed(3)
+                }})
+    let obj = {
+        name: datasetname,
+        data: rdata
+    }
+
+    return obj;
+}    
 
 module.exports = {
-    test,
-    //thumbnails,
-    // longtermtrends,
+   getHistoricalValuesImpl
 }
