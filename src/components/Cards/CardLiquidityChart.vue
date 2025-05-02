@@ -26,7 +26,7 @@ export default ({
 		},
 	},
 	computed: {
-		...mapState("yahoo", ["chartCache"]),
+		...mapState("ltt", ["chartCache"]),
 	},
 	data() {
 		return {
@@ -50,25 +50,29 @@ export default ({
 		// https://github.com/tradingview/lightweight-charts/blob/v2.0.0/docs/customization.md#date-format
 		this.chart = createChart(chartElement, this.chartProperties)
 		this.lineSeries0 = this.chart.addLineSeries({color:genRndColor2(),lineWidth:1});
-		this.lineSeries1 = this.chart.addLineSeries({color:genRndColor2(),lineWidth:1});
+		//this.lineSeries1 = this.chart.addLineSeries({color:genRndColor2(),lineWidth:1});
 		//this.lineSeries2 = this.chart.addLineSeries({color:genRndColor2(),lineWidth:1});
 
 		//this.$store.dispatch("bge/getChartDataValues",{path:"btc_yf.json"});
 		//this.$store.dispatch("bge/getChartDataValues",{path:"m2.json"});
-		let p = {
-			expression:'',
-			period1:'2009-01-01',
-			period2:'2024-04-27',
-			interval:'1mo'
-		}
+		//let p = {
+		//	expression:'',
+		//	period1:'2009-01-01',
+		//	period2:'2024-04-27',
+		//	interval:'1mo'
+		//}
 		// p.expression = 'GC=F'
 		//this.$store.dispatch("yahoo/getChartDataValues",p)
 		//p.expression = '^DJI'
 		//this.$store.dispatch("yahoo/getChartDataValues",p)
 
+
+
+
 		// p.expression = '^DJI/GC=F'
-		p.expression = '^DJI/BTC-USD'
-		this.$store.dispatch("yahoo/getChartDataValues",p)
+		//p.expression = '^DJI/BTC-USD'
+		//this.$store.dispatch("yahoo/getChartDataValues",p)
+		this.$store.dispatch("ltt/getChartDataValues",{datasetname: "data-dow-gold-ratio"})
   	},
   	beforeDestroy() {
     	if (this.chart) {

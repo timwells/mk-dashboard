@@ -20,6 +20,7 @@ app.get('/historical/values', async (req, res) => {
         datasetname,
     } = req.query
 
+    
     let data = await lttApi.getHistoricalValuesImpl(datasetname)
     return res.status(200).json(data)
 });
