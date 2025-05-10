@@ -4,11 +4,11 @@
 		<a-row :gutter="24" type="flex">
 			<a-col :span="24" class="mb-24">
 
-				<pre>{{ dividendData }}</pre>
+				<!--pre>{{ dividendData }}</pre-->
 				
-				<!--a-table
+				<a-table
 					:columns="dividendColumns" 
-					:data-source="dividendData" 
+					:data-source="dividendData.data" 
 					:pagination="pagination"
 					:rowKey="(record,index) => index"
 					@expand="onExpand"
@@ -46,57 +46,56 @@
 						type="search"
 						:style="{ color: filtered ? '#108ee9' : undefined }"
 					/>
-					<template slot="expandedRowRender" slot-scope="record" style="margin: 0">
+					<template slot="expandedRowRender" slot-scope="record">
 						<a-tabs default-active-key="1">
-							<a-tab-pane key="1" tab="Trade View">
+							<a-tab-pane key="1" tab="Fundimentals">
+								<pre>{{ record.epic }}</pre>
+								<CardTVStockChart2 :epic="record.epic"/>
+							</a-tab-pane>
+							<!--a-tab-pane key="2" tab="Broker View">
+								<WidgetTradingViewBrokerAnalysis :symbol="fullSymbol(record.epic)"/>
+							</a-tab-pane-->
+							<!--a-tab-pane key="3" tab="Financials">
+								<WidgetTradingViewFinancials :symbol="fullSymbol(record.epic)"/>
+							</a-tab-pane-->
+							<!--a-tab-pane key="4" tab="Price">
+								<card-price-info :epic="lseSymbol(record.epic)"></card-price-info>
+							</a-tab-pane-->
+							<!--a-tab-pane key="2" tab="TradeView">
 								<a :href="tradeView(record.epic)" target="_blank">{{record.epic}}</a>
-							</a-tab-pane>
-							<a-tab-pane key="2" tab="Announcement">
-								<a-card :bordered="false" class="card-info">
-									<div class="card-content">
-										<iframe 
-											:src="record.announcementUrl"
-											title="title" 
-											width="100%" 
-											height="800" 
-											style="border:none;">
-										</iframe>
-									</div>
-								</a-card>
-							</a-tab-pane>
-							<a-tab-pane key="3" tab="Broker View">
-								<WidgetTradingViewBrokerAnalysis 
-									:symbol="fullSymbol(record.epic)">
-								</WidgetTradingViewBrokerAnalysis>
-							</a-tab-pane>
-
-							<a-tab-pane key="4" tab="Financials">
-								<WidgetTradingViewFinancials 
-									:symbol="fullSymbol(record.epic)">
-								</WidgetTradingViewFinancials>
-							</a-tab-pane>	
-
-							<a-tab-pane key="5" tab="Intrinsic">
-								<WidgetIntrinsicCalculator/> 
-							</a-tab-pane>	
+							</a-tab-pane-->
 						</a-tabs>
 					</template>
 
 					<template slot="epic" slot-scope="epic"><p class="m-0">{{ epic }}</p></template>
 					<template slot="name" slot-scope="name"><p class="m-0">{{ name }}</p></template>
+					<template slot="ExDate" slot-scope="exDate"><p class="m-0">{{ exDate }}</p></template>
 					<template slot="market" slot-scope="market"><p class="m-0">{{ market }}</p></template>
-					<template slot="price" slot-scope="price"><p class="m-0">{{ price }}</p></template>
-					<template slot="dividend" slot-scope="dividend"><p class="m-0">{{ dividend }}</p></template>				
-					<template slot="declarationDate" slot-scope="declarationDate"><p class="m-0">{{ declarationDate }}</p></template>						
-					<template slot="exDividendDate" slot-scope="exDividendDate"><p class="m-0">{{ exDividendDate }}</p></template>				
+					<template slot="amount" slot-scope="amount"><p class="m-0">{{ amount }}</p></template>
+					<template slot="daysToGo" slot-scope="daysToGo"><p class="m-0">{{ daysToGo }}</p></template>						
+					<template slot="payDate" slot-scope="payDate"><p class="m-0">{{ payDate }}</p></template>				
 
-				</a-table-->
+				</a-table>
 			</a-col>
 		</a-row>
 	</div>
 </template>
 
 <script>
+
+/*
+ "data": [
+    {
+      "epic": "ADM",
+      "name": "Admiral Group",
+      "market": "FTSE 100",
+      "exDate": "15/05/2025",
+      "amount": 121,
+      "payDate": "13/06/2025",
+      "daysToGo": 5
+    },
+*/
+
 const dividendColumns = [
 	{ title: 'Epic', dataIndex: 'epic', scopedSlots: { customRender: 'epic' }},
 	{ title: 'Name', dataIndex: 'name', 
@@ -106,11 +105,11 @@ const dividendColumns = [
         	.toString()
         	.toLowerCase()
         	.includes(value.toLowerCase()),
-		scopedSlots: { 
-			customRender: 'name', 
-	      	filterDropdown: 'filterDropdown',
- 	     	filterIcon: 'filterIcon'
-		},
+			scopedSlots: { 
+				customRender: 'name', 
+	      		filterDropdown: 'filterDropdown',
+ 	     		filterIcon: 'filterIcon'
+			},
 	},
 	{ 
 		title: 'Market', 
@@ -119,30 +118,22 @@ const dividendColumns = [
     	sorter: (a, b) => a.market.localeCompare(b.market),
 		scopedSlots: { customRender: 'market' }
 	},
-	{ title: 'Price(p)', dataIndex: 'price', scopedSlots: { customRender: 'price' }},
 	{ 
-		title: 'Impact(%)', 
-		dataIndex: 'impact', 
+		title: 'Dividend(p)', 
+		dataIndex: 'amount', 
 		sortDirections: ["descend", "ascend"],
-    	sorter: (a, b) => a.impact.localeCompare(b.impact),		
-		scopedSlots: { customRender: 'impact' }
+		sorter: (a, b) => a.amount - b.amount,
+		scopedSlots: { customRender: 'amount' }
 	},
-	{ title: 'Declaration', dataIndex: 'declarationDate', scopedSlots: { customRender: 'declarationDate' }},
-	{ 
-		title: 'Dividend (p)', 
-		dataIndex: 'dividend', 
-		sortDirections: ["descend", "ascend"],
-    	sorter: (a, b) => a.dividend.localeCompare(b.dividend),		
-		scopedSlots: { customRender: 'dividend' }
-	},
-	{ title: 'ExDividend', dataIndex: 'exDividendDate', scopedSlots: { customRender: 'exDividendDate' }},
+	{ title: 'ExDividend', dataIndex: 'exDate', scopedSlots: { customRender: 'exDate' }},
 	{ 
 		title: 'Days', 
-		dataIndex: 'days', 
+		dataIndex: 'daysToGo', 
 		sortDirections: ["descend", "ascend"],
-    	sorter: (a, b) => a.days.localeCompare(b.days),		
-		scopedSlots: { customRender: 'days' }
-	}
+		sorter: (a, b) => a.daysToGo - b.daysToGo,
+		scopedSlots: { customRender: 'daysToGo' }
+	},
+	{ title: 'Pay Out', dataIndex: 'payDate', scopedSlots: { customRender: 'payDate' }}
 ];
 
 const epicCorrections = [{in:"T17",out:"TM17"}]
@@ -151,21 +142,23 @@ import WidgetTradingViewTechAnalysis from "@/components/Widgets/WidgetTradingVie
 import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingViewBrokerAnalysis";
 import WidgetTradingViewFinancials from "@/components/Widgets/WidgetTradingViewFinancials";
 import WidgetIntrinsicCalculator from "@/components/Widgets/WidgetIntrinsicCalculator";
+import CardPriceInfo from "@/components/Cards/CardPriceInfo";
+import CardTVStockChart2 from "@/components/Cards/CardTVStockChart2.vue";
 
 export default ({
 	components: {
 		WidgetTradingViewTechAnalysis,
 		WidgetTradingViewBrokerAnalysis,
 		WidgetTradingViewFinancials,
-		WidgetIntrinsicCalculator
+		WidgetIntrinsicCalculator,
+		CardPriceInfo,
+		CardTVStockChart2
 	},
 	computed: {
     	...mapState("dd", ["dividendData"])	
 	},
 	watch: {
         dividendData(o,n) {
-
-			console.log("dividendData:",n)
 			//this.loading = this.dividendData.length > 0 ? false: true
 		},
     },

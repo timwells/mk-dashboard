@@ -20,18 +20,8 @@ const mutations = {
 const actions = {
   async getDividendData({ commit }) {
     commit("SET_DIVIDEND_DATA", [])
-    const resource = `${CLOUD_FUNCTION_URL}/dd/exdividenddate`
+    const resource = `${CLOUD_FUNCTION_URL}/dd/exdividenddates`
     const {data} = await axios.get(resource, { headers: HEADERS })
-    commit("SET_DIVIDEND_DATA", data)
-  },
-  async getDividendData2({ commit }) {
-    console.log("-> getDividendData2")
-    commit("SET_DIVIDEND_DATA", [])
-    const resource = `${CLOUD_FUNCTION_URL}/dd/exdividenddate`
-    console.log(resource)
-    const {data} = await axios.get(resource, { headers: HEADERS })
-    console.log(data)
-    console.log("<- getDividendData2")
     commit("SET_DIVIDEND_DATA", data)
   },
 }

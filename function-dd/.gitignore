@@ -1,4 +1,5 @@
 node_modules/
+.cache/
 
 # Log files
 firebase-debug*.log
