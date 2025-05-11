@@ -208,7 +208,6 @@
 				</a-tab-pane>
 			</a-tabs>
 		</a-tab-pane>
-
 		<a-tab-pane key="11" tab="BitCoin">
 			<a-tabs v-model="activeBitCoinTab">
 				<!--transition name="fade"-->
@@ -232,17 +231,22 @@
 				<a-tab-pane tab="M2-Global" key="3">
 					<CardIndicatorInfo title="" 
 						url='https://charts.bgeometrics.com/graphics/m2_global.html' 
-						type="iframe" height="600"/>		
+						type="iframe" height="580"/>		
 				</a-tab-pane>
 				<a-tab-pane tab="M2-10w-Lead" key="4">
 					<CardIndicatorInfo title="" 
 						url='https://charts.bgeometrics.com/graphics/m2_global_10w.html' 
-						type="iframe" height="600"/>		
+						type="iframe" height="580"/>		
 				</a-tab-pane>
 				<a-tab-pane tab="Moving Ave." key="5">
 					<CardIndicatorInfo title="" 
 						url='https://charts.bgeometrics.com/graphics/moving_average.html' 
-						type="iframe" height="600"/>		
+						type="iframe" height="580"/>		
+				</a-tab-pane>
+				<a-tab-pane tab="SP500/Gold" key="6">
+					<CardIndicatorInfo title="" 
+						url='https://charts.bgeometrics.com/graphics/sp500_gold.html' 
+						type="iframe" height="580"/>		
 				</a-tab-pane>
 			</a-tabs>
 		</a-tab-pane>
