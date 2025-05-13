@@ -212,11 +212,15 @@
 			<a-tabs v-model="activeBitCoinTab">
 				<!--transition name="fade"-->
 					<a-tab-pane tab="Rainbow" key="0">
-						<a href="https://www.blockchaincenter.net/static/rainbow-chart.html" target="_blank">Rainbow Chart</a>
+						<!--a href="https://www.blockchaincenter.net/static/rainbow-chart.html" target="_blank">Rainbow Chart</a>
 						<CardIndicatorInfo title="" 
 							url='https://www.blockchaincenter.net/static/rainbow-chart.html' 
-							type="iframe" height="600"/>
+							type="iframe" height="600"/-->
+						<CardIndicatorInfo title="" 
+							url='https://charts.bitbo.io/rainbow/' 
+								type="iframe" height="600"/>		
 					</a-tab-pane>
+
 				<!--/transition-->
 				<a-tab-pane tab="Fear & Greed" key="1">
 					<CardIndicatorInfo title="" 
