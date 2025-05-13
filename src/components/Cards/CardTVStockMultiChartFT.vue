@@ -25,7 +25,6 @@ export default ({
 					for(let i = 0; i < this.epics.length; i++) {
 						switch(i) {
 							case 0: 
-								console.log(newval[0].data)
 								this.setChartSeries(this.lineSeries0,newVal[0].data,newVal[0].name)
 							break;
 							case 1: 
@@ -83,7 +82,7 @@ export default ({
 		}
 	},
 	beforeMount() {
-    	this.chartId = `id-${this.epic}-${Math.random().toString(36).slice(2, 11)}`;
+    	this.chartId = `id-${this.epic}-X-${Math.random().toString(36).slice(2, 11)}`;
 	},
 	mounted() {
 		this.$store.dispatch("ft/resetChartDataValues");
