@@ -52,7 +52,10 @@ const exdividenddates = async () => {
                     // Assign to divObj based on column index using a case statement
                     switch (idx2) {
                         case 0: divObj.epic = cellText || '?'; break;
-                        case 1: divObj.name = cellText || ''; break;
+                        case 1: {
+                                divObj.name = cellText || ''; 
+                                divObj.href = $(el2).find('a').attr('href');
+                            } break;
                         case 2: divObj.market = cellText || ''; break;
                         case 3: divObj.exDate = cellText || ''; break;
                         case 4: divObj.amount = +parseFloat(cellText.replace(/[^0-9.]/g, '')).toFixed(2) || 0.00; break;
@@ -71,6 +74,43 @@ const exdividenddates = async () => {
     }
     return {data:dividendData}
 }
+
+const dividenhistory = async (divlink) => {
+    let dividends = []
+    try {
+        let { data } = await axios.get(`${DIVIDENDDATA_SITE3}/${divlink}`, HEADERS);
+        const $ = cheerio.load(data)
+        const tableRows = $("#ctl00_ContentPlaceHolder1_DividendHistoryGridView tr");        
+        tableRows.each((idx, el) => {
+            if(idx > 0) {
+                let divObj = {}
+                const cells = $(el).find('td');
+                // Extract text from each <td>
+                cells.each((idx2, el2) => {
+                    const cellText = $(el2).text().trim();
+                    /*
+                        Ex Dividend Date	Payment Date	Type	Amount	Currency
+                        05/06/2025	27/06/2025	Final	12.50p	GBP
+                    */
+
+                    switch (idx2) {
+                        case 0: divObj.exDate = cellText || '?'; break;
+                        case 1: divObj.payDate = cellText || ''; break;
+                        case 2: divObj.type = cellText || ''; break;
+                        case 3: divObj.amount = +parseFloat(cellText.replace(/[^0-9.]/g, '')).toFixed(2) || 0.00; break;
+                    }
+                    divObj.href = divlink;                    
+                    dividends.push(divObj)
+                })
+            }
+        })
+    }
+    catch(e) {}
+    return { data:dividends }
+}
+
+
 module.exports = {
     exdividenddates,
+    dividenhistory
 }

@@ -14,4 +14,11 @@ app.get('/exdividenddates', async (req, res) => {
     return res.status(200).json(data)
 });
 
+app.get('/dividend-history', async (req, res) => {
+    const {divlink} = req.query;
+
+    let data = await ddApi.dividenhistory(divlink)
+    return res.status(200).json(data)
+});
+
 exports.dd = onRequest(app);
