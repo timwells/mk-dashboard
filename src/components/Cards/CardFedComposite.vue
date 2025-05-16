@@ -9,6 +9,7 @@
 </template>
 
 <script>
+
 import { TOOLS_DISABLED } from '@/common/charts'
 
 /*

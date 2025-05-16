@@ -2,10 +2,7 @@
 	<div>
 		<a href="https://www.dividenddata.co.uk/exdividenddate.py?m=alldividends" target="_blank">Dividend Data</a>
 		<a-row :gutter="24" type="flex">
-			<a-col :span="24" class="mb-24">
-
-				<!--pre>{{ dividendData }}</pre-->
-				
+			<a-col :span="24" class="mb-24">				
 				<a-table
 					:columns="dividendColumns" 
 					:data-source="dividendData.data" 
@@ -52,9 +49,9 @@
 								<pre>{{ record.epic }}</pre>
 								<CardTVStockChart2 :epic="record.epic"/>
 							</a-tab-pane>
-							<!--a-tab-pane key="2" tab="Broker View">
-								<WidgetTradingViewBrokerAnalysis :symbol="fullSymbol(record.epic)"/>
-							</a-tab-pane-->
+							<a-tab-pane key="2" tab="Dividend History">
+								<CardDividendHistory :divlink="record.href"></CardDividendHistory>
+							</a-tab-pane>
 							<!--a-tab-pane key="3" tab="Financials">
 								<WidgetTradingViewFinancials :symbol="fullSymbol(record.epic)"/>
 							</a-tab-pane-->
@@ -143,7 +140,8 @@ import WidgetTradingViewBrokerAnalysis from "@/components/Widgets/WidgetTradingV
 import WidgetTradingViewFinancials from "@/components/Widgets/WidgetTradingViewFinancials";
 import WidgetIntrinsicCalculator from "@/components/Widgets/WidgetIntrinsicCalculator";
 import CardPriceInfo from "@/components/Cards/CardPriceInfo";
-import CardTVStockChart2 from "@/components/Cards/CardTVStockChart2.vue";
+import CardTVStockChart2 from "@/components/Cards/CardTVStockChart2";
+import CardDividendHistory from "@/components/Cards/CardDividendHistory"
 
 export default ({
 	components: {
@@ -152,7 +150,8 @@ export default ({
 		WidgetTradingViewFinancials,
 		WidgetIntrinsicCalculator,
 		CardPriceInfo,
-		CardTVStockChart2
+		CardTVStockChart2,
+		CardDividendHistory
 	},
 	computed: {
     	...mapState("dd", ["dividendData"])	

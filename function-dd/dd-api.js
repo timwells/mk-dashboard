@@ -36,7 +36,48 @@ const HEADERS2 = { headers: {
     //'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36'
 }}
 
+// Fetches ex-dividend dates from DIVIDENDDATA_SITE3 and parses the table rows
 const exdividenddates = async () => {
+    const dividendData = [];
+    try {
+        // Request the ex-dividend page HTML
+        const { data } = await axios.get(DIVIDENDDATA_SITE3, HEADERS);
+        const $ = cheerio.load(data);
+
+        // Select all table rows except the header
+        $("#ctl00_ContentPlaceHolder1_lvExDividendDate_itemPlaceholderContainer tr").slice(1).each((_, el) => {
+            const cells = $(el).find('td');
+            if (cells.length) {
+                // Destructure each cell for clarity
+                const [epicCell, nameCell, marketCell, exDateCell, amountCell, payDateCell] = cells.toArray();
+                const exDateStr = $(exDateCell).text().trim();
+
+                // Parse ex-dividend date string into a Date object
+                const [day, month, year] = exDateStr.split('/').map(Number);
+                const exDate = new Date(year, month - 1, day);
+
+                // Push parsed data into the result array
+                dividendData.push({
+                    epic: $(epicCell).text().trim() || '?',
+                    name: $(nameCell).text().trim() || '',
+                    href: $(nameCell).find('a').attr('href'),
+                    market: $(marketCell).text().trim() || '',
+                    exDate: exDateStr || '',
+                    amount: +parseFloat(($(amountCell).text() || '').replace(/[^0-9.]/g, '')).toFixed(2) || 0.00,
+                    payDate: $(payDateCell).text().trim() || '',
+                    // Calculate days remaining until ex-dividend date
+                    daysToGo: Math.ceil((exDate - new Date()) / (1000 * 3600 * 24))
+                });
+            }
+        });
+    } catch (e) {
+        // Handle errors silently
+    }
+    return { data: dividendData };
+}
+
+// Alternative implementation (unused)
+const exdividenddates_X = async () => {
     let dividendData = []
     try {
         let { data } = await axios.get(DIVIDENDDATA_SITE3, HEADERS);
@@ -75,38 +116,34 @@ const exdividenddates = async () => {
     return {data:dividendData}
 }
 
+// Fetches dividend history for a given dividend link from DIVIDENDDATA_SITE3
 const dividenhistory = async (divlink) => {
-    let dividends = []
+    const dividends = [];
     try {
-        let { data } = await axios.get(`${DIVIDENDDATA_SITE3}/${divlink}`, HEADERS);
-        const $ = cheerio.load(data)
-        const tableRows = $("#ctl00_ContentPlaceHolder1_DividendHistoryGridView tr");        
-        tableRows.each((idx, el) => {
-            if(idx > 0) {
-                let divObj = {}
-                const cells = $(el).find('td');
-                // Extract text from each <td>
-                cells.each((idx2, el2) => {
-                    const cellText = $(el2).text().trim();
-                    /*
-                        Ex Dividend Date	Payment Date	Type	Amount	Currency
-                        05/06/2025	27/06/2025	Final	12.50p	GBP
-                    */
+        // Request the dividend history page HTML
+        const { data } = await axios.get(`${DIVIDENDDATA_SITE3}/${divlink}`, HEADERS);
+        const $ = cheerio.load(data);
 
-                    switch (idx2) {
-                        case 0: divObj.exDate = cellText || '?'; break;
-                        case 1: divObj.payDate = cellText || ''; break;
-                        case 2: divObj.type = cellText || ''; break;
-                        case 3: divObj.amount = +parseFloat(cellText.replace(/[^0-9.]/g, '')).toFixed(2) || 0.00; break;
-                    }
-                    divObj.href = divlink;                    
-                    dividends.push(divObj)
-                })
+        // Select all table rows except the header
+        $("#ctl00_ContentPlaceHolder1_DividendHistoryGridView tr").slice(1).each((_, el) => {
+            const cells = $(el).find('td');
+            if (cells.length) {
+                // Extract and trim text from each cell
+                const [exDate, payDate, type, amountCell] = cells.map((i, el2) => $(el2).text().trim()).get();
+                // Push parsed data into the result array
+                dividends.push({
+                    exDate: exDate || '?',
+                    payDate: payDate || '',
+                    type: type || '',
+                    amount: +parseFloat((amountCell || '').replace(/[^0-9.]/g, '')).toFixed(2) || 0.00
+                });
             }
-        })
+        });
+    } catch (e) {
+        // Handle errors silently
     }
-    catch(e) {}
-    return { data:dividends }
+    // Return the dividend history data with the provided link as id
+    return { id: divlink, data: dividends };
 }
 
 

@@ -38,11 +38,8 @@ export default ({
 						value: v.value, 
 						color: (v.direction == 1 ? 'green' : (v.direction == -1) ? 'red': 'grey')	  
 				}))
-
-				console.log(volMap)				
 				
 				this.volSeries.setData(volMap)
-
 				this.chart.timeScale().fitContent();
 			}
 		}
