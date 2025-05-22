@@ -126,6 +126,15 @@
 						</a-col>
 					</a-row>
 				</a-tab-pane>
+				<a-tab-pane key="5" tab="Gold F&G">
+					<a-col :span="12">
+						<CardIndicatorInfo title="" 
+							url='https://cdn.jmbullion.com/fearandgreed/gauge.html' 
+							type="iframe" height="480"/>		
+					</a-col>
+					<a-col :span="12">
+					</a-col>
+				</a-tab-pane>
 			</a-tabs>
 		</a-tab-pane>
 		<a-tab-pane key="6" tab="FED">
