@@ -6,6 +6,8 @@ const app = express();
 const cors = require('cors');
 const hlApi = require('./hl-api.js');
 const hlWeb = require('./hl-web.js');
+const hlWeb2 = require('./hl-web2.js');
+
 const checkApiKey = require('./middleware/auth.js');
 
 app.use(cors({ origin: true }));
@@ -73,6 +75,20 @@ app.get('/etf/details', async (req, res) => {
     const data = await hlWeb.etfDetails(sedol)
     return res.status(200).json(data)
 });
+
+// https://www.hl.co.uk/shares/corporate-bonds-gilts/bond-prices/gbp-bonds
+// https://www.hl.co.uk/shares/corporate-bonds-gilts/bond-prices/uk-gilts
+// https://www.hl.co.uk/shares/corporate-bonds-gilts/bond-prices/uk-index-linked-gilts
+// https://www.hl.co.uk/shares/corporate-bonds-gilts/bond-prices/pibs-and-others
+
+
+app.get('/bonds/list', async (req, res) => {
+    const { group } = req.query;
+    const data = await hlWeb2.bondList(group)
+    return res.status(200).json(data)
+});
+
+
 
 setGlobalOptions({ timeoutSeconds: 120 });
 exports.hl = onRequest(app);

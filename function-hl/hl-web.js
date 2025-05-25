@@ -174,6 +174,7 @@ async function queryEtfFunds($) {
 
     return etfFunds
 }
+
 async function etfCompaniesFundsListImpl(companyid) {
     const resource = `${HL.HOST}/${HL.ETFS_SEARCH_PATH}?etf_search_input=&companyid=${companyid}&sectorid=&tab=prices&lse_only=1`  
     

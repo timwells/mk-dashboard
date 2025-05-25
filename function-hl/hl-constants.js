@@ -1,7 +1,6 @@
 const HOST = "https://www.hl.co.uk"
 const FUNDS_SEARCH_PATH = "ajax/funds/fund-search/search"
 const FUND_FACTSHEET_PATH ="funds/fund-discounts,-prices--and--factsheets/search-results"
-
 const ETFS_SEARCH_PATH = "shares/exchange-traded-funds-etfs/list-of-etfs"
 
 const FUNDS_CACHE_FOLDER = 'hl-cache';
@@ -24,6 +23,9 @@ const ETFS_CACHE_PATH =              "hl-cache/etfs";
 const ETFS_CACHE_CONSOLIDATED_PATH = "hl-cache/etfs/consolidated";
 const ETFS_CACHE_COMPANIES_PATH =    "hl-cache/etfs/companies";
 const ETFS_CACHE_DETAILS_PATH =      "hl-cache/etfs/details/sedols";
+
+// BONDS
+
 
 const REQ_HEADERS = {
     'Accept-Encoding': 'gzip, compress, deflate, br',

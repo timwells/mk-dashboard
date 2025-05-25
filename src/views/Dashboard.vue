@@ -191,16 +191,22 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane>
-		<a-tab-pane key="9" tab="T-Bills & Gilts">
-			<h6>{{ bonds }}</h6>
-			<CardTVStockMultiChartCNBC :epics="bonds"></CardTVStockMultiChartCNBC>
+		<a-tab-pane key="9" tab="Bonds & Gilts">
+			<a-tabs v-model="activeBondsGiltsTab">
+				<a-tab-pane tab="Rates" key="0">
+					<h6>{{ bonds }}</h6>
+					<CardTVStockMultiChartCNBC :epics="bonds"></CardTVStockMultiChartCNBC>
+				</a-tab-pane>
+				<a-tab-pane tab="Bond Ladder" key="1">
+					<BondsView></BondsView>
 
-			<!--a-row :gutter="24" type="flex" align="stretch">
-				<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(e, i) in getGroup(3)" :key="i">			
-					<CardChartIndexInfo v-if="e.type==='index'" :title="e.title" :ticker="e.ticker"/>
-					<CardChartBondInfo v-if="e.type==='bond'" :title="e.title" :ticker="e.ticker"/>
-				</a-col>
-			</a-row-->
+					<!--a-row :gutter="24" type="flex" align="stretch">
+						<a-col :span="12" :lg="12" :xl="12" class="mb-12" v-for="(b, i) in gilts" :key="i">			
+							<CardChartGiltInfo  :title="b.title" :id="b.id"/>
+						</a-col>
+					</a-row-->
+				</a-tab-pane>
+			</a-tabs>
 		</a-tab-pane>
 		<a-tab-pane key="10" tab="Commodities">
 			<a-tabs v-model="activeCommoditiesTab">
@@ -236,7 +242,7 @@
 							type="iframe" height="600"/-->
 						<CardIndicatorInfo title="" 
 							url='https://charts.bitbo.io/rainbow/' 
-								type="iframe" height="600"/>		
+								type="iframe" height="800"/>		
 					</a-tab-pane>
 
 				<!--/transition-->
@@ -335,7 +341,7 @@ import CardChartEquityInfo from '../components/Cards/CardChartEquityInfo';
 import CardChartIndexInfo from '../components/Cards/CardChartIndexInfo';
 import CardChartBondInfo from '../components/Cards/CardChartBondInfo';
 import CardIndicatorInfo from '../components/Cards/CardIndicatorInfo';
-
+import CardChartGiltInfo from '../components/Cards/CardChartGiltInfo'
 
 import CardLiquidityChart from '../components/Cards/CardLiquidityChart';
 
@@ -357,6 +363,10 @@ import CardFedComposite from '@/components/Cards/CardFedComposite';
 import WidgetCounter from '../components/Widgets/WidgetCounter' ;
 
 import { SECTOR_PERFORMANCE_Columns } from '@/common/table'
+
+
+import BondsView from './BondsView.vue';
+
 
 // https://skyandtelescope.org/wp-content/uploads/ises-solar-cycle-sunspot-2-900x515.jpg
 // https://www.researchgate.net/publication/370171428/figure/fig3/AS:11431281152708626@1682119597484/Prediction-of-Solar-Cycle-25.png
@@ -381,7 +391,8 @@ export default ({
 		CardChartEquityInfo,
 		CardChartIndexInfo,
 		CardChartBondInfo,
-
+		CardChartGiltInfo,
+		
 		CardFearAndGreedLineChart,
 		CardIndicatorInfo,
 
@@ -398,7 +409,10 @@ export default ({
 		CardTVStockMultiChart,
 		CardTVMetalsMultiChart,
 		CardTVStockMultiChartFT,
-		CardTVStockMultiChartCNBC	},
+		CardTVStockMultiChartCNBC,	
+	
+		BondsView
+	},
 	computed: {
     	...mapState("markets", ["markets"]),
 		...mapGetters("markets",["getGroup"]),
@@ -425,6 +439,9 @@ export default ({
 			live: false,
 			activeCommoditiesTab: 0,
 			activeBitCoinTab: "0",
+			activeBondsGiltsTab: "0", 
+
+
 			oilSymbols: ["BP.","SHEL","HBR","SQZ","RKH"],
 			oilEtfs: [],
 			// preciousMetalSymbols: ["gold","silver","platinum","palladium"],
@@ -435,7 +452,15 @@ export default ({
 			uraniumMetalSymbols:["BKY","YCA","AURA","KAP"],
 			// bonds:["UK30Y-GB","UK10Y-GB","UK2Y-GB","US30Y-USD","US10Y-USD","US2Y-USD",".MOVE"],
 			bonds:["UK30Y-GB","UK10Y-GB","UK2Y-GB","US30Y-USD","US10Y-USD","US2Y-USD"],
-			yt: 'https://www.youtube.com/watch?v=B4Nhkja0hFs'
+			yt: 'https://www.youtube.com/watch?v=B4Nhkja0hFs',
+
+			gilts: [
+
+				{ title :"Treasury 0.125% 30/01/2026 (T26) Gilt",id:"296369819"},
+				{ title :"Treasury 0.125% 31/01/2028 (TN28) Gilt",id:"297585712"},
+				{ title :"Treasury 6% 07/12/2028 (TR28) Gilt",id:"200190"},
+				{ title :"Treasury 0.375% 22/10/2030 (TG30) Gilt",id:"294258755"},
+			]
 
 // Crypto
 //https://api.fool.com/quotes/v4/historical/charts/220472?start=2014-10-14&end=2024-10-10&precision=Week&apikey=6cbf5f34-ba40-4108-a1ab-d951c608955e

@@ -22,6 +22,9 @@ const state = {
     etfsObj: null,
     etfsDetails: [],
     etfsAnalysis: [],
+
+    // Bonds
+    bonds: []
 };
 
 const getters = {
@@ -69,7 +72,8 @@ const mutations = {
     
     SET_ETF_DETAILS: (state, payload) => (state.etfsDetails = payload),
     ADD_ETF_DETAILS: (state, payload) => (state.etfsDetails = [...state.etfsDetails, payload]),
-
+    
+    SET_BONDS: (state, payload) => (state.bonds = payload),
   };
 
 const actions = {
@@ -172,6 +176,12 @@ const actions = {
                         `${APP_CLOUD_FUNCTION_URL}/hl/etf/details?sedol=${sedol}`, 
                              { headers: APP_FINTECH_HEADERS })
     commit("ADD_ETF_DETAILS", data)
+  },
+
+  async getBonds({commit},{group}) {   
+    const url = `${APP_CLOUD_FUNCTION_URL}/hl/bonds/list?group=${group}`
+    const { data } = await axios.get(url, { headers: APP_FINTECH_HEADERS })
+    commit("SET_BONDS", data)
   },
 }
 
