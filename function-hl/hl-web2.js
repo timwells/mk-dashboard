@@ -35,27 +35,35 @@ async function bondGroupListImpl(group) {
             let entity = $(col).text().replace(/[\n|\t]/gm, '')
             switch(j) {
                 case 0: {
-                    // Scope the selector to `col` (the current <td>)
                     bond.name = $(col).find('.link-headline').text().trim();
                     bond.href = $(col).find('.link-headline').attr('href');
                     bond.details = $(col).find('.text-reduce-1').text().trim();
                 } break;
-                case 1: bond.coupon = parseFloat(entity); break;
-                case 2: 
-                    bond.maturity = (new Date(entity)).toLocaleDateString("en-GB"); break;
-                case 3: bond.price = parseFloat(entity); break;
+                case 1: 
+                    bond.coupon = +(parseFloat(entity) || 0.0).toFixed(2); 
+                    break;
+                case 2: {
+                    bond.maturity = (new Date(entity)).toLocaleDateString("en-GB"); 
+                    const dateNow = new Date();
+                    const maturityDate = new Date(entity);
+                    bond.daysRemaining = +((maturityDate - dateNow) / (1000 * 60 * 60 * 24)).toFixed(2);
+                }
+                break;                
+                case 3: 
+                    bond.price = +(parseFloat(entity) || 0.0).toFixed(2); 
+                    break;
             }
+            bond.nominal = 100.00;
+            bond.diff = +(bond.price - bond.nominal).toFixed(2);
         });
-        bond.nominal = 100.00;
-        bond.diff = (bond.price - bond.nominal).toFixed(2);
-
-        bonds.sort((a, b) => {
-            const dateA = new Date(a.maturity.split('/').reverse().join('/'));
-            const dateB = new Date(b.maturity.split('/').reverse().join('/'));
-            return dateA - dateB;
-        });        
         bonds.push(bond);
     })
+    bonds.sort((a, b) => {
+        const dateA = new Date(a.maturity.split('/').reverse().join('/'));
+        const dateB = new Date(b.maturity.split('/').reverse().join('/'));
+        return dateA - dateB;
+    });        
+ 
     return bonds
 }
 

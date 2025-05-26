@@ -13,6 +13,7 @@
 			</template>
 			<template slot="coupon" slot-scope="coupon"><p class="m-0 font-regular text-muted">{{ coupon }}</p></template>
 			<template slot="maturity" slot-scope="maturity"><p class="m-0 font-regular text-muted">{{ maturity }}</p></template>
+			<template slot="daysRemaining" slot-scope="daysRemaining"><p class="m-0 font-regular text-muted">{{ daysRemaining }}</p></template>
 			<template slot="price" slot-scope="price"><p class="m-0 font-regular text-muted">{{ price }}</p></template>
 			<template slot="nominal" slot-scope="nominal"><p class="m-0 font-regular text-muted">{{ nominal }}</p></template>
 			<template slot="diff" slot-scope="diff"><p class="m-0 font-regular text-muted">{{ diff }}</p></template>
@@ -63,6 +64,13 @@ const sivcols = [
 		//sortDirections: ["descend", "ascend"],
 		//sorter: (a, b) => a.lastUpdate.localeCompare(b.lastUpdate),
 		scopedSlots: { customRender: 'maturity' }
+	},
+	{
+		title: 'Days Remaining',
+		dataIndex: 'daysRemaining',
+		//sortDirections: ["descend", "ascend"],
+		//sorter: (a, b) => a.lastUpdate.localeCompare(b.lastUpdate),
+		scopedSlots: { customRender: 'daysRemaining' }
 	},
 	{
 		title: 'Price',
