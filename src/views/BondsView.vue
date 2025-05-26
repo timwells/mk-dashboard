@@ -1,6 +1,5 @@
 <template>
 	<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
-
 		<a-table v-if="bonds.length>0"
 			:columns="sivcols"
 			:data-source="bonds" 
@@ -18,23 +17,35 @@
 			<template slot="nominal" slot-scope="nominal"><p class="m-0 font-regular text-muted">{{ nominal }}</p></template>
 			<template slot="diff" slot-scope="diff"><p class="m-0 font-regular text-muted">{{ diff }}</p></template>
 
+			<template slot="nominalValue" slot-scope="nominalValue"><p class="m-0 font-regular text-muted">{{ nominalValue }}</p></template>
+			<template slot="remainingCoupons" slot-scope="remainingCoupons"><p class="m-0 font-regular text-muted">{{ remainingCoupons }}</p></template>
+			<template slot="totalCoupon" slot-scope="totalCoupon"><p class="m-0 font-regular text-muted">{{ totalCoupon }}</p></template>
+			<template slot="capitalGain" slot-scope="capitalGain"><p class="m-0 font-regular text-muted">{{ capitalGain }}</p></template>
+			<template slot="totalReturn" slot-scope="totalReturn"><p class="m-0 font-regular text-muted">{{ totalReturn }}</p></template>
+			<template slot="annualisedReturn" slot-scope="annualisedReturn"><p class="m-0 font-regular text-muted">{{ annualisedReturn }}</p></template>
 		</a-table>
 	</a-card>
 </template>
 
 <script>
-
 /*
-  {
-    "name": "Treasury 0.625% 07/06/25",
-    "href": "https://www.hl.co.uk/shares/shares-search-results/BK5CVX0",
-    "details": "GBP | GB00BK5CVX03 | BK5CVX0",
-    "coupon": 0.625,
-    "maturity": "07/06/2025",
-    "price": 99.9,
-    "nominal": 100,
-    "diff
-
+{
+        "name": "Treasury 6% 07/12/2028",
+        "href": "https://www.hl.co.uk/shares/shares-search-results/0240419",
+        "details": "GBP | GB0002404191 | 0240419",
+        "nominal": 100,
+        "diff": 7.12,
+        "nominalValue": 4667.66,
+        "remainingCoupons": 6,
+        "totalCoupon": 840.18,
+        "capitalGain": -332.34,
+        "totalReturn": 507.84,
+        "annualisedReturn": 3.25,
+        "coupon": 6,
+        "maturity": "07/12/2028",
+        "daysRemaining": 1290.23,
+        "price": 107.12
+    },
 */
 
 const sivcols = [
@@ -92,7 +103,38 @@ const sivcols = [
 		//sortDirections: ["descend", "ascend"],
 		//sorter: (a, b) => a.lastUpdate.localeCompare(b.lastUpdate),
 		scopedSlots: { customRender: 'diff' }
+	},
+	{
+		title: 'Nominal Value',
+		dataIndex: 'nominalValue',
+		scopedSlots: { customRender: 'nominalValue' }
+	},
+	{
+		title: 'Remaining Coupons',
+		dataIndex: 'remainingCoupons',
+		scopedSlots: { customRender: 'remainingCoupons' }
+	},
+	{
+		title: 'Total Coupon',
+		dataIndex: 'totalCoupon',
+		scopedSlots: { customRender: 'totalCoupon' }
+	},
+	{
+		title: 'Capital Gain',
+		dataIndex: 'capitalGain',
+		scopedSlots: { customRender: 'capitalGain' }
+	},
+	{
+		title: 'Total Return',
+		dataIndex: 'totalReturn',
+		scopedSlots: { customRender: 'totalReturn' }
+	},
+	{
+		title: 'Annualised Return',
+		dataIndex: 'annualisedReturn',
+		scopedSlots: { customRender: 'annualisedReturn' }
 	}
+
 ];
 
 import { mapState } from "vuex";

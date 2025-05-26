@@ -8,11 +8,78 @@ const getResource = async (resource) => {
         const { data } = await axios.get(resource)
         return cheerio.load(data)
     }
-    catch (err) {
-        console.log(err)
-    }
+    catch (err) { console.log(err);}
     return null
 }
+
+function returnsToMaturity (
+    investment,
+    bondPrice,
+    couponRate,
+    maturityDateStr
+) {
+    //console.debug('[returnsToMaturity] called with:', {
+    //    investment,
+    //    bondPrice,
+    //    couponRate,
+    //    maturityDateStr
+    //});
+
+    const today = new Date();
+
+    // Nominal purchased
+    const nominalValue = (investment / bondPrice) * 100;
+    //console.debug('[returnsToMaturity] nominalValue:', nominalValue);
+
+    // Coupon payment frequency and amount
+    const annualCoupon = nominalValue * couponRate;
+    const semiAnnualCoupon = annualCoupon / 2;
+    //console.debug('[returnsToMaturity] annualCoupon:', annualCoupon, 'semiAnnualCoupon:', semiAnnualCoupon);
+
+    // Estimate number of semi-annual payments remaining
+    const msPerDay = 1000 * 60 * 60 * 24;
+    const daysToMaturity =  (new Date(maturityDateStr) - today) / msPerDay;
+    const couponInterval = 182.625; // ~6 months in days
+    const numCoupons = Math.floor(daysToMaturity / couponInterval);
+    //console.debug('[returnsToMaturity] maturityDateStr:',maturityDateStr,'daysToMaturity:', daysToMaturity, 'numCoupons:', numCoupons);
+
+    // Total coupon income
+    const totalCoupon = semiAnnualCoupon * numCoupons;
+    //console.debug('[returnsToMaturity] totalCoupon:', totalCoupon);
+
+    // Capital gain/loss (assuming redeemed at £100 nominal)
+    const capitalGain = nominalValue - investment;
+    //console.debug('[returnsToMaturity] capitalGain:', capitalGain);
+
+    // Total return
+    const totalReturn = capitalGain + totalCoupon;
+    //console.debug('[returnsToMaturity] totalReturn:', totalReturn);
+
+    // Time to maturity in years
+    const yearsToMaturity = daysToMaturity / 365.25;
+    //console.debug('[returnsToMaturity] yearsToMaturity:', yearsToMaturity);
+
+    // Simple annualised return
+    const annualisedReturn = (totalReturn / investment) / yearsToMaturity * 100;
+    //console.debug('[returnsToMaturity] annualisedReturn:', annualisedReturn);
+
+    //console.log(`Nominal purchased: £${nominalValue.toFixed(2)}`);
+    //console.log(`Number of remaining coupon payments: ${numCoupons}`);
+    //console.log(`Total coupon income: £${totalCoupon.toFixed(2)}`);
+    //console.log(`Capital gain at maturity: £${capitalGain.toFixed(2)}`);
+    //console.log(`Total return to maturity: £${totalReturn.toFixed(2)}`);
+    //console.log(`Estimated annualised return: ${annualisedReturn.toFixed(2)}%`);
+
+    return {
+        nominalValue : +nominalValue.toFixed(2),
+        remainingCoupons: numCoupons,
+        totalCoupon: +totalCoupon.toFixed(2),
+        capitalGain: +capitalGain.toFixed(2),
+        totalReturn: +totalReturn.toFixed(2),
+        annualisedReturn: +annualisedReturn.toFixed(2)
+    }
+}
+
 
 // https://www.hl.co.uk/shares/corporate-bonds-gilts/bond-prices/uk-gilts
 async function bondGroupListImpl(group) {
@@ -55,9 +122,16 @@ async function bondGroupListImpl(group) {
             }
             bond.nominal = 100.00;
             bond.diff = +(bond.price - bond.nominal).toFixed(2);
+            const rtm = returnsToMaturity(5000,bond.price,bond.coupon/100,bond.maturity)
+            bond.nominalValue = rtm.nominalValue;
+            bond.remainingCoupons = rtm.remainingCoupons;
+            bond.totalCoupon = rtm.totalCoupon;
+            bond.capitalGain = rtm.capitalGain
+            bond.totalReturn = rtm.totalReturn
+            bond.annualisedReturn = rtm.annualisedReturn
         });
         bonds.push(bond);
-    })
+    });
     bonds.sort((a, b) => {
         const dateA = new Date(a.maturity.split('/').reverse().join('/'));
         const dateB = new Date(b.maturity.split('/').reverse().join('/'));
