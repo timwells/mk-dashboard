@@ -18,66 +18,52 @@ function returnsToMaturity (
     couponRate,
     maturityDateStr
 ) {
-    //console.debug('[returnsToMaturity] called with:', {
-    //    investment,
-    //    bondPrice,
-    //    couponRate,
-    //    maturityDateStr
-    //});
-
     const today = new Date();
 
-    // Nominal purchased
-    const nominalValue = (investment / bondPrice) * 100;
-    //console.debug('[returnsToMaturity] nominalValue:', nominalValue);
+    // Number of gilts purchased (rounded down)
+    const nGilts = Math.floor(investment / bondPrice);
+
+    // Nominal value is number of gilts times face value (£100 per gilt)
+    const nominalValue = nGilts * 100;
 
     // Coupon payment frequency and amount
     const annualCoupon = nominalValue * couponRate;
     const semiAnnualCoupon = annualCoupon / 2;
-    //console.debug('[returnsToMaturity] annualCoupon:', annualCoupon, 'semiAnnualCoupon:', semiAnnualCoupon);
 
     // Estimate number of semi-annual payments remaining
     const msPerDay = 1000 * 60 * 60 * 24;
-    const daysToMaturity =  (new Date(maturityDateStr) - today) / msPerDay;
+    const maturityDate = new Date(maturityDateStr);
+    const daysToMaturity = (maturityDate - today) / msPerDay;
     const couponInterval = 182.625; // ~6 months in days
     const numCoupons = Math.floor(daysToMaturity / couponInterval);
-    //console.debug('[returnsToMaturity] maturityDateStr:',maturityDateStr,'daysToMaturity:', daysToMaturity, 'numCoupons:', numCoupons);
 
     // Total coupon income
     const totalCoupon = semiAnnualCoupon * numCoupons;
-    //console.debug('[returnsToMaturity] totalCoupon:', totalCoupon);
 
-    // Capital gain/loss (assuming redeemed at £100 nominal)
-    const capitalGain = nominalValue - investment;
-    //console.debug('[returnsToMaturity] capitalGain:', capitalGain);
+    // Capital gain/loss (difference between nominal and purchase price)
+    const totalSpent = nGilts * bondPrice;
+    const capitalGain = nominalValue - totalSpent;
 
-    // Total return
+    // Total return (coupons + capital gain/loss)
     const totalReturn = capitalGain + totalCoupon;
-    //console.debug('[returnsToMaturity] totalReturn:', totalReturn);
 
     // Time to maturity in years
     const yearsToMaturity = daysToMaturity / 365.25;
-    //console.debug('[returnsToMaturity] yearsToMaturity:', yearsToMaturity);
 
     // Simple annualised return
-    const annualisedReturn = (totalReturn / investment) / yearsToMaturity * 100;
-    //console.debug('[returnsToMaturity] annualisedReturn:', annualisedReturn);
-
-    //console.log(`Nominal purchased: £${nominalValue.toFixed(2)}`);
-    //console.log(`Number of remaining coupon payments: ${numCoupons}`);
-    //console.log(`Total coupon income: £${totalCoupon.toFixed(2)}`);
-    //console.log(`Capital gain at maturity: £${capitalGain.toFixed(2)}`);
-    //console.log(`Total return to maturity: £${totalReturn.toFixed(2)}`);
-    //console.log(`Estimated annualised return: ${annualisedReturn.toFixed(2)}%`);
+    const annualisedReturn = yearsToMaturity > 0
+        ? (totalReturn / totalSpent) / yearsToMaturity * 100
+        : 0;
 
     return {
-        nominalValue : +nominalValue.toFixed(2),
+        nominalValue: +nominalValue.toFixed(2),
+        nGilts: +nGilts.toFixed(2),
         remainingCoupons: numCoupons,
         totalCoupon: +totalCoupon.toFixed(2),
-        capitalGain: +capitalGain.toFixed(2),
+        capitalGain: +capitalGain.toFixed(2), // This reflects the £5 gain if bought below £100
         totalReturn: +totalReturn.toFixed(2),
         annualisedReturn: +annualisedReturn.toFixed(2)
-    }
+    };
 }
 
 
@@ -124,6 +110,7 @@ async function bondGroupListImpl(group) {
             bond.diff = +(bond.price - bond.nominal).toFixed(2);
             const rtm = returnsToMaturity(5000,bond.price,bond.coupon/100,bond.maturity)
             bond.nominalValue = rtm.nominalValue;
+            bond.nGilts = rtm.nGilts;
             bond.remainingCoupons = rtm.remainingCoupons;
             bond.totalCoupon = rtm.totalCoupon;
             bond.capitalGain = rtm.capitalGain
