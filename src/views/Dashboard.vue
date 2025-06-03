@@ -75,16 +75,20 @@
 			</a-row>
 		</a-tab-pane>
 		<a-tab-pane key="2" tab="Liquidity & Debt">
-			<div style="width: 100%; height: 0; padding-bottom: 56.25%; position: relative;">
- 				<iframe 
-    				src="https://www.usdebtclock.org/index.html"
-    				style="position: absolute; width: 100%; height: 100%; border: none;"
-    				allowfullscreen>
-  				</iframe>
-			</div>
-			<!--CardIndicatorInfo title="" 
-				url='https://www.usdebtclock.org/index.html' 
-				type="iframe" height="600"/-->		
+			<a-tabs>
+				<a-tab-pane key="1" tab="Liquidity">
+					<CardLiquidityChart></CardLiquidityChart>
+				</a-tab-pane>
+				<a-tab-pane key="2" tab="Debt">
+					<div style="width: 100%; height: 0; padding-bottom: 56.25%; position: relative;">
+						<iframe 
+							src="https://www.usdebtclock.org/index.html"
+							style="position: absolute; width: 100%; height: 100%; border: none;"
+							allowfullscreen>
+						</iframe>
+					</div>
+				</a-tab-pane>
+			</a-tabs>
 		</a-tab-pane>
 		<a-tab-pane key="3" tab="Money Mkts">
 			<h6>{{ moneyMarkets }}</h6>

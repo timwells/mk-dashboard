@@ -24,13 +24,14 @@ const actions = {
 
   async getChartDataValues(
       { commit },
-      { expression,period1,period2,interval }
+      { expression, name ,period1,period2,interval }
   ) {
     const parameters = `expression=${expression}&period1=${period1}&period2=${period2}&interval=${interval}`
     const resource = `${APP_CLOUD_FUNCTION_URL}/yahoo/historical/values?${parameters}`
     try {
       const { data } = await axios.get(resource, { headers: APP_FINTECH_HEADERS })
       // console.log("getChartDataValues",parameters,data)
+      data.name = name
       commit("ADD_CHART_CACHE", data)
     } catch(e) {
         console.log("getChartDataValues",e)

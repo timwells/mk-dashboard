@@ -23,6 +23,9 @@ https://www.longtermtrends.net/data-60-40-stocks-bonds-portfolio/
 https://www.longtermtrends.net/data-stocks-vs-bonds-correlation/
 */
 
+
+// blob:https://www.longtermtrends.net/52a90ca7-32b2-4c83-85be-759f5a606858
+
 function validateBoolParameter(param, validValues) {
     return validValues.includes(param);
 }

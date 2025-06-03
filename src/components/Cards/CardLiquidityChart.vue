@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div id="stockchartid-liqd" style="width: 100%; height: 600px;"></div>
+		<div id="stockchartid-liqd" style="width: 99%; height: 600px;"></div>
 	</div>
 </template>
 
@@ -9,80 +9,96 @@ import { mapState } from "vuex";
 import { createChart } from 'lightweight-charts';
 import { genRndColor2 } from '@/common/fns.js'
 
-// https://charts.bgeometrics.com/files/addresses_active_btc_price.json
-// https://charts.bgeometrics.com/files/addresses_active.json
 export default ({
 	components: {
 	},
 	watch: {
-		chartCache(newVal,oldVal) {		
-			// console.log("newVal",newVal.length);
-			if(newVal.length == 1) {
-				this.setChartSeries(this.lineSeries0,newVal[0].data,newVal[0].expression)
-				// this.setChartSeries(this.lineSeries1,newVal[1].data,newVal[1].expression)
+		chartCache(newVal, oldVal) {
+			if (newVal.length == 2) {
+				this.setChartSeries(this.lineSeries0, newVal[0].data, newVal[0].expression, newVal[0].name)
+				this.setChartSeries(this.lineSeries1, newVal[1].data, newVal[1].expression, newVal[1].name)
 
 				this.chart.timeScale().fitContent();
 			}
 		},
 	},
 	computed: {
-		...mapState("ltt", ["chartCache"]),
+		...mapState("yahoo", ["chartCache"]),
 	},
 	data() {
 		return {
-			chart,
-			chartId,
+			chart: null,
+			chartId: null,
 			chartProperties: {
-				timeScale: { timeVisible: true, secondsVisible: false},
-				layout: { backgroundColor: '#ffffff',textColor: '#333'},
-				grid: { vertLines: {color: '#eeeeee',},horzLines: {color: '#eeeeee',}},
+				timeScale: { timeVisible: true, secondsVisible: false },
+				layout: { backgroundColor: '#ffffff', textColor: '#333' },
+				grid: { vertLines: { color: '#eeeeee', }, horzLines: { color: '#eeeeee', } },
+				rightPriceScale: {
+					visible: true, // Show right scale
+					borderColor: '#cccccc'
+				},
+				leftPriceScale: {
+					visible: true, // Show left scale
+					borderColor: '#cccccc'
+				}
 			},
 
-			lineSeries1,
-			lineSeries2,
-			lineSeries3
+			lineSeries0: null,
+			lineSeries1: null,
+			lineSeries2: null,
+			lineSeries3: null
 		}
 	},
 	mounted() {
 		const chartElement = document.getElementById('stockchartid-liqd');
-	
-		// Create the chart
-		// https://github.com/tradingview/lightweight-charts/blob/v2.0.0/docs/customization.md#date-format
+
 		this.chart = createChart(chartElement, this.chartProperties)
-		this.lineSeries0 = this.chart.addLineSeries({color:genRndColor2(),lineWidth:1});
-		//this.lineSeries1 = this.chart.addLineSeries({color:genRndColor2(),lineWidth:1});
-		//this.lineSeries2 = this.chart.addLineSeries({color:genRndColor2(),lineWidth:1});
+		this.lineSeries0 = this.chart.addLineSeries({
+			color: genRndColor2(),
+			lineWidth: 1,
+			priceScaleId: 'left'
+		});
+		this.lineSeries1 = this.chart.addLineSeries({
+			color: genRndColor2(),
+			lineWidth: 1,
+			priceScaleId: 'right' // Use right scale for second series
+		});
 
-		//this.$store.dispatch("bge/getChartDataValues",{path:"btc_yf.json"});
-		//this.$store.dispatch("bge/getChartDataValues",{path:"m2.json"});
-		//let p = {
-		//	expression:'',
-		//	period1:'2009-01-01',
-		//	period2:'2024-04-27',
-		//	interval:'1mo'
-		//}
-		// p.expression = 'GC=F'
-		//this.$store.dispatch("yahoo/getChartDataValues",p)
-		//p.expression = '^DJI'
-		//this.$store.dispatch("yahoo/getChartDataValues",p)
+		let p = {
+			expression: '',
+			name: '',
+			period1: '2000-01-01',
+			period2: '2024-04-27',
+			interval: '1mo'
+		}
+		p.name = 'Oil';
+		p.expression = 'CL=F'; // Oil
+		this.$store.dispatch("yahoo/getChartDataValues", p)
 
+		p.name = 'Gold';
+		p.expression = 'GC=F'; // Gold	
+		this.$store.dispatch("yahoo/getChartDataValues", p)
 
-
-
-		// p.expression = '^DJI/GC=F'
-		//p.expression = '^DJI/BTC-USD'
-		//this.$store.dispatch("yahoo/getChartDataValues",p)
-		this.$store.dispatch("ltt/getChartDataValues",{datasetname: "data-dow-gold-ratio"})
-  	},
-  	beforeDestroy() {
-    	if (this.chart) {
-      		this.chart.remove(); // Clean up the chart on component destruction
-    	}
-  	},
+		// Handle window resize
+		this.handleResize = () => {
+			if (this.chart && chartElement) {
+				this.chart.resize(chartElement.clientWidth, chartElement.clientHeight);
+			}
+		};
+		window.addEventListener('resize', this.handleResize);
+		// Initial resize to fit container
+		this.handleResize();
+	},
+	beforeDestroy() {
+		if (this.chart) {
+			this.chart.remove();
+		}
+		window.removeEventListener('resize', this.handleResize);
+	},
 	methods: {
-		setChartSeries(lineSeries,series,symbol) {
-			lineSeries.setData(series); 
-			lineSeries.applyOptions({title: symbol})
+		setChartSeries(lineSeries, series, symbol, name) {
+			lineSeries.setData(series);
+			lineSeries.applyOptions({ title: name + "/" + symbol })
 		}
 	}
 })
