@@ -140,23 +140,30 @@
 					</a-row>
 				</a-tab-pane>
 				<a-tab-pane key="5" tab="Gold F&G">
-					<a-col :span="12">
-						<CardIndicatorInfo title="" 
-							url='https://cdn.jmbullion.com/fearandgreed/gauge.html' 
-							type="iframe" height="480"/>		
-					</a-col>
-					<!--a-col :span="8">
-						<CardIndicatorInfo title="" 
-							url='https://widget.nfusionsolutions.com/widget/table/3/1adc8ce9-24fb-4c36-ad8b-299d54c932ec/54136fd5-cc57-4047-ad91-fd8636940822?symbols=gold&currency=usd&unitofmeasure=toz'
-							type="iframe" height="480"/>		
-					</a-col-->
-					<a-col :span="12">
-						<CardIndicatorInfo title="" 
-							url='https://cdn.jmbullion.com/fearandgreed/fearandgreed.html' 
-							type="iframe" height="480"/>		
-					</a-col>
+					<a-row type="flex" align="stretch">
+						<a-col :span="12">
+							<!--div style='width:400px;height:280px;border:0px solid #ccc;box-sizing: border-box;' -->
+								<CardIndicatorInfo title="" 
+									url='https://cdn.jmbullion.com/fearandgreed/gauge.html' 
+									type="iframe" height="458"/>		
+							<!--/div-->
+						</a-col>
+						<a-col :span="12">
+							<!--div style='width:400px;height:280px;border:0px solid #ccc;box-sizing: border-box;'-->
+							<CardIndicatorInfo title="" 
+								url='https://cdn.jmbullion.com/fearandgreed/fearandgreed.html' 
+								type="iframe" height="458"/>		
+							<!--/div-->
+						</a-col>
+					</a-row>
 				</a-tab-pane>
-			</a-tabs>
+				<a-tab-pane key="6" tab="Chards">
+					<CardIndicatorInfo title="" 
+						url='https://www.chards.co.uk/category/buy-coins/a/gold/britannia'								
+						type="iframe" height="1200" scrolling="yes"/>		
+
+				</a-tab-pane>
+				</a-tabs>
 		</a-tab-pane>
 		<a-tab-pane key="6" tab="FED">
 			<CardFedComposite v-if="composite.length>0" :dataset="composite"></CardFedComposite>

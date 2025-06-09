@@ -5,7 +5,13 @@
 				<div class="card-content">
 					<h6 v-if="title.length>0">{{title}}</h6>
 					<img v-if="type=='img'" :src="url" :height="height" width="99%">
-					<iframe v-if="type=='iframe'" :src="url" :height="height" width='99%' frameborder='0' scrolling='no'></iframe>
+					<iframe v-if="type=='iframe'" 
+						:src="url" 
+						:height="height" 
+						width='99%' 
+						frameborder='0' 
+						:scrolling="scrolling">
+					</iframe>
 				</div>
 			</a-col>
 		</a-row>
@@ -30,13 +36,16 @@ export default ({
 		height: {
 			type: String,
 			default: '400',
+		},
+		scrolling: {
+			type: String,
+			default: 'no',
 		}
 	},
 	computed: {
 	},
 	data() {
-		return {
-		}
+		return {}
 	},
 	methods: {
 	}		
