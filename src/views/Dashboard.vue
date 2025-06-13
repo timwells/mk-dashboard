@@ -124,18 +124,18 @@
 					<h5> £1 buys !ounces of XAU or XAG </h5>
 					<a-row>
 						<a-col :span="12">
-							<img src="https://fxtop.com/php/imggraph.php?C1=GBP&C2=XAU&A=1&DD1=01&YYYY1=1980&YYYY2=2024&LANG=en&CJ=0&MM1Y=0&LARGE=&TR=ON" width="700" height="500">
+							<img src="https://fxtop.com/php/imggraph.php?C1=GBP&C2=XAU&A=1&DD1=01&YYYY1=1980&YYYY2=2025&LANG=en&CJ=0&MM1Y=0&LARGE=&TR=ON" width="700" height="500">
 						</a-col>
 						<a-col :span="12">
-							<img src="https://fxtop.com/php/imggraph.php?A=1&C1=XAU&C2=GBP&DD1=01&YYYY1=1980&YYYY2=2024&LANG=en&CJ=0&MM1Y=0&LARGE=&TR=ON" width="700" height="500">
+							<img src="https://fxtop.com/php/imggraph.php?A=1&C1=XAU&C2=GBP&DD1=01&YYYY1=1980&YYYY2=2025&LANG=en&CJ=0&MM1Y=0&LARGE=&TR=ON" width="700" height="500">
 						</a-col>
 					</a-row>
 					<a-row>
 						<a-col :span="12">
-							<img src="https://fxtop.com/php/imggraph.php?C1=GBP&C2=XAG&A=1&DD1=01&YYYY1=1980&YYYY2=2024&LANG=en&CJ=0&MM1Y=0&LARGE=&TR=ON" width="700" height="500">
+							<img src="https://fxtop.com/php/imggraph.php?C1=GBP&C2=XAG&A=1&DD1=01&YYYY1=1980&YYYY2=2025&LANG=en&CJ=0&MM1Y=0&LARGE=&TR=ON" width="700" height="500">
 						</a-col>
 						<a-col :span="12">
-							<img src="https://fxtop.com/php/imggraph.php?A=1&C1=XAG&C2=GBP&DD1=01&YYYY1=1980&YYYY2=2024&LANG=en&CJ=0&MM1Y=0&LARGE=&TR=ON" width="700" height="500">
+							<img src="https://fxtop.com/php/imggraph.php?A=1&C1=XAG&C2=GBP&DD1=01&YYYY1=1980&YYYY2=2025&LANG=en&CJ=0&MM1Y=0&LARGE=&TR=ON" width="700" height="500">
 						</a-col>
 					</a-row>
 				</a-tab-pane>
@@ -143,14 +143,14 @@
 					<a-row type="flex" align="stretch">
 						<a-col :span="12">
 							<!--div style='width:400px;height:280px;border:0px solid #ccc;box-sizing: border-box;' -->
-								<CardIndicatorInfo title="" 
+								<CardIndicatorInfo 
 									url='https://cdn.jmbullion.com/fearandgreed/gauge.html' 
 									type="iframe" height="458"/>		
 							<!--/div-->
 						</a-col>
 						<a-col :span="12">
 							<!--div style='width:400px;height:280px;border:0px solid #ccc;box-sizing: border-box;'-->
-							<CardIndicatorInfo title="" 
+							<CardIndicatorInfo 
 								url='https://cdn.jmbullion.com/fearandgreed/fearandgreed.html' 
 								type="iframe" height="458"/>		
 							<!--/div-->
@@ -158,7 +158,7 @@
 					</a-row>
 				</a-tab-pane>
 				<a-tab-pane key="6" tab="Chards">
-					<CardIndicatorInfo title="" 
+					<CardIndicatorInfo 
 						url='https://www.chards.co.uk/category/buy-coins/a/gold/britannia'								
 						type="iframe" height="1200" scrolling="yes"/>		
 
@@ -256,47 +256,26 @@
 		</a-tab-pane>
 		<a-tab-pane key="11" tab="BitCoin">
 			<a-tabs v-model="activeBitCoinTab">
-				<!--transition name="fade"-->
-					<a-tab-pane tab="Rainbow" key="0">
-						<!--a href="https://www.blockchaincenter.net/static/rainbow-chart.html" target="_blank">Rainbow Chart</a>
-						<CardIndicatorInfo title="" 
-							url='https://www.blockchaincenter.net/static/rainbow-chart.html' 
-							type="iframe" height="600"/-->
-						<CardIndicatorInfo title="" 
-							url='https://charts.bitbo.io/rainbow/' 
-								type="iframe" height="800"/>		
-					</a-tab-pane>
-
-				<!--/transition-->
+				<a-tab-pane tab="Rainbow" key="0">
+					<CardIndicatorInfo url='https://www.blockchaincenter.net/static/rainbow-chart.html' height="900" type="iframe"/>		
+				</a-tab-pane>
 				<a-tab-pane tab="Fear & Greed" key="1">
-					<CardIndicatorInfo title="" 
-						url='https://charts.bgeometrics.com/graphics/fear_greed.html' 
-						type="iframe" height="600"/>		
+					<CardIndicatorInfo url='https://charts.bgeometrics.com/graphics/fear_greed.html' type="iframe" height="600"/>		
 				</a-tab-pane>
 				<a-tab-pane tab="Price Log" key="2">
-					<CardIndicatorInfo title="" 
-						url='https://charts.bgeometrics.com/reports/bitcoin_price_g_log.html' 
-						type="iframe" height="600"/>							
+					<CardIndicatorInfo url='https://charts.bgeometrics.com/reports/bitcoin_price_g_log.html' type="iframe" height="600"/>							
 				</a-tab-pane>
 				<a-tab-pane tab="M2-Global" key="3">
-					<CardIndicatorInfo title="" 
-						url='https://charts.bgeometrics.com/graphics/m2_global.html' 
-						type="iframe" height="580"/>		
+					<CardIndicatorInfo url='https://charts.bgeometrics.com/graphics/m2_global.html' type="iframe" height="580"/>		
 				</a-tab-pane>
 				<a-tab-pane tab="M2-10w-Lead" key="4">
-					<CardIndicatorInfo title="" 
-						url='https://charts.bgeometrics.com/graphics/m2_global_10w.html' 
-						type="iframe" height="580"/>		
+					<CardIndicatorInfo url='https://charts.bgeometrics.com/graphics/m2_global_10w.html' type="iframe" height="580"/>		
 				</a-tab-pane>
 				<a-tab-pane tab="Moving Ave." key="5">
-					<CardIndicatorInfo title="" 
-						url='https://charts.bgeometrics.com/graphics/moving_average.html' 
-						type="iframe" height="580"/>		
+					<CardIndicatorInfo url='https://charts.bgeometrics.com/graphics/moving_average.html' type="iframe" height="580"/>		
 				</a-tab-pane>
 				<a-tab-pane tab="SP500/Gold" key="6">
-					<CardIndicatorInfo title="" 
-						url='https://charts.bgeometrics.com/graphics/sp500_gold.html' 
-						type="iframe" height="580"/>		
+					<CardIndicatorInfo url='https://charts.bgeometrics.com/graphics/sp500_gold.html' type="iframe" height="580"/>		
 				</a-tab-pane>
 			</a-tabs>
 		</a-tab-pane>
@@ -317,6 +296,7 @@
 				</a-col>
 			</a-row>
 		</a-tab-pane-->
+
 		<a-tab-pane key="12" tab="Chart Cycles">
 			<img src="/images/stockcyclestages2.png" height="600" width="98%">
 			<img src="/images/stockcyclestages4.webp" height="600" width="98%">
