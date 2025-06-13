@@ -47,13 +47,13 @@ export default ({
 			myMap6,
 			myMap7,
 			lindT,		
-
 			// https://github.com/tradingview/lightweight-charts/blob/v2.0.0/docs/customization.md#date-format
 			chartProperties: {
 				timeScale: { timeVisible: true, secondsVisible: false},
 				layout: { backgroundColor: '#ffffff',textColor: '#333'},
 				grid: { vertLines: {color: '#eeeeee',},horzLines: {color: '#eeeeee',}},
-			}
+			},
+			handleResize: null,
 		}
 	},
 	created() {
@@ -77,11 +77,23 @@ export default ({
 		this.lindT = this.chart.addLineSeries({color:'black',lineWidth:1,title:"lindsT"});
 
 		this.$store.dispatch("ft/getMyMapfunds");
-  	},
-  	beforeDestroy() {
+
+		// Handle window resize
+		this.handleResize = () => {
+			if (this.chart && chartElement) {
+				this.chart.resize(chartElement.clientWidth, chartElement.clientHeight);
+			}
+		};
+
+		window.addEventListener('resize', this.handleResize);
+		// Initial resize to fit container
+		this.handleResize();
+	},
+	beforeDestroy() {
     	if (this.chart) {
       		this.chart.remove(); // Clean up the chart on component destruction
     	}
+		window.removeEventListener('resize', this.handleResize);
   	},
 })
 

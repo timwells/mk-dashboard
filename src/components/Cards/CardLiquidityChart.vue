@@ -42,11 +42,12 @@ export default ({
 					borderColor: '#cccccc'
 				}
 			},
+			handleResize: null,
 
 			lineSeries0: null,
 			lineSeries1: null,
 			lineSeries2: null,
-			lineSeries3: null
+			lineSeries3: null,
 		}
 	},
 	mounted() {

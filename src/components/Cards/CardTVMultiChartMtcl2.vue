@@ -60,7 +60,12 @@ export default {
 			chart.resize(this.$refs.chartContainer.offsetWidth, 500);
 		});
 	},
-
+	beforeDestroy() {
+		if (this.chart) {
+			this.chart.remove();
+		}
+		window.removeEventListener('resize', this.handleResize);
+	},
 	methods: {
 		getRandomColor() {
 			const r = Math.floor(Math.random() * 256); // Random red (0-255)

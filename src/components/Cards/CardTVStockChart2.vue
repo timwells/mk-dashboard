@@ -51,6 +51,7 @@ export default ({
 		return {
 			chart,
 			chartId,
+			handleResize: null,
 			candlestickSeries,
 			sma20Series,
 			sma50Series,
@@ -86,6 +87,17 @@ export default ({
 		// Create the chart
 		this.chart = createChart(chartElement, this.chartProperties)
 
+		// Handle window resize
+		this.handleResize = () => {
+			if (this.chart && chartElement) {
+				this.chart.resize(chartElement.clientWidth, chartElement.clientHeight);
+			}
+		};
+
+		window.addEventListener('resize', this.handleResize);
+		// Initial resize to fit container
+		this.handleResize();
+		
 		// Create a line series and set initial data
 		this.candlestickSeries = this.chart.addCandlestickSeries();
 		this.sma20Series = this.chart.addLineSeries({color:'red',lineWidth:1,title:"sma-20"});

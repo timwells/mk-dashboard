@@ -105,6 +105,16 @@ export default ({
 		for(let i = 0; i < this.epics.length; i++) {
 			this.$store.dispatch("ft/getChartDataValues",{symbol: this.epics[i]});
 		}
+
+		// Handle window resize
+		this.handleResize = () => {
+			if (this.chart && chartElement) {
+				this.chart.resize(chartElement.clientWidth, chartElement.clientHeight);
+			}
+		};
+
+
+
   	},
   	beforeDestroy() {
     	if (this.chart) {

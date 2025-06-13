@@ -43,13 +43,10 @@ export default ({
 		}
 	},
 	created() {
-		console.log("CardTVStockChart3.created")
 	},
 	beforeMount() {
-		console.log("CardTVStockChart3.beforeMount")
 	    // Generate a unique ID when the component is created
     	this.chartId = `id-${this.epic}-${Math.random().toString(36).slice(2, 11)}`;
-		console.log(this.chartId)	
 	},
 	mounted() {
 		console.log("CardTVStockChart3.mounted")

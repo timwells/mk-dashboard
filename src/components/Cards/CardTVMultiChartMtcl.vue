@@ -7,6 +7,28 @@ import { createChart } from 'lightweight-charts';
   
 export default {
 	name: 'Chart',
+
+	data() {
+		return {
+			chart: null,
+			chartId: null,
+			chartProperties: {
+				timeScale: { timeVisible: true, secondsVisible: false },
+				layout: { backgroundColor: '#ffffff', textColor: '#333' },
+				grid: { vertLines: { color: '#eeeeee', }, horzLines: { color: '#eeeeee', } },
+				rightPriceScale: {
+					visible: true, // Show right scale
+					borderColor: '#cccccc'
+				},
+				leftPriceScale: {
+					visible: true, // Show left scale
+					borderColor: '#cccccc'
+				}
+			},
+
+			handleResize: null,
+		}
+	},
 	mounted() {
 		// Initialize chart
 		const chart = createChart(this.$refs.chartContainer, {
@@ -32,12 +54,23 @@ export default {
 			lineSeries.setData(this.generateMonteCarloData(30, 2020)); // Generate random data for 30 years starting from 2020
 		}
 
-		// Handle resizing
-		window.addEventListener('resize', () => {
-			chart.resize(this.$refs.chartContainer.offsetWidth, 500);
-		});
-	},
+		// Handle window resize
+		this.handleResize = () => {
+			if (this.chart && chartElement) {
+				this.chart.resize(chartElement.clientWidth, chartElement.clientHeight);
+			}
+		};
 
+		window.addEventListener('resize', this.handleResize);
+		// Initial resize to fit container
+		this.handleResize();
+	},
+  	beforeDestroy() {
+    	if (this.chart) {
+      		this.chart.remove(); // Clean up the chart on component destruction
+    	}
+		window.removeEventListener('resize', this.handleResize);
+  	},
 	methods: {
 		getRandomColor() {
 			const r = Math.floor(Math.random() * 256); // Random red (0-255)

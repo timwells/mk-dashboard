@@ -45,10 +45,7 @@ export default {
 			lineSeries.setData(this.datasets[i].balances); 
 		}
 
-		// Handle resizing
-		window.addEventListener('resize', () => {
-			chart.resize(this.$refs.chartContainer.offsetWidth, 500);
-		});
+		
 	},
 
 	methods: {

@@ -60,7 +60,9 @@ export default ({
 				layout: { backgroundColor: '#ffffff',textColor: '#333'},
 				grid: { vertLines: {color: '#eeeeee',},horzLines: {color: '#eeeeee',}},
 			},
-
+			
+			handleResize: null,
+			
 			lineSeries0,
 			lineSeries1,
 			lineSeries2,
@@ -90,12 +92,24 @@ export default ({
 		for(let i = 0; i < this.metals.length; i++) {
 			this.$store.dispatch("pm/getChartDataValues",{metal: this.metals[i]});
 		}
+
+		// Handle window resize
+		this.handleResize = () => {
+			if (this.chart && chartElement) {
+				this.chart.resize(chartElement.clientWidth, chartElement.clientHeight);
+			}
+		};
+
+		window.addEventListener('resize', this.handleResize);
+		// Initial resize to fit container
+		this.handleResize();
   	},
   	beforeDestroy() {
     	if (this.chart) {
       		this.chart.remove(); // Clean up the chart on component destruction
     	}
-  	},
+		window.removeEventListener('resize', this.handleResize);
+	},
 	methods: {
 		setChartSeries(lineSeries,series,metal) {
 			lineSeries.setData(series); 

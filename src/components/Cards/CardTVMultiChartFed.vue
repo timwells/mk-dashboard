@@ -71,6 +71,8 @@ export default ({
 				grid: { vertLines: {color: '#eeeeee',},horzLines: {color: '#eeeeee',}},
 			},
 
+			handleResize: null,
+
 			lineSeries1,
 			lineSeries2,
 			lineSeries3,
@@ -105,11 +107,23 @@ export default ({
 		for(let i = 0; i < this.datasets.length; i++) {
 			this.$store.dispatch("fedinfo/getChartDataValues",{dataset: this.datasets[i]});
 		}
-  	},
+
+		// Handle window resize
+		this.handleResize = () => {
+			if (this.chart && chartElement) {
+				this.chart.resize(chartElement.clientWidth, chartElement.clientHeight);
+			}
+		};
+
+		window.addEventListener('resize', this.handleResize);
+		// Initial resize to fit container
+		this.handleResize();
+	},
   	beforeDestroy() {
     	if (this.chart) {
       		this.chart.remove(); // Clean up the chart on component destruction
     	}
+		window.removeEventListener('resize', this.handleResize);
   	},
 	methods: {
 		setChartSeries(lineSeries,series,name) {
