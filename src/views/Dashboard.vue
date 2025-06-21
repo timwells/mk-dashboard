@@ -170,6 +170,8 @@
 			<CardIndicatorInfo url='https://fred.stlouisfed.org/graph/fredgraph.png?g=1JAHz&height=480' type='img'/>		
 			<CardIndicatorInfo url='https://fred.stlouisfed.org/graph/fredgraph.png?g=1JAIC&height=480' type='img'/>
 			<CardIndicatorInfo url='https://fred.stlouisfed.org/graph/fredgraph.png?g=1JAK9&height=480' type='img'/>
+			<CardIndicatorInfo url='https://fred.stlouisfed.org/graph/fredgraph.png?g=1JJE4&height=480' type='img'/>
+			<CardIndicatorInfo url='https://fred.stlouisfed.org/graph/fredgraph.png?g=1JJJe&height=490' type="img"/>
 		</a-tab-pane>
 		<!--a-tab-pane key="3" tab="LSE - Performance">
 			<a-card :bordered="false" class="header-solid h-full" :bodyStyle="{padding: 8}">
