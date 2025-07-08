@@ -11,6 +11,36 @@ const FT_MY_MAPX_FUND_SYMBOLS = [
     {name: "Lindsell Train UK EqtyFund D Acc", symbol: "72625433", scale: 1.0}
 ]
 
+
+/*
+US10Y
+{
+    "days": 10811,
+    "dataNormalized": false,
+    "dataPeriod": "Month",
+    "dataInterval": 1,
+    "realtime": false,
+    "yFormat": "0.###",
+    "timeServiceFormat": "JSON",
+    "rulerIntradayStart": 26,
+    "rulerIntradayStop": 3,
+    "rulerInterdayStart": 10957,
+    "rulerInterdayStop": 365,
+    "returnDateType": "ISO8601",
+    "elements": [
+        {
+            "Label": "c704a744",
+            "Type": "price",
+            "Symbol": "11523680",
+            "OverlayIndicators": [],
+            "Params": {}
+        }
+    ]
+}
+
+*/
+
+
 // { time: "2024-08-31", value 1.0 }
 const myMapFunds = async () => {
     let dataObj = []
@@ -37,7 +67,13 @@ const myMapFunds = async () => {
 }
 
 const getSeries = async (ticker) => {
-    const result = await WEB.findSymbolId(ticker)
+    let result = FT.tickerMap.get(ticker)
+    console.log("getSeries:",result)
+
+    if(result == null) {
+        result = await WEB.findSymbolId(ticker)
+    }
+
     let dataObj = null;
     if(result) {
         let payLoad = FT.PAYLOAD_BODY;
@@ -54,7 +90,7 @@ const getSeries = async (ticker) => {
             dataObj = { name: data.Elements[0].CompanyName, data:dv };
             return dataObj
         } catch(e) {
-            console.log(e)
+            console.log(e.error)
         }        
     }
     return dataObj
@@ -64,8 +100,12 @@ const lookUpSymbol = async (ticker) => {
     return await WEB.findSymbolId(ticker)
 }
 
+const lookUpSymbol2 = async (ticker) => {
+    return FT.tickerMap.get(ticker)
+}
 module.exports = {
     myMapFunds,
     getSeries,
     lookUpSymbol,
+    lookUpSymbol2
 }

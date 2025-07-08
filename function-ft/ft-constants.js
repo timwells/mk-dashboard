@@ -25,9 +25,16 @@ const PAYLOAD_BODY = {
     ]
 }
 
+const tickerMap = new Map();
+tickerMap.set("US10YT", {xid:"11523680"});
+tickerMap.set("US2YT", {xid:"11523678"});
+tickerMap.set("UK10YG", {xid:"21213187"});
+
+
 module.exports = {
     HOST,
     TEAR_SHEET_PATH,
     SERIES_PATH,
     PAYLOAD_BODY,
+    tickerMap
 }

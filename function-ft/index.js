@@ -26,4 +26,10 @@ app.get('/lookup/symbol', async (req, res) => {
     return res.status(200).json(data)
 });
 
+app.get('/lookup2/symbol', async (req, res) => {
+    const { ticker } = req.query
+    let data = await ftApi.lookUpSymbol2(ticker)
+    return res.status(200).json(data)
+});
+
 exports.ft = onRequest(app);
