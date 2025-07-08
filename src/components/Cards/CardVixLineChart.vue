@@ -49,18 +49,19 @@ export default ({
 				},
 				annotations: {
 					yaxis: [{
-						y: 13.0,
+						y: 12.6,
+						borderWidth: 3,
 						borderColor: '#00AF00',
 						label: {
-							borderColor: '#00AF00', borderWidth: 4,
-							style: { color: '#fff', background: '#00AF00' },
+							borderColor: '#00AF00', borderWidth: 10,
+							style: { color: '#fff', background: '#00AF00', width:10},
 							//text: 'Low Vol'
 						}
 					  },{
-						  y: 75,
+						  y: 65.0,
 						  borderColor: '#FF0000',
 						  label: {
-							  borderColor: '#FF0000', borderWidth: 4,
+							  borderColor: '#FF0000', borderWidth: 6,
 							  style: { color: '#fff', background: '#FF0000' },
 							  //text: 'Extreme Vol'
 						  }
