@@ -7,8 +7,9 @@ import {
 
 
 const state = {
-    results2: null
-};
+    results2: null,
+    sdp:null
+  };
 
 const getters = {
   getSimulationsSummary: (state) => () => state.results2.simulations.filter((run) => run.depleted)
@@ -16,6 +17,7 @@ const getters = {
 
 const mutations = {
     SET_RESULTS2: (state, payload) => (state.results2 = payload),
+    SET_SDP: (state, payload) => (state.sdp = payload)
 };
 
 const actions = {
@@ -39,6 +41,35 @@ const actions = {
         console.log(e)
     }
   },
+  
+  async runSdpModel({ commit }) {
+    commit("SET_SDP", null)
+    /*
+    const qset = [
+        `initialPortfolio=${simulationValues.initialPortfolio}`,
+        `annualWithdrawal=${simulationValues.annualWithdrawal}`,
+        `inflationRate=${simulationValues.inflationRate}`,
+        `expectedReturn=${simulationValues.expectedReturn}`,
+        `returnStdDev=${simulationValues.returnStdDev}`,
+        `simulationYears=${simulationValues.simulationYears}`,
+        `startYear=${simulationValues.startYear}`,
+        `numSimulations=${simulationValues.numSimulations}`
+    ]
+    const resource = `${APP_CLOUD_FUNCTION_URL}/mtcl/mtcl4?${qset.join("&")}`
+    */
+
+    const resource = `${APP_CLOUD_FUNCTION_URL}/mtcl/sdp`
+
+    console.log(resource);
+
+    try {
+        const { data } = await axios.get(resource,{ headers: APP_FINTECH_HEADERS })
+        commit("SET_SDP", data)
+        console.log(data)
+    } catch (e) {
+        console.log(e)
+    }
+  }
 }
 
 export default {

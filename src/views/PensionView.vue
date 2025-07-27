@@ -1,6 +1,6 @@
 <template>
-	<a-tabs default-active-key="2">
-		<a-tab-pane key="2" tab="Monte-Carlo">
+	<a-tabs default-active-key="1">
+		<a-tab-pane key="1" tab="Monte-Carlo">
 			<a-row :gutter="24" type="flex">
 				<a-col :span="6">
 					<a-card :bordered="true" class="header-solid h-full" :bodyStyle="{paddingTop: '8px',}">
@@ -79,9 +79,29 @@
 			</a-row>
 		</a-tab-pane>
 
-		<a-tab-pane key="3" tab="Portfolio">
+		<a-tab-pane key="2" tab="Portfolio">
 			<h6>{{ getSymbols(portfolioName) }}</h6>
 			<CardTVStockMultiChartFT :epics="getSymbols(portfolioName)"></CardTVStockMultiChartFT>
+		</a-tab-pane>
+
+		<a-tab-pane key="3" tab="Drawdown">
+			<a-row :gutter="24" type="flex">
+				<a-col :span="6">
+					<h6>Model Variables</h6>
+					<pre>{{ sdp.modelVariables }}</pre>
+				</a-col>
+
+				<a-col :span="18">
+					<a-table v-if="sdp"
+						:loading="loading"
+						:columns="SDP_COLUMNS"
+						:data-source="sdp.drawdownPlan" 
+						:pagination="false"
+						:rowKey="(record,i) => i"
+						class='table table-small' style="margin: 0; background-color: white;">				
+					</a-table>
+				</a-col>
+			</a-row>
 		</a-tab-pane>
 	</a-tabs>
 </template>
@@ -105,6 +125,52 @@ const COLUMNS = [
 		sorter: (a, b) => a.depletedShortfall - b.depletedShortfall,
 	},
 ];
+const SDP_COLUMNS = [
+	{
+		title: 'Year',
+		dataIndex: 'year',
+	},
+	{
+		title: 'Age',
+		dataIndex: 'age',
+	},
+	{
+		title: 'Pot Start',
+		dataIndex: 'pensionPotStart',
+	},
+	{
+		title: 'Withdrawal',
+		dataIndex: 'withdrawal',
+	},
+	{
+		title: 'Tax',
+		dataIndex: 'tax',
+	},
+	{
+		title: 'Gift',
+		dataIndex: 'gift',
+	},
+	{
+		title: 'State Pension',
+		dataIndex: 'statePension',
+	},
+	{
+		title: 'Taxable Income',
+		dataIndex: 'taxableIncome',
+	},
+	{
+		title: 'Net Income After Tax & Gift',
+		dataIndex: 'netIncomeAfterTaxAndGift',
+	},
+	{
+		title: 'Pot Growth',
+		dataIndex: 'pensionPotGrowth',
+	},
+	{
+		title: 'Pot Final',
+		dataIndex: 'pensionPotEnd',
+	}
+]
 
 export default ({
 	components: {
@@ -122,6 +188,10 @@ export default ({
 		
 		...mapState("mtcl",[,"results2"]),
 		...mapGetters("mtcl",["getSimulationsSummary"]),
+
+		...mapState("mtcl",[,"sdp"]),
+
+
 	},
 	data() {
 		return {
@@ -151,6 +221,7 @@ export default ({
 			numSimulations: 50,         // Run x scenarios
 
 			COLUMNS,
+			SDP_COLUMNS
 
 /*
 Age: 65
@@ -190,6 +261,8 @@ State Pension Growth rate: 2.5%
 	},
 	async mounted() {
     	this.$store.dispatch("pensions/getPortfolios")
+
+		this.$store.dispatch("mtcl/runSdpModel")
 	}
 })
 </script>

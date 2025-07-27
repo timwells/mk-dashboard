@@ -6,6 +6,7 @@ const app = express();
 const cors = require('cors');
 const mtclApi = require('./mtcl-api.js');
 const mtclApi2 = require('./mtcl-api2.js');
+const sdpApi = require('./sipp_drawdown_plan.js')
 
 const checkApiKey = require('./middleware/auth.js');
 
@@ -13,12 +14,14 @@ app.use(cors({ origin: true }));
 app.use(express.json());
 app.use(checkApiKey);
 
+/*
 app.get('/mtcl', async (req, res) => {
     // const {ds} = req.query;
     let data = await mtclApi.monteCarloModelImpl()
     return res.status(200).json(data)
 });
-
+*/
+/*
 app.get('/mtcl2', async (req, res) => {
     const {
         initialPot,
@@ -41,10 +44,11 @@ app.get('/mtcl2', async (req, res) => {
             parseInt(iterations)
         ))
 })
+*/
 
-app.get('/mtcl3', async (req, res) => {
-    return res.status(200).json(await mtclApi2.monteCarloModelImpl())
-})
+//app.get('/mtcl3', async (req, res) => {
+//    return res.status(200).json(await mtclApi2.monteCarloModelImpl())
+//})
 
 app.get('/mtcl4', async (req, res) => {
     const {
@@ -69,5 +73,11 @@ app.get('/mtcl4', async (req, res) => {
         parseInt(numSimulations)        // Run x scenarios
     ))
 })
+
+app.get('/sdp', async (req, res) => {
+    return res.status(200).json(await sdpApi.calculateDrawdownPlanImpl())
+})
+
+
 
 exports.mtcl = onRequest(app);
